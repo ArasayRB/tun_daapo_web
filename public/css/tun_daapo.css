@@ -1,0 +1,384 @@
+:root {
+  --blue: #4e73df;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #e74a3b;
+  --orange: #fd7e14;
+  --yellow: #f6c23e;
+  --green: #1cc88a;
+  --teal: #20c9a6;
+  --cyan: #36b9cc;
+  --white: #fff;
+  --gray: #858796;
+  --gray-dark: #5a5c69;
+  --primary: #4e73df;
+  --secondary: #858796;
+  --success: #1cc88a;
+  --info: #36b9cc;
+  --warning: #f6c23e;
+  --danger: #e74a3b;
+  --light: #f8f9fc;
+  --dark: #5a5c69;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+body{
+font-family: Arial;
+  background-color: #02164f;
+}
+nav{
+  position: absolute;
+  background-color: #02164f;
+}
+#nav{
+  background-color: #02164f;
+}
+
+.panel-service-color{
+  background-color: #f9fafe;
+}
+
+.contenedor-testimonios {
+/*background-color: #02164f;*/background: url(../images/img/marketing_digital.png);
+	background-size: cover;
+	background-position: center 0;
+	background-attachment: fixed;
+	height: 150vh;
+}
+
+.contenedor-slider-testimonios {
+	color: #fff;
+	position: relative;
+	top: 10%;
+}
+
+.contenedor-slider-testimonios .testimonial-slider {
+	position: relative;
+	padding: 70px 40px 90px 40px;
+	background: rgba(51, 49, 49, 0.5);
+}
+
+.contenedor-slider-testimonios .testimonial-slider .item:focus {
+	outline: none;
+}
+
+.contenedor-slider-testimonios .testimonial-slider .carousel-item {
+	position: relative;
+	text-align: center;
+}
+
+.contenedor-slider-testimonios .testimonial-slider .carousel-item .fa-user {
+	font-size: 50px;
+	margin-bottom: 10px;
+}
+
+.contenedor-slider-testimonios .testimonial-slider .carousel-item .block-quote {
+	position: relative;
+	margin-bottom: 15px;
+	width: 90%%;
+	margin: 0 auto 15px;
+}
+
+.contenedor-slider-testimonios .testimonial-slider .carousel-item .block-quote p {
+	position: relative;
+	margin-bottom: 15px;
+	width: 90%;
+	margin: 0 auto 15px;
+}
+
+.contenedor-slider-testimonios .testimonial-slider .carousel-item .block-quote p:before {
+	content: "\275D";
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.contenedor-slider-testimonios .testimonial-slider .carousel-item .block-quote p:after {
+	content: "\275E";
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.contenedor-slider-testimonios .testimonial-slider .carousel-item .info .name {
+	font-size: 16px;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: #ED6F00;
+	margin-top: 0;
+	margin-bottom: 5px;
+}
+
+.contenedor-slider-testimonios .testimonial-slider .carousel-item .info .position {
+	color: #fff;
+	font-weight: bolder;
+}
+
+#enviar-news{
+  background-color:#086db5;
+}
+#enviar-news:hover{
+  background-color:#055c9a;
+  cursor:pointer;
+}
+#enviar-news:active{
+  box-shadow:2px 2px 1px #0752ab;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #e3e6f0;
+  border-radius: 0.35rem;
+}
+.border-left-primary {
+  border-left: 0.25rem solid #4e73df !important;
+}
+.border-left-dark {
+  border-left: 0.25rem solid #000309 !important;
+}
+.border-bottom-primary {
+  border-bottom: 0.25rem solid #871303 !important;
+  weight:30%;
+  margin-right: 40px;
+}
+.border-bottom-blue {
+  border-bottom: 0.25rem solid #07075c !important;
+  weight:30%;
+  margin-right: 40px;
+}
+.card > hr {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.card > .list-group {
+  border-top: inherit;
+  border-bottom: inherit;
+}
+
+.card > .list-group:first-child {
+  border-top-width: 0;
+  border-top-left-radius: calc(0.35rem - 1px);
+  border-top-right-radius: calc(0.35rem - 1px);
+}
+
+.card > .list-group:last-child {
+  border-bottom-width: 0;
+  border-bottom-right-radius: calc(0.35rem - 1px);
+  border-bottom-left-radius: calc(0.35rem - 1px);
+}
+
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem;
+}
+
+.card-title {
+  margin-bottom: 0.75rem;
+}
+
+.card-subtitle {
+  margin-top: -0.375rem;
+  margin-bottom: 0;
+}
+
+.card-text:last-child {
+  margin-bottom: 0;
+}
+
+.card-link:hover {
+  text-decoration: none;
+}
+
+.card-link + .card-link {
+  margin-left: 1.25rem;
+}
+
+.card-header {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+}
+
+.card-header:first-child {
+  border-radius: calc(0.35rem - 1px) calc(0.35rem - 1px) 0 0;
+}
+
+.card-header + .list-group .list-group-item:first-child {
+  border-top: 0;
+}
+
+.card-footer {
+  padding: 0.75rem 1.25rem;
+  background-color: #f8f9fc;
+  border-top: 1px solid #e3e6f0;
+}
+
+.card-footer:last-child {
+  border-radius: 0 0 calc(0.35rem - 1px) calc(0.35rem - 1px);
+}
+
+.card-header-tabs {
+  margin-right: -0.625rem;
+  margin-bottom: -0.75rem;
+  margin-left: -0.625rem;
+  border-bottom: 0;
+}
+
+.card-header-pills {
+  margin-right: -0.625rem;
+  margin-left: -0.625rem;
+}
+
+.card-img-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1.25rem;
+}
+
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.card-img,
+.card-img-top {
+  border-top-left-radius: calc(0.35rem - 1px);
+  border-top-right-radius: calc(0.35rem - 1px);
+}
+
+.card-img,
+.card-img-bottom {
+  border-bottom-right-radius: calc(0.35rem - 1px);
+  border-bottom-left-radius: calc(0.35rem - 1px);
+}
+
+.card-deck .card {
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 576px) {
+  .card-deck {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+  }
+  .card-deck .card {
+    flex: 1 0 0%;
+    margin-right: 0.75rem;
+    margin-bottom: 0;
+    margin-left: 0.75rem;
+  }
+}
+
+.card-group > .card {
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 576px) {
+  .card-group {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .card-group > .card {
+    flex: 1 0 0%;
+    margin-bottom: 0;
+  }
+  .card-group > .card + .card {
+    margin-left: 0;
+    border-left: 0;
+  }
+  .card-group > .card:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .card-group > .card:not(:last-child) .card-img-top,
+  .card-group > .card:not(:last-child) .card-header {
+    border-top-right-radius: 0;
+  }
+  .card-group > .card:not(:last-child) .card-img-bottom,
+  .card-group > .card:not(:last-child) .card-footer {
+    border-bottom-right-radius: 0;
+  }
+  .card-group > .card:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .card-group > .card:not(:first-child) .card-img-top,
+  .card-group > .card:not(:first-child) .card-header {
+    border-top-left-radius: 0;
+  }
+  .card-group > .card:not(:first-child) .card-img-bottom,
+  .card-group > .card:not(:first-child) .card-footer {
+    border-bottom-left-radius: 0;
+  }
+}
+
+.card-columns .card {
+  margin-bottom: 0.75rem;
+}
+/*Animaciones con animate.css*/
+.newsletter:hover{
+  animation: jello; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
+}
+.pricing-header {
+  max-width: 700px;
+}
+
+.card-deck .card {
+  min-width: 220px;
+}
+.card .card-body ul li:hover{
+    background-color:#77b8f5;
+}
+.tun_daapo_text{
+  color: #02164f;
+}
+.contrata:hover{
+  animation: pulse; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 1s; /* don't forget to set a duration! */
+}
+.foot{
+  width:100%;
+  height:200px;
+}
+.img_portafolio{
+  width:100px;
+  height:100px;
+}
+.img_portafolio:hover{
+  width:50%;
+  height:50%;
+}
+.programming{
+    background-color:#090900;
+}
+.img-foot:hover{
+  animation: jello; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
+}
