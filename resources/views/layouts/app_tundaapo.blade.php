@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@section('head')
 <head>
   <link  rel="icon"   href="{!! asset('images/img/tunDaapo32x32.ico') !!}" type="image/ico" />
     <meta charset="utf-8">
@@ -38,12 +39,16 @@
     <link href="{{ asset('vendor/css/tagsstyle.css') }}" rel="stylesheet">
 
 </head>
+@show
 <body>
     <div id="app">
         <div id="page" class="container-fluid col-12">
+        @section('header')
           <header>
             <img src="{!! asset('images/img/topeheader.png') !!}" class="img-fluid mx-auto d-block">
           </header>
+        @show
+          @section('nav')
           <nav class="navbar sticky-top navbar-expand-md navbar-dark">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#uno"><img src="images/img/tunDaapo32x32.ico"></button>
             <div class="collapse navbar-collapse" id="uno">
@@ -110,6 +115,7 @@
              </ul>
            </div>
           </nav>
+        @show
           <div class="clearfix"></div>
           <div class="contenedor-testimonios" id="tun_daapo"><!--SECTION TESTIMONIOS-->
         <main>
