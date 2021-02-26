@@ -5,12 +5,16 @@ namespace App\Models;
 use App\Models\Role;
 use App\Models\Permssion;
 use App\Traits\UserTrait;
+use App\Notifications\VerifyEmailNotify;
+use App\Notifications\ResetPasswordNotify;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Auth\Notifications\ResetPassword;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, UserTrait;
 
@@ -115,5 +119,15 @@ class User extends Authenticatable
           return true;
         }
         return false;
+      }
+
+      public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailNotify);
+    }
+
+    public function sendPasswordResetNotification($token)
+      {
+          $this->notify(new ResetPasswordNotify($token));
       }
 }
