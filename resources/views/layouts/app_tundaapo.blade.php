@@ -87,6 +87,8 @@
                            </form>
                        </div>
                    </li>
+
+                     <li class="nav-item"><a href="/admin" class="nav-link text-light">{{__('Dashboard')}}</a></li>
                @endguest
               <li class="nav-item"><a href="#tun_daapo" class="nav-link text-light">{{__('Tun Daapo')}}</a></li>
               <li class="nav-item"><a href="#services" class="nav-link text-light">{{__('Services')}}</a></li>
