@@ -19,27 +19,23 @@ class ContentTypeTableSeeder extends Seeder
       $content_type->save();
 
       $content_type=new ContentType();
-      $content_type->name='Noticia';
+      $content_type->name='Service';
       $content_type->save();
 
       $content_type=new ContentType();
-      $content_type->name='Oferta';
+      $content_type->name='Contact';
       $content_type->save();
 
       $content_type=new ContentType();
-      $content_type->name='Publicacion Hostal';
+      $content_type->name='Portfolio';
       $content_type->save();
 
       $content_type=new ContentType();
-      $content_type->name='Servicio';
+      $content_type->name='Paket';
       $content_type->save();
 
       $content_type=new ContentType();
-      $content_type->name='Facility';
-      $content_type->save();
-
-      $content_type=new ContentType();
-      $content_type->name='Close Place';
+      $content_type->name='Section';
       $content_type->save();
     }
 }
