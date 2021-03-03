@@ -93,7 +93,7 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        {{__('mesages.Addons')}}
+        {{__('messages.Addons')}}
       </div>
 
       <li class="nav-item">
