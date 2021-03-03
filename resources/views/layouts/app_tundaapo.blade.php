@@ -15,7 +15,7 @@
     <!--Author-->
     <meta name="author" content="Tun Daapo" />
     <!--Description app-->
-    <meta name="description" content="{{__('Proyect to programming and web development, expert in design and Marketing Digital.')}}" />
+    <meta name="description" content="{{__('messages.Proyect to programming and web development, expert in design and Marketing Digital.')}}" />
     <meta name="generator" content="Laravel 8.0" />
 
     <meta name="keywords" content="seo y marketing digital, desarrollo y programación web, web" />
@@ -50,23 +50,23 @@
         @show
           @section('nav')
           <nav class="navbar sticky-top navbar-expand-md navbar-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#uno"><img src="images/img/tunDaapo32x32.ico"></button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#uno"><img src="{!! asset('images/img/tunDaapo32x32.ico') !!}"></button>
             <div class="collapse navbar-collapse" id="uno">
              <ul class="navbar-nav">
                @auth
-                   <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link text-light">{{__('Home')}}</a></li>
+                   <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link text-light">{{__('messages.Home')}}</a></li>
 
                @endauth
                @guest
                    @if (Route::has('login'))
                        <li class="nav-item">
-                           <a class="nav-link text-light" href="{{ route('login') }}">{{ __('Login') }}</a>
+                           <a class="nav-link text-light" href="{{ route('login') }}">{{ __('messages.Login') }}</a>
                        </li>
                    @endif
 
                    @if (Route::has('register'))
                        <li class="nav-item">
-                           <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
+                           <a class="nav-link text-light" href="{{ route('register') }}">{{ __('messages.Register') }}</a>
                        </li>
                    @endif
                @else
@@ -79,7 +79,7 @@
                            <a class="dropdown-item" href="{{ route('logout') }}"
                               onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
-                               {{ __('Logout') }}
+                               {{ __('messages.Logout') }}
                            </a>
 
                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -88,19 +88,19 @@
                        </div>
                    </li>
 
-                     <li class="nav-item"><a href="/admin" class="nav-link text-light">{{__('Dashboard')}}</a></li>
+                     <li class="nav-item"><a href="/admin" class="nav-link text-light">{{__('messages.Dashboard')}}</a></li>
                @endguest
-              <li class="nav-item"><a href="#tun_daapo" class="nav-link text-light">{{__('Tun Daapo')}}</a></li>
-              <li class="nav-item"><a href="#services" class="nav-link text-light">{{__('Services')}}</a></li>
-              <li class="nav-item"><a href="#planes_precios" class="nav-link text-light">{{__('Pricing')}}</a></li>
-              <li class="nav-item"><a href="#portafolio" class="nav-link text-light">{{__('Portafolio')}}</a></li>
-              <li class="nav-item"><a href="#blog" class="nav-link text-light">{{__('Blog')}}</a></li>
-              <li class="nav-item"><a href="#contacto" class="nav-link text-light">{{__('Contact')}}</a></li>
+              <li class="nav-item"><a href="#tun_daapo" class="nav-link text-light">{{__('messages.Tun Daapo')}}</a></li>
+              <li class="nav-item"><a href="#services" class="nav-link text-light">{{__('messages.Services')}}</a></li>
+              <li class="nav-item"><a href="#planes_precios" class="nav-link text-light">{{__('messages.Pricing')}}</a></li>
+              <li class="nav-item"><a href="#portafolio" class="nav-link text-light">{{__('messages.Portfolio')}}</a></li>
+              <li class="nav-item"><a href="#blog" class="nav-link text-light">{{__('messages.Blog')}}</a></li>
+              <li class="nav-item"><a href="#contacto" class="nav-link text-light">{{__('messages.Contact')}}</a></li>
               <!--Comprobamos si el status esta a true y existe más de un lenguaje-->
             @if (config('locale.status') && count(config('locale.languages')) > 1)
                              <li class="nav-item dropdown">
                                <a class="nav-link dropdown-toggle text-light"  id="dropdownMenuLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                                 {{__('Languages')}}
+                                 {{__('messages.Languages')}}
                                </a>
                                <div class="dropdown-menu">
                                  @foreach (array_keys(config('locale.languages')) as $lang)
@@ -113,7 +113,7 @@
                                </div>
                              </li>
                       @endif
-              <li class="nav-item btn btn-warning float-right" type="button"><a href="#pedir-presupuesto" class="text-dark">{{__('Pedir Presupuesto')}}</a></li>
+              <li class="nav-item btn btn-warning float-right" type="button"><a href="#pedir-presupuesto" class="text-dark">{{__('messages.Ask for budget')}}</a></li>
              </ul>
            </div>
           </nav>
@@ -128,16 +128,16 @@
           <div class="col-12">
            <footer class="pt-2">
              <div class="col-xs-12">
-               <img src="images/img/pie_tundaapo_para_web.png" class="mx-auto d-block rounded rounded-circle bg-warning pt-2 pr-3 pb-5">
+               <img src="{!! asset('images/img/pie_tundaapo_para_web.png') !!}" class="mx-auto d-block rounded rounded-circle bg-warning pt-2 pr-3 pb-5">
              </div>
              <div class="text-center">
-               <img src="images/img/ico-facebook.png" class="mx-2 my-2 img-foot">
-               <img src="images/img/ico-instagram.png" class="mx-2 my-2 img-foot">
-               <img src="images/img/ico-twitter.png" class="mx-2 my-2 img-foot">
+               <img src="{!! asset('images/img/ico-facebook.png') !!}" class="mx-2 my-2 img-foot">
+               <img src="{!! asset('images/img/ico-instagram.png') !!}" class="mx-2 my-2 img-foot">
+               <img src="{!! asset('images/img/ico-twitter.png') !!}" class="mx-2 my-2 img-foot">
              </div>
 
         <h6 class="text-center text-light  font-weight-bold"> Tun Daapo.</h6>
-        <h6 class="text-center text-light font-weight-bold pb-3">©2020 Todos los derechos reservados.</h6>
+        <h6 class="text-center text-light font-weight-bold pb-3">©2020 {{__('messages.All rights reserved')}}</h6>
            </footer>
           </div>
         </div>

@@ -1,4 +1,6 @@
 const mix = require('laravel-mix');
+//const WebpackShellPlugin = require('webpack-shell-plugin');
+const WebpackShellPluginNext = require('webpack-shell-plugin-next');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,3 +18,10 @@ mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/admin/sb-admin-2.scss', 'public/css');
+
+    mix.webpackConfig({
+      plugins:
+        [
+          new WebpackShellPluginNext({onBuildStart:['php artisan lang:js resources/js/vue-translations.js --no-lib --quiet'], onBuildEnd:[]})
+        ]
+    });

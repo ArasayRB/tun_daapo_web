@@ -329,7 +329,6 @@ class PostController extends Controller
         $post->title=request('title');
         $post->default_lang=request('default-lang');
         $post->content=request('content');
-        $post->publicate_state=false;
         $post->summary=request('summary');
         $post->category_id=request('category_id');
         $post->cant_access_read=0;

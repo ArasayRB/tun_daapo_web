@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ config('app.name') }} - {{__('Dashboard')}}</title>
+    <title>{{ config('app.name') }} - {{__('messages.Dashboard')}}</title>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/sb-admin-2.js') }}" defer></script>
@@ -44,7 +44,7 @@
         <div class="sidebar-brand-icon">
           <img src="{!! asset('/images/img/tunDaapo32x32.ico') !!}" alt="">
         </div>
-        <div class="sidebar-brand-text mx-3">{{__('Admin Mirakuru')}} </div>
+        <div class="sidebar-brand-text mx-3">{{__('messages.Admin Tun Daapo')}} </div>
       </a>
 
       <!-- Divider -->
@@ -54,7 +54,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="/admin">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>{{__('Administration Bar')}}</span></a>
+          <span>{{__('messages.Administration Bar')}}</span></a>
       </li>
   @can ('admin')
       <!-- Divider -->
@@ -62,7 +62,7 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        {{__('Interface')}}
+        {{__('messages.Interface')}}
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -70,16 +70,16 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>{{__('Manage User')}}</span>
+          <span>{{__('messages.Manage User')}}</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('Tabs')}}:</h6>
-            <a class="collapse-item" href="/users">{{__('Users')}}</a>
+            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
+            <a class="collapse-item" href="/users">{{__('messages.Users')}}</a>
 
-              <a class="collapse-item" href="/roles">{{__('Role')}}</a>
+              <a class="collapse-item" href="/roles">{{__('messages.Role')}}</a>
 
-            <a class="collapse-item" href="/permissions">{{__('Permissions')}}</a>
+            <a class="collapse-item" href="/permissions">{{__('messages.Permissions')}}</a>
           </div>
         </div>
       </li>
@@ -93,22 +93,22 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        {{__('Addons')}}
+        {{__('mesages.Addons')}}
       </div>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePost" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-clipboard-list"></i>
-          <span>{{__('Posts')}}</span>
+          <span>{{__('messages.Posts')}}</span>
         </a>
         <div id="collapsePost" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('Tabs')}}:</h6>
+            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
             @role('administrator,viewer-content,writer-content,publisher-content')
-            <a class="collapse-item" href="/posts">{{__('Posts')}}</a>
+            <a class="collapse-item" href="/posts">{{__('messages.Posts')}}</a>
             @endrole
             @role('administrator,viewer-content')
-            <a class="collapse-item" href="utilities-color.html">{{__('Posts Category')}}</a>
+            <a class="collapse-item" href="utilities-color.html">{{__('messages.Posts Category')}}</a>
             @endrole
           </div>
         </div>
@@ -119,14 +119,14 @@
           @auth
             <img class="img-profile rounded-circle" src="{{ asset('storage/img_web/login_img/'.Auth::user()->imagen_url) }}">
           @endauth
-          <span>{{__('User')}}</span>
+          <span>{{__('messages.User')}}</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('Utilities User')}}:</h6>
-            <a class="collapse-item" href="/user-perfil" ><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>{{__('Profile')}}</a>
+            <h6 class="collapse-header">{{__('messages.Utilities User')}}:</h6>
+            <a class="collapse-item" href="/user-perfil" ><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>{{__('messages.Profile')}}</a>
             <a class="collapse-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                          document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>{{__('Logout')}}</a>
+                          document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>{{__('messages.Logout')}}</a>
                           <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                               @csrf
                           </form>
@@ -174,7 +174,7 @@
                                 <ul class="navbar-nav ml-auto">
                                    <li class="nav-item dropdown">
                                      <a class="nav-link dropdown-toggle text-active"  id="dropdownMenuLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                                       {{__('Languages')}}
+                                       {{__('messages.Languages')}}
                                      </a>
                                      <div class="dropdown-menu">
                                        @foreach (array_keys(config('locale.languages')) as $lang)
@@ -334,13 +334,13 @@
                   <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="/user-perfil">
                       <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    {{__('Profile')}}
+                    {{__('messages.Profile')}}
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
                       <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                      {{__('Logout')}}
+                      {{__('messages.Logout')}}
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
@@ -365,7 +365,7 @@
                   <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
                       <div class="copyright text-center my-auto">
-                        <span>{{ config('app.name') }}. &copy; {{ date('Y') }} @lang('All rights reserved.') </span>
+                        <span>{{ config('app.name') }}. &copy; {{ date('Y') }} @lang('All rights reserved'). </span>
                       </div>
                     </div>
                   </footer>
@@ -404,7 +404,17 @@
               </div>
 
 
+              @section('scripts')
+                <!-- Bootstrap core JavaScript-->
+                <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 
+                <!-- Core plugin JavaScript-->
+                <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+                <!-- Custom scripts for all pages-->
+                <script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
+                <script src="{{ asset('vendor/ckeditor/adapters/jquery.js') }}"></script>
+              @show
               <script type="text/javascript">
                 window.CSRF_TOKEN = '{{ csrf_token() }}';
                 @auth

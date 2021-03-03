@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import VueCkeditor from '@ckeditor/ckeditor5-vue';
+  import VueCkeditor from 'vue-ckeditor2';
     export default {
       components: { VueCkeditor },
       props:['role',

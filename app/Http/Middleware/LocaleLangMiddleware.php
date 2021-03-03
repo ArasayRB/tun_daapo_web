@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class LanguagesMiddleware
+class LocaleLangMiddleware
 {
     /**
      * Handle an incoming request.

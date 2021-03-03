@@ -7,8 +7,40 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+import swal from 'sweetalert';
+import VueLocalStorage from 'vue-localstorage';
+import VueCookies from 'vue-cookies';
+import moment from 'moment';
+import VCalendar from 'v-calendar';
+import VuePaginate from 'vue-paginate';
+/**Directives*/
 import "./src/directives/directives.js";
+import VueLang from '@eli5/vue-lang-js';
+import translations from './vue-translations.js';
+import VoerroTagsInput from '@voerro/vue-tagsinput';
+require('lang.js');
 
+Vue.use(VCalendar, {
+  componentPrefix: 'vc',  // Use <vc-calendar /> instead of <v-calendar />
+  locales: {
+   'pt-PT': {
+     firstDayOfWeek: 1,
+     masks: {
+       L: 'YYYY-MM-DD',
+       // ...optional `title`, `weekdays`, `navMonths`, etc
+     }
+   }
+ },
+                 // ...other defaults
+});
+Vue.use(VuePaginate);
+Vue.use(VueLang, {
+  messages: translations, // Provide locale file
+  //locale: 'es', // Set locale
+  fallback: 'en' // Set fallback lacale
+});
+Vue.use(require('vue-cookies'));
+Vue.use(VueLocalStorage);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -19,7 +51,9 @@ import "./src/directives/directives.js";
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+Vue.component('tags-input', VoerroTagsInput);
+Vue.component('keys-input', VoerroTagsInput);
+Vue.component('keywords-input', VoerroTagsInput);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('reset-email-form-component', require('./components/auth/ResetEmailFormComponent.vue').default);
 Vue.component('add-post-form-component', require('./components/admin/posts/forms/AddPostFormComponent.vue').default);

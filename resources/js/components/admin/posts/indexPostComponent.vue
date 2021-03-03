@@ -111,8 +111,8 @@
             for="posts"
             :show-step-links="true"
             :simple="{
-                prev: $trans('messages.Previous'),
-                next: $trans('messages.Next')
+                prev: 'Previous',
+                next: 'Next'
             }"
            ></paginate-links>
 
@@ -145,7 +145,7 @@
 }
 </style>
 <script>
-  import VueCkeditor from '@ckeditor/ckeditor5-vue';
+  import VueCkeditor from 'vue-ckeditor2';
   export default {
       components: { VueCkeditor },
       data(){
@@ -273,7 +273,7 @@
           mssg=this.$trans('messages.Do you want unpublish the post');
           state_act=0;
         }
-          swal({title:this.$trans('messages.Publish Post'),
+          swal({title:'Publish Post',
                 text:mssg+': '+post.title+'?',
                 icon:'warning',
                 closeOnClickOutside:false,
