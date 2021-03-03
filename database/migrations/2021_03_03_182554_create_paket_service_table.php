@@ -16,8 +16,8 @@ class CreatePaketServiceTable extends Migration
         Schema::create('paket_service', function (Blueprint $table) {
             $table->id();
             $table->boolean('status');
-            $table->date('status_date');
-            $table->date('unstatus_date');
+            $table->date('status_date')->nullable();
+            $table->date('unstatus_date')->nullable();
             $table->unsignedBigInteger('paket_id');
             $table->unsignedBigInteger('service_id');
             $table->timestamps();
