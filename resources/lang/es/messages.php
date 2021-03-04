@@ -27,6 +27,7 @@ return [
     'Before proceeding, please check your email for a verification link.'=>'Antes de proseguir, por favor mire su email para el link de verificación.',
     'Blog'=>'Blog',
     'Back'=>'Atrás',
+    'Button'=>'Botón',
     'Cancel'=>'Cancelar',
     'Category'=>'Categoría',
     'Contact'=>'Contacto',

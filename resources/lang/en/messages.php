@@ -27,6 +27,7 @@ return [
     'Before proceeding, please check your email for a verification link.'=>'Before proceeding, please check your email for a verification link.',
     'Blog'=>'Blog',
     'Back'=>'Back',
+    'Button'=>'Button',
     'Cancel'=>'Cancel',
     'Category'=>'Category',
     'Contact'=>'Contact',

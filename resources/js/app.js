@@ -67,6 +67,7 @@ Vue.component('edit-post-form-component', require('./components/admin/posts/form
 Vue.component('contact-oper-form-component', require('./components/admin/recursos_page_web/Contact/forms/ContactFormComponent.vue').default);
 Vue.component('service-oper-form-component', require('./components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue').default);
 Vue.component('portfolio-oper-form-component', require('./components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue').default);
+Vue.component('paket-oper-form-component', require('./components/admin/recursos_page_web/Paket/forms/PaketFormComponent.vue').default);
 Vue.component('index-post-component', require('./components/admin/posts/indexPostComponent.vue').default);
 Vue.component('index-user-component', require('./components/admin/users/indexUserComponent.vue').default);
 Vue.component('index-role-component', require('./components/admin/roles/indexRoleComponent.vue').default);
@@ -74,6 +75,7 @@ Vue.component('index-permiso-component', require('./components/admin/permisos/in
 Vue.component('index-contact-component', require('./components/admin/recursos_page_web/Contact/indexContactComponent.vue').default);
 Vue.component('index-service-component', require('./components/admin/recursos_page_web/Service/indexServiceComponent.vue').default);
 Vue.component('index-portfolio-component', require('./components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue').default);
+Vue.component('index-paket-component', require('./components/admin/recursos_page_web/Paket/indexPaketComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 Vue.component('relationed-tags-component', require('./components/admin/posts/RelationedTagsComponent.vue').default);
 
