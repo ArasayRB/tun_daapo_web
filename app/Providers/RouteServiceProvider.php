@@ -54,6 +54,7 @@ class RouteServiceProvider extends ServiceProvider
                   require base_path('routes/web/permission.php');
                   require base_path('routes/web/language.php');
                   require base_path('routes/web/post.php');
+                  require base_path('routes/web/contact.php');
                 });
         });
     }

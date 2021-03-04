@@ -101,15 +101,15 @@
         <div id="collapseResource" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
-            <a class="collapse-item" href="/users">{{__('messages.Contact')}}</a>
+            <a class="collapse-item" href="/contact">{{__('messages.Contact')}}</a>
 
-              <a class="collapse-item" href="/roles">{{__('messages.Sercvice')}}</a>
+              <a class="collapse-item" href="/services">{{__('messages.Sercvice')}}</a>
 
-            <a class="collapse-item" href="/permissions">{{__('messages.Portfolio')}}</a>
+            <a class="collapse-item" href="/portfolios">{{__('messages.Portfolio')}}</a>
 
-          <a class="collapse-item" href="/permissions">{{__('messages.Packet')}}</a>
+          <a class="collapse-item" href="/pakets">{{__('messages.Packet')}}</a>
 
-        <a class="collapse-item" href="/permissions">{{__('messages.Section Page')}}</a>
+        <a class="collapse-item" href="/sections">{{__('messages.Section Page')}}</a>
           </div>
         </div>
       </li>
