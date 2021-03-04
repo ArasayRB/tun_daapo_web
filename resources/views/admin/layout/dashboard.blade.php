@@ -103,7 +103,7 @@
             <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
             <a class="collapse-item" href="/contact">{{__('messages.Contact')}}</a>
 
-              <a class="collapse-item" href="/services">{{__('messages.Sercvice')}}</a>
+              <a class="collapse-item" href="/service">{{__('messages.Sercvice')}}</a>
 
             <a class="collapse-item" href="/portfolios">{{__('messages.Portfolio')}}</a>
 

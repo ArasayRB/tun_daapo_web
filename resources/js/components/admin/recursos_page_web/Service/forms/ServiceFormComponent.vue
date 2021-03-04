@@ -1,14 +1,14 @@
 <template>
-  <section class="mb-5" id="createContactModal" name="createContactModal"><!--Formulario createContactModal-->
+  <section class="mb-5" id="createServiceModal" name="createServiceModal"><!--Formulario createServiceModal-->
     <form  id="form-create-user">
-      <transition class="modal fade pt-5" id="createContactModalModal">
+      <transition class="modal fade pt-5" id="createServiceModalModal">
         <div class="modal-mask">
     <div class="modal-wrapper">
     <div class="modal-container">
       <div class="modal-header">
         <slot>
-        <h1 class="text-center text-dark" v-if="operation==='add'">{{ $trans('messages.Create') }} {{ $trans('messages.Contact') }}</h1>
-        <h1 class="text-center text-dark" v-if="operation==='update'">{{ $trans('messages.Update') }} {{ $trans('messages.Contact') }}</h1>
+        <h1 class="text-center text-dark" v-if="operation==='add'">{{ $trans('messages.Create') }} {{ $trans('messages.Service') }}</h1>
+        <h1 class="text-center text-dark" v-if="operation==='update'">{{ $trans('messages.Update') }} {{ $trans('messages.Service') }}</h1>
         <button type="button" class="modal-default-button btn btn-lg" @click="$emit('close')"><span aria-hidden="true">&times;</span></button>
 
         </slot>
@@ -22,27 +22,21 @@
 
 
 <div class="form-group">
-  <label for="email">{{ $trans('messages.Email') }}</label>
-  <input type="email" name="email" v-model="email" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="email" name="email" v-model="contact.email" class="form-control font-italic mb-2" v-if="operation==='update'">
+  <label for="name">{{ $trans('messages.Name') }}</label>
+  <input type="text" name="name" v-model="name" class="form-control font-italic mb-2" v-if="operation==='add'">
+  <input type="text" name="name" v-model="service.name" class="form-control font-italic mb-2" v-if="operation==='update'">
 </div>
 
 <div class="form-group">
-  <label for="phone">{{ $trans('messages.Phone') }}</label>
-  <input type="tel" name="phone" v-model="phone" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="tel" name="phone" v-model="contact.phone" class="form-control font-italic mb-2" v-if="operation==='update'">
+  <label for="description">{{ $trans('messages.Description') }}</label>
+  <input type="text" name="description" v-model="description" class="form-control font-italic mb-2" v-if="operation==='add'">
+  <input type="text" name="description" v-model="service.description" class="form-control font-italic mb-2" v-if="operation==='update'">
 </div>
 
 <div class="form-group">
-  <label for="address">{{ $trans('messages.Adress') }}</label>
-  <input type="text" name="address" v-model="address" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="address" v-model="contact.address" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
-
-<div class="form-group">
-  <label for="map">{{ $trans('messages.Map') }}</label>
-  <input type="text" name="map" v-model="map" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="map" v-model="contact.map" class="form-control font-italic mb-2" v-if="operation==='update'">
+  <label for="price">{{ $trans('messages.Price') }}</label>
+  <input type="number" min="1"  step="0.1" name="price" v-model="price" class="form-control font-italic mb-2" v-if="operation==='add'">
+  <input type="number" min="1"  step="0.1" name="price" v-model="service.price" class="form-control font-italic mb-2" v-if="operation==='update'">
 </div>
 
 
@@ -61,9 +55,9 @@
         <div class="col justify-content-center">
       <div class="form-group row mb-0">
           <div class="col-md-5 offset-md-4">
-            <button type="button" class="btn rounded btn-primary reserva" @click="createContact()" v-if="operation==='add'">{{ $trans('messages.Create') }}</button>
+            <button type="button" class="btn rounded btn-primary reserva" @click="createService()" v-if="operation==='add'">{{ $trans('messages.Create') }}</button>
 
-              <button type="button" class="btn rounded btn-primary reserva" @click="editedContact(contact)" v-if="operation==='update'">{{ $trans('messages.Update') }}</button>
+              <button type="button" class="btn rounded btn-primary reserva" @click="editedService(service)" v-if="operation==='update'">{{ $trans('messages.Update') }}</button>
 
               <button type="button" class="modal-default-button btn btn-danger" @click="$emit('close')">{{ $trans('messages.Close') }}</button>
 
@@ -84,7 +78,7 @@
   import VueCkeditor from 'vue-ckeditor2';
     export default {
       components: { VueCkeditor},
-      props:['locale','contact','operation'],
+      props:['locale','service','operation'],
       data(){
         return {
           msgAddTag:this.$trans('messages.Add a new Tag'),
@@ -109,13 +103,13 @@
      },
           activeClass:'active',
           showClass:'show',
-          phone:'',
-          address:'',
+          description:'',
+          price:'',
           map:'',
           value:'',
-          email:'',
+          name:'',
           src:'images/lang/',
-          ventanaOperContact:false,
+          ventanaOperService:false,
           error:'',
           token   : window.CSRF_TOKEN,
 
@@ -140,20 +134,19 @@
     onFileUploadResponse(evt) {
       console.log(evt);
     },
-        createContact:function(){
+        createService:function(){
 
-            let  url="/contact";
-            let msg_succ=this.$trans('messages.Contact')+' '+this.$trans('messages.Created.');
+            let  url="/service";
+            let msg_succ=this.$trans('messages.Service')+' '+this.$trans('messages.Created.');
             let mensaje=this.$trans('messages.Unidentified error');
-            if (this.email==''||this.phone==''||this.address=='') {
+            if (this.name==''||this.description==''||this.price=='') {
               mensaje=this.$trans('messages.You cannot leave empty fields, please check');
             }
 
             let data = new FormData();
-              data.append("email", this.email);
-              data.append("phone", this.phone);
-              data.append("address", this.address);
-              data.append("map", this.map);
+              data.append("name", this.name);
+              data.append("description", this.description);
+              data.append("price", this.price);
 
 
 
@@ -167,7 +160,7 @@
                        }).then(select=>{
                          if (select){
                            let roleAdd=response.data;
-                          this.$emit('contactnew',roleAdd);
+                          this.$emit('servicenew',roleAdd);
 
                            //location.reload();
                          }
@@ -179,14 +172,14 @@
                      swal('Error',''+error.response.data.message,'error');
                    }
                    let wrong=error.response.data.errors;
-                   if(wrong.hasOwnProperty('email')){
-                     mensaje+='-'+wrong.email[0];
+                   if(wrong.hasOwnProperty('name')){
+                     mensaje+='-'+wrong.name[0];
                    }
-                   if(wrong.hasOwnProperty('phone')){
-                     mensaje+='-'+wrong.phone[0];
+                   if(wrong.hasOwnProperty('description')){
+                     mensaje+='-'+wrong.description[0];
                    }
-                   if(wrong.hasOwnProperty('address')){
-                     mensaje+='-'+wrong.address[0];
+                   if(wrong.hasOwnProperty('price')){
+                     mensaje+='-'+wrong.price[0];
                    }
                    if(wrong.hasOwnProperty('map')){
                      mensaje+='-'+wrong.map[0];
@@ -196,7 +189,7 @@
                  });
 
         },
-        editedContact:function(contact){
+        editedService:function(service){
           let url;
           let data;
           let msg_edited;
@@ -204,24 +197,23 @@
 
               data = new FormData();
     	          data.append('_method', 'patch');
-                data.append("email", contact.email);
-                data.append("phone", contact.phone);
-                data.append("address", contact.address);
-                data.append("map", contact.map);
-              url="/contact/"+contact.id;
-              msg_edited=this.$trans('messages.Contact')+' '+this.$trans('messages.Edited');
+                data.append("name", service.name);
+                data.append("description", service.description);
+                data.append("price", service.price);
+              url="/service/"+service.id;
+              msg_edited=this.$trans('messages.Service')+' '+this.$trans('messages.Edited');
 
           axios.post(url,data,config)
                .then(response=>{
-                 swal({title:this.$trans('messages.Contact'),
+                 swal({title:this.$trans('messages.Service'),
                        text:msg_edited,
                        icon:'success',
                        closeOnClickOutside:false,
                        closeOnEsc:false
                      }).then(select=>{
                        if (select){
-                         let contactUpdate=response.data;
-                         this.$emit('contactoperupd',contactUpdate);
+                         let serviceUpdate=response.data;
+                         this.$emit('serviceperupd',serviceUpdate);
                        }
                      });
                  //console.log(response);
@@ -231,14 +223,14 @@
                    swal('Error',''+error.response.data.message,'error');
                  }
                  let wrong=error.response.data.errors;
-                 if(wrong.hasOwnProperty('email')){
-                   mensaje+='-'+wrong.email[0];
+                 if(wrong.hasOwnProperty('name')){
+                   mensaje+='-'+wrong.name[0];
                  }
-                 if(wrong.hasOwnProperty('phone')){
-                   mensaje+='-'+wrong.phone[0];
+                 if(wrong.hasOwnProperty('description')){
+                   mensaje+='-'+wrong.description[0];
                  }
-                 if(wrong.hasOwnProperty('address')){
-                   mensaje+='-'+wrong.address[0];
+                 if(wrong.hasOwnProperty('price')){
+                   mensaje+='-'+wrong.price[0];
                  }
                  if(wrong.hasOwnProperty('map')){
                    mensaje+='-'+wrong.map[0];
