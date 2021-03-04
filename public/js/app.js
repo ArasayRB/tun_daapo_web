@@ -5162,7 +5162,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.availabelServices();
-    console.log('Servicio', this.portfolio);
 
     if (this.operation === 'update') {
       for (var i = 0; i < this.portfolio.services.length; i++) {

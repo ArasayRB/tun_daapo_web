@@ -303,7 +303,6 @@
       },
       created: function () {
          this.availabelServices();
-         console.log('Servicio',this.portfolio)
          if(this.operation==='update'){
            for(var i=0; i<this.portfolio.services.length;i++){
              this.selectedServs.push({'key':'',
