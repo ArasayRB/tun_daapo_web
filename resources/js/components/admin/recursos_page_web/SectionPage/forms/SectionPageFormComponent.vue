@@ -1,14 +1,14 @@
 <template>
-  <section class="mb-5" id="createPortfolioModal" name="createPortfolioModal"><!--Formulario createPortfolioModal-->
+  <section class="mb-5" id="createSectionPageModal" name="createSectionPageModal"><!--Formulario createSectionPageModal-->
     <form  id="form-create-user">
-      <transition class="modal fade pt-5" id="createPortfolioModalModal">
+      <transition class="modal fade pt-5" id="createSectionPageModalModal">
         <div class="modal-mask">
     <div class="modal-wrapper">
     <div class="modal-container">
       <div class="modal-header">
         <slot>
-        <h1 class="text-center text-dark" v-if="operation==='add'">{{ $trans('messages.Create') }} {{ $trans('messages.Portfolio') }}</h1>
-        <h1 class="text-center text-dark" v-if="operation==='update'">{{ $trans('messages.Update') }} {{ $trans('messages.Portfolio') }}</h1>
+        <h1 class="text-center text-dark" v-if="operation==='add'">{{ $trans('messages.Create') }} {{ $trans('messages.Section Page') }}</h1>
+        <h1 class="text-center text-dark" v-if="operation==='update'">{{ $trans('messages.Update') }} {{ $trans('messages.Section Page') }}</h1>
         <button type="button" class="modal-default-button btn btn-lg" @click="$emit('close')"><span aria-hidden="true">&times;</span></button>
 
         </slot>
@@ -26,39 +26,38 @@
   <input type="file" name="img"  v-on:change="img" class="form-control font-italic mb-2" v-if="operation==='add'">
   <input type="file" name="img"  v-on:change="img" class="form-control font-italic mb-2" v-if="operation==='update'">
   <div class="row" v-if="operation==='update'">
-    <img :src="src+portfolio.img" :alt="portfolio.img" width="100">
+    <img :src="src+sectionpage.img" :alt="sectionpage.img" width="100">
   </div>
 </div>
 
 <div class="form-group">
-  <label for="empresa_solicitante">{{ $trans('messages.Agency/Freelancer') }}</label>
-  <input type="text" name="empresa_solicitante" v-model="empresa_solicitante" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="empresa_solicitante" v-model="portfolio.empresa_solicitante" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
-
-<div class="form-group">
-  <label for="project_name">{{ $trans('messages.Project') }} {{ $trans('messages.Name') }}</label>
-  <input type="text" name="project_name" v-model="project_name" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="project_name" v-model="portfolio.project_name" class="form-control font-italic mb-2" v-if="operation==='update'">
+  <label for="title">{{ $trans('messages.Title') }}</label>
+  <input type="text" name="title" v-model="title" class="form-control font-italic mb-2" v-if="operation==='add'">
+  <input type="text" name="title" v-model="sectionpage.title" class="form-control font-italic mb-2" v-if="operation==='update'">
 </div>
 
 <div class="form-group">
   <label for="description">{{ $trans('messages.Description') }}</label>
-  <input type="text" name="description" v-model="description" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="description" v-model="portfolio.description" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
-
-<div class="form-group">
-  <label for="service">{{ $trans('messages.Service') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
-
-  <tags-input element-id="servcs" name="service" :add-tags-on-comma=true	class=""
-     v-model="selectedServs"
-     placeholder="Add a service"
-     :existing-tags="services"
-     id-field="key"
-     text-field="value"
-     :typeahead="true">
-  </tags-input>
+  <vue-ckeditor
+   v-model="description"
+   :config="config"
+   @blur="onBlur($event)"
+   @focus="onFocus($event)"
+   @contentDom="onContentDom($event)"
+   @dialogDefinition="onDialogDefinition($event)"
+   @fileUploadRequest="onFileUploadRequest($event)"
+   @fileUploadResponse="onFileUploadResponse($event)"
+   v-if="operation==='add'"/>
+   <vue-ckeditor
+    v-model="sectionpage.description"
+    :config="config"
+    @blur="onBlur($event)"
+    @focus="onFocus($event)"
+    @contentDom="onContentDom($event)"
+    @dialogDefinition="onDialogDefinition($event)"
+    @fileUploadRequest="onFileUploadRequest($event)"
+    @fileUploadResponse="onFileUploadResponse($event)"
+    v-if="operation==='update'"/>
 </div>
 
 
@@ -77,9 +76,9 @@
         <div class="col justify-content-center">
       <div class="form-group row mb-0">
           <div class="col-md-5 offset-md-4">
-            <button type="button" class="btn rounded btn-primary reserva" @click="createPortfolio()" v-if="operation==='add'">{{ $trans('messages.Create') }}</button>
+            <button type="button" class="btn rounded btn-primary reserva" @click="createSectionPage()" v-if="operation==='add'">{{ $trans('messages.Create') }}</button>
 
-              <button type="button" class="btn rounded btn-primary reserva" @click="editedPortfolio(portfolio)" v-if="operation==='update'">{{ $trans('messages.Update') }}</button>
+              <button type="button" class="btn rounded btn-primary reserva" @click="editedSectionPage(sectionpage)" v-if="operation==='update'">{{ $trans('messages.Update') }}</button>
 
               <button type="button" class="modal-default-button btn btn-danger" @click="$emit('close')">{{ $trans('messages.Close') }}</button>
 
@@ -100,12 +99,10 @@
   import VueCkeditor from 'vue-ckeditor2';
     export default {
       components: { VueCkeditor},
-      props:['locale','portfolio','operation'],
+      props:['locale','sectionpage','operation'],
       data(){
         return {
           msgAddTag:this.$trans('messages.Add a new Tag'),
-          services: [],
-          selectedServs: [],
           config: {
        toolbar: [
 
@@ -127,13 +124,14 @@
      },
           activeClass:'active',
           showClass:'show',
-          empresa_solicitante:'',
-          project_name:'',
+          title:'',
           description:'',
+          map:'',
           value:'',
-          imagenPortfolio:'',
-          src:'/storage/portfolio/',
-          ventanaOperPortfolio:false,
+          email:'',
+          imagenSectionPage:'',
+          src:'/storage/section_page/',
+          ventanaOperSectionPage:false,
           error:'',
           token   : window.CSRF_TOKEN,
 
@@ -159,41 +157,21 @@
       console.log(evt);
     },
     img:function(e){
-      this.imagenPortfolio=e.target.files[0];
+      this.imagenSectionPage=e.target.files[0];
     },
-    availabelServices:function(){
-      axios.get('/available-services')
-           .then(response =>{
-             this.services = response.data;
-           })
-           .catch(error => this.errors.push(error));
-    },
-        createPortfolio:function(){
+        createSectionPage:function(){
 
-            let  url="/portfolio";
-            let msg_succ=this.$trans('messages.Portfolio')+' '+this.$trans('messages.Created.');
+            let  url="/sectionpage";
+            let msg_succ=this.$trans('messages.Section Page')+' '+this.$trans('messages.Created.');
             let mensaje=this.$trans('messages.Unidentified error');
-            if (this.img==''||this.empresa_solicitante==''||this.project_name==''||this.selectedServs.length===0) {
+            if (this.img==''||this.title==''||this.description=='') {
               mensaje=this.$trans('messages.You cannot leave empty fields, please check');
             }
 
-            let serviList=this.selectedServs;
-            let portKey="";
-            for(var i=0; i<serviList.length;i=i+1){
-              if(i==(serviList.length-1)){
-              portKey= ''+portKey+serviList[i].value;
-            }
-            else{
-              portKey= ''+portKey+serviList[i].value+',';
-            }
-            }
-
             let data = new FormData();
-              data.append("img", this.imagenPortfolio);
-              data.append("empresa_solicitante", this.empresa_solicitante);
-              data.append("project_name", this.project_name);
+              data.append("img", this.imagenSectionPage);
+              data.append("title", this.title);
               data.append("description", this.description);
-              data.append("service_id", portKey);
 
 
 
@@ -207,7 +185,7 @@
                        }).then(select=>{
                          if (select){
                            let roleAdd=response.data;
-                          this.$emit('portfolionew',roleAdd);
+                          this.$emit('sectionpagenew',roleAdd);
 
                            //location.reload();
                          }
@@ -222,11 +200,8 @@
                    if(wrong.hasOwnProperty('img')){
                      mensaje+='-'+wrong.img[0];
                    }
-                   if(wrong.hasOwnProperty('empresa_solicitante')){
-                     mensaje+='-'+wrong.empresa_solicitante[0];
-                   }
-                   if(wrong.hasOwnProperty('project_name')){
-                     mensaje+='-'+wrong.project_name[0];
+                   if(wrong.hasOwnProperty('title')){
+                     mensaje+='-'+wrong.title[0];
                    }
                    if(wrong.hasOwnProperty('description')){
                      mensaje+='-'+wrong.description[0];
@@ -236,44 +211,31 @@
                  });
 
         },
-        editedPortfolio:function(portfolio){
+        editedSectionPage:function(sectionpage){
           let url;
           let data;
           let msg_edited;
           let config= { headers: {"Content-Type": "multipart/form-data" }};
 
-          let serviList=this.selectedServs;
-          let portKey="";
-          for(var i=0; i<serviList.length;i=i+1){
-            if(i==(serviList.length-1)){
-            portKey= ''+portKey+serviList[i].value;
-          }
-          else{
-            portKey= ''+portKey+serviList[i].value+',';
-          }
-          }
-
               data = new FormData();
     	          data.append('_method', 'patch');
-                data.append("img", this.imagenPortfolio);
-                data.append("empresa_solicitante", portfolio.empresa_solicitante);
-                data.append("project_name", portfolio.project_name);
-                data.append("description", portfolio.description);
-                data.append("service_id", portKey);
-              url="/portfolio/"+portfolio.id;
-              msg_edited=this.$trans('messages.Portfolio')+' '+this.$trans('messages.Edited');
+                data.append("img", this.imagenSectionPage);
+                data.append("title", sectionpage.title);
+                data.append("description", sectionpage.description);
+              url="/sectionpage/"+sectionpage.id;
+              msg_edited=this.$trans('messages.Section Page')+' '+this.$trans('messages.Edited');
 
           axios.post(url,data,config)
                .then(response=>{
-                 swal({title:this.$trans('messages.Portfolio'),
+                 swal({title:this.$trans('messages.Section Page'),
                        text:msg_edited,
                        icon:'success',
                        closeOnClickOutside:false,
                        closeOnEsc:false
                      }).then(select=>{
                        if (select){
-                         let portfolioUpdate=response.data;
-                         this.$emit('portfoliooperupd',portfolioUpdate);
+                         let sectionpageUpdate=response.data;
+                         this.$emit('sectionpageoperupd',sectionpageUpdate);
                        }
                      });
                  //console.log(response);
@@ -286,11 +248,8 @@
                  if(wrong.hasOwnProperty('img')){
                    mensaje+='-'+wrong.img[0];
                  }
-                 if(wrong.hasOwnProperty('empresa_solicitante')){
-                   mensaje+='-'+wrong.empresa_solicitante[0];
-                 }
-                 if(wrong.hasOwnProperty('project_name')){
-                   mensaje+='-'+wrong.project_name[0];
+                 if(wrong.hasOwnProperty('title')){
+                   mensaje+='-'+wrong.title[0];
                  }
                  if(wrong.hasOwnProperty('description')){
                    mensaje+='-'+wrong.description[0];
@@ -301,13 +260,7 @@
         },
       },
       created: function () {
-         this.availabelServices();
-         if(this.operation==='update'){
-           for(var i=0; i<this.portfolio.services.length;i++){
-             this.selectedServs.push({'key':'',
-                                       'value':this.portfolio.services[i].name});
-           }
-         }
+
          },
         mounted() {
         }

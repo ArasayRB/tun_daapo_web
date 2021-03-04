@@ -109,7 +109,7 @@
 
           <a class="collapse-item" href="/paket">{{__('messages.Packet')}}</a>
 
-        <a class="collapse-item" href="/section">{{__('messages.Section Page')}}</a>
+        <a class="collapse-item" href="/sectionpage">{{__('messages.Section Page')}}</a>
           </div>
         </div>
       </li>

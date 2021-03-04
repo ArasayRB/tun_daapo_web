@@ -141,7 +141,7 @@ class PortfolioController extends Controller
 
       $portfol=Portfolio::findOrFail($portfolio->id);
       $newFileName;
-      if (request('img_url')!=""){
+      if (request('img')!=""){
         $this->validator($request->all())->validate();
         $newFileName=$this->manageImageFile(request('img'),'portfolio');
 
