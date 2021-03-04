@@ -4816,6 +4816,671 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    VueCkeditor: vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  props: ['locale', 'portfolio', 'operation'],
+  data: function data() {
+    return {
+      msgAddTag: this.$trans('messages.Add a new Tag'),
+      services: [],
+      selectedServs: [],
+      config: {
+        toolbar: [{
+          name: 'document',
+          items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates']
+        }, {
+          name: 'clipboard',
+          items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+        }, {
+          name: 'editing',
+          items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt']
+        }, {
+          name: 'forms',
+          items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField']
+        }, '/', {
+          name: 'basicstyles',
+          items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
+        }, {
+          name: 'paragraph',
+          items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+        }, {
+          name: 'links',
+          items: ['Link', 'Unlink', 'Anchor']
+        }, {
+          name: 'insert',
+          items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']
+        }, '/', {
+          name: 'styles',
+          items: ['Styles', 'Format', 'Font', 'FontSize']
+        }, {
+          name: 'colors',
+          items: ['TextColor', 'BGColor']
+        }, {
+          name: 'tools',
+          items: ['Maximize', 'ShowBlocks', '-', 'About']
+        }],
+        height: 300
+      },
+      activeClass: 'active',
+      showClass: 'show',
+      empresa_solicitante: '',
+      project_name: '',
+      description: '',
+      value: '',
+      imagenPortfolio: '',
+      src: '/storage/portfolio/',
+      ventanaOperPortfolio: false,
+      error: '',
+      token: window.CSRF_TOKEN
+    };
+  },
+  methods: {
+    onBlur: function onBlur(evt) {
+      console.log(evt);
+    },
+    onFocus: function onFocus(evt) {
+      console.log(evt);
+    },
+    onContentDom: function onContentDom(evt) {
+      console.log(evt);
+    },
+    onDialogDefinition: function onDialogDefinition(evt) {
+      console.log(evt);
+    },
+    onFileUploadRequest: function onFileUploadRequest(evt) {
+      console.log(evt);
+    },
+    onFileUploadResponse: function onFileUploadResponse(evt) {
+      console.log(evt);
+    },
+    img: function img(e) {
+      this.imagenPortfolio = e.target.files[0];
+      console.log('im in', e.target.files[0]);
+    },
+    availabelServices: function availabelServices() {
+      var _this = this;
+
+      axios.get('/available-services').then(function (response) {
+        _this.services = response.data;
+      })["catch"](function (error) {
+        return _this.errors.push(error);
+      });
+    },
+    createPortfolio: function createPortfolio() {
+      var _this2 = this;
+
+      var url = "/portfolio";
+      var msg_succ = this.$trans('messages.Portfolio') + ' ' + this.$trans('messages.Created.');
+      var mensaje = this.$trans('messages.Unidentified error');
+
+      if (this.img == '' || this.empresa_solicitante == '' || this.project_name == '' || this.selectedServs.length === 0) {
+        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+      }
+
+      var serviList = this.selectedServs;
+      var portKey = "";
+
+      for (var i = 0; i < serviList.length; i = i + 1) {
+        if (i == serviList.length - 1) {
+          portKey = '' + portKey + serviList[i].value;
+        } else {
+          portKey = '' + portKey + serviList[i].value + ',';
+        }
+      }
+
+      var data = new FormData();
+      data.append("img", this.imagenPortfolio);
+      data.append("empresa_solicitante", this.empresa_solicitante);
+      data.append("project_name", this.project_name);
+      data.append("description", this.description);
+      data.append("service_id", portKey);
+      axios.post(url, data).then(function (response) {
+        swal({
+          title: _this2.$trans('messages.Correct data'),
+          text: msg_succ,
+          icon: 'success',
+          closeOnClickOutside: false,
+          closeOnEsc: false
+        }).then(function (select) {
+          if (select) {
+            var roleAdd = response.data;
+
+            _this2.$emit('portfolionew', roleAdd); //location.reload();
+
+          }
+        }); //console.log(response);
+      })["catch"](function (error) {
+        if (error.response.data.message) {
+          swal('Error', '' + error.response.data.message, 'error');
+        }
+
+        var wrong = error.response.data.errors;
+
+        if (wrong.hasOwnProperty('img')) {
+          mensaje += '-' + wrong.img[0];
+        }
+
+        if (wrong.hasOwnProperty('empresa_solicitante')) {
+          mensaje += '-' + wrong.empresa_solicitante[0];
+        }
+
+        if (wrong.hasOwnProperty('project_name')) {
+          mensaje += '-' + wrong.project_name[0];
+        }
+
+        if (wrong.hasOwnProperty('description')) {
+          mensaje += '-' + wrong.description[0];
+        }
+
+        swal('Error', mensaje, 'error'); //console.log(error.response.data);
+      });
+    },
+    editedPortfolio: function editedPortfolio(portfolio) {
+      var _this3 = this;
+
+      var url;
+      var data;
+      var msg_edited;
+      var config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      var serviList = this.selectedServs;
+      var portKey = "";
+
+      for (var i = 0; i < serviList.length; i = i + 1) {
+        if (i == serviList.length - 1) {
+          portKey = '' + portKey + serviList[i].value;
+        } else {
+          portKey = '' + portKey + serviList[i].value + ',';
+        }
+      }
+
+      data = new FormData();
+      data.append('_method', 'patch');
+      data.append("img", this.imagenPortfolio);
+      data.append("empresa_solicitante", portfolio.empresa_solicitante);
+      data.append("project_name", portfolio.project_name);
+      data.append("description", portfolio.description);
+      data.append("service_id", portKey);
+      url = "/portfolio/" + portfolio.id;
+      msg_edited = this.$trans('messages.Portfolio') + ' ' + this.$trans('messages.Edited');
+      axios.post(url, data, config).then(function (response) {
+        swal({
+          title: _this3.$trans('messages.Portfolio'),
+          text: msg_edited,
+          icon: 'success',
+          closeOnClickOutside: false,
+          closeOnEsc: false
+        }).then(function (select) {
+          if (select) {
+            var portfolioUpdate = response.data;
+
+            _this3.$emit('portfoliooperupd', portfolioUpdate);
+          }
+        }); //console.log(response);
+      })["catch"](function (error) {
+        if (error.response.data.message) {
+          swal('Error', '' + error.response.data.message, 'error');
+        }
+
+        var wrong = error.response.data.errors;
+
+        if (wrong.hasOwnProperty('img')) {
+          mensaje += '-' + wrong.img[0];
+        }
+
+        if (wrong.hasOwnProperty('empresa_solicitante')) {
+          mensaje += '-' + wrong.empresa_solicitante[0];
+        }
+
+        if (wrong.hasOwnProperty('project_name')) {
+          mensaje += '-' + wrong.project_name[0];
+        }
+
+        if (wrong.hasOwnProperty('description')) {
+          mensaje += '-' + wrong.description[0];
+        }
+
+        swal('Error', mensaje, 'error'); //console.log(error.response.data);
+      });
+    }
+  },
+  created: function created() {
+    this.availabelServices();
+    console.log('Servicio', this.portfolio);
+
+    if (this.operation === 'update') {
+      for (var i = 0; i < this.portfolio.services.length; i++) {
+        this.selectedServs.push({
+          'key': '',
+          'value': this.portfolio.services[i].name
+        });
+      }
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    VueCkeditor: vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      config: {
+        toolbar: [{
+          name: 'document',
+          items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates']
+        }, {
+          name: 'clipboard',
+          items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+        }, {
+          name: 'editing',
+          items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt']
+        }, {
+          name: 'forms',
+          items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField']
+        }, '/', {
+          name: 'basicstyles',
+          items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
+        }, {
+          name: 'paragraph',
+          items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+        }, {
+          name: 'links',
+          items: ['Link', 'Unlink', 'Anchor']
+        }, {
+          name: 'insert',
+          items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']
+        }, '/', {
+          name: 'styles',
+          items: ['Styles', 'Format', 'Font', 'FontSize']
+        }, {
+          name: 'colors',
+          items: ['TextColor', 'BGColor']
+        }, {
+          name: 'tools',
+          items: ['Maximize', 'ShowBlocks', '-', 'About']
+        }],
+        height: 300
+      },
+      portfolios: [],
+      portfolio: [],
+      permission_state: [],
+      paginate: ['portfolios'],
+      hreff: '/permission-preview/',
+      permissionActualizar: false,
+      idpermissionActualizar: -1,
+      value: '',
+      operation: '',
+      id: '',
+      mensage: '',
+      valueImg: '',
+      lang: true,
+      locale: '',
+      src: 'storage/portfolio/',
+      ventanaOperPortfolio: false,
+      token: window.CSRF_TOKEN
+    };
+  },
+  methods: {
+    onBlur: function onBlur(evt) {
+      console.log(evt);
+    },
+    onFocus: function onFocus(evt) {
+      console.log(evt);
+    },
+    onContentDom: function onContentDom(evt) {
+      console.log(evt);
+    },
+    onDialogDefinition: function onDialogDefinition(evt) {
+      console.log(evt);
+    },
+    onFileUploadRequest: function onFileUploadRequest(evt) {
+      console.log(evt);
+    },
+    onFileUploadResponse: function onFileUploadResponse(evt) {
+      console.log(evt);
+    },
+    portfolioList: function portfolioList() {
+      var _this = this;
+
+      axios.get('/portfolioList').then(function (response) {
+        _this.portfolios = response.data;
+
+        if (response.data == '') {
+          _this.mensage = _this.$trans('messages.None added yet');
+        }
+      })["catch"](function (error) {
+        return _this.errors.push(error);
+      });
+    },
+    addPortfolioIndex: function addPortfolioIndex(permissionAdd) {
+      this.operation = '';
+
+      if (this.portfolios.length === 0) {
+        this.portfolioList();
+      } else {
+        this.portfolios.push(permissionAdd);
+      }
+
+      this.mensage = "";
+      this.ventanaOperPortfolio = false;
+    },
+    updPortfolioIndex: function updPortfolioIndex(portfolioUpd) {
+      this.operation = '';
+      var position = this.portfolios.findIndex(function (portfolio) {
+        return portfolio.id === portfolioUpd.id;
+      });
+      this.portfolioList();
+      this.ventanaOperPortfolio = false;
+    },
+    deletePortfolio: function deletePortfolio(index, portfolio) {
+      var _this2 = this;
+
+      var portfolio_id = portfolio;
+      swal({
+        title: this.$trans('messages.Delete') + ' ' + this.$trans('messages.Portfolio'),
+        text: this.$trans('messages.Are you completely sure you want to delete ') + this.$trans('messages.Portfolio') + '?',
+        icon: 'warning',
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+        buttons: true,
+        dangerMode: true,
+        showCancelButton: true,
+        confirmButtonText: this.$trans('messages.Yes, delete'),
+        cancelButtonText: this.$trans('messages.Cancel')
+      }).then(function (select) {
+        if (select) {
+          var url = '/portfolio/' + portfolio_id;
+          axios["delete"](url).then(function (response) {
+            swal({
+              title: _this2.$trans('messages.Correct data'),
+              text: _this2.$trans('messages.Portfolio') + ' ' + _this2.$trans('messages.Deleted'),
+              icon: 'success',
+              closeOnClickOutside: false,
+              closeOnEsc: false
+            }).then(function (select) {
+              if (select) {
+                _this2.portfolioList();
+
+                if (_this2.portfolios.length === 0) {
+                  _this2.mensage = _this2.$trans('messages.None added yet');
+                }
+              }
+            });
+          })["catch"](function (error) {
+            console.log(error.response.data.errors);
+            var wrong = error.response.data.errors;
+            swal('Error', mensaje, 'error');
+          });
+        }
+      });
+    },
+    openAddPortfolio: function openAddPortfolio() {
+      this.operation = 'add';
+      this.ventanaOperPortfolio = true;
+    },
+    openEditPortfolio: function openEditPortfolio(index, portfolio) {
+      this.operation = 'update';
+      this.portfolio = portfolio;
+      this.ventanaOperPortfolio = true;
+    }
+  },
+  created: function created() {
+    this.portfolioList();
+  },
+  mounted: function mounted() {
+    if (this.$attrs.locale) {
+      this.$lang.setLocale(this.$attrs.locale);
+    } else {
+      this.$lang.setLocale('en');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue?vue&type=script&lang=js& ***!
@@ -7305,12 +7970,14 @@ Vue.component('add-permiso-form-component', __webpack_require__(/*! ./components
 Vue.component('edit-post-form-component', __webpack_require__(/*! ./components/admin/posts/forms/EditPostFormComponent.vue */ "./resources/js/components/admin/posts/forms/EditPostFormComponent.vue").default);
 Vue.component('contact-oper-form-component', __webpack_require__(/*! ./components/admin/recursos_page_web/Contact/forms/ContactFormComponent.vue */ "./resources/js/components/admin/recursos_page_web/Contact/forms/ContactFormComponent.vue").default);
 Vue.component('service-oper-form-component', __webpack_require__(/*! ./components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue */ "./resources/js/components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue").default);
+Vue.component('portfolio-oper-form-component', __webpack_require__(/*! ./components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue */ "./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue").default);
 Vue.component('index-post-component', __webpack_require__(/*! ./components/admin/posts/indexPostComponent.vue */ "./resources/js/components/admin/posts/indexPostComponent.vue").default);
 Vue.component('index-user-component', __webpack_require__(/*! ./components/admin/users/indexUserComponent.vue */ "./resources/js/components/admin/users/indexUserComponent.vue").default);
 Vue.component('index-role-component', __webpack_require__(/*! ./components/admin/roles/indexRoleComponent.vue */ "./resources/js/components/admin/roles/indexRoleComponent.vue").default);
 Vue.component('index-permiso-component', __webpack_require__(/*! ./components/admin/permisos/indexPermisoComponent.vue */ "./resources/js/components/admin/permisos/indexPermisoComponent.vue").default);
 Vue.component('index-contact-component', __webpack_require__(/*! ./components/admin/recursos_page_web/Contact/indexContactComponent.vue */ "./resources/js/components/admin/recursos_page_web/Contact/indexContactComponent.vue").default);
 Vue.component('index-service-component', __webpack_require__(/*! ./components/admin/recursos_page_web/Service/indexServiceComponent.vue */ "./resources/js/components/admin/recursos_page_web/Service/indexServiceComponent.vue").default);
+Vue.component('index-portfolio-component', __webpack_require__(/*! ./components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue */ "./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue").default);
 Vue.component('post-ppal-tab-component', __webpack_require__(/*! ./components/admin/posts/PostPpalTabComponent.vue */ "./resources/js/components/admin/posts/PostPpalTabComponent.vue").default);
 Vue.component('relationed-tags-component', __webpack_require__(/*! ./components/admin/posts/RelationedTagsComponent.vue */ "./resources/js/components/admin/posts/RelationedTagsComponent.vue").default);
 /**
@@ -7440,6 +8107,7 @@ module.exports = {
     "Admin Tun Daapo": "Admin Tun Daapo",
     "Administration Bar": "Administration Bar",
     "Adress": "Adress",
+    "Agency\/Freelancer": "Agency\/Freelancer",
     "All rights reserved": "All rights reserved",
     "Are you completely sure you want to delete ": "Are you completely sure you want to delete ",
     "Are you completely sure you want to delete the post": "Are you completely sure you want to delete the post",
@@ -7504,6 +8172,7 @@ module.exports = {
     "Price": "Price",
     "Pricing": "Pricing",
     "Profile": "Profile",
+    "Project": "Project",
     "Proyect to programming and web development, expert in design and Marketing Digital.": "Proyect to programming and web development, expert in design and Marketing Digital.",
     "Publication State": "Publication State",
     "Publish Post": "Publish Post",
@@ -7518,6 +8187,7 @@ module.exports = {
     "Section Page": "Section Page",
     "Select Role": "Select Role",
     "Send Password Reset Link": "Send Password Reset Link",
+    "Separate with (,) please": "Separate with (,) please",
     "Sercvice": "Sercvice",
     "Service": "Service",
     "Services": "Services",
@@ -7687,6 +8357,7 @@ module.exports = {
     "Admin Tun Daapo": "Administrar tun Daapo",
     "Administration Bar": "Barra de Administraci\xF3n",
     "Adress": "Direcci\xF3n",
+    "Agency\/Freelancer": "Agencia\/Emprendedor",
     "All rights reserved": "Todos los derechos reservados",
     "Are you completely sure you want to delete ": "Est\xE1 completamente seguro que desa eliminar ",
     "Are you completely sure you want to delete the post": "Est\xE1 completamente seguro que desea eliminar el post",
@@ -7751,6 +8422,7 @@ module.exports = {
     "Price": "Precio",
     "Pricing": "Precios",
     "Profile": "Perfil",
+    "Project": "Proyecto",
     "Proyect to programming and web development, expert in design and Marketing Digital.": "Proyecto para programaci\xF3n y desarrollo web, expertos en dise\xF1o y Marketing Digital.",
     "Publication State": "Estado de Publicaci\xF3n",
     "Publish Post": "Publicar Post",
@@ -7765,6 +8437,7 @@ module.exports = {
     "Section Page": "Secci\xF3n de P\xE1gina",
     "Select Role": "Seleccione uun rol",
     "Send Password Reset Link": "Enviar link para resetear contrase\xF1a",
+    "Separate with (,) please": "Separado con (,) por favor",
     "Sercvice": "Sercvicio",
     "Service": "Servicio",
     "Services": "Servicios",
@@ -12478,6 +13151,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.paginate-links{\n    width:100%;\n 
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Contact/indexContactComponent.vue?vue&type=style&index=0&lang=css& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.paginate-links{\n    width:100%;\n    list-style: none;\n    text-align: center;\n}\n.paginate-links li {\n    display: inline;\n    background-color:#1fa9ed;\n    color:white;\n    padding:0.5rem;\n    margin-left:0.3rem;\n    margin-right: 0.3rem;\n    cursor:pointer;\n    border-radius: 3px;\n}\n.paginate-result{\n    width: 100%;\n    text-align:center;\n    margin-bottom: 1rem;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -65844,6 +66541,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./indexPortfolioComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Service/indexServiceComponent.vue?vue&type=style&index=0&lang=css&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Service/indexServiceComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -67745,6 +68472,86 @@ component.options.__file = "resources/js/components/admin/recursos_page_web/Cont
 
 /***/ }),
 
+/***/ "./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PortfolioFormComponent_vue_vue_type_template_id_63fc5b4e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PortfolioFormComponent.vue?vue&type=template&id=63fc5b4e& */ "./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=template&id=63fc5b4e&");
+/* harmony import */ var _PortfolioFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PortfolioFormComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _PortfolioFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _PortfolioFormComponent_vue_vue_type_template_id_63fc5b4e___WEBPACK_IMPORTED_MODULE_0__.render,
+  _PortfolioFormComponent_vue_vue_type_template_id_63fc5b4e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _indexPortfolioComponent_vue_vue_type_template_id_51be97e2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./indexPortfolioComponent.vue?vue&type=template&id=51be97e2& */ "./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=template&id=51be97e2&");
+/* harmony import */ var _indexPortfolioComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./indexPortfolioComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _indexPortfolioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./indexPortfolioComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+  _indexPortfolioComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _indexPortfolioComponent_vue_vue_type_template_id_51be97e2___WEBPACK_IMPORTED_MODULE_0__.render,
+  _indexPortfolioComponent_vue_vue_type_template_id_51be97e2___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue":
 /*!************************************************************************************************!*\
   !*** ./resources/js/components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue ***!
@@ -68278,6 +69085,38 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************!*\
+  !*** ./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PortfolioFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PortfolioFormComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PortfolioFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************!*\
+  !*** ./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./indexPortfolioComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************!*\
   !*** ./resources/js/components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue?vue&type=script&lang=js& ***!
@@ -68470,6 +69309,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_indexContactComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./indexContactComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Contact/indexContactComponent.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************!*\
+  !*** ./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./indexPortfolioComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -68729,6 +69581,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_indexContactComponent_vue_vue_type_template_id_57c4b74f___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_indexContactComponent_vue_vue_type_template_id_57c4b74f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./indexContactComponent.vue?vue&type=template&id=57c4b74f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Contact/indexContactComponent.vue?vue&type=template&id=57c4b74f&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=template&id=63fc5b4e&":
+/*!***********************************************************************************************************************************!*\
+  !*** ./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=template&id=63fc5b4e& ***!
+  \***********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PortfolioFormComponent_vue_vue_type_template_id_63fc5b4e___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PortfolioFormComponent_vue_vue_type_template_id_63fc5b4e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PortfolioFormComponent_vue_vue_type_template_id_63fc5b4e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PortfolioFormComponent.vue?vue&type=template&id=63fc5b4e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=template&id=63fc5b4e&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=template&id=51be97e2&":
+/*!******************************************************************************************************************************!*\
+  !*** ./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=template&id=51be97e2& ***!
+  \******************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_template_id_51be97e2___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_template_id_51be97e2___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_indexPortfolioComponent_vue_vue_type_template_id_51be97e2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./indexPortfolioComponent.vue?vue&type=template&id=51be97e2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=template&id=51be97e2&");
 
 
 /***/ }),
@@ -73096,6 +73982,852 @@ var render = function() {
                   _c("paginate-links", {
                     attrs: {
                       for: "contacts",
+                      "show-step-links": true,
+                      simple: {
+                        prev: _vm.$trans("messages.Previous"),
+                        next: _vm.$trans("messages.Next")
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ])
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=template&id=63fc5b4e&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue?vue&type=template&id=63fc5b4e& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    {
+      staticClass: "mb-5",
+      attrs: { id: "createPortfolioModal", name: "createPortfolioModal" }
+    },
+    [
+      _c(
+        "form",
+        { attrs: { id: "form-create-user" } },
+        [
+          _c(
+            "transition",
+            {
+              staticClass: "modal fade pt-5",
+              attrs: { id: "createPortfolioModalModal" }
+            },
+            [
+              _c("div", { staticClass: "modal-mask" }, [
+                _c("div", { staticClass: "modal-wrapper" }, [
+                  _c("div", { staticClass: "modal-container" }, [
+                    _c(
+                      "div",
+                      { staticClass: "modal-header" },
+                      [
+                        _vm._t("default", [
+                          _vm.operation === "add"
+                            ? _c(
+                                "h1",
+                                { staticClass: "text-center text-dark" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.$trans("messages.Create")) +
+                                      " " +
+                                      _vm._s(_vm.$trans("messages.Portfolio"))
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.operation === "update"
+                            ? _c(
+                                "h1",
+                                { staticClass: "text-center text-dark" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.$trans("messages.Update")) +
+                                      " " +
+                                      _vm._s(_vm.$trans("messages.Portfolio"))
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "modal-default-button btn btn-lg",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$emit("close")
+                                }
+                              }
+                            },
+                            [
+                              _c("span", { attrs: { "aria-hidden": "true" } }, [
+                                _vm._v("×")
+                              ])
+                            ]
+                          )
+                        ])
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "modal-body" },
+                      [
+                        _vm._t("default", [
+                          _c("div", { staticClass: "container mt-5" }, [
+                            _c(
+                              "div",
+                              { staticClass: "row justify-content-center" },
+                              [
+                                _c("div", { staticClass: "col-12" }, [
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c("label", { attrs: { for: "img" } }, [
+                                      _vm._v(
+                                        _vm._s(_vm.$trans("messages.Image"))
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _vm.operation === "add"
+                                      ? _c("input", {
+                                          staticClass:
+                                            "form-control font-italic mb-2",
+                                          attrs: { type: "file", name: "img" },
+                                          on: { change: _vm.img }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.operation === "update"
+                                      ? _c("input", {
+                                          staticClass:
+                                            "form-control font-italic mb-2",
+                                          attrs: { type: "file", name: "img" },
+                                          on: { change: _vm.img }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.operation === "update"
+                                      ? _c("div", { staticClass: "row" }, [
+                                          _c("img", {
+                                            attrs: {
+                                              src: _vm.src + _vm.portfolio.img,
+                                              alt: _vm.portfolio.img,
+                                              width: "100"
+                                            }
+                                          })
+                                        ])
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "empresa_solicitante" } },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$trans(
+                                              "messages.Agency/Freelancer"
+                                            )
+                                          )
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.operation === "add"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.empresa_solicitante,
+                                              expression: "empresa_solicitante"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "form-control font-italic mb-2",
+                                          attrs: {
+                                            type: "text",
+                                            name: "empresa_solicitante"
+                                          },
+                                          domProps: {
+                                            value: _vm.empresa_solicitante
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.empresa_solicitante =
+                                                $event.target.value
+                                            }
+                                          }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.operation === "update"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.portfolio
+                                                  .empresa_solicitante,
+                                              expression:
+                                                "portfolio.empresa_solicitante"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "form-control font-italic mb-2",
+                                          attrs: {
+                                            type: "text",
+                                            name: "empresa_solicitante"
+                                          },
+                                          domProps: {
+                                            value:
+                                              _vm.portfolio.empresa_solicitante
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.portfolio,
+                                                "empresa_solicitante",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "project_name" } },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$trans("messages.Project")
+                                          ) +
+                                            " " +
+                                            _vm._s(_vm.$trans("messages.Name"))
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.operation === "add"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.project_name,
+                                              expression: "project_name"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "form-control font-italic mb-2",
+                                          attrs: {
+                                            type: "text",
+                                            name: "project_name"
+                                          },
+                                          domProps: { value: _vm.project_name },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.project_name =
+                                                $event.target.value
+                                            }
+                                          }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.operation === "update"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.portfolio.project_name,
+                                              expression:
+                                                "portfolio.project_name"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "form-control font-italic mb-2",
+                                          attrs: {
+                                            type: "text",
+                                            name: "project_name"
+                                          },
+                                          domProps: {
+                                            value: _vm.portfolio.project_name
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.portfolio,
+                                                "project_name",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "description" } },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$trans("messages.Description")
+                                          )
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.operation === "add"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.description,
+                                              expression: "description"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "form-control font-italic mb-2",
+                                          attrs: {
+                                            type: "text",
+                                            name: "description"
+                                          },
+                                          domProps: { value: _vm.description },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.description =
+                                                $event.target.value
+                                            }
+                                          }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.operation === "update"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.portfolio.description,
+                                              expression:
+                                                "portfolio.description"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "form-control font-italic mb-2",
+                                          attrs: {
+                                            type: "text",
+                                            name: "description"
+                                          },
+                                          domProps: {
+                                            value: _vm.portfolio.description
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.portfolio,
+                                                "description",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "form-group" },
+                                    [
+                                      _c(
+                                        "label",
+                                        { attrs: { for: "service" } },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$trans("messages.Service")
+                                            ) + ": "
+                                          ),
+                                          _c(
+                                            "span",
+                                            { staticClass: "text-danger" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Separate with (,) please"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("tags-input", {
+                                        attrs: {
+                                          "element-id": "servcs",
+                                          name: "service",
+                                          "add-tags-on-comma": true,
+                                          placeholder: "Add a service",
+                                          "existing-tags": _vm.services,
+                                          "id-field": "key",
+                                          "text-field": "value",
+                                          typeahead: true
+                                        },
+                                        model: {
+                                          value: _vm.selectedServs,
+                                          callback: function($$v) {
+                                            _vm.selectedServs = $$v
+                                          },
+                                          expression: "selectedServs"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "modal-footer" },
+                      [
+                        _vm._t("default", [
+                          _c(
+                            "div",
+                            { staticClass: "col justify-content-center" },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "form-group row mb-0" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "col-md-5 offset-md-4" },
+                                    [
+                                      _vm.operation === "add"
+                                        ? _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn rounded btn-primary reserva",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.createPortfolio()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Create")
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.operation === "update"
+                                        ? _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn rounded btn-primary reserva",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.editedPortfolio(
+                                                    _vm.portfolio
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Update")
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "modal-default-button btn btn-danger",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$emit("close")
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(_vm.$trans("messages.Close"))
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ])
+                      ],
+                      2
+                    )
+                  ])
+                ])
+              ])
+            ]
+          )
+        ],
+        1
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=template&id=51be97e2&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue?vue&type=template&id=51be97e2& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row py-lg-2" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("h1", { staticClass: "h3 mb-2 text-gray-800" }, [
+          _vm._v(_vm._s(_vm.$trans("messages.Portfolio")))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary btn-lg float-md-right",
+            attrs: { href: "#", permission: "button", "aria-pressed": "true" },
+            on: {
+              click: function($event) {
+                return _vm.openAddPortfolio()
+              }
+            }
+          },
+          [_vm._v(_vm._s(_vm.$trans("messages.Add")))]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card shadow mb-4" },
+      [
+        _vm.ventanaOperPortfolio
+          ? _c("portfolio-oper-form-component", {
+              attrs: {
+                operation: _vm.operation,
+                portfolio: _vm.portfolio,
+                locale: _vm.locale
+              },
+              on: {
+                portfolionew: _vm.addPortfolioIndex,
+                portfoliooperupd: _vm.updPortfolioIndex,
+                close: function($event) {
+                  _vm.ventanaOperPortfolio = false
+                }
+              }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-header py-3" }, [
+          _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
+            _vm._v(_vm._s(_vm.$trans("messages.List")))
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.mensage != ""
+          ? _c("div", { staticClass: "alert alert-success" }, [
+              _c("ul", [_c("li", [_vm._v(_vm._s(_vm.mensage))])])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "div",
+            { staticClass: "table-responsive" },
+            [
+              _c(
+                "paginate",
+                {
+                  key: _vm.portfolios ? _vm.portfolios.length : 0,
+                  ref: "paginator",
+                  staticClass: "pt-5 mt-3",
+                  attrs: { name: "portfolios", list: _vm.portfolios, per: 2 }
+                },
+                [
+                  _c(
+                    "table",
+                    {
+                      staticClass: "table table-bordered",
+                      attrs: {
+                        id: "dataTable",
+                        width: "100%",
+                        cellspacing: "0"
+                      }
+                    },
+                    [
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$trans("messages.Tools")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$trans("messages.Image")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$trans("messages.Agency/Freelancer"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$trans("messages.Project")) +
+                                " " +
+                                _vm._s(_vm.$trans("messages.Name"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$trans("messages.Description")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$trans("messages.Services")))
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tfoot", [
+                        _c("tr", [
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$trans("messages.Tools")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$trans("messages.Image")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$trans("messages.Agency/Freelancer"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$trans("messages.Project")) +
+                                " " +
+                                _vm._s(_vm.$trans("messages.Name"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$trans("messages.Description")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$trans("messages.Services")))
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.paginated("portfolios"), function(
+                          portfolio,
+                          index
+                        ) {
+                          return _c(
+                            "tr",
+                            {
+                              key: portfolio.id,
+                              attrs: { portfolio: portfolio }
+                            },
+                            [
+                              _c("td", [
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openEditPortfolio(
+                                          index,
+                                          portfolio
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-edit",
+                                      attrs: { title: "Edit/Editar" }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deletePortfolio(
+                                          index,
+                                          portfolio.id
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-trash-alt",
+                                      attrs: { title: "Delete/Eliminar" }
+                                    })
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c("img", {
+                                  attrs: {
+                                    src: _vm.src + portfolio.img,
+                                    width: "100"
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(portfolio.empresa_solicitante))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(portfolio.project_name))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(portfolio.description))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(portfolio.service_id))])
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "strong",
+                { staticClass: "text-primary" },
+                [
+                  _c("paginate-links", {
+                    attrs: { for: "portfolios", "show-step-links": true }
+                  }),
+                  _vm._v(" "),
+                  _c("paginate-links", {
+                    attrs: {
+                      for: "portfolios",
                       "show-step-links": true,
                       simple: {
                         prev: _vm.$trans("messages.Previous"),
