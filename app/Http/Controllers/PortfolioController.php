@@ -190,6 +190,8 @@ class PortfolioController extends Controller
     public function destroy(Portfolio $portfolio)
     {
       $portfol=Portfolio::findOrFail($portfolio->id);
+      $this->delImageFile($portfol->img,'portfolio');
       $portfol->delete();
+      $portfol->services()->detach();
     }
 }

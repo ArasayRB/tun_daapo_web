@@ -5397,13 +5397,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     addPortfolioIndex: function addPortfolioIndex(permissionAdd) {
       this.operation = '';
-
-      if (this.portfolios.length === 0) {
-        this.portfolioList();
-      } else {
-        this.portfolios.push(permissionAdd);
-      }
-
+      this.portfolioList();
       this.mensage = "";
       this.ventanaOperPortfolio = false;
     },

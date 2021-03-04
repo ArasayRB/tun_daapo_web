@@ -183,13 +183,7 @@ Portfolio<template>
                .catch(error => this.errors.push(error));
         },
         addPortfolioIndex:function(permissionAdd){
-          this.operation='';
-          if(this.portfolios.length===0){
-            this.portfolioList();
-          }
-          else{
-          this.portfolios.push(permissionAdd);
-          }
+          this.operation='';this.portfolioList();
           this.mensage="";
           this.ventanaOperPortfolio=false;
         },
