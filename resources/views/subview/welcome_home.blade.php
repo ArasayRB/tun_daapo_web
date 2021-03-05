@@ -76,19 +76,8 @@
 </div>
 </div>
 <div class="contenedor-slider-testimonios programming"><!--Blog-->
-<div class="rounded row">
-      <div class="col-6">
-        <img src="{!! asset('images/img/BombillaEfectos.png') !!}" class="img-fluid animate__animated animate__slideInLeft">
-      </div>
-      <div class="col-6 mt-xl-5 mt-md-5">
-
-          <p class="h1 mt-5 text-light border-bottom-primary animate__animated animate__bounceIn" id="diseño">Diseñamos</p>
-          <p class="h5 text-light text-justify pr-3 animate__animated animate__bounceIn">Enfocados en las últimas tendencias de posicionamiento SEO, haciendo que su web pueda competir en el mercado obteniendo una buena posición en los principales Motores de Búsqueda</p>
-
-      </div>
-
-
-    </div>
+<design-section-component name_section="Diseñamos">
+</design-section-component>
 
 
 
