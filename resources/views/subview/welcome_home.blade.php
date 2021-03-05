@@ -19,62 +19,8 @@
 
 </div>
 <div class="contenedor-testimonios"><!--SECTION TESTIMONIOS-->
-<div class="contenedor-slider-testimonios" id="portafolio">
-  <div class="testimonial-slider">
-    <div class="slider-overflow"><h1 class="text-center text-light text-uppercase" id="portafolio_anim">Portafolio</h1>
-      <div class="slider-carousel">
-<div class="carousel slide" id="demo" data-ride="carousel">
-<!--Indicadores-->
-<ul class="carousel-indicators">
-  <li data-target="demo" data-slide-to="0" class="active"></li>
-  <li data-target="demo" data-slide-to="1" ></li>
-  <li data-target="demo" data-slide-to="2" ></li>
-</ul>
-<!--Imagenes-->
-<div class="carousel-inner">
-  <div class="carousel-item active">
-
-     <img src="{!! asset('images/img/portafolio/Now with pod step.png') !!}" class="mx-auto d-block img-fluid img_portafolio">
-    <div class="block-quote">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi iusto iure laborum, incidunt reprehenderit recusandae cupiditate veritatis dolore delectus impedit, aspernatur sint dolor hic nisi suscipit! Maxime voluptate, cupiditate veniam.</p>
-    </div>
-    <div class="info">
-      <div class="name">David</div>
-      <div class="position">Cliente</div>
-    </div>
-
-  </div>
-  <div class="carousel-item">
-
-     <img src="{!! asset('images/img/portafolio/Nueva oferta.jpg') !!}" class="mx-auto d-block img-fluid img_portafolio">
-    <div class="block-quote">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi iusto iure laborum, incidunt reprehenderit recusandae cupiditate veritatis dolore delectus impedit, aspernatur sint dolor hic nisi suscipit! Maxime voluptate, cupiditate veniam.</p>
-    </div>
-    <div class="info">
-      <div class="name">David</div>
-      <div class="position">Cliente</div>
-    </div>
-  </div>
-  <div class="carousel-item">
-
-     <img src="{!! asset('images/img/portafolio/PostCovid19Turmalina.jpg') !!}" class="mx-auto d-block img-fluid img_portafolio">
-    <div class="block-quote">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi iusto iure laborum, incidunt reprehenderit recusandae cupiditate veritatis dolore delectus impedit, aspernatur sint dolor hic nisi suscipit! Maxime voluptate, cupiditate veniam.</p>
-    </div>
-    <div class="info">
-      <div class="name">David</div>
-      <div class="position">Cliente</div>
-    </div>
-  </div>
-</div>
-<!--Controladores izq derecha-->
-<a href="#demo" class="carousel-control-prev" data-slide="prev"><span class="carousel-control-prev-icon"></span></a>
-<a href="#demo" class="carousel-control-next" data-slide="next"><span class="carousel-control-next-icon"></span></a>
-</div>
-</div>
-</div>
-</div>
-</div>
+<portfolio-section-component>
+</portfolio-section-component>
 <div class="contenedor-slider-testimonios programming"><!--Blog-->
 <design-section-component name_section="Diseñamos">
 </design-section-component>
