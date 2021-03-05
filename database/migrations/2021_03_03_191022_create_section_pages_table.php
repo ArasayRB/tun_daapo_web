@@ -15,9 +15,9 @@ class CreateSectionPagesTable extends Migration
     {
         Schema::create('section_pages', function (Blueprint $table) {
             $table->id();
-            $table->string('img');
+            $table->string('img')->nullable();
             $table->text('title')->unique();
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
         });
     }

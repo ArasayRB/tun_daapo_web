@@ -55,10 +55,13 @@ class SectionPageController extends Controller
     public function store(Request $request)
     {
       $this->validator($request->all())->validate();
-      $newFileName=$this->manageImageFile(request('img'),'section_page');
 
       $section_page=new SectionPage();
-      $section_page->img=$newFileName;
+      if(request('img')!=''&&request('img')!=null){
+
+        $newFileName=$this->manageImageFile(request('img'),'section_page');
+        $section_page->img=$newFileName;
+      }
       $section_page->title=request('title');
       $section_page->description=request('description');
       $section_page->save();
@@ -83,7 +86,7 @@ class SectionPageController extends Controller
      * @param  \App\Models\SectionPage  $sectionPage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $sectionPage)
+    public function update(Request $request,  $sectionPage)
     {
 
       $section_page=SectionPage::findOrFail($sectionPage);
@@ -92,7 +95,9 @@ class SectionPageController extends Controller
         $this->validator($request->all())->validate();
         $newFileName=$this->manageImageFile(request('img'),'section_page');
 
+        if($section_page->img!=null && $section_page->img!=''){
         $this->delImageFile($section_page->img,'section_page');
+      }
           $section_page->img=$newFileName;
       }
       else{

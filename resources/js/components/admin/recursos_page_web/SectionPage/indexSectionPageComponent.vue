@@ -52,7 +52,7 @@
                           <a href="#" @click="openEditSectionPage(index,sectionpage)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deleteSectionPage(index,sectionpage.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
-                    <td><img :src="src+sectionpage.img"  width="100"></td>
+                    <td><img :src="src+sectionpage.img"  width="100" v-if="sectionpage.img!=null"></td>
                     <td>{{sectionpage.title}}</td>
                     <td>{{sectionpage.description}}</td>
 

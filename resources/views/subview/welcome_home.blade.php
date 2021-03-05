@@ -1,9 +1,8 @@
 <div class="contenedor-slider-testimonios">
   <div class="testimonial-slider bg-info">
       <div class="rounded row">
-
-        <h1 class="text-center border-bottom-blue animate__animated animate__zoomIn" id="us_ttle"><img src="{!! asset('images/img/tunDaapo32x32.ico') !!}" class="mr-2">Tun Daapo</h1>
-        <h4 class="text-justify pt-2">Tiene un <span class="font-weight-bold">OBJETIVO CLARO</span> y es <span class="tun_daapo_text font-weight-bold">MOSTRARTE LO MAS PARECIDO A TU COMUNIDAD PARA QUE QUEDES IMPREGNADO EN SU IDENTIDAD</span>. Para ello  se apoya en el <span class="font-weight-bold">ESTUDIO, PLANIFICACIÓN, DISEÑO, MAQUETACIÓN, y CONSTRUCCIÓN</span> de tu <span class="tun_daapo_text font-weight-bold">IMAGEN digital</span>. </h4>
+        <tun-daapo-section-component name_section="Tun Daapo">
+        </tun-daapo-section-component>
 
         <div class="mt-5" id="services"><h1 class="text-center mb-2 mt-2">Servicios</h1>
           <div class="row">

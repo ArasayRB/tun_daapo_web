@@ -80,6 +80,7 @@ Vue.component('index-paket-component', require('./components/admin/recursos_page
 Vue.component('index-sectionpage-component', require('./components/admin/recursos_page_web/SectionPage/indexSectionPageComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 Vue.component('relationed-tags-component', require('./components/admin/posts/RelationedTagsComponent.vue').default);
+Vue.component('tun-daapo-section-component', require('./components/views/section_page/TunDaapoComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -92,6 +93,7 @@ const app = new Vue({
     data(){
       return{
       ventanaResetEmail:'',
+      sectionItem:[],
       token   : window.CSRF_TOKEN,
     }
     },
@@ -99,5 +101,7 @@ const app = new Vue({
       resetEmailModal:function(){
         this.ventanaResetEmail=true;
       },
+    },
+    created(){
     },
 });
