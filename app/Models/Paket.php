@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Service;
+use App\Models\PaketType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,9 +15,14 @@ class Paket extends Model
         'name_button',
         'description',
         'price',
+        'type_id',
     ];
 
     public function services(){
       return $this->belongsToMany(Service::class,'paket_service','paket_id','service_id')->withPivot('status','status_date','unstatus_date')->withTimestamps();
+    }
+
+    public function pakettypes(){
+      return $this->belongsTo(PaketType::class,'type_id')->withTimestamps();
     }
 }

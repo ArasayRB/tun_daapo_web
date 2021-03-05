@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaketsTable extends Migration
+class CreatePaketTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class CreatePaketsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pakets', function (Blueprint $table) {
+        Schema::create('paket_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('name_button');
-            $table->text('description');
-            $table->float('price',8,2)->nullable();
-            $table->unsignedBigInteger('type_id');
             $table->timestamps();
-            $table->foreign('type_id')->references('id')->on('pakettypes')->onDelete('cascade');
         });
     }
 
@@ -32,6 +27,6 @@ class CreatePaketsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pakets');
+        Schema::dropIfExists('paket_types');
     }
 }
