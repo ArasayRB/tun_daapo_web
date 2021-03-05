@@ -23,4 +23,10 @@ trait ServiceTrait {
 
                    return $services;
     }
+
+    public function getServicesInOffer(){
+      $services=Service::where('status',1)
+                          ->get();
+      return $services;
+    }
 }

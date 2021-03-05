@@ -31,6 +31,7 @@ return [
     'Cancel'=>'Cancel',
     'Category'=>'Category',
     'Contact'=>'Contact',
+    'Contact us and we make a date'=>'Contact us and we make a date',
     'Content'=>'Content',
     'Continue reading'=>'Continue reading',
     'Confirm Password'=>'Confirm Password',

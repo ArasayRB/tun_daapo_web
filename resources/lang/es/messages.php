@@ -31,6 +31,7 @@ return [
     'Cancel'=>'Cancelar',
     'Category'=>'Categoría',
     'Contact'=>'Contacto',
+    'Contact us and we make a date'=>'Contáctenos y agendaremos una cita con usted',
     'Content'=>'Contenido',
     'Continue reading'=>'Continúe leyendo',
     'Confirm Password'=>'Confirmar Contraseña',

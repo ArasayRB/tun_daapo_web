@@ -13,6 +13,7 @@ class Service extends Model
     protected $fillable = [
         'name',
         'description',
+        'status',
         'price',
     ];
     public function paquetes(){

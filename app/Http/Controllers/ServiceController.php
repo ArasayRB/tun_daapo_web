@@ -17,8 +17,7 @@ class ServiceController extends Controller
   {
       return Validator::make($data, [
           'name' => ['required', 'string', 'max:255'],
-          'description' => ['required', 'string', 'max:255'],
-          'price' => ['required'],
+          'description' => ['required', 'string'],
       ]);
   }
 

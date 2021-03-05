@@ -4,87 +4,9 @@
         <tun-daapo-section-component name_section="Tun Daapo">
         </tun-daapo-section-component>
 
-        <div class="mt-5" id="services"><h1 class="text-center mb-2 mt-2">Servicios</h1>
-          <div class="row">
-            <div class="col-xl-6 col-md-6 mb-4 animate__animated animate__slideInLeft" id="fac_plac">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h6">Administración y manejo de Redes Sociales</div>
-                      <div class="h6 mb-0 font-weight-bold text-dark">Buscas darte a conocer desde las redes sociales más usadas para así poner tus servicios al alcance de tu comunidad? Además de todo esto divulgamos y compartimos el contenido actualizado de su web en las mismas, así como creamos campañas de publicidad para atraer clientes potenciales a su página.</div>
-                      <a href="#contacto" class="h6 text-info mt-2 float-right">Contáctenos y agendaremos una cita con usted</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-6 col-md-6 mb-4 animate__animated animate__slideInLeft" id="fac_plac1">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h6">Auditoría y Posicionamiento SEO</div>
-                      <div class="h6 mb-0 font-weight-bold text-dark">Análisis SEO de su web en internet, diseño y planificación de acciones para su optimización.</div>
-                      <a href="#contacto" class="h6 text-info mt-2 float-right">Contáctenos y agendaremos una cita con usted</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <div class="col-xl-6 col-md-6 mb-4 animate__animated animate__zoomIn" id="fac_plac2">
-            <div class="card border-left-primary shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h6">Diseño y optimización de imágenes</div>
-                    <div class="h6 mb-0 font-weight-bold text-dark">Diseño profesional de logos y tarjetas de presentación de empresas, así como de posters publicitarios.</div>
-                    <a href="#contacto" class="h6 text-info mt-2 float-right">Contáctenos y agendaremos una cita con usted</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-6 col-md-6 mb-4 animate__animated animate__zoomIn" id="plac_fac">
-            <div class="card border-left-primary shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h6">Diseño Web</div>
-                    <div class="h6 mb-0 font-weight-bold text-dark">Creación de webs responsivas con diseños atractivos y personalizados para su negocio virtual (Corporativo, Tienda, Blog); así como de banners, botones, menús, todos adaptados a su imagen.</div>
-                    <a href="#contacto" class="h6 text-info mt-2 float-right">Contáctenos y agendaremos una cita con usted</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-6 col-md-6 mb-4 animate__animated animate__slideInLeft" id="plac_fac1">
-            <div class="card border-left-primary shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h6">Programación Web</div>
-                    <div class="h6 mb-0 font-weight-bold text-dark">Programación de aplicaciones web que automaticen los procesos diarios que se lleva a cabo en su empresa o negocio.</div>
-                    <a href="#contacto" class="h6 text-info mt-2 float-right">Contáctenos y agendaremos una cita con usted</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-6 col-md-6 mb-4 animate__animated animate__slideInRight" id="plac_fac2">
-            <div class="card border-left-primary shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h6">Creación de contenido digital</div>
-                    <div class="h6 mb-0 font-weight-bold text-dark">Por si fuera poco se enfoca en la creación de contenido (texto, imágen, video) para su web, así mantiene viva su idea en las redes de forma fresca y actualizada</div>
-                    <a href="#contacto" class="h6 text-info mt-2 float-right">Contáctenos y agendaremos una cita con usted</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div></div>
+        <div class="mt-5" id="services"><h1 class="text-center mb-2 mt-2">{{__('messages.Services')}}</h1>
+          <service-section-component>
+          </service-section-component>
 
         </div>
 

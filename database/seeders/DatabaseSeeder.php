@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguageTableSeeder::class);
         $this->call(CalificacionPostTableSeeder::class);
         $this->call(SectionPageTableSeeder::class);
+        $this->call(ServiceTableSeeder::class);
     }
 }

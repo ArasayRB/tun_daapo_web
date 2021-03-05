@@ -26,3 +26,4 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/section_name/{name}', [App\Http\Controllers\WelcomeController::class, 'getSectionItem']);
+Route::get('/services_offer', [App\Http\Controllers\WelcomeController::class, 'getServicesInOffer']);

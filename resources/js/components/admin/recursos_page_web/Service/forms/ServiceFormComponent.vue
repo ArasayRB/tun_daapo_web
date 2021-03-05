@@ -157,7 +157,7 @@
             let  url="/service";
             let msg_succ=this.$trans('messages.Service')+' '+this.$trans('messages.Created.');
             let mensaje=this.$trans('messages.Unidentified error');
-            if (this.name==''||this.description==''||this.price=='') {
+            if (this.name==''||this.description=='') {
               mensaje=this.$trans('messages.You cannot leave empty fields, please check');
             }
 
