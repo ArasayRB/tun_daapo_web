@@ -6837,6 +6837,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -78447,82 +78465,118 @@ var render = function() {
                                       : _vm._e()
                                   ]),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "description" } },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$trans("messages.Description")
+                                  _c(
+                                    "div",
+                                    { staticClass: "form-group" },
+                                    [
+                                      _c(
+                                        "label",
+                                        { attrs: { for: "description" } },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$trans("messages.Description")
+                                            )
                                           )
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm.operation === "add"
+                                        ? _c("vue-ckeditor", {
+                                            attrs: { config: _vm.config },
+                                            on: {
+                                              blur: function($event) {
+                                                return _vm.onBlur($event)
+                                              },
+                                              focus: function($event) {
+                                                return _vm.onFocus($event)
+                                              },
+                                              contentDom: function($event) {
+                                                return _vm.onContentDom($event)
+                                              },
+                                              dialogDefinition: function(
+                                                $event
+                                              ) {
+                                                return _vm.onDialogDefinition(
+                                                  $event
+                                                )
+                                              },
+                                              fileUploadRequest: function(
+                                                $event
+                                              ) {
+                                                return _vm.onFileUploadRequest(
+                                                  $event
+                                                )
+                                              },
+                                              fileUploadResponse: function(
+                                                $event
+                                              ) {
+                                                return _vm.onFileUploadResponse(
+                                                  $event
+                                                )
+                                              }
+                                            },
+                                            model: {
                                               value: _vm.description,
+                                              callback: function($$v) {
+                                                _vm.description = $$v
+                                              },
                                               expression: "description"
                                             }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "text",
-                                            name: "description"
-                                          },
-                                          domProps: { value: _vm.description },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.operation === "update"
+                                        ? _c("vue-ckeditor", {
+                                            attrs: { config: _vm.config },
+                                            on: {
+                                              blur: function($event) {
+                                                return _vm.onBlur($event)
+                                              },
+                                              focus: function($event) {
+                                                return _vm.onFocus($event)
+                                              },
+                                              contentDom: function($event) {
+                                                return _vm.onContentDom($event)
+                                              },
+                                              dialogDefinition: function(
+                                                $event
+                                              ) {
+                                                return _vm.onDialogDefinition(
+                                                  $event
+                                                )
+                                              },
+                                              fileUploadRequest: function(
+                                                $event
+                                              ) {
+                                                return _vm.onFileUploadRequest(
+                                                  $event
+                                                )
+                                              },
+                                              fileUploadResponse: function(
+                                                $event
+                                              ) {
+                                                return _vm.onFileUploadResponse(
+                                                  $event
+                                                )
                                               }
-                                              _vm.description =
-                                                $event.target.value
-                                            }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
+                                            },
+                                            model: {
                                               value: _vm.service.description,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.service,
+                                                  "description",
+                                                  $$v
+                                                )
+                                              },
                                               expression: "service.description"
                                             }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "text",
-                                            name: "description"
-                                          },
-                                          domProps: {
-                                            value: _vm.service.description
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                _vm.service,
-                                                "description",
-                                                $event.target.value
-                                              )
-                                            }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ]),
+                                          })
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "form-group" }, [
                                     _c("label", { attrs: { for: "price" } }, [

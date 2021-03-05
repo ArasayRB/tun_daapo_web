@@ -29,8 +29,26 @@
 
 <div class="form-group">
   <label for="description">{{ $trans('messages.Description') }}</label>
-  <input type="text" name="description" v-model="description" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="description" v-model="service.description" class="form-control font-italic mb-2" v-if="operation==='update'">
+  <vue-ckeditor
+   v-model="description"
+   :config="config"
+   @blur="onBlur($event)"
+   @focus="onFocus($event)"
+   @contentDom="onContentDom($event)"
+   @dialogDefinition="onDialogDefinition($event)"
+   @fileUploadRequest="onFileUploadRequest($event)"
+   @fileUploadResponse="onFileUploadResponse($event)"
+   v-if="operation==='add'"/>
+   <vue-ckeditor
+    v-model="service.description"
+    :config="config"
+    @blur="onBlur($event)"
+    @focus="onFocus($event)"
+    @contentDom="onContentDom($event)"
+    @dialogDefinition="onDialogDefinition($event)"
+    @fileUploadRequest="onFileUploadRequest($event)"
+    @fileUploadResponse="onFileUploadResponse($event)"
+    v-if="operation==='update'"/>
 </div>
 
 <div class="form-group">
