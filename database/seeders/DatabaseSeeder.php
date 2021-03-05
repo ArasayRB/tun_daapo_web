@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CalificacionPostTableSeeder::class);
         $this->call(SectionPageTableSeeder::class);
         $this->call(ServiceTableSeeder::class);
+        $this->call(PortfolioTableSeeder::class);
     }
 }
