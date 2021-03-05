@@ -8,7 +8,7 @@
       <div class="modal-header">
         <slot>
         <h1 class="text-center text-dark" v-if="show_lang_div===false">{{post.title}}</h1>
-        <h1 class="text-center text-dark" v-else>{{ $trans('messages.New Post') }}</h1>
+        <h1 class="text-center text-dark" v-else>{{ $trans('messages.New') }} {{ $trans('messages.Post') }}</h1>
         <button type="button" class="modal-default-button btn btn-lg" @click="$emit('close')"><span aria-hidden="true">&times;</span></button>
 
         </slot>
