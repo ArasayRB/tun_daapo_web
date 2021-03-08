@@ -2,10 +2,10 @@
 <div class="">
   <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-readed-tab" data-toggle="tab" href="#nav-readed" role="tab" aria-controls="nav-readed" aria-selected="true"><strong class="d-inline-block mb-2 text-primary">{{ $trans('messages.The most readed') }}</strong></a>
-      <a class="nav-item nav-link" id="nav-liked-tab" data-toggle="tab" href="#nav-liked" role="tab" aria-controls="nav-liked" aria-selected="false"><strong class="d-inline-block mb-2 text-primary">{{ $trans('messages.The most liked') }}</strong></a>
-      <a class="nav-item nav-link" id="nav-last-tab" data-toggle="tab" href="#nav-last" role="tab" aria-controls="nav-last" aria-selected="false"><strong class="d-inline-block mb-2 text-primary">{{ $trans('messages.The latest posts') }}</strong></a>
-      <a class="nav-item nav-link" id="nav-all-posts-tab" data-toggle="tab" href="#nav-all-posts" role="tab" aria-controls="nav-all-posts" aria-selected="false"><strong class="d-inline-block mb-2 text-primary">{{ $trans('messages.All Posts') }}</strong></a>
+      <a class="nav-item nav-link  bg-light active" id="nav-readed-tab" data-toggle="tab" href="#nav-readed" role="tab" aria-controls="nav-readed" aria-selected="true"><strong class="d-inline-block mb-2 text-primary">{{ $trans('messages.The most readed') }}</strong></a>
+      <a class="nav-item nav-link bg-light" id="nav-liked-tab" data-toggle="tab" href="#nav-liked" role="tab" aria-controls="nav-liked" aria-selected="false"><strong class="d-inline-block mb-2 text-primary">{{ $trans('messages.The most liked') }}</strong></a>
+      <a class="nav-item nav-link bg-light" id="nav-last-tab" data-toggle="tab" href="#nav-last" role="tab" aria-controls="nav-last" aria-selected="false"><strong class="d-inline-block mb-2 text-primary">{{ $trans('messages.The latest posts') }}</strong></a>
+      <a class="nav-item nav-link bg-light" id="nav-all-posts-tab" data-toggle="tab" href="#nav-all-posts" role="tab" aria-controls="nav-all-posts" aria-selected="false"><strong class="d-inline-block mb-2 text-primary">{{ $trans('messages.All Posts') }}</strong></a>
     </div>
   </nav>
   <div class="tab-content" id="nav-tabContent">
@@ -59,7 +59,7 @@
             <h3 class="mb-0">{{pot_lat.title}}</h3>
             <div class="mb-1 text-muted">{{pot_lat.created_at}}</div>
             <p class="card-text mb-auto">{{pot_lat.summary}}</p>
-            <a :href="hreff+pot_lat.id" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
+            <a :href="hreff+pot_lat.slug" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
 
            </div>
 
@@ -78,7 +78,7 @@
               <h3 class="mb-0">{{post_all.title}}</h3>
               <div class="mb-1 text-muted">{{post_all.created_at}}</div>
               <p class="card-text mb-auto">{{post_all.summary}}</p>
-              <a :href="hreff+post_all.id" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
+              <a :href="hreff+post_all.slug" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
              </div>
 
           </div>

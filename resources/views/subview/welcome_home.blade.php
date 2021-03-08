@@ -45,66 +45,13 @@
 </ask-budget-section-component>
 
 
-<section class="container-fluid col-12 mt-5  bg-light" id="blog" name="blog"><h1 id="post" class="text-center text-dark pb-2 pt-5 text-uppercase animate__animated animate__zoomIn">Posts</h1><!--Section Blog-->
-  <div class="row mb-2">
-    <div class="col-md-6">
-      <div class="row border border-left-primary no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-primary">World</strong>
-          <h3 class="mb-0">Featured post</h3>
-          <div class="mb-1 text-muted">Nov 12</div>
-          <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="stretched-link">Continue reading</a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-          <img src="{!! asset('images/img/comentario01.jpg') !!}" class="mx-auto d-block rounded-circle w-200 h-300">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="row border border-left-primary no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-primary">World</strong>
-          <h3 class="mb-0">Featured post</h3>
-          <div class="mb-1 text-muted">Nov 12</div>
-          <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="stretched-link">Continue reading</a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-          <img src="{!! asset('images/img/comentario02.jpg') !!}" class="mx-auto d-block rounded-circle w-200 h-300">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="row border border-left-primary no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-primary">World</strong>
-          <h3 class="mb-0">Featured post</h3>
-          <div class="mb-1 text-muted">Nov 12</div>
-          <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="stretched-link">Continue reading</a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-          <img src="{!! asset('images/img/comentario03.jpg') !!}" class="mx-auto d-block rounded-circle w-200 h-300">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="row border border-left-primary no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-success">Design</strong>
-          <h3 class="mb-0">Post title</h3>
-          <div class="mb-1 text-muted">Nov 11</div>
-          <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="stretched-link">Continue reading</a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-           <img src="{!! asset('images/img/comentario02.jpg') !!}" class="mx-auto d-block rounded-circle w-200 h-300">
-        </div>
-      </div>
-    </div>
-  </div>
+@if ( isset($posts) && $posts>0)
+<section class="container-fluid col-12 pt-5 bg-light" id="blog" name="blog"><h1 id="post" class="text-center pb-2 pt-5 text-uppercase animate__animated animate__zoomIn">{{ __('Posts') }}</h1><!--Section Blog-->
+  <post-ppal-tab-component>
+  </post-ppal-tab-component>
+
 </section><!--END Section Blog-->
+@endif
 
 <div class="panel pt-5 pb-5 mt-5" id="contacto">
 <div class="panel-header">

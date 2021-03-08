@@ -18,9 +18,7 @@ use Illuminate\Support\Str;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome_tun_daapo');
-});
+Route::get('/', [App\Http\Controllers\WelcomeController::class, 'welcome'])->name('welcome');
 
 Auth::routes();
 
@@ -28,3 +26,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/section_name/{name}', [App\Http\Controllers\WelcomeController::class, 'getSectionItem']);
 Route::get('/services_offer', [App\Http\Controllers\WelcomeController::class, 'getServicesInOffer']);
 Route::get('/tun-daapo-portfolio', [App\Http\Controllers\WelcomeController::class, 'getPortfolioView']);
+Route::get('/post-list/{id}', [App\Http\Controllers\WelcomeController::class, 'showPost']);
+Route::get('/posts-list', [App\Http\Controllers\WelcomeController::class, 'getPostsList']);
+Route::post('/share/{id}/{media}', [App\Http\Controllers\WelcomeController::class, 'sharePostMedia']);
+Route::post('/post-love/{id}', [App\Http\Controllers\WelcomeController::class, 'addLove']);

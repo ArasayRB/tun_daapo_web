@@ -87,6 +87,9 @@ Vue.component('development-section-component', require('./components/views/secti
 Vue.component('ask-budget-section-component', require('./components/views/section_page/AskBudgetComponent.vue').default);
 Vue.component('development-plan-section-component', require('./components/views/development_web_plans/DevelopmentPlansWebComponent.vue').default);
 Vue.component('service-section-component', require('./components/views/service/ServiceComponent.vue').default);
+Vue.component('cont-view-share-like-component', require('./components/forms/ContViewShareLikeComponent.vue').default);
+Vue.component('newsletter-component', require('./components/forms/NewsletterComponent.vue').default);
+Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
