@@ -20,11 +20,35 @@
           <div class="row justify-content-center">
             <div class="col-12">
 
+<div class="form-group">
+  <label for="type_paket">{{ $trans('messages.Packet') }}</label>
+  <select class="form-control" v-model="type_paket" name="type_paket" required v-if="operation==='add'">
+   <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Packet Type') }}</option>
+     <option v-for="packet in packets" :value="packet.id">{{packet.name}}</option>
+  </select>
+  <select class="form-control" v-model="type_paket" name="type_paket" required v-if="operation==='update'">
+   <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Packet Type') }}</option>
+     <option v-for="packet in packets" :selected=" paket.type_id=== packet.id" :value="packet.id" selected>{{packet.name}}</option>
+  </select>
+</div>
 
 <div class="form-group">
   <label for="name">{{ $trans('messages.Name') }}</label>
   <input type="text" name="name" v-model="name" class="form-control font-italic mb-2" v-if="operation==='add'">
   <input type="text" name="name" v-model="paket.name" class="form-control font-italic mb-2" v-if="operation==='update'">
+</div>
+
+<div class="form-group">
+  <label for="functions">{{ $trans('messages.Functions Included') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
+
+  <tags-input element-id="servcs" name="functions" :add-tags-on-comma=true	class=""
+     v-model="selectedFunc"
+     placeholder="Add a function"
+     :existing-tags="functions"
+     id-field="key"
+     text-field="value"
+     :typeahead="true">
+  </tags-input>
 </div>
 
 <div class="form-group">
@@ -119,6 +143,8 @@
           msgAddTag:this.$trans('messages.Add a new Tag'),
           services: [],
           selectedServs: [],
+          functions: [],
+          selectedFunc: [],
           config: {
        toolbar: [
 
@@ -143,6 +169,9 @@
           description:'',
           price:'',
           map:'',
+          packets:[],
+          packet:[],
+          type_paket:'',
           value:'',
           name:'',
           name_button:'',
@@ -172,10 +201,22 @@
     onFileUploadResponse(evt) {
       console.log(evt);
     },
+    packetType:function(){
+      axios.get('/packet-type-list')
+           .then(response => this.packets = response.data)
+           .catch(error => this.errors.push(error));
+    },
     availabelServices:function(){
       axios.get('/available-services')
            .then(response =>{
              this.services = response.data;
+           })
+           .catch(error => this.errors.push(error));
+    },
+    availabelFunctions:function(){
+      axios.get('/available-functions')
+           .then(response =>{
+             this.functions = response.data;
            })
            .catch(error => this.errors.push(error));
     },
@@ -184,7 +225,7 @@
             let  url="/paket";
             let msg_succ=this.$trans('messages.Packet')+' '+this.$trans('messages.Created.');
             let mensaje=this.$trans('messages.Unidentified error');
-            if (this.name==''||this.name_button==''||this.description==''||this.price==''||this.selectedServs.length===0) {
+            if (this.name==''||this.name_button==''||this.description==''||this.price==''||this.selectedServs.length===0||this.type_paket=='') {
               mensaje=this.$trans('messages.You cannot leave empty fields, please check');
             }
 
@@ -199,12 +240,25 @@
             }
             }
 
+            let functList=this.selectedFunc;
+            let functKey="";
+            for(var i=0; i<functList.length;i=i+1){
+              if(i==(functList.length-1)){
+              functKey= ''+functKey+functList[i].value;
+            }
+            else{
+              functKey= ''+functKey+functList[i].value+',';
+            }
+            }
+
             let data = new FormData();
               data.append("name", this.name);
                 data.append("name_button", this.name_button);
               data.append("description", this.description);
               data.append("price", this.price);
               data.append("service_id", portKey);
+              data.append("type_id",this.type_paket);
+              data.append("functions_included",functKey);
 
 
 
@@ -245,6 +299,12 @@
                    if(wrong.hasOwnProperty('map')){
                      mensaje+='-'+wrong.map[0];
                    }
+                   if(wrong.hasOwnProperty('type_id')){
+                     mensaje+='-'+wrong.map[0];
+                   }
+                   if(wrong.hasOwnProperty('functions_included')){
+                     mensaje+='-'+wrong.map[0];
+                   }
                    swal('Error',mensaje,'error');
                    //console.log(error.response.data);
                  });
@@ -267,6 +327,17 @@
             portKey= ''+portKey+serviList[i].value+',';
           }
           }
+
+          let functList=this.selectedFunc;
+          let functKey="";
+          for(var i=0; i<functList.length;i=i+1){
+            if(i==(functList.length-1)){
+            functKey= ''+functKey+functList[i].value;
+          }
+          else{
+            functKey= ''+functKey+functList[i].value+',';
+          }
+          }
               data = new FormData();
     	          data.append('_method', 'patch');
                 data.append("name", paket.name);
@@ -274,6 +345,8 @@
                 data.append("description", paket.description);
                 data.append("price", paket.price);
                 data.append("service_id", portKey);
+                data.append("type_id",this.type_paket);
+                data.append("functions_included",functKey);
               url="/paket/"+paket.id;
               msg_edited=this.$trans('messages.Packet')+' '+this.$trans('messages.Edited');
 
@@ -312,6 +385,12 @@
                  if(wrong.hasOwnProperty('map')){
                    mensaje+='-'+wrong.map[0];
                  }
+                 if(wrong.hasOwnProperty('type_id')){
+                   mensaje+='-'+wrong.map[0];
+                 }
+                 if(wrong.hasOwnProperty('functions_included')){
+                   mensaje+='-'+wrong.map[0];
+                 }
                  swal('Error',mensaje,'error');
                  //console.log(error.response.data);
                });
@@ -319,11 +398,18 @@
       },
       created: function () {
         this.availabelServices();
+        this.packetType();
+        this.availabelFunctions();
         if(this.operation==='update'){
-          for(var i=0; i<this.portfolio.services.length;i++){
+          for(var i=0; i<this.paket.services.length;i++){
             this.selectedServs.push({'key':'',
-                                      'value':this.portfolio.services[i].name});
+                                      'value':this.paket.services[i].name});
           }
+          for(var i=0; i<this.paket.functions.length;i++){
+            this.selectedFunc.push({'key':'',
+                                      'value':this.paket.functions[i].name});
+          }
+          this.type_paket=this.paket.type_id;
         }
          },
         mounted() {

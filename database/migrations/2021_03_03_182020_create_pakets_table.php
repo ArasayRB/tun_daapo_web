@@ -21,7 +21,7 @@ class CreatePaketsTable extends Migration
             $table->float('price',8,2)->nullable();
             $table->unsignedBigInteger('type_id');
             $table->timestamps();
-            $table->foreign('type_id')->references('id')->on('pakettypes')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('paket_types')->onDelete('cascade');
         });
     }
 

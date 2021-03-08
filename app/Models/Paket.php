@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Service;
 use App\Models\PaketType;
+use App\Models\FunctionIncluded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +25,9 @@ class Paket extends Model
 
     public function pakettypes(){
       return $this->belongsTo(PaketType::class,'type_id')->withTimestamps();
+    }
+
+    public function functions(){
+      return $this->belongsToMany(PaketType::class,'function_included_paket','paket_id','function_id')->withTimestamps();
     }
 }
