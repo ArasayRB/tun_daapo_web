@@ -28,6 +28,6 @@ class Paket extends Model
     }
 
     public function functions(){
-      return $this->belongsToMany(PaketType::class,'function_included_paket','paket_id','function_id')->withTimestamps();
+      return $this->belongsToMany(FunctionIncluded::class,'function_included_paket','paket_id','function_id')->withTimestamps();
     }
 }

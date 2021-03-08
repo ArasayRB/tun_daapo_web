@@ -36,95 +36,9 @@
 <section class="mt-5" description="Planes y Precios" id="planes_precios"><!--Pricing and Planes-->
   <development-section-component name_section="Planes de Desarrollo Web">
   </development-section-component>
-<div class="card-deck mb-3 text-center mt-5">
-<div class="card mb-4 shadow-sm">
-  <div class="card-header">
-    <h4 class="my-0 font-weight-normal"><small class="text-muted h3">Básico</small></h4>
-  </div>
-  <div class="card-body">
-    <h1 class="card-title pricing-card-title"><small class="text-muted">$139.99</small></h1>
-    <ul class="list-unstyled mt-3 mb-4">
-      <li>3 Páginas</li>
-      <li>Diseño e imágen de tu página web</li>
-      <li>Adaptada a móviles y 100% responsive</li>
-      <li>1 idioma</li>
-      <li>CMS Autogestionable</li>
-      <li>Leyes obligatorias web(LSSI,RGPD y Cookies)</li>
-      <li>Sitio web seguro (HTTPS)</li>
-      <li>Página web o Blog</li>
-    </ul>
-    <button type="button" class="btn btn-lg btn-block btn-outline-primary contrata">Contratar</button>
-  </div>
-</div>
-<div class="card mb-4 shadow-sm">
-  <div class="card-header">
-    <h4 class="my-0 font-weight-normal"><small class="text-muted h3">Avanzado</small></h4>
-  </div>
-  <div class="card-body">
-    <h1 class="card-title pricing-card-title"><small class="text-muted">$469.90</small></h1>
-    <ul class="list-unstyled mt-3 mb-4">
-      <li class="text-warning font-weight-bold">5 Páginas</li>
-      <li class="text-warning font-weight-bold">Imágenes de stock</li>
-      <li class="text-warning font-weight-bold">Posicionamiento en Google SEO</li>
-      <li>Diseño e imágen de tu página web</li>
-      <li>Adaptada a móviles y 100% responsive</li>
-      <li>1 idioma</li>
-      <li>CMS Autogestionable</li>
-      <li>Leyes obligatorias web(LSSI,RGPD y Cookies)</li>
-      <li>Sitio web seguro (HTTPS)</li>
-      <li>Página web o Blog</li>
-    </ul>
-    <button type="button" class="btn btn-lg btn-block btn-primary contrata">Contratar</button>
-  </div>
-</div>
-<div class="card mb-4 shadow-sm">
-  <div class="card-header">
-    <h4 class="my-0 font-weight-normal"><small class="text-muted h3">Profesional</small></h4>
-  </div>
-  <div class="card-body">
-    <h1 class="card-title pricing-card-title"><small class="text-muted">$699</small></h1>
-    <ul class="list-unstyled mt-3 mb-4">
-      <li class="text-warning font-weight-bold">10 Páginas</li>
-      <li class="text-warning font-weight-bold">Imágenes de stock</li>
-      <li class="text-warning font-weight-bold">Posicionamiento en Google SEO</li>
-      <li>Diseño e imágen de tu página web</li>
-      <li>Adaptada a móviles y 100% responsive</li>
-      <li class="text-warning font-weight-bold">2 idioma</li>
-      <li>CMS Autogestionable</li>
-      <li>Leyes obligatorias web(LSSI,RGPD y Cookies)</li>
-      <li>Sitio web seguro (HTTPS)</li>
-      <li>Página web o Blog</li>
-      <li class="text-warning font-weight-bold">Chat de contacto</li>
-    </ul>
-    <button type="button" class="btn btn-lg btn-block btn-primary contrata">Contratar</button>
-  </div>
-</div>
-<div class="card mb-4 shadow-sm">
-  <div class="card-header bg-warning">
-    <h4 class="my-0 font-weight-normal"><small class="text-muted h3">Premium</small></h4>
-  </div>
-  <div class="card-body bg-dark">
-    <p class="text-light"> a partir de</p>
-    <h1 class="card-title pricing-card-title"><small class="text-light">$890</small></h1>
-    <ul class="list-unstyled mt-3 mb-4">
-      <li class="text-warning font-weight-bold">10 Páginas</li>
-      <li class="text-warning font-weight-bold">Imágenes de stock</li>
-      <li class="text-warning font-weight-bold">Posicionamiento en Google SEO</li>
-      <li class="text-light">Diseño e imágen de tu página web</li>
-      <li class="text-light">Adaptada a móviles y 100% responsive</li>
-      <li class="text-warning font-weight-bold">Multidioma</li>
-      <li class="text-light">CMS Autogestionable</li>
-      <li class="text-light">Leyes obligatorias web(LSSI,RGPD y Cookies)</li>
-      <li class="text-light">Sitio web seguro (HTTPS)</li>
-      <li class="text-warning font-weight-bold">Textos de Calidad</li>
-      <li class="text-warning font-weight-bold">Importación de tu actual web</li>
-      <li class="text-warning font-weight-bold">Página web, Blog o Tienda Online</li>
-      <li class="text-warning font-weight-bold">Chat de contacto</li>
-    </ul>
-    <button type="button" class="btn btn-lg btn-block btn-warning contrata">Pedir Presupuesto</button>
-  </div>
-</div>
-</div>
+  <development-plan-section-component>
+  </development-plan-section-component>
+
 </section><!--END Pricing and Planes-->
 
 <section class="mt-5 pt-5 pb-5" id="pedir-presupuesto" name="suscripcion"><h1 class="text-center text-light">Pida su Presupuesto</h1><!--Section Presupuesto-->
