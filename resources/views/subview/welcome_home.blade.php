@@ -41,20 +41,8 @@
 
 </section><!--END Pricing and Planes-->
 
-<section class="mt-5 pt-5 pb-5" id="pedir-presupuesto" name="suscripcion"><h1 class="text-center text-light">Pida su Presupuesto</h1><!--Section Presupuesto-->
-  <form action="" class="mt-5">
-    <div class="container mt-5">
-      <div class="row justify-content-center">
-        <div class="col-6 mb-2"><input type="text" class="form-control font-italic" placeholder="Tu Nombre o Empresa..."></div>
-        <div class="col-6 mb-2"><input type="text" class="form-control font-italic" placeholder="Teléfono de contacto..."></div>
-          <div class="col-2 d-block">
-          </div>
-        <div class="col-6"><input type="text" class="form-control font-italic" placeholder="Email de contacto..."></div>
-        <div class="col-2"><button type="button" class="btn rounded bg-warning ">Pedir Presupuesto</button></div>
-      </div>
-    </div>
-  </form>
-</section><!--END Section Presupuesto-->
+<ask-budget-section-component name_section="Pida su Presupuesto">
+</ask-budget-section-component>
 
 
 <section class="container-fluid col-12 mt-5  bg-light" id="blog" name="blog"><h1 id="post" class="text-center text-dark pb-2 pt-5 text-uppercase animate__animated animate__zoomIn">Posts</h1><!--Section Blog-->
