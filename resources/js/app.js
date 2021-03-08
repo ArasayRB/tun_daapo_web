@@ -83,6 +83,7 @@ Vue.component('relationed-tags-component', require('./components/admin/posts/Rel
 Vue.component('tun-daapo-section-component', require('./components/views/section_page/TunDaapoComponent.vue').default);
 Vue.component('portfolio-section-component', require('./components/views/portfolio/PortfolioComponent.vue').default);
 Vue.component('design-section-component', require('./components/views/section_page/DesignComponent.vue').default);
+Vue.component('development-section-component', require('./components/views/section_page/DevelopmentWebPlansComponent.vue').default);
 Vue.component('service-section-component', require('./components/views/service/ServiceComponent.vue').default);
 
 /**

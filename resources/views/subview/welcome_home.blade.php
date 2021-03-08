@@ -34,11 +34,8 @@
 </div><!--Fin SECTION TESTIMONIOS-->
 
 <section class="mt-5" description="Planes y Precios" id="planes_precios"><!--Pricing and Planes-->
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4 text-light">Planes de Desarrollo Web</h1>
-  <p class="lead text-light">Hemos conformado algunos paquetes de servicios para ti! Pero te aseguro que un plan a tu medida es la mejor apuesta pues <span class="text-uppercase  text-warning font-weight-bold">No siempre en un solo paquete encuentras todo lo que necesitas</span>, así que <span class="font-weight-bold text-warning">no dudes en <a href="#contacto" class="text-warning">contactarnos</a></span></p>
-  <p class="lead text-warning font-weight-bold">No te alarmes, déjanos tu contacto para así darte una cita y conformar tu idea de acuerdo a tu presupuesto!!! Se pueden obtener muy buenos productos </p>
-</div>
+  <development-section-component name_section="Planes de Desarrollo Web">
+  </development-section-component>
 <div class="card-deck mb-3 text-center mt-5">
 <div class="card mb-4 shadow-sm">
   <div class="card-header">

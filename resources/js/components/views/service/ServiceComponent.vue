@@ -7,7 +7,7 @@
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 h6">{{serviceItem.name}}</div>
             <div class="h6 mb-0 font-weight-bold text-dark"><span v-html="serviceItem.description"></span></div>
-            <a href="#contacto" class="h6 text-info mt-2 float-right">{{ $trans('messages.Contact us and we make a date') }}</a>
+            <a href="#contacto" class="h6 text-info mt-2 float-right">{{ $trans('messages.Contact us and we will schedule an appointment with you') }}</a>
           </div>
         </div>
       </div>
