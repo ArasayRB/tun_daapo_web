@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Paket;
 use App\Traits\ServiceTrait;
+use App\Traits\PaketTrait;
 use App\Traits\FunctionIncludedTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PaketController extends Controller
 {
-  use ServiceTrait, FunctionIncludedTrait;
+  use ServiceTrait, PaketTrait, FunctionIncludedTrait;
   public function __construct()
   {
       $this->middleware('auth');
@@ -25,13 +26,6 @@ class PaketController extends Controller
           'price' => ['required'],
           'type_id' => ['required'],
       ]);
-  }
-
-  public function getPaketList(){
-    $pakets=Paket::with('services')
-                 ->with('functions')
-                 ->get();
-    return $pakets;
   }
 
   public function getPaket($paket){

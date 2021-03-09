@@ -30,3 +30,8 @@ Route::get('/post-list/{id}', [App\Http\Controllers\WelcomeController::class, 's
 Route::get('/posts-list', [App\Http\Controllers\WelcomeController::class, 'getPostsList']);
 Route::post('/share/{id}/{media}', [App\Http\Controllers\WelcomeController::class, 'sharePostMedia']);
 Route::post('/post-love/{id}', [App\Http\Controllers\WelcomeController::class, 'addLove']);
+Route::get('/tun-daapo-contact', [App\Http\Controllers\WelcomeController::class, 'getContact'])->name('data-hostal');
+Route::get('/paketList', [App\Http\Controllers\WelcomeController::class, 'getPaketList']);
+Route::post('/ask-budget', [App\Http\Controllers\AskBudgetController::class, 'store']);
+Route::post('/suscripcion', [App\Http\Controllers\SuscriptionController::class, 'store']);
+Route::get('/unsubscribe/{suscriptor}', [App\Http\Controllers\SuscriptionController::class, 'delete'])->middleware(['guest'])->name('unsubscribe');

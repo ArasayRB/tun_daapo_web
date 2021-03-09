@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PortfolioTableSeeder::class);
         $this->call(PaketTypeTableSeeder::class);
         $this->call(FunctionIncludedTableSeeder::class);
+        $this->call(PaketTableSeeder::class);
+        $this->call(ContactTableSeeder::class);
     }
 }

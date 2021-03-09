@@ -89,6 +89,7 @@ Vue.component('development-plan-section-component', require('./components/views/
 Vue.component('service-section-component', require('./components/views/service/ServiceComponent.vue').default);
 Vue.component('cont-view-share-like-component', require('./components/forms/ContViewShareLikeComponent.vue').default);
 Vue.component('newsletter-component', require('./components/forms/NewsletterComponent.vue').default);
+Vue.component('contact-us-component', require('./components/forms/ContactoComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 
 /**

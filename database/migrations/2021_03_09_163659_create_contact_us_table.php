@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFunctionIncludedsTable extends Migration
+class CreateContactUsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateFunctionIncludedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('function_includeds', function (Blueprint $table) {
+        Schema::create('contact_us', function (Blueprint $table) {
             $table->id();
-            $table->text('name')->unique();
-            $table->text('description')->nullable();
+            $table->string('name');
+            $table->string('email');
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateFunctionIncludedsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('function_includeds');
+        Schema::dropIfExists('contact_us');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFunctionIncludedsTable extends Migration
+class CreateSuscriptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateFunctionIncludedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('function_includeds', function (Blueprint $table) {
+        Schema::create('suscriptions', function (Blueprint $table) {
             $table->id();
-            $table->text('name')->unique();
-            $table->text('description')->nullable();
+            $table->string('email')->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateFunctionIncludedsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('function_includeds');
+        Schema::dropIfExists('suscriptions');
     }
 }

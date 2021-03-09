@@ -9364,6 +9364,123 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/ContactoComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/ContactoComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      email: '',
+      tuun_daapo_data: [],
+      name: '',
+      message: '',
+      ventanaContact: false,
+      token: window.CSRF_TOKEN
+    };
+  },
+  methods: {
+    tunDaapoData: function tunDaapoData() {
+      var _this = this;
+
+      axios.get('/tun-daapo-contact').then(function (response) {
+        _this.tuun_daapo_data = response.data;
+      });
+    },
+    contact: function contact() {
+      var _this2 = this;
+
+      var url = "/contact_us";
+      var mensaje = this.$trans('messages.Unidentified error');
+
+      if (this.email == '' || this.name == '' || this.message == '') {
+        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+      }
+
+      var data = new FormData();
+      data.append("email", this.email);
+      data.append("name", this.name);
+      data.append("token", this.token);
+      data.append("message", this.message);
+      data.append("company_email", this.tuun_daapo_data.email);
+      axios.post(url, data).then(function (response) {
+        var contact = response.data;
+        _this2.ventanaContact = false;
+        swal({
+          title: _this2.$trans('messages.Message') + ' ' + _this2.$trans('messages.sended'),
+          text: _this2.$trans('messages.You go to receive an answare as soon like be possible!'),
+          icon: 'success',
+          closeOnClickOutside: false,
+          closeOnEsc: false
+        }); //console.log(response);
+      })["catch"](function (error) {
+        if (error.response.data.message) {
+          swal('Error', '' + error.response.data.message, 'error');
+        }
+
+        var wrong = error.response.data.errors;
+
+        if (wrong.hasOwnProperty('email')) {
+          mensaje += '-' + wrong.email[0];
+        }
+
+        swal('Error', mensaje, 'error'); //console.log(error.response.data);
+      }); //alert('Hola');
+    }
+  },
+  mounted: function mounted() {
+    this.tunDaapoData();
+
+    if (this.$attrs.locale) {
+      this.$lang.setLocale(this.$attrs.locale);
+    } else {
+      this.$lang.setLocale('en');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/NewsletterComponent.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/NewsletterComponent.vue?vue&type=script&lang=js& ***!
@@ -9390,10 +9507,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       email: '',
+      name: '',
+      src: '/images/img/enviar.png',
       token: window.CSRF_TOKEN
     };
   },
@@ -9404,12 +9525,13 @@ __webpack_require__.r(__webpack_exports__);
       var url = "/suscripcion";
       var mensaje = this.$trans('messages.Unidentified error');
 
-      if (this.email == '') {
+      if (this.email == '' || this.name == '') {
         mensaje = this.$trans('messages.You cannot leave empty fields, please check');
       }
 
       var data = new FormData();
       data.append("email", this.email);
+      data.append("name", this.name);
       axios.post(url, data).then(function (response) {
         swal({
           title: _this.$trans('messages.Correct data'),
@@ -9427,6 +9549,10 @@ __webpack_require__.r(__webpack_exports__);
 
         if (wrong.hasOwnProperty('email')) {
           mensaje += '-' + wrong.email[0];
+        }
+
+        if (wrong.hasOwnProperty('name')) {
+          mensaje += '-' + wrong.name[0];
         }
 
         swal('Error', mensaje, 'error'); //console.log(error.response.data);
@@ -9627,6 +9753,10 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       sectionItem: [],
+      name: '',
+      phone: '',
+      email: '',
+      url: '/ask-budget',
       src: '/storage/section_page/',
       section_name: this.$attrs.name_section,
       token: window.CSRF_TOKEN
@@ -9640,13 +9770,59 @@ __webpack_require__.r(__webpack_exports__);
         _this.sectionItem = response.data;
 
         if (_this.sectionItem.length === 0) {
-          $("#sectionTunDaapo").hide(true);
+          $("#pedir-presupuesto").hide(true);
         }
         /*  else{
             this.comentarios=
           }*/
 
       });
+    },
+    askbudget: function askbudget() {
+      var _this2 = this;
+
+      var mensaje = this.$trans('messages.Unidentified error');
+
+      if (this.email == '' || this.name == '' || this.phone == '') {
+        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+      }
+
+      var data = new FormData();
+      data.append("email", this.email);
+      data.append("name_or_company", this.name);
+      data.append("token", this.token);
+      data.append("contact_phone", this.phone);
+      axios.post(this.url, data).then(function (response) {
+        var contact = response.data;
+        _this2.ventanaContact = false;
+        swal({
+          title: _this2.$trans('messages.Message') + ' ' + _this2.$trans('messages.sended'),
+          text: _this2.$trans('messages.You go to receive an answare as soon like be possible!'),
+          icon: 'success',
+          closeOnClickOutside: false,
+          closeOnEsc: false
+        }); //console.log(response);
+      })["catch"](function (error) {
+        if (error.response.data.message) {
+          swal('Error', '' + error.response.data.message, 'error');
+        }
+
+        var wrong = error.response.data.errors;
+
+        if (wrong.hasOwnProperty('email')) {
+          mensaje += '-' + wrong.email[0];
+        }
+
+        if (wrong.hasOwnProperty('name')) {
+          mensaje += '-' + wrong.name[0];
+        }
+
+        if (wrong.hasOwnProperty('phone')) {
+          mensaje += '-' + wrong.phone[0];
+        }
+
+        swal('Error', mensaje, 'error'); //console.log(error.response.data);
+      }); //alert('Hola');
     }
   },
   created: function created() {
@@ -10020,6 +10196,7 @@ Vue.component('development-plan-section-component', __webpack_require__(/*! ./co
 Vue.component('service-section-component', __webpack_require__(/*! ./components/views/service/ServiceComponent.vue */ "./resources/js/components/views/service/ServiceComponent.vue").default);
 Vue.component('cont-view-share-like-component', __webpack_require__(/*! ./components/forms/ContViewShareLikeComponent.vue */ "./resources/js/components/forms/ContViewShareLikeComponent.vue").default);
 Vue.component('newsletter-component', __webpack_require__(/*! ./components/forms/NewsletterComponent.vue */ "./resources/js/components/forms/NewsletterComponent.vue").default);
+Vue.component('contact-us-component', __webpack_require__(/*! ./components/forms/ContactoComponent.vue */ "./resources/js/components/forms/ContactoComponent.vue").default);
 Vue.component('post-ppal-tab-component', __webpack_require__(/*! ./components/admin/posts/PostPpalTabComponent.vue */ "./resources/js/components/admin/posts/PostPpalTabComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -10165,7 +10342,7 @@ module.exports = {
     "Close": "Close",
     "Confirm Password": "Confirm Password",
     "Contact": "Contact",
-    "Contact us and we make a date": "Contact us and we make a date",
+    "Contact us and we will schedule an appointment with you": "Contact us and we will schedule an appointment with you",
     "Content": "Content",
     "Continue reading": "Continue reading",
     "Correct data": "Correct data",
@@ -10192,12 +10369,15 @@ module.exports = {
     "If you did not request a password reset, no further action is required.": "If you did not request a password reset, no further action is required.",
     "Image": "Image",
     "Interface": "Interface",
+    "Landline": "Landline",
     "Languages": "Languages",
     "List": "List",
     "Login": "Login",
     "Logout": "Logout",
     "Manage User": "Manage User",
     "Map": "Map",
+    "Message": "Message",
+    "Mobile Phone": "Mobile Phone",
     "Name": "Name",
     "New": "New",
     "New User": "New User",
@@ -10214,6 +10394,7 @@ module.exports = {
     "Phone": "Phone",
     "Please click the button below to verify your email address.": "Please click the button below to verify your email address.",
     "Please confirm your password before continuing.": "Please confirm your password before continuing.",
+    "Please, send an answare as soon like is possible for you.": "Please, send an answare as soon like is possible for you.",
     "Portfolio": "Portfolio",
     "Post": "Post",
     "Post created successfully": "Post created successfully",
@@ -10234,6 +10415,7 @@ module.exports = {
     "Register": "Register",
     "Relationed Posts": "Relationed Posts",
     "Remember Me": "Remember Me",
+    "Request Contact ": "Request Contact ",
     "Reset Password": "Reset Password",
     "Reset Password Notification- ": "Reset Password Notification- ",
     "Resources": "Resources",
@@ -10243,7 +10425,9 @@ module.exports = {
     "Select": "Select",
     "Select Category": "Select Category",
     "Select Role": "Select Role",
+    "Send": "Send",
     "Send Password Reset Link": "Send Password Reset Link",
+    "Sended": "Sended",
     "Separate with (,) please": "Separate with (,) please",
     "Sercvice": "Sercvice",
     "Service": "Service",
@@ -10251,6 +10435,7 @@ module.exports = {
     "Show": "Show",
     "Slug": "Slug",
     "Spanish": "Spanish",
+    "Subscribe yourself!! Do not lost the Blog News and Promotions": "Subscribe yourself!! Do not lost the Blog News and Promotions",
     "Summary": "Summary",
     "Tabs": "Tabs",
     "Tags": "Tags",
@@ -10274,14 +10459,20 @@ module.exports = {
     "Verify Email Address": "Verify Email Address",
     "Verify Your Email Address": "Verify Your Email Address",
     "Warning!": "Warning!",
+    "Web Development Plans": "Web Development Plans",
     "Web Page Resources": "Web Page Resources",
     "Welcome to our web": "Welcome to our web",
     "Works Maked": "Works Maked",
     "Yes": "Yes",
     "Yes, delete": "Yes, delete",
+    "You are receiving a new contact email with content: ": "You are receiving a new contact email with content: ",
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
     "You cannot leave empty fields, please check": "You cannot leave empty fields, please check",
-    "click here to request another": "click here to request another"
+    "You go to receive an answare as soon like be possible!": "You go to receive an answare as soon like be possible!",
+    "You go to receive very soon an answare.": "You go to receive very soon an answare.",
+    "You sended succefully this contact message to: ": "You sended succefully this contact message to: ",
+    "click here to request another": "click here to request another",
+    "sended": "sended"
   },
   "en.pagination": {
     "next": "Next &raquo;",
@@ -10435,7 +10626,7 @@ module.exports = {
     "Close": "Cerrar",
     "Confirm Password": "Confirmar Contrase\xF1a",
     "Contact": "Contacto",
-    "Contact us and we make a date": "Cont\xE1ctenos y agendaremos una cita con usted",
+    "Contact us and we will schedule an appointment with you": "Cont\xE1ctenos y agendaremos una cita con usted",
     "Content": "Contenido",
     "Continue reading": "Contin\xFAe leyendo",
     "Correct data": "Datos correctos",
@@ -10462,12 +10653,15 @@ module.exports = {
     "If you did not request a password reset, no further action is required.": "Si no ha solicitado el restablecimiento de contrase\xF1a, omita este mensaje de correo electr\xF3nico.",
     "Image": "Im\xE1gen",
     "Interface": "Interface",
+    "Landline": "Tel\xE9fono Fijo",
     "Languages": "Idioma",
     "List": "Lista",
     "Login": "Entrar",
     "Logout": "Cerrar Sesi\xF3n",
     "Manage User": "Manejar Usuarios",
     "Map": "Mapa",
+    "Message": "Mensaje",
+    "Mobile Phone": "Tel\xE9fono M\xF3vil",
     "Name": "Nombre",
     "New": "Nuevo",
     "New User": "Nuevo Usuario",
@@ -10484,6 +10678,7 @@ module.exports = {
     "Phone": "Tel\xE9fono",
     "Please click the button below to verify your email address.": "Por favor haga click en el bot\xF3n debajo para continuar con la verificaci\xF3n de su direcci\xF3n email.",
     "Please confirm your password before continuing.": "Por favor confirme su contrase\xF1a antes de continuar.",
+    "Please, send an answare as soon like is possible for you.": "Por favor, env\xEDe una respuesta tan pronto como le sea posible.",
     "Portfolio": "Portafolio",
     "Post": "Post",
     "Post created successfully": "Post creado satisfactoriamente",
@@ -10504,6 +10699,7 @@ module.exports = {
     "Register": "Registrar",
     "Relationed Posts": "Posts Relacionados",
     "Remember Me": "Recu\xE9rdeme",
+    "Request Contact ": "Solicitud de Contacto ",
     "Reset Password": "Restablecer Contrase\xF1a",
     "Reset Password Notification- ": "Notificaci\xF3n de restablecimiento de contrase\xF1a- ",
     "Resources": "Recursos",
@@ -10513,7 +10709,9 @@ module.exports = {
     "Select": "Seleccione",
     "Select Category": "Seleccione una Categor\xEDa",
     "Select Role": "Seleccione un rol",
+    "Send": "Enviar",
     "Send Password Reset Link": "Enviar link para resetear contrase\xF1a",
+    "Sended": "Enviado",
     "Separate with (,) please": "Separado con (,) por favor",
     "Sercvice": "Sercvicio",
     "Service": "Servicio",
@@ -10521,6 +10719,7 @@ module.exports = {
     "Show": "Mostrar",
     "Slug": "Babosa",
     "Spanish": "Espa\xF1ol",
+    "Subscribe yourself!! Do not lost the Blog News and Promotions": "Suscr\xEDbete!! No te pierdas las novedades de nuestro Blog y Promociones",
     "Summary": "Resumen",
     "Tabs": "Tablas",
     "Tags": "Etiquetas",
@@ -10544,14 +10743,20 @@ module.exports = {
     "Verify Email Address": "Verificar Correo",
     "Verify Your Email Address": "Verificar su correo",
     "Warning!": "Atenci\xF3n!",
+    "Web Development Plans": "Planes de Desarrollo Web",
     "Web Page Resources": "Recursos de la P\xE1gina Web",
     "Welcome to our web": "Bienvenidos a nuestra web",
     "Works Maked": "Portfolio",
     "Yes": "S\xED",
     "Yes, delete": "S\xED, eliminar",
+    "You are receiving a new contact email with content: ": "Usted est\xE1 recibiendo v\xEDa email una solicitud de contacto con el contenido: ",
     "You are receiving this email because we received a password reset request for your account.": "Ha recibido este mensaje porque se solicit\xF3 un restablecimiento de contrase\xF1a para su cuenta.",
     "You cannot leave empty fields, please check": "Usted no debe dejar campos vac\xEDos, por favor revise",
-    "click here to request another": "click aqu\xED para pedir otro correo"
+    "You go to receive an answare as soon like be possible!": "Usted recibir\xE1 una respuesta tan pronto como sea posible!",
+    "You go to receive very soon an answare.": "Usted recibir\xE1 muy pronto una respuesta.",
+    "You sended succefully this contact message to: ": "Usted envi\xF3 satisfactoriamente su mensage de contacto a: ",
+    "click here to request another": "click aqu\xED para pedir otro correo",
+    "sended": "enviado"
   },
   "es.pagination": {
     "next": "Siguiente &raquo;",
@@ -71299,6 +71504,45 @@ component.options.__file = "resources/js/components/forms/ContViewShareLikeCompo
 
 /***/ }),
 
+/***/ "./resources/js/components/forms/ContactoComponent.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/forms/ContactoComponent.vue ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ContactoComponent_vue_vue_type_template_id_12b9a7f3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContactoComponent.vue?vue&type=template&id=12b9a7f3& */ "./resources/js/components/forms/ContactoComponent.vue?vue&type=template&id=12b9a7f3&");
+/* harmony import */ var _ContactoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContactoComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/forms/ContactoComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _ContactoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _ContactoComponent_vue_vue_type_template_id_12b9a7f3___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ContactoComponent_vue_vue_type_template_id_12b9a7f3___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/forms/ContactoComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/forms/NewsletterComponent.vue":
 /*!***************************************************************!*\
   !*** ./resources/js/components/forms/NewsletterComponent.vue ***!
@@ -72040,6 +72284,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContViewShareLikeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContViewShareLikeComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/ContViewShareLikeComponent.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContViewShareLikeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/forms/ContactoComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/forms/ContactoComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContactoComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/ContactoComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -72789,6 +73049,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContViewShareLikeComponent_vue_vue_type_template_id_9a3efbae___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContViewShareLikeComponent_vue_vue_type_template_id_9a3efbae___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContViewShareLikeComponent.vue?vue&type=template&id=9a3efbae& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/ContViewShareLikeComponent.vue?vue&type=template&id=9a3efbae&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/forms/ContactoComponent.vue?vue&type=template&id=12b9a7f3&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/forms/ContactoComponent.vue?vue&type=template&id=12b9a7f3& ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactoComponent_vue_vue_type_template_id_12b9a7f3___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactoComponent_vue_vue_type_template_id_12b9a7f3___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactoComponent_vue_vue_type_template_id_12b9a7f3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContactoComponent.vue?vue&type=template&id=12b9a7f3& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/ContactoComponent.vue?vue&type=template&id=12b9a7f3&");
 
 
 /***/ }),
@@ -83165,6 +83442,171 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/ContactoComponent.vue?vue&type=template&id=12b9a7f3&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/ContactoComponent.vue?vue&type=template&id=12b9a7f3& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "panel pt-5 pb-5 mt-5", attrs: { id: "contacto" } },
+    [
+      _c("div", { staticClass: "panel-header" }, [
+        _c("h1", { staticClass: "panel-title text-center text-light" }, [
+          _vm._v(_vm._s(_vm.$trans("messages.Contact")))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-body" }, [
+        _c("div", { staticClass: "row justify-content-center" }, [
+          _c("div", { staticClass: "col-6" }, [
+            _c("form", { staticClass: "ml-3", attrs: { action: "" } }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email,
+                    expression: "email"
+                  }
+                ],
+                staticClass: "form-control font-italic mt-5",
+                attrs: { type: "text", placeholder: "Email/Correo..." },
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.name,
+                    expression: "name"
+                  }
+                ],
+                staticClass: "form-control font-italic mt-2",
+                attrs: { type: "text", placeholder: "Name/Nombre..." },
+                domProps: { value: _vm.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.name = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.message,
+                    expression: "message"
+                  }
+                ],
+                staticClass: "form-control font-italic mt-2",
+                attrs: {
+                  name: "mensaje",
+                  id: "",
+                  cols: "33",
+                  rows: "2",
+                  placeholder: "Message/Mensaje..."
+                },
+                domProps: { value: _vm.message },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.message = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary rounded btn-lg mt-3",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.contact()
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.$trans("messages.Send")))]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-6" }, [
+            _c("section", { staticClass: "info-contact" }, [
+              _c("div", { staticClass: "container mt-5" }, [
+                _c("div", { staticClass: "tel-fijo" }, [
+                  _c("p", { staticClass: "text-light" }, [
+                    _c("mark", { staticClass: "bg-dark text-light" }, [
+                      _vm._v(_vm._s(_vm.$trans("messages.Landline")) + ": "),
+                      _c("br")
+                    ]),
+                    _vm._v(_vm._s(_vm.tuun_daapo_data.phone))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "email" }, [
+                  _c("p", { staticClass: "text-light" }, [
+                    _c("mark", { staticClass: "bg-dark text-light" }, [
+                      _vm._v(_vm._s(_vm.$trans("messages.Email")) + ": "),
+                      _c("br")
+                    ]),
+                    _vm._v(_vm._s(_vm.tuun_daapo_data.email))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "direc" }, [
+                  _c("p", { staticClass: "text-light" }, [
+                    _c("mark", { staticClass: "bg-dark text-light" }, [
+                      _vm._v(_vm._s(_vm.$trans("messages.Adress")) + ": "),
+                      _c("br")
+                    ]),
+                    _vm._v(_vm._s(_vm.tuun_daapo_data.address))
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/NewsletterComponent.vue?vue&type=template&id=59360eee&":
 /*!*************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/forms/NewsletterComponent.vue?vue&type=template&id=59360eee& ***!
@@ -83183,17 +83625,45 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("form", { staticClass: "mt-5", attrs: { id: "newsletter" } }, [
     _c("div", { staticClass: "container mt-5" }, [
-      _c("h4", { staticClass: "text-uppercase text-center mt-5 mb-5" }, [
-        _vm._v(
-          _vm._s(
-            _vm.$trans(
-              "messages.Subscribe yourself and receive our offer and informations"
+      _c(
+        "h4",
+        { staticClass: "text-uppercase text-center mt-5 mb-5 text-light" },
+        [
+          _vm._v(
+            _vm._s(
+              _vm.$trans(
+                "messages.Subscribe yourself!! Do not lost the Blog News and Promotions"
+              )
             )
           )
-        )
-      ]),
+        ]
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-6 mb-2" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.name,
+                expression: "name"
+              }
+            ],
+            staticClass: "form-control font-italic",
+            attrs: { type: "text", placeholder: "Nombre..." },
+            domProps: { value: _vm.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "col-2 d-block" }),
         _vm._v(" "),
         _c("div", { staticClass: "col-6" }, [
@@ -83207,7 +83677,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control font-italic",
-            attrs: { type: "text", placeholder: "Email/Correo..." },
+            attrs: { type: "text", placeholder: "Déjanos tu email..." },
             domProps: { value: _vm.email },
             on: {
               input: function($event) {
@@ -83222,13 +83692,8 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-2" }, [
           _c("img", {
-            staticClass: "btn rounded px-2 py-2 newsletter",
-            attrs: {
-              src: "/images/img/enviar.png",
-              alt: "",
-              type: "button",
-              id: "enviar-news"
-            },
+            staticClass: "btn rounded bg-info px-2 py-2 newsletter",
+            attrs: { src: _vm.src, alt: "", type: "button", id: "enviar-news" },
             on: {
               click: function($event) {
                 return _vm.suscribe()
@@ -83524,7 +83989,7 @@ var render = function() {
     "section",
     {
       staticClass: "mt-5 pt-5 pb-5",
-      attrs: { id: "pedir-presupuesto", name: "suscripcion" }
+      attrs: { id: "pedir-presupuesto", name: "presupuesto" }
     },
     [
       _c("h1", { staticClass: "text-center text-light" }, [
@@ -83534,20 +83999,91 @@ var render = function() {
       _c("form", { staticClass: "mt-5  mb-4", attrs: { action: "" } }, [
         _c("div", { staticClass: "container mt-5" }, [
           _c("div", { staticClass: "row justify-content-center" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "col-6 mb-2" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.name,
+                    expression: "name"
+                  }
+                ],
+                staticClass: "form-control font-italic",
+                attrs: { type: "text", placeholder: "Tu Nombre o Empresa..." },
+                domProps: { value: _vm.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.name = $event.target.value
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
-            _vm._m(1),
+            _c("div", { staticClass: "col-6 mb-2" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.phone,
+                    expression: "phone"
+                  }
+                ],
+                staticClass: "form-control font-italic",
+                attrs: { type: "text", placeholder: "Teléfono de contacto..." },
+                domProps: { value: _vm.phone },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.phone = $event.target.value
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-2 d-block" }),
             _vm._v(" "),
-            _vm._m(2),
+            _c("div", { staticClass: "col-6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email,
+                    expression: "email"
+                  }
+                ],
+                staticClass: "form-control font-italic",
+                attrs: { type: "text", placeholder: "Email de contacto..." },
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-2" }, [
               _c(
                 "button",
                 {
                   staticClass: "btn rounded bg-warning ",
-                  attrs: { type: "button" }
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.askbudget()
+                    }
+                  }
                 },
                 [_vm._v(_vm._s(_vm.$trans("messages.Ask for budget")))]
               )
@@ -83562,41 +84098,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-6 mb-2" }, [
-      _c("input", {
-        staticClass: "form-control font-italic",
-        attrs: { type: "text", placeholder: "Tu Nombre o Empresa..." }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-6 mb-2" }, [
-      _c("input", {
-        staticClass: "form-control font-italic",
-        attrs: { type: "text", placeholder: "Teléfono de contacto..." }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-6" }, [
-      _c("input", {
-        staticClass: "form-control font-italic",
-        attrs: { type: "text", placeholder: "Email de contacto..." }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

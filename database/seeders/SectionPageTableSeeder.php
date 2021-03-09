@@ -25,5 +25,18 @@ class SectionPageTableSeeder extends Seeder
       $sectiontun_daapo->title='Diseñamos';
       $sectiontun_daapo->description='<p>Enfocados en las &uacute;ltimas tendencias de posicionamiento SEO, haciendo que su web pueda competir en el mercado obteniendo una buena posici&oacute;n en los principales Motores de B&uacute;squeda</p>';
       $sectiontun_daapo->save();
+
+      $sectiontun_daapo=new SectionPage();
+      $sectiontun_daapo->title='Pida su Presupuesto';
+      $sectiontun_daapo->description='<p style="text-align:justify"><span style="color:#f1c40f"><strong>Para la contrataci&oacute;n de uno o varios de los restantes servicios</strong></span> <strong><span style="color:#f1c40f">que ofrece Tun Daapo</span></strong> <span style="color:#f1c40f"><strong>debe contactar previamente para otorgarle una cita </strong></span><span style="color:#ffffff">donde usted<strong>&nbsp;</strong>&nbsp;detalle su solicitud de manera que podamos evaluar, seg&uacute;n sus demandas, la cantidad de horas a dedicar, as&iacute; como la complejidad del trabajo a desarrollar.</span></p>';
+      $sectiontun_daapo->save();
+
+      $sectiontun_daapo=new SectionPage();
+      $sectiontun_daapo->title='Planes de Desarrollo Web';
+      $sectiontun_daapo->description='<p><span style="color:#ffffff">Hemos conformado algunos paquetes de servicios para ti! Pero te aseguro que un plan a tu medida es la mejor apuesta pues</span> <span style="color:#f1c40f"><strong>NO SIEMPRE EN UN SOLO PAQUETE ENCUENTRAS TODO LO QUE NECESITAS</strong></span>&nbsp;<span style="color:#ffffff">, as&iacute; que</span> <span style="color:#f1c40f"><strong>no dudes en</strong></span> <strong><a href="http://www.tundaapoweb.localhost/#contacto"><span style="color:#f1c40f">contactarnos</span></a></strong><span style="color:#f1c40f"><strong>.</strong></span></p>
+
+<p><br />
+&nbsp; <span style="color:#f1c40f"><strong>No te alarmes, d&eacute;janos tu contacto para as&iacute; darte una cita y conformar tu idea de acuerdo a tu presupuesto!!! Se pueden obtener muy buenos productos</strong></span></p>';
+      $sectiontun_daapo->save();
     }
 }

@@ -8,5 +8,4 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 
-Route::resource('/paket', App\Http\Controllers\PaketController::class,['except'=>['create','edit']])->middleware('role:administrator');
-Route::get('/available-pakets', [App\Http\Controllers\PaketController::class, 'availablePakets']);
+Route::resource('/contact_us', App\Http\Controllers\ContactUsController::class,['only'=>['store']]);
