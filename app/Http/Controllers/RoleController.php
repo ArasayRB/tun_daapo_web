@@ -37,6 +37,26 @@ class RoleController extends Controller
                     ->get();
          return $roles;
        }
+
+       public function getAllRoles(Request $request){
+         $filter=$request->searcher;
+         $roles=Role::filterByAttribute($filter)
+                         ->get();
+         $roles_searched=[];
+         foreach($roles as $role){
+           $findAddress=stristr($role->email,$filter);
+           $findText=stristr($role->name,$filter);
+           if(!empty($findText)){
+             $prop='name';
+             $role->finded==$findText;
+             $small_word=substr($findText,0,strlen($filter));
+             $role->substr=$small_word;
+             $role->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$role->name);
+             $roles_searched[]=$role;
+           }
+         }
+         return $roles_searched;
+       }
          /**
           * Display a listing of the resource.
           *

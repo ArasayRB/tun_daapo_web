@@ -9178,6 +9178,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -9267,6 +9273,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    filtersRoles: function filtersRoles(filters) {
+      this.roles = filters;
     },
     imageEdit: function imageEdit(e) {
       this.imagenrole = e.target.files[0];
@@ -9390,8 +9399,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['url'],
+  props: ['url', 'emit'],
   data: function data() {
     return {
       lists: [],
@@ -9412,7 +9423,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.lists = response.data;
 
-        _this.$emit('usersfilter', _this.lists);
+        _this.$emit(_this.emit + 'filter', _this.lists);
       });
     },
     filterUser: function filterUser(list) {
@@ -84502,9 +84513,23 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "card-header py-3" }, [
-          _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
-            _vm._v(_vm._s(_vm.$trans("messages.List")))
-          ])
+          _c(
+            "div",
+            { staticClass: "row input-group" },
+            [
+              _c(
+                "h6",
+                { staticClass: "m-0 font-weight-bold text-primary col" },
+                [_vm._v(_vm._s(_vm.$trans("messages.List")))]
+              ),
+              _vm._v(" "),
+              _c("input-searcher-component", {
+                attrs: { url: "/all-roles", emit: "roles" },
+                on: { rolesfilter: _vm.filtersRoles }
+              })
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _vm.mensage != ""
@@ -84721,36 +84746,48 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "input-group col" }, [
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.searcher,
-          expression: "searcher"
-        }
-      ],
-      staticClass: "form-control bg-light border-0 small",
-      attrs: {
-        type: "search",
-        placeholder: "Search for...",
-        "aria-label": "Search",
-        "aria-describedby": "basic-addon2"
-      },
-      domProps: { value: _vm.searcher },
-      on: {
-        keyup: _vm.getLists,
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+    _c("div", { staticClass: "input-group-append" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.searcher,
+            expression: "searcher"
           }
-          _vm.searcher = $event.target.value
+        ],
+        staticClass: "form-control panel-header bg-light border-0 small",
+        attrs: {
+          type: "search",
+          placeholder: "Search for...",
+          "aria-label": "Search",
+          "aria-describedby": "basic-addon2"
+        },
+        domProps: { value: _vm.searcher },
+        on: {
+          keyup: _vm.getLists,
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.searcher = $event.target.value
+          }
         }
-      }
-    }),
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button" },
+          on: { click: _vm.getLists }
+        },
+        [_c("i", { staticClass: "fas fa-search fa-sm" })]
+      )
+    ]),
     _vm._v(" "),
     _vm.lists.length
-      ? _c("div", { staticClass: "panel-footer" }, [
+      ? _c("div", { staticClass: "panel-footer pt-3" }, [
           _c(
             "ul",
             { staticClass: "list-group" },
@@ -84782,25 +84819,10 @@ var render = function() {
             0
           )
         ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm._m(0)
+      : _vm._e()
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_c("i", { staticClass: "fas fa-search fa-sm" })]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -85879,7 +85901,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("input-searcher-component", {
-                attrs: { url: "/all-users" },
+                attrs: { url: "/all-users", emit: "users" },
                 on: { usersfilter: _vm.filtersUsers }
               })
             ],

@@ -1,7 +1,14 @@
 <template>
   <div class="input-group col">
-      <input type="search" v-model="searcher" @keyup="getLists" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-      <div class="panel-footer" v-if="lists.length">
+    <div class="input-group-append">
+      <input type="search" v-model="searcher" @keyup="getLists" class="form-control panel-header bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+
+
+        <button class="btn btn-primary" type="button" @click="getLists">
+          <i class="fas fa-search fa-sm"></i>
+        </button>
+      </div>
+      <div class="panel-footer pt-3" v-if="lists.length">
         <ul class="list-group">
           <li class="list-group-item" v-for="(list,index) in lists">
             <a @click="getLists" type="submit" class="dropdown-item" v-on:click.prevent="searcher=list.name">
@@ -10,17 +17,12 @@
           </li>
         </ul>
       </div>
-      <div class="input-group-append">
-        <button class="btn btn-primary" type="button">
-          <i class="fas fa-search fa-sm"></i>
-        </button>
-      </div>
 
     </div>
 </template>
 <script>
 export default {
-  props:['url'],
+  props:['url','emit'],
   data(){
     return {
       lists:[],
@@ -40,7 +42,7 @@ export default {
       })
           .then(response =>{
             this.lists=response.data;
-            this.$emit('usersfilter',this.lists);
+            this.$emit(this.emit+'filter',this.lists);
           });
     },
     filterUser:function(list){

@@ -16,6 +16,12 @@ class Role extends Model
         'description',
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('name', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function users(){
       return $this->belongsToMany(User::class,'role_user','role_id','user_id')->withTimestamps();
     }
