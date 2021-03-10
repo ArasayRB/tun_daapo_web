@@ -46,7 +46,7 @@
 
 
 @if ( isset($posts) && $posts>0)
-<section class="container-fluid col-12 pt-5 bg-light" id="blog" name="blog"><h1 id="post" class="text-center pb-2 pt-5 text-uppercase animate__animated animate__zoomIn">{{ __('Posts') }}</h1><!--Section Blog-->
+<section class="container-fluid col-12 pt-2 pb-5 bg-light" id="blog" name="blog"><h1 id="post" class="text-center pb-2 pt-5 text-uppercase animate__animated animate__zoomIn">{{ __('Posts') }}</h1><!--Section Blog-->
   <post-ppal-tab-component>
   </post-ppal-tab-component>
 

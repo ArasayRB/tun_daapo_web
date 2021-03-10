@@ -11,7 +11,7 @@
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-readed" role="tabpanel" aria-labelledby="nav-readed-tab">
       <div class="pt-5 mt-3" v-for="pot in posts_read">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="row no-gutters border border-left-primary rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
           <div class="col-auto d-none d-lg-block w-25 h-25">
             <img :src="src+pot.img_url" class="mx-auto d-block pt-2 rounded-circle w-100 h-1010">
           </div>
@@ -30,7 +30,7 @@
     </div>
     <div class="tab-pane fade" id="nav-liked" role="tabpanel" aria-labelledby="nav-liked-tab">
       <div class="pt-5 mt-3" v-for="pot in posts_liked">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="row no-gutters border border-left-primary rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
           <div class="col-auto d-none d-lg-block w-25 h-25">
             <img :src="src+pot.img_url" class="mx-auto d-block pt-2 rounded-circle w-100 h-1010">
           </div>
@@ -49,7 +49,7 @@
     </div>
     <div class="tab-pane fade" id="nav-last" role="tabpanel" aria-labelledby="nav-last-tab">
       <div class="pt-5 mt-3" v-for="pot_lat in posts_last">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="row no-gutters border border-left-primary rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
           <div class="col-auto d-none d-lg-block w-25 h-25">
             <img :src="src+pot_lat.img_url" class="mx-auto d-block pt-2 rounded-circle w-100 h-1010">
           </div>
@@ -68,7 +68,7 @@
     </div>
     <div class="tab-pane fade" id="nav-all-posts" role="tabpanel" aria-labelledby="nav-all-posts-tab">
       <paginate class="pt-5 mt-3" ref="paginator" name = "posts_all" :list = "posts_all" :per = "3">
-          <div v-for="post_all in paginated('posts_all')" :key="post_all.id" class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div v-for="post_all in paginated('posts_all')" :key="post_all.id" class="row no-gutters border border-left-primary rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col-auto d-none d-lg-block w-25 h-25">
               <img :src="src+post_all.img_url" class="mx-auto d-block pt-2 rounded-circle w-100 h-1010">
             </div>

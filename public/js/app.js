@@ -74447,7 +74447,7 @@ var render = function() {
               "div",
               {
                 staticClass:
-                  "row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+                  "row no-gutters border border-left-primary rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
               },
               [
                 _c(
@@ -74539,7 +74539,7 @@ var render = function() {
               "div",
               {
                 staticClass:
-                  "row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+                  "row no-gutters border border-left-primary rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
               },
               [
                 _c(
@@ -74631,7 +74631,7 @@ var render = function() {
               "div",
               {
                 staticClass:
-                  "row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+                  "row no-gutters border border-left-primary rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
               },
               [
                 _c(
@@ -74731,7 +74731,7 @@ var render = function() {
                 {
                   key: post_all.id,
                   staticClass:
-                    "row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+                    "row no-gutters border border-left-primary rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
                 },
                 [
                   _c(
