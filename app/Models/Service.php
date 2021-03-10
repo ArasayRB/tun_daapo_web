@@ -16,6 +16,13 @@ class Service extends Model
         'status',
         'price',
     ];
+
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('name', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function paquetes(){
       return $this->belongsToMany(Paket::class,'paket_service','service_id','paket_id')->withPivot('status','status_date','unstatus_date')->withTimestamps();
     }

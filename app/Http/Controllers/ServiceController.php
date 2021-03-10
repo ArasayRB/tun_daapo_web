@@ -13,6 +13,25 @@ class ServiceController extends Controller
       $this->middleware('auth');
   }
 
+  public function getAllServices(Request $request){
+    $filter=$request->searcher;
+    $services=Service::filterByAttribute($filter)
+                    ->get();
+    $services_searched=[];
+    foreach($services as $service){
+      $findText=stristr($service->name,$filter);
+      if(!empty($findText)){
+        $prop='name';
+        $service->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $service->substr=$small_word;
+        $service->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$service->name);
+        $services_searched[]=$service;
+      }
+    }
+    return $services_searched;
+  }
+
   protected function validator(array $data)
   {
       return Validator::make($data, [

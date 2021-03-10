@@ -11,3 +11,4 @@ use Illuminate\Support\Str;
 Route::resource('/service', App\Http\Controllers\ServiceController::class,['except'=>['create','edit']])->middleware('role:administrator');
 Route::get('/serviceList', [App\Http\Controllers\ServiceController::class, 'getServiceList']);
 Route::get('/available-services', [App\Http\Controllers\ServiceController::class, 'availableServices']);
+Route::get('/all-services', [App\Http\Controllers\ServiceController::class, 'getAllServices']);
