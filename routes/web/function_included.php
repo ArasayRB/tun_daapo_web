@@ -8,4 +8,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 
+Route::resource('/functions-included', App\Http\Controllers\FunctionIncludedController::class,['except'=>['create','edit']])->middleware('role:administrator');
 Route::get('/available-functions', [App\Http\Controllers\FunctionIncludedController::class, 'availableFunctions']);
+Route::get('/functions-included-list', [App\Http\Controllers\FunctionIncludedController::class, 'functionsIncludedList']);

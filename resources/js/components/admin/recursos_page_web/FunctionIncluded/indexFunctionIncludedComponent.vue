@@ -2,17 +2,17 @@
   <div>
   <div class="row py-lg-2">
     <div class="col-md-6">
-      <h1 class="h3 mb-2 text-gray-800">{{ $trans('messages.Packet Type') }}</h1>
+      <h1 class="h3 mb-2 text-gray-800">{{ $trans('messages.Functions Included') }}</h1>
     </div>
     <div class="col-md-6">
-      <a href="#" @click="openAddPaketType()" class="btn btn-primary btn-lg float-md-right" permission="button" aria-pressed="true">{{ $trans('messages.Add') }}</a>
+      <a href="#" @click="openAddFunctionsIncluded()" class="btn btn-primary btn-lg float-md-right" permission="button" aria-pressed="true">{{ $trans('messages.Add') }}</a>
     </div>
 
   </div>
   <div class="card shadow mb-4">
-    <paket-type-oper-form-component @pakettypenew="addPaketTypeIndex" @pakettypeoperupd="updPaketTypeIndex" :operation="operation" :paket_type="paket_type" :locale="locale" v-if="ventanaOperPaketType" @close="ventanaOperPaketType = false">
+    <functions-included-oper-form-component @functionsincludednew="addFunctionsIncludedIndex" @functionsincludedoperupd="updFunctionsIncludedIndex" :operation="operation" :functionsincluded="functionsincluded" :locale="locale" v-if="ventanaOperFunctionsIncluded" @close="ventanaOperFunctionsIncluded = false">
 
-    </paket-type-oper-form-component>
+    </functions-included-oper-form-component>
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary">{{ $trans('messages.List') }}</h6>
     </div>
@@ -24,31 +24,34 @@
     <div class="card-body">
 
       <div class="table-responsive">
-        <paginate class="pt-5 mt-3" ref="paginator" name = "paket_types" :list = "paket_types" :per = "2" :key="paket_types ? paket_types.length:0">
+        <paginate class="pt-5 mt-3" ref="paginator" name = "functionsincludeds" :list = "functionsincludeds" :per = "6" :key="functionsincludeds ? functionsincludeds.length:0">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>{{ $trans('messages.Tools') }}</th>
               <th>{{ $trans('messages.Name') }}</th>
+              <th>{{ $trans('messages.Description') }}</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>{{ $trans('messages.Tools') }}</th>
               <th>{{ $trans('messages.Name') }}</th>
+              <th>{{ $trans('messages.Description') }}</th>
             </tr>
           </tfoot>
           <tbody>
 
 
-                <tr v-for="(paket_type,index) in paginated('paket_types')" :paket_type="paket_type" :key="paket_type.id">
+                <tr v-for="(functionsincluded,index) in paginated('functionsincludeds')" :functionsincluded="functionsincluded" :key="functionsincluded.id">
 
                     <td>
 
-                          <a href="#" @click="openEditPaketType(index,paket_type)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
-                        <a href="#" @click="deletePaketType(index,paket_type.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
+                          <a href="#" @click="openEditFunctionsIncluded(index,functionsincluded)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
+                        <a href="#" @click="deleteFunctionsIncluded(index,functionsincluded.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
-                    <td>{{paket_type.name}}</td>
+                    <td>{{functionsincluded.name}}</td>
+                    <td>{{functionsincluded.description}}</td>
 
                 </tr>
 
@@ -58,9 +61,9 @@
         </table>
       </paginate>
            <strong class="text-primary">
-             <paginate-links for="paket_types" :show-step-links="true"></paginate-links>
+             <paginate-links for="functionsincludeds" :show-step-links="true"></paginate-links>
              <paginate-links
-            for="paket_types"
+            for="functionsincludeds"
             :show-step-links="true"
             :simple="{
                 prev: $trans('messages.Previous'),
@@ -121,10 +124,10 @@
        ],
        height: 300
      },
-          paket_types:[],
-          paket_type:[],
+          functionsincludeds:[],
+          functionsincluded:[],
           permission_state:[],
-          paginate:['paket_types'],
+          paginate:['functionsincludeds'],
           hreff:'/permission-preview/',
           permissionActualizar:false,
           idpermissionActualizar:-1,
@@ -135,10 +138,7 @@
           valueImg:'',
           lang:true,
           locale:'',
-          src:'storage/img_web/login_img/',
-          src_qr:'storage/qrcodes/permissions/',
-          ventanaOperPaketType:false,
-          ventanaEditPermiso:false,
+          ventanaOperFunctionsIncluded:false,
           token   : window.CSRF_TOKEN,
 
         }
@@ -162,37 +162,32 @@
     onFileUploadResponse(evt) {
       console.log(evt);
     },
-        paketTypeList:function(){
-          axios.get('/packet-type-list')
+        functionsincludedList:function(){
+          axios.get('/functions-included-list')
                .then(response =>{
-                 this.paket_types = response.data;
+                 this.functionsincludeds = response.data;
                  if (response.data==''){
                    this.mensage=this.$trans('messages.None added yet');
                  }
                })
                .catch(error => this.errors.push(error));
         },
-        addPaketTypeIndex:function(paketTypeAdd){
+        addFunctionsIncludedIndex:function(permissionAdd){
           this.operation='';
-          if(this.paket_types.length===0){
-            this.paketTypeList();
-          }
-          else{
-          this.paket_types.push(paketTypeAdd);
-          }
+          this.functionsincludedList();
           this.mensage="";
-          this.ventanaOperPaketType=false;
+          this.ventanaOperFunctionsIncluded=false;
         },
-        updPaketTypeIndex:function(paket_typeUpd){
+        updFunctionsIncludedIndex:function(functionsincludedUpd){
           this.operation='';
-          const position=this.paket_types.findIndex(paket_type=>paket_type.id===paket_typeUpd.id);
-          this.paketTypeList();
-          this.ventanaOperPaketType=false;
+          const position=this.functionsincludeds.findIndex(functionsincluded=>functionsincluded.id===functionsincludedUpd.id);
+          this.functionsincludedList();
+          this.ventanaOperFunctionsIncluded=false;
         },
-        deletePaketType:function(index,paket_type){
-          let paket_type_id=paket_type;
-            swal({title:this.$trans('messages.Delete')+' '+this.$trans('messages.Packet Type'),
-                  text:this.$trans('messages.Are you completely sure you want to delete ')+this.$trans('messages.Packet Type')+'?',
+        deleteFunctionsIncluded:function(index,functionsincluded){
+          let functionsincluded_id=functionsincluded;
+            swal({title:this.$trans('messages.Delete')+' '+this.$trans('messages.Functions Included'),
+                  text:this.$trans('messages.Are you completely sure you want to delete ')+this.$trans('messages.Functions Included')+'?',
                   icon:'warning',
                   closeOnClickOutside:false,
                   closeOnEsc:false,
@@ -203,18 +198,18 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/pakettypes/'+paket_type_id;
+                    let  url='/functions-included/'+functionsincluded_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),
-                                 text:this.$trans('messages.Packet Type')+' '+this.$trans('messages.Deleted'),
+                                 text:this.$trans('messages.Functions Included')+' '+this.$trans('messages.Deleted'),
                                  icon:'success',
                                  closeOnClickOutside:false,
                                  closeOnEsc:false
                                }).then(select=>{
                                  if (select){
-                                   this.paketTypeList();
-                                   if(this.paket_types.length===0){
+                                   this.functionsincludedList();
+                                   if(this.functionsincludeds.length===0){
                                      this.mensage=this.$trans('messages.None added yet');
                                    }
                                  }
@@ -230,20 +225,20 @@
 
 
         },
-        openAddPaketType:function(){
+        openAddFunctionsIncluded:function(){
           this.operation='add';
-          this.ventanaOperPaketType = true;
+          this.ventanaOperFunctionsIncluded = true;
         },
-        openEditPaketType:function(index,paket_type){
+        openEditFunctionsIncluded:function(index,functionsincluded){
           this.operation='update';
-        this.paket_type=paket_type;
-          this.ventanaOperPaketType=true;
+        this.functionsincluded=functionsincluded;
+          this.ventanaOperFunctionsIncluded=true;
 
         },
 
       },
       created: function () {
-        this.paketTypeList();
+        this.functionsincludedList();
          },
         mounted() {
           if (this.$attrs.locale) {

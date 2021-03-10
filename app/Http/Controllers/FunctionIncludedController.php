@@ -4,9 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\FunctionIncluded;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class FunctionIncludedController extends Controller
 {
+
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
+
+  protected function validator(array $data)
+  {
+      return Validator::make($data, [
+          'name' => ['required', 'string', 'max:255'],
+      ]);
+  }
 
   public function availableFunctions(){
     $functions=FunctionIncluded::all();
@@ -16,6 +29,11 @@ class FunctionIncludedController extends Controller
     }
     return $available;
   }
+
+  public function functionsIncludedList(){
+    $functions=FunctionIncluded::all();
+    return $functions;
+  }
     /**
      * Display a listing of the resource.
      *
@@ -23,17 +41,7 @@ class FunctionIncludedController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+      return view('admin.page_resources.function_included.index');
     }
 
     /**
@@ -44,7 +52,12 @@ class FunctionIncludedController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $this->validator($request->all())->validate();
+      $functions_included=new FunctionIncluded();
+      $functions_included->name=request('name');
+      $functions_included->description=request('description');
+      $functions_included->save();
+      return $functions_included;
     }
 
     /**
@@ -59,26 +72,20 @@ class FunctionIncludedController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\FunctionIncluded  $functionIncluded
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(FunctionIncluded $functionIncluded)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\FunctionIncluded  $functionIncluded
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FunctionIncluded $functionIncluded)
+    public function update(Request $request, int $functionIncluded)
     {
-        //
+      $this->validator($request->all())->validate();
+      $functions_included=FunctionIncluded::findOrFail($functionIncluded);
+      $functions_included->name=request('name');
+      $functions_included->description=request('description');
+      $functions_included->update();
+      return $functions_included;
     }
 
     /**
@@ -87,8 +94,10 @@ class FunctionIncludedController extends Controller
      * @param  \App\Models\FunctionIncluded  $functionIncluded
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FunctionIncluded $functionIncluded)
+    public function destroy(int $functionIncluded)
     {
-        //
+      $function_included=FunctionIncluded::findOrFail($functionIncluded);
+      $function_included->delete();
+      return $function_included;
     }
 }

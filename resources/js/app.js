@@ -68,6 +68,7 @@ Vue.component('contact-oper-form-component', require('./components/admin/recurso
 Vue.component('service-oper-form-component', require('./components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue').default);
 Vue.component('portfolio-oper-form-component', require('./components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue').default);
 Vue.component('paket-oper-form-component', require('./components/admin/recursos_page_web/Paket/forms/PaketFormComponent.vue').default);
+Vue.component('functions-included-oper-form-component', require('./components/admin/recursos_page_web/FunctionIncluded/forms/FunctionIncludedFormComponent.vue').default);
 Vue.component('paket-type-oper-form-component', require('./components/admin/recursos_page_web/PaketType/forms/PaketTypeFormComponent.vue').default);
 Vue.component('sectionpage-oper-form-component', require('./components/admin/recursos_page_web/SectionPage/forms/SectionPageFormComponent.vue').default);
 Vue.component('index-post-component', require('./components/admin/posts/indexPostComponent.vue').default);
@@ -79,6 +80,7 @@ Vue.component('index-service-component', require('./components/admin/recursos_pa
 Vue.component('index-portfolio-component', require('./components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue').default);
 Vue.component('index-paket-component', require('./components/admin/recursos_page_web/Paket/indexPaketComponent.vue').default);
 Vue.component('index-paket-type-component', require('./components/admin/recursos_page_web/PaketType/indexPaketTypeComponent.vue').default);
+Vue.component('index-function-included-component', require('./components/admin/recursos_page_web/FunctionIncluded/indexFunctionIncludedComponent.vue').default);
 Vue.component('index-sectionpage-component', require('./components/admin/recursos_page_web/SectionPage/indexSectionPageComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 Vue.component('relationed-tags-component', require('./components/admin/posts/RelationedTagsComponent.vue').default);

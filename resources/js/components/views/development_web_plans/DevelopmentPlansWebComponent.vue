@@ -8,7 +8,7 @@
       <p class="text-light" v-if="planItem.name=='Premium'"> a partir de</p>
       <h1 class="card-title pricing-card-title"><small :class="planItem.name=='Premium'?classe='text-light':'text-muted'">${{planItem.price}}</small></h1>
       <ul class="list-unstyled mt-3 mb-4">
-        <li :class="planItem.name=='Premium'?classe='text-light':''" v-for="(funct,index_func) in planItem.functions">{{funct.name}}</li>
+        <li :class="planItem.name=='Premium'?classe='text-light':''" v-for="(funct,index_func) in planItem.functions" v-html="funct.name"></li>
       </ul>
       <button type="button" :class="index==0?btn_bg='btn btn-lg btn-block btn-light btn-outline-primary contrata':planItem.name==='Premium'?btn_bt='btn btn-lg btn-warning btn-block contrata':'btn btn-lg btn-block contrata btn-primary'" class="btn btn-lg btn-block btn-primary contrata">{{planItem.name_button}}</button>
     </div>

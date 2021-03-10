@@ -159,9 +159,13 @@ class PaketController extends Controller
         $pakets->services()->attach($existService->id,array('status'=>true));
       }
 
+
+      $pakets->functions()->detach();
+
       if(is_array($functions)){
         foreach($functions as $funct){
           $existFunction=$this->getFunctionIncludedIf($funct);
+
 
           $pakets->functions()->attach($existFunction->id);
         }
