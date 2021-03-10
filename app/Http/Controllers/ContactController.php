@@ -13,6 +13,47 @@ class ContactController extends Controller
       $this->middleware('auth');
   }
 
+  public function getAllContacts(Request $request){
+    $filter=$request->searcher;
+    $contacts=Contact::filterByAttribute($filter)
+                    ->get();
+    $contacts_searched=[];
+    foreach($contacts as $contact){
+      $findAddress=stristr($contact->address,$filter);
+      $findText=stristr($contact->email,$filter);
+      $findPhone=stristr($contact->phone,$filter);
+      if(!empty($findText)){
+        $prop='email';
+        $contact->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $contact->substr=$small_word;
+        $contact->name=$contact->email;
+        $contact->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$contact->email);
+        $contacts_searched[]=$contact;
+      }
+      if(!empty($findAddress)){
+
+          $prop='address';
+          $contact->finded==$findAddress;
+          $small_word=substr($findAddress,0,strlen($filter));
+          $contact->substr=$small_word;
+          $contact->name=$contact->address;
+          $contact->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$contact->address);
+          $contacts_searched[]=$contact;
+      }
+      if(!empty($findPhone)){
+
+          $prop='phone';
+          $contact->finded==$findPhone;
+          $small_word=substr($findPhone,0,strlen($filter));
+          $contact->substr=$small_word;
+          $contact->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$contact->phone);
+          $contacts_searched[]=$contact;
+      }
+    }
+    return $contacts_searched;
+  }
+
   protected function validator(array $data)
   {
       return Validator::make($data, [

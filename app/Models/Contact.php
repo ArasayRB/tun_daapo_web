@@ -14,4 +14,12 @@ class Contact extends Model
         'phone',
         'map'
     ];
+
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('phone', 'LIKE', '%'.$filter.'%')
+              ->orWhere('email', 'LIKE', '%'.$filter.'%')
+              ->orWhere('address', 'LIKE', '%'.$filter.'%');
+      }
+    }
 }
