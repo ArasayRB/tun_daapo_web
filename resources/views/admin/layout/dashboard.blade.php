@@ -107,7 +107,9 @@
 
             <a class="collapse-item" href="/portfolio">{{__('messages.Portfolio')}}</a>
 
-          <a class="collapse-item" href="/paket">{{__('messages.Packet')}}</a>
+          <a class="collapse-item" href="/pakettypes">{{__('messages.Packet Type')}}</a>
+
+        <a class="collapse-item" href="/paket">{{__('messages.Packet')}}</a>
 
         <a class="collapse-item" href="/sectionpage">{{__('messages.Section Page')}}</a>
           </div>

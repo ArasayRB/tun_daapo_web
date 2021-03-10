@@ -9,6 +9,5 @@ use Illuminate\Support\Str;
 
 
 Route::resource('/pakettypes', App\Http\Controllers\PaketTypeController::class,['except'=>['create','edit']])->middleware('role:administrator');
-Route::get('/paketTypeList', [App\Http\Controllers\PaketTypeController::class, 'getPaketTypeList']);
 Route::get('/available-type-pakets', [App\Http\Controllers\PaketTypeController::class, 'availablePaketTypes']);
 Route::get('/packet-type-list', [App\Http\Controllers\PaketTypeController::class, 'typePaketTypes']);
