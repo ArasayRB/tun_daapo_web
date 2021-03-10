@@ -19,3 +19,4 @@ Route::get('/translated-post/{id}',[App\Http\Controllers\PostController::class, 
 Route::get('/translated-language-post/{id}',[App\Http\Controllers\PostController::class, 'getTranslatedLanguagePostById']);
 Route::get('/get-translated-post-by-lang/{lang}/{id_post}',[App\Http\Controllers\PostController::class, 'getTranslatedPostByLang']);
 Route::post('/posts-translated-edited/{id_post}/{lang_name}',[App\Http\Controllers\PostController::class, 'updateTranslatedPostByLang']);
+Route::get('/all-posts', [App\Http\Controllers\PostController::class, 'getAllPosts']);

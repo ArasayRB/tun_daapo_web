@@ -17,7 +17,13 @@
 
     </edit-permiso-form-component>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">{{ $trans('messages.List') }}</h6>
+      <div class="row input-group">
+      <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
+      <!-- Topbar Search -->
+      <input-searcher-component :url="'/all-permissions'" :emit="'permissions'" @cancelsearch="permissionList" @permissionsfilter="filtersPermissions">
+    </input-searcher-component>
+
+    </div>
     </div>
     <div class="alert alert-success" v-if="mensage!=''">
       <ul>
@@ -27,7 +33,7 @@
     <div class="card-body">
 
       <div class="table-responsive">
-        <paginate class="pt-5 mt-3" ref="paginator" name = "permissions" :list = "permissions" :per = "2" :key="permissions ? permissions.length:0">
+        <paginate class="pt-5 mt-3" ref="paginator" name = "permissions" :list = "permissions" :per = "6" :key="permissions ? permissions.length:0">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
@@ -169,6 +175,9 @@
     },
     onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    filtersPermissions:function(filters){
+      this.permissions=filters;
     },
         imageEdit:function(e){
 

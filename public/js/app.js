@@ -2497,6 +2497,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2579,6 +2585,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    filtersPermissions: function filtersPermissions(filters) {
+      this.permissions = filters;
     },
     imageEdit: function imageEdit(e) {
       this.imagenpermission = e.target.files[0];
@@ -3849,6 +3858,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3944,6 +3959,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    filtersPosts: function filtersPosts(filters) {
+      this.posts = filters;
     },
     imageEdit: function imageEdit(e) {
       this.imagenPost = e.target.files[0];
@@ -9407,12 +9425,30 @@ __webpack_require__.r(__webpack_exports__);
     return {
       lists: [],
       list: [],
+      show: true,
       searcher: '',
       setTimeOUTSearcher: '',
       token: window.CSRF_TOKEN
     };
   },
+  watch: {
+    searcher: function searcher(val) {
+      console.log(val);
+
+      if (val === '') {
+        this.show = false;
+        this.$emit('cancelsearch');
+      } else {
+        this.show = true;
+      }
+    }
+  },
   methods: {
+    resetList: function resetList(name) {
+      this.searcher = name;
+      this.getLists();
+      this.show = false;
+    },
     getLists: function getLists() {
       var _this = this;
 
@@ -9422,6 +9458,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.lists = response.data;
+        _this.list = [];
 
         _this.$emit(_this.emit + 'filter', _this.lists);
       });
@@ -75842,9 +75879,26 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "card-header py-3" }, [
-          _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
-            _vm._v(_vm._s(_vm.$trans("messages.List")))
-          ])
+          _c(
+            "div",
+            { staticClass: "row input-group" },
+            [
+              _c(
+                "h6",
+                { staticClass: "m-0 font-weight-bold text-primary col" },
+                [_vm._v(_vm._s(_vm.$trans("messages.List")))]
+              ),
+              _vm._v(" "),
+              _c("input-searcher-component", {
+                attrs: { url: "/all-permissions", emit: "permissions" },
+                on: {
+                  cancelsearch: _vm.permissionList,
+                  permissionsfilter: _vm.filtersPermissions
+                }
+              })
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _vm.mensage != ""
@@ -75864,7 +75918,7 @@ var render = function() {
                   key: _vm.permissions ? _vm.permissions.length : 0,
                   ref: "paginator",
                   staticClass: "pt-5 mt-3",
-                  attrs: { name: "permissions", list: _vm.permissions, per: 2 }
+                  attrs: { name: "permissions", list: _vm.permissions, per: 6 }
                 },
                 [
                   _c(
@@ -77963,9 +78017,26 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "card-header py-3" }, [
-          _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
-            _vm._v(_vm._s(_vm.$trans("messages.List")))
-          ])
+          _c(
+            "div",
+            { staticClass: "row input-group" },
+            [
+              _c(
+                "h6",
+                { staticClass: "m-0 font-weight-bold text-primary col" },
+                [_vm._v(_vm._s(_vm.$trans("messages.List")))]
+              ),
+              _vm._v(" "),
+              _c("input-searcher-component", {
+                attrs: { url: "/all-posts", emit: "posts" },
+                on: {
+                  cancelsearch: _vm.getListPosts,
+                  postsfilter: _vm.filtersPosts
+                }
+              })
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _vm.mensage != ""
@@ -84525,7 +84596,10 @@ var render = function() {
               _vm._v(" "),
               _c("input-searcher-component", {
                 attrs: { url: "/all-roles", emit: "roles" },
-                on: { rolesfilter: _vm.filtersRoles }
+                on: {
+                  cancelsearch: _vm.roleList,
+                  rolesfilter: _vm.filtersRoles
+                }
               })
             ],
             1
@@ -84787,38 +84861,54 @@ var render = function() {
     ]),
     _vm._v(" "),
     _vm.lists.length
-      ? _c("div", { staticClass: "panel-footer pt-3" }, [
-          _c(
-            "ul",
-            { staticClass: "list-group" },
-            _vm._l(_vm.lists, function(list, index) {
-              return _c("li", { staticClass: "list-group-item" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "dropdown-item",
-                    attrs: { type: "submit" },
-                    on: {
-                      click: [
-                        _vm.getLists,
-                        function($event) {
-                          $event.preventDefault()
-                          _vm.searcher = list.name
-                        }
-                      ]
-                    }
-                  },
-                  [
-                    _c("span", {
-                      domProps: { innerHTML: _vm._s(list.word_black) }
-                    })
-                  ]
-                )
-              ])
-            }),
-            0
-          )
-        ])
+      ? _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.show,
+                expression: "show"
+              }
+            ],
+            staticClass: "panel-footer pt-3"
+          },
+          [
+            _c(
+              "ul",
+              { staticClass: "list-group" },
+              _vm._l(_vm.lists, function(list, index) {
+                return _c("li", { staticClass: "list-group-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "dropdown-item",
+                      attrs: { type: "button" },
+                      on: {
+                        click: [
+                          function($event) {
+                            return _vm.resetList(list.name)
+                          },
+                          function($event) {
+                            $event.preventDefault()
+                            _vm.searcher = list.name
+                          }
+                        ]
+                      }
+                    },
+                    [
+                      _c("span", {
+                        domProps: { innerHTML: _vm._s(list.word_black) }
+                      })
+                    ]
+                  )
+                ])
+              }),
+              0
+            )
+          ]
+        )
       : _vm._e()
   ])
 }
@@ -85902,7 +85992,10 @@ var render = function() {
               _vm._v(" "),
               _c("input-searcher-component", {
                 attrs: { url: "/all-users", emit: "users" },
-                on: { usersfilter: _vm.filtersUsers }
+                on: {
+                  cancelsearch: _vm.userList,
+                  usersfilter: _vm.filtersUsers
+                }
               })
             ],
             1

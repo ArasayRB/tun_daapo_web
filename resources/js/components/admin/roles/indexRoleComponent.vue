@@ -20,7 +20,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-roles'" :emit="'roles'" @rolesfilter="filtersRoles">
+      <input-searcher-component :url="'/all-roles'" :emit="'roles'" @cancelsearch="roleList" @rolesfilter="filtersRoles">
     </input-searcher-component>
 
     </div>

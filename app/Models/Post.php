@@ -32,6 +32,16 @@ class Post extends Model
         'slug',
         'keywords',
     ];
+
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->with('categoriaPosts')
+              ->with('keywords')
+              ->with('users')
+              ->where('title', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function users(){
       return $this->belongsTo(User::class,'user_id');
     }

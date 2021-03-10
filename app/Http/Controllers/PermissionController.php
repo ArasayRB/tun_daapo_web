@@ -21,6 +21,26 @@ class PermissionController extends Controller
     $permissions=Permission::all();
     return $permissions;
   }
+
+  public function getAllPermissions(Request $request){
+    $filter=$request->searcher;
+    $permissions=Permission::filterByAttribute($filter)
+                    ->get();
+    $permissions_searched=[];
+    foreach($permissions as $permission){
+      $findAddress=stristr($permission->email,$filter);
+      $findText=stristr($permission->name,$filter);
+      if(!empty($findText)){
+        $prop='name';
+        $permission->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $permission->substr=$small_word;
+        $permission->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$permission->name);
+        $permissions_searched[]=$permission;
+      }
+    }
+    return $permissions_searched;
+  }
     /**
      * Display a listing of the resource.
      *

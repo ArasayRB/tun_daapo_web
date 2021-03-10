@@ -24,6 +24,26 @@ class PostController extends Controller
   {
       $this->middleware('auth');
   }
+
+  public function getAllPosts(Request $request){
+    $filter=$request->searcher;
+    $posts=Post::filterByAttribute($filter)
+                    ->get();
+    $posts_searched=[];
+    foreach($posts as $post){
+      $findText=stristr($post->title,$filter);
+      if(!empty($findText)){
+        $prop='title';
+        $post->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $post->substr=$small_word;
+        $post->name=$post->title;
+        $post->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$post->title);
+        $posts_searched[]=$post;
+      }
+    }
+    return $posts_searched;
+  }
     /**
      * Display a listing of the resource.
      *

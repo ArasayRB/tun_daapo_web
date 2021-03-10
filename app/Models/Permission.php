@@ -16,6 +16,12 @@ class Permission extends Model
         'description',
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('name', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function roles(){
       return $this->belongsToMany(Role::class,'permission_role','permission_id','role_id')->withTimestamps();
     }

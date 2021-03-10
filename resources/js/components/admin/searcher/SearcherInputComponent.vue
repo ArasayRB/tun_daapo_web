@@ -8,10 +8,10 @@
           <i class="fas fa-search fa-sm"></i>
         </button>
       </div>
-      <div class="panel-footer pt-3" v-if="lists.length">
+      <div class="panel-footer pt-3" v-show="show" v-if="lists.length">
         <ul class="list-group">
           <li class="list-group-item" v-for="(list,index) in lists">
-            <a @click="getLists" type="submit" class="dropdown-item" v-on:click.prevent="searcher=list.name">
+            <a @click="resetList(list.name)" type="button" class="dropdown-item" v-on:click.prevent="searcher=list.name">
               <span v-html="list.word_black"></span>
             </a>
           </li>
@@ -27,13 +27,31 @@ export default {
     return {
       lists:[],
       list:[],
+      show:true,
       searcher:'',
       setTimeOUTSearcher:'',
       token   : window.CSRF_TOKEN,
 
     }
   },
+  watch:{
+    searcher(val){
+      console.log(val);
+      if(val===''){
+        this.show=false;
+        this.$emit('cancelsearch');
+      }
+      else{
+        this.show=true;
+      }
+    },
+  },
   methods:{
+    resetList:function(name){
+      this.searcher=name;
+      this.getLists();
+      this.show=false;
+    },
     getLists:function(){
       axios.get(this.url,{
         params:{
@@ -42,6 +60,7 @@ export default {
       })
           .then(response =>{
             this.lists=response.data;
+            this.list=[];
             this.$emit(this.emit+'filter',this.lists);
           });
     },
