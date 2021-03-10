@@ -18,7 +18,8 @@ class Role extends Model
 
     public function scopeFilterByAttribute($query,$filter){
       if(!empty($filter)){
-        $query->where('name', 'LIKE', '%'.$filter.'%');
+        $query->with('permissions')
+              ->where('name', 'LIKE', '%'.$filter.'%');
       }
     }
 
