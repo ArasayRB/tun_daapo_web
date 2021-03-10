@@ -12,3 +12,4 @@ Route::get('/usersList', [App\Http\Controllers\UserController::class, 'getUsersL
 Route::resource('/users', App\Http\Controllers\UserController::class)->middleware('can:admin');
 Route::get('/roles-list',[App\Http\Controllers\UserController::class, 'allRoles']);
 Route::get('/permission',[App\Http\Controllers\UserController::class, 'checkPermission']);
+Route::get('/all-users', [App\Http\Controllers\UserController::class, 'getAllUsers']);

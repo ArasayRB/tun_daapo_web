@@ -19,6 +19,35 @@ class UserController extends Controller
   {
       $this->middleware('auth');
   }
+
+  public function getAllUsers(Request $request){
+    $filter=$request->searcher;
+    $users=User::filterByAttribute($filter)
+                    ->get();
+    $users_searched=[];
+    foreach($users as $user){
+      $findAddress=stristr($user->email,$filter);
+      $findText=stristr($user->name,$filter);
+      if(!empty($findText)){
+        $prop='name';
+        $user->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $user->substr=$small_word;
+        $user->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$user->name);
+        $users_searched[]=$user;
+      }
+      if(!empty($findAddress)){
+
+          $prop='email';
+          $user->finded==$findAddress;
+          $small_word=substr($findAddress,0,strlen($filter));
+          $user->substr=$small_word;
+          $user->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$user->email);
+          $users_searched[]=$user;
+      }
+    }
+    return $users_searched;
+  }
     /**
      * Display a listing of the resource.
      *

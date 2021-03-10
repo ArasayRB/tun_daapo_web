@@ -50,6 +50,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('name', 'LIKE', '%'.$filter.'%')
+                        ->orWhere('email', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function roles(){
       return $this->belongsToMany(Role::class,'role_user','user_id','role_id')->withTimestamps();
     }

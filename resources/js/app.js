@@ -95,6 +95,7 @@ Vue.component('cont-view-share-like-component', require('./components/forms/Cont
 Vue.component('newsletter-component', require('./components/forms/NewsletterComponent.vue').default);
 Vue.component('contact-us-component', require('./components/forms/ContactoComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
+Vue.component('input-searcher-component', require('./components/admin/searcher/SearcherInputComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
