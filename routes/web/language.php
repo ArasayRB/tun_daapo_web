@@ -20,3 +20,4 @@ use Illuminate\Support\Str;
 */
 
 Route::get('language/{language}', [App\Http\Controllers\LanguageController::class, 'switchLang'])->name('language.select');
+Route::get('/languagesList',[App\Http\Controllers\LanguageController::class, 'getLanguagesList']);
