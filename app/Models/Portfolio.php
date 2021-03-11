@@ -17,6 +17,14 @@ class Portfolio extends Model
         'service_id'
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->with('services')
+              ->where('empresa_solicitante', 'LIKE', '%'.$filter.'%')
+              ->orWhere('project_name', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function services(){
       return $this->belongsToMany(Service::class,'portfolio_service','portfolio_id','service_id')->withTimestamps();
     }

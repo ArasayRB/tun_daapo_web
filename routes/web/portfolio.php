@@ -11,3 +11,4 @@ use Illuminate\Support\Str;
 Route::resource('/portfolio', App\Http\Controllers\PortfolioController::class,['except'=>['create','edit']])->middleware('role:administrator');
 Route::get('/portfolioList', [App\Http\Controllers\PortfolioController::class, 'getPortfolioList']);
 Route::get('/available-services', [App\Http\Controllers\PortfolioController::class, 'availableService']);
+Route::get('/all-portfolios', [App\Http\Controllers\PortfolioController::class, 'getAllPortfolios']);

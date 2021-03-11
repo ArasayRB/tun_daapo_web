@@ -17,6 +17,36 @@ class PortfolioController extends Controller
       $this->middleware('auth');
   }
 
+  public function getAllPortfolios(Request $request){
+    $filter=$request->searcher;
+    $portfolios=Portfolio::filterByAttribute($filter)
+                    ->get();
+    $portfolios_searched=[];
+    foreach($portfolios as $portfolio){
+      $findAddress=stristr($portfolio->project_name,$filter);
+      $findText=stristr($portfolio->empresa_solicitante,$filter);
+      if(!empty($findText)){
+        $prop='empresa_solicitante';
+        $portfolio->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $portfolio->substr=$small_word;
+        $portfolio->name=$portfolio->empresa_solicitante;
+        $portfolio->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$portfolio->empresa_solicitante);
+        $portfolios_searched[]=$portfolio;
+      }
+      if(!empty($findAddress)){
+
+          $prop='project_name';
+          $portfolio->finded==$findAddress;
+          $small_word=substr($findAddress,0,strlen($filter));
+          $portfolio->substr=$small_word;
+          $portfolio->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$portfolio->project_name);
+          $portfolios_searched[]=$portfolio;
+      }
+    }
+    return $portfolios_searched;
+  }
+
   protected function validator(array $data)
   {
       return Validator::make($data, [
