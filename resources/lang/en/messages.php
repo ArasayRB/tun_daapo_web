@@ -163,6 +163,7 @@ return [
     'Works Maked'=>'Works Maked',
     'Welcome to our web'=>'Welcome to our web',
     'Web Development Plans'=>'Web Development Plans',
+    'Web Development Plan'=>'Web Development Plan',
     ' will schedule an appointment with you.'=>' will schedule an appointment with you.',
     'You are receiving a new ask for budget'=>'You are receiving a new ask for budget',
     'You sended succefully this request to: '=>'You sended succefully this request to: ',

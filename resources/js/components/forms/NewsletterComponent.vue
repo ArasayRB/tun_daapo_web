@@ -39,6 +39,8 @@
 
           axios.post(url,data)
                .then(response=>{
+                 this.name='';
+                 this.email='';
                  swal({title:this.$trans('messages.Correct data'),
                        text:this.$trans('messages.Thank you for subscribe!'),
                        icon:'success',

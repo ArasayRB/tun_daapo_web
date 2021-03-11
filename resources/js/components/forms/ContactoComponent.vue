@@ -70,6 +70,9 @@
                .then(response=>{
                  let contact=response.data;
                  this.ventanaContact=false;
+                 this.email='';
+                 this.name='';
+                 this.message='';
                  swal({title:this.$trans('messages.Message')+' '+this.$trans('messages.sended'),
                        text:this.$trans('messages.You go to receive an answare as soon like be possible!'),
                        icon:'success',

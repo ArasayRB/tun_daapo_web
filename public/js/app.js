@@ -10762,6 +10762,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(url, data).then(function (response) {
         var contact = response.data;
         _this2.ventanaContact = false;
+        _this2.email = '';
+        _this2.name = '';
+        _this2.message = '';
         swal({
           title: _this2.$trans('messages.Message') + ' ' + _this2.$trans('messages.sended'),
           text: _this2.$trans('messages.You go to receive an answare as soon like be possible!'),
@@ -10849,6 +10852,8 @@ __webpack_require__.r(__webpack_exports__);
       data.append("email", this.email);
       data.append("name", this.name);
       axios.post(url, data).then(function (response) {
+        _this.name = '';
+        _this.email = '';
         swal({
           title: _this.$trans('messages.Correct data'),
           text: _this.$trans('messages.Thank you for subscribe!'),
@@ -10915,15 +10920,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       plansItem: [],
       planItem: [],
+      mensageAskBudget: '',
       token: window.CSRF_TOKEN
     };
   },
   methods: {
+    resetmssgBudget: function resetmssgBudget() {
+      this.mensageAskBudget = '';
+    },
+    ask: function ask(name) {
+      this.mensageAskBudget = name;
+      window.location.href = window.location.origin + '/#pedir-presupuesto';
+    },
     getPlans: function getPlans() {
       var _this = this;
 
@@ -11065,13 +11080,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['mensageaskbudget'],
   data: function data() {
     return {
       sectionItem: [],
       name: '',
       phone: '',
       email: '',
+      mensage: '',
       url: '/ask-budget',
       src: '/storage/section_page/',
       section_name: this.$attrs.name_section,
@@ -11108,9 +11129,17 @@ __webpack_require__.r(__webpack_exports__);
       data.append("name_or_company", this.name);
       data.append("token", this.token);
       data.append("contact_phone", this.phone);
+      data.append("paket_name", this.mensageaskbudget);
       axios.post(this.url, data).then(function (response) {
         var contact = response.data;
         _this2.ventanaContact = false;
+
+        _this2.$emit('resetaskbudgetmssg');
+
+        _this2.mensageaskbudget = '';
+        _this2.name = '';
+        _this2.phone = '';
+        _this2.email = '';
         swal({
           title: _this2.$trans('messages.Message') + ' ' + _this2.$trans('messages.sended'),
           text: _this2.$trans('messages.You go to receive an answare as soon like be possible!'),
@@ -11143,6 +11172,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.getSection();
+    console.log('message es: ' + this.mensage);
   },
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -11641,6 +11671,8 @@ module.exports = {
     "throttle": "Too many login attempts. Please try again in :seconds seconds."
   },
   "en.messages": {
+    " send an shedule appoinment to the company or person": " send an shedule appoinment to the company or person",
+    " will schedule an appointment with you.": " will schedule an appointment with you.",
     "A fresh verification link has been sent to your email address.": "A fresh verification link has been sent to your email address.",
     "Add": "Add",
     "Add a new Tag": "Add a new Tag",
@@ -11688,6 +11720,7 @@ module.exports = {
     "If you did not create an account, no further action is required.": "If you did not create an account, no further action is required.",
     "If you did not receive the email": "If you did not receive the email",
     "If you did not request a password reset, no further action is required.": "If you did not request a password reset, no further action is required.",
+    "If you did not subscribe link this url for unsubscribe": "If you did not subscribe link this url for unsubscribe",
     "Image": "Image",
     "Interface": "Interface",
     "Landline": "Landline",
@@ -11716,6 +11749,7 @@ module.exports = {
     "Please click the button below to verify your email address.": "Please click the button below to verify your email address.",
     "Please confirm your password before continuing.": "Please confirm your password before continuing.",
     "Please, send an answare as soon like is possible for you.": "Please, send an answare as soon like is possible for you.",
+    "Please, they will be waiting an email as soon like be possible for you.": "Please, they will be waiting an email as soon like be possible for you.",
     "Portfolio": "Portfolio",
     "Post": "Post",
     "Post created successfully": "Post created successfully",
@@ -11736,6 +11770,7 @@ module.exports = {
     "Register": "Register",
     "Relationed Posts": "Relationed Posts",
     "Remember Me": "Remember Me",
+    "Request Ask for Budget": "Request Ask for Budget",
     "Request Contact ": "Request Contact ",
     "Reset Password": "Reset Password",
     "Reset Password Notification- ": "Reset Password Notification- ",
@@ -11760,6 +11795,7 @@ module.exports = {
     "Summary": "Summary",
     "Tabs": "Tabs",
     "Tags": "Tags",
+    "Thank you for subscribe!": "Thank you for subscribe!",
     "Thank you for using our application!": "Thank you for using our application!",
     "The Post had been publicate": "The Post had been publicate",
     "The latest posts": "The latest posts",
@@ -11772,6 +11808,7 @@ module.exports = {
     "Tools": "Tools",
     "Tun Daapo": "Tun Daapo",
     "Unidentified error": "Unidentified error",
+    "Unsubscribe": "Unsubscribe",
     "Update": "Update",
     "Update a Post": "Update a Post",
     "User": "User",
@@ -11780,18 +11817,21 @@ module.exports = {
     "Verify Email Address": "Verify Email Address",
     "Verify Your Email Address": "Verify Your Email Address",
     "Warning!": "Warning!",
+    "Web Development Plan": "Web Development Plan",
     "Web Development Plans": "Web Development Plans",
     "Web Page Resources": "Web Page Resources",
     "Welcome to our web": "Welcome to our web",
     "Works Maked": "Works Maked",
     "Yes": "Yes",
     "Yes, delete": "Yes, delete",
+    "You are receiving a new ask for budget": "You are receiving a new ask for budget",
     "You are receiving a new contact email with content: ": "You are receiving a new contact email with content: ",
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
     "You cannot leave empty fields, please check": "You cannot leave empty fields, please check",
     "You go to receive an answare as soon like be possible!": "You go to receive an answare as soon like be possible!",
     "You go to receive very soon an answare.": "You go to receive very soon an answare.",
     "You sended succefully this contact message to: ": "You sended succefully this contact message to: ",
+    "You sended succefully this request to: ": "You sended succefully this request to: ",
     "click here to request another": "click here to request another",
     "sended": "sended"
   },
@@ -11925,6 +11965,8 @@ module.exports = {
     "throttle": "Demasiados intentos de acceso. Por favor intente nuevamente en :seconds segundos."
   },
   "es.messages": {
+    " send an shedule appoinment to the company or person": " env\xEDe una cita a la persona o compa\xF1ia",
+    " will schedule an appointment with you.": " podr\xE1 agendar una cita con usted.",
     "A fresh verification link has been sent to your email address.": "Un link de verificaci\xF3n ha sido enviado a su direcci\xF3n de correo electr\xF3nico",
     "Add": "A\xF1adir",
     "Add a new Tag": "A\xF1adir una nueva Etiqueta",
@@ -11972,6 +12014,7 @@ module.exports = {
     "If you did not create an account, no further action is required.": "Si usted no ha creado una cuenta en nuestra web, no se requiere ninguna acci\xF3n de su parte.",
     "If you did not receive the email": "Si usted no ha recibido un correo",
     "If you did not request a password reset, no further action is required.": "Si no ha solicitado el restablecimiento de contrase\xF1a, omita este mensaje de correo electr\xF3nico.",
+    "If you did not subscribe link this url for unsubscribe": "Si usted no se ha suscrito, haga click en esta link para cancelar su suscripci\xF3n",
     "Image": "Im\xE1gen",
     "Interface": "Interface",
     "Landline": "Tel\xE9fono Fijo",
@@ -12000,6 +12043,7 @@ module.exports = {
     "Please click the button below to verify your email address.": "Por favor haga click en el bot\xF3n debajo para continuar con la verificaci\xF3n de su direcci\xF3n email.",
     "Please confirm your password before continuing.": "Por favor confirme su contrase\xF1a antes de continuar.",
     "Please, send an answare as soon like is possible for you.": "Por favor, env\xEDe una respuesta tan pronto como le sea posible.",
+    "Please, they will be waiting an email as soon like be possible for you.": "Por favor, ellos estar\xE1 a la espera de un email tan pronto como a usted le sea posible.",
     "Portfolio": "Portafolio",
     "Post": "Post",
     "Post created successfully": "Post creado satisfactoriamente",
@@ -12020,6 +12064,7 @@ module.exports = {
     "Register": "Registrar",
     "Relationed Posts": "Posts Relacionados",
     "Remember Me": "Recu\xE9rdeme",
+    "Request Ask for Budget": "Solicitud de Pedido de Presupuesto",
     "Request Contact ": "Solicitud de Contacto ",
     "Reset Password": "Restablecer Contrase\xF1a",
     "Reset Password Notification- ": "Notificaci\xF3n de restablecimiento de contrase\xF1a- ",
@@ -12044,6 +12089,7 @@ module.exports = {
     "Summary": "Resumen",
     "Tabs": "Tablas",
     "Tags": "Etiquetas",
+    "Thank you for subscribe!": "Gracias por suscribirse!",
     "Thank you for using our application!": "Gracias por usar nuestra aplicaci\xF3n!",
     "The Post had been publicate": "El Post ha sido publicado",
     "The latest posts": "\xDAltimos Posts",
@@ -12056,6 +12102,7 @@ module.exports = {
     "Tools": "Herramientas",
     "Tun Daapo": "Tun Daapo",
     "Unidentified error": "Error Desconocido",
+    "Unsubscribe": "Cancelar Suscripci\xF3n",
     "Update": "Actualizar",
     "Update a Post": "Actualizar un Post",
     "User": "Usuario",
@@ -12064,18 +12111,21 @@ module.exports = {
     "Verify Email Address": "Verificar Correo",
     "Verify Your Email Address": "Verificar su correo",
     "Warning!": "Atenci\xF3n!",
+    "Web Development Plan": "Plan de Desarrollo Web",
     "Web Development Plans": "Planes de Desarrollo Web",
     "Web Page Resources": "Recursos de la P\xE1gina Web",
     "Welcome to our web": "Bienvenidos a nuestra web",
     "Works Maked": "Portfolio",
     "Yes": "S\xED",
     "Yes, delete": "S\xED, eliminar",
+    "You are receiving a new ask for budget": "Usted est\xE1 recibiendo una nueva petici\xF3n de presupuesto",
     "You are receiving a new contact email with content: ": "Usted est\xE1 recibiendo v\xEDa email una solicitud de contacto con el contenido: ",
     "You are receiving this email because we received a password reset request for your account.": "Ha recibido este mensaje porque se solicit\xF3 un restablecimiento de contrase\xF1a para su cuenta.",
     "You cannot leave empty fields, please check": "Usted no debe dejar campos vac\xEDos, por favor revise",
     "You go to receive an answare as soon like be possible!": "Usted recibir\xE1 una respuesta tan pronto como sea posible!",
     "You go to receive very soon an answare.": "Usted recibir\xE1 muy pronto una respuesta.",
     "You sended succefully this contact message to: ": "Usted envi\xF3 satisfactoriamente su mensage de contacto a: ",
+    "You sended succefully this request to: ": "Usted ha enviado satisfactoriamente su solicitud de Presupuesto a: ",
     "click here to request another": "click aqu\xED para pedir otro correo",
     "sended": "enviado"
   },
@@ -87078,86 +87128,104 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "card-deck mb-3 text-center mt-5" },
-    _vm._l(_vm.plansItem, function(planItem, index) {
-      return _c("div", { staticClass: "card mb-4 shadow-sm" }, [
-        _c(
-          "div",
-          {
-            class:
-              planItem.name == "Premium"
-                ? (_vm.classe = "card-header bg-warning")
-                : "card-header"
-          },
-          [
-            _c("h4", { staticClass: "my-0 font-weight-normal" }, [
-              _c("small", { staticClass: "text-muted h3" }, [
-                _vm._v(_vm._s(planItem.name))
+    [
+      _vm._l(_vm.plansItem, function(planItem, index) {
+        return _c("div", { staticClass: "card mb-4 shadow-sm" }, [
+          _c(
+            "div",
+            {
+              class:
+                planItem.name == "Premium"
+                  ? (_vm.classe = "card-header bg-warning")
+                  : "card-header"
+            },
+            [
+              _c("h4", { staticClass: "my-0 font-weight-normal" }, [
+                _c("small", { staticClass: "text-muted h3" }, [
+                  _vm._v(_vm._s(planItem.name))
+                ])
               ])
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            class:
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              class:
+                planItem.name == "Premium"
+                  ? (_vm.classe = "card-body bg-dark")
+                  : "card-body"
+            },
+            [
               planItem.name == "Premium"
-                ? (_vm.classe = "card-body bg-dark")
-                : "card-body"
-          },
-          [
-            planItem.name == "Premium"
-              ? _c("p", { staticClass: "text-light" }, [_vm._v(" a partir de")])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("h1", { staticClass: "card-title pricing-card-title" }, [
+                ? _c("p", { staticClass: "text-light" }, [
+                    _vm._v(" a partir de")
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("h1", { staticClass: "card-title pricing-card-title" }, [
+                _c(
+                  "small",
+                  {
+                    class:
+                      planItem.name == "Premium"
+                        ? (_vm.classe = "text-light")
+                        : "text-muted"
+                  },
+                  [_vm._v("$" + _vm._s(planItem.price))]
+                )
+              ]),
+              _vm._v(" "),
               _c(
-                "small",
+                "ul",
+                { staticClass: "list-unstyled mt-3 mb-4" },
+                _vm._l(planItem.functions, function(funct, index_func) {
+                  return _c("li", {
+                    class:
+                      planItem.name == "Premium"
+                        ? (_vm.classe = "text-light")
+                        : "",
+                    domProps: { innerHTML: _vm._s(funct.name) }
+                  })
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
                 {
+                  staticClass: "btn btn-lg btn-block btn-primary contrata",
                   class:
-                    planItem.name == "Premium"
-                      ? (_vm.classe = "text-light")
-                      : "text-muted"
+                    index == 0
+                      ? (_vm.btn_bg =
+                          "btn btn-lg btn-block btn-light btn-outline-primary contrata")
+                      : planItem.name === "Premium"
+                      ? (_vm.btn_bt =
+                          "btn btn-lg btn-warning btn-block contrata")
+                      : "btn btn-lg btn-block contrata btn-primary",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.ask(planItem.name)
+                    }
+                  }
                 },
-                [_vm._v("$" + _vm._s(planItem.price))]
+                [_vm._v(_vm._s(planItem.name_button))]
               )
-            ]),
-            _vm._v(" "),
-            _c(
-              "ul",
-              { staticClass: "list-unstyled mt-3 mb-4" },
-              _vm._l(planItem.functions, function(funct, index_func) {
-                return _c("li", {
-                  class:
-                    planItem.name == "Premium"
-                      ? (_vm.classe = "text-light")
-                      : "",
-                  domProps: { innerHTML: _vm._s(funct.name) }
-                })
-              }),
-              0
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-lg btn-block btn-primary contrata",
-                class:
-                  index == 0
-                    ? (_vm.btn_bg =
-                        "btn btn-lg btn-block btn-light btn-outline-primary contrata")
-                    : planItem.name === "Premium"
-                    ? (_vm.btn_bt = "btn btn-lg btn-warning btn-block contrata")
-                    : "btn btn-lg btn-block contrata btn-primary",
-                attrs: { type: "button" }
-              },
-              [_vm._v(_vm._s(planItem.name_button))]
-            )
-          ]
-        )
-      ])
-    }),
-    0
+            ]
+          )
+        ])
+      }),
+      _vm._v(" "),
+      _c("ask-budget-section-component", {
+        attrs: {
+          name_section: "Pida su Presupuesto",
+          mensageaskbudget: _vm.mensageAskBudget
+        },
+        on: { resetaskbudgetmssg: _vm.resetmssgBudget }
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -87339,6 +87407,20 @@ var render = function() {
       _c("h1", { staticClass: "text-center text-light" }, [
         _vm._v(_vm._s(_vm.sectionItem[0].title))
       ]),
+      _vm._v(" "),
+      _vm.mensageaskbudget != ""
+        ? _c("div", [
+            _c("h4", { staticClass: "text-light" }, [
+              _vm._v(
+                '"' +
+                  _vm._s(_vm.$trans("messages.Web Development Plan")) +
+                  " " +
+                  _vm._s(_vm.mensageaskbudget) +
+                  '"'
+              )
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("form", { staticClass: "mt-5  mb-4", attrs: { action: "" } }, [
         _c("div", { staticClass: "container mt-5" }, [

@@ -163,6 +163,7 @@ return [
     'Works Maked'=>'Portfolio',
     'Welcome to our web'=>'Bienvenidos a nuestra web',
     'Web Development Plans'=>'Planes de Desarrollo Web',
+    'Web Development Plan'=>'Plan de Desarrollo Web',
     'You are receiving a new ask for budget'=>'Usted está recibiendo una nueva petición de presupuesto',
     ' will schedule an appointment with you.'=>' podrá agendar una cita con usted.',
     'You sended succefully this request to: '=>'Usted ha enviado satisfactoriamente su solicitud de Presupuesto a: ',

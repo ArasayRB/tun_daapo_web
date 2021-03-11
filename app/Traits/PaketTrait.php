@@ -13,4 +13,10 @@ trait PaketTrait {
                  ->get();
     return $pakets;
   }
+
+  public function getPaketByName($name){
+    $paket=Paket::where('name',$name)
+                ->get();
+    return $paket;
+  }
 }

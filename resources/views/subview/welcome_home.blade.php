@@ -36,13 +36,12 @@
 <section class="mt-5" description="Planes y Precios" id="planes_precios"><!--Pricing and Planes-->
   <development-section-component name_section="Planes de Desarrollo Web">
   </development-section-component>
-  <development-plan-section-component>
+  <development-plan-section-component @messageaskbudget="messageBudgetChange">
   </development-plan-section-component>
 
 </section><!--END Pricing and Planes-->
 
-<ask-budget-section-component name_section="Pida su Presupuesto">
-</ask-budget-section-component>
+
 
 
 @if ( isset($posts) && $posts>0)

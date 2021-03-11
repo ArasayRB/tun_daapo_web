@@ -18,7 +18,9 @@ class CreateAskBudgetsTable extends Migration
             $table->string('email');
             $table->string('name_or_company');
             $table->string('contact_phone');
+            $table->unsignedBigInteger('paket_id')->nullable();
             $table->timestamps();
+            $table->foreign('paket_id')->references('id')->on('pakets')->onDelete('cascade');
         });
     }
 

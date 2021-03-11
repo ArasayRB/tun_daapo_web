@@ -12,5 +12,6 @@ class AskBudget extends Model
         'email',
         'name_or_company',
         'contact_phone',
+        'paket_id',
     ];
 }
