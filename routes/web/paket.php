@@ -10,3 +10,4 @@ use Illuminate\Support\Str;
 
 Route::resource('/paket', App\Http\Controllers\PaketController::class,['except'=>['create','edit']])->middleware('role:administrator');
 Route::get('/available-pakets', [App\Http\Controllers\PaketController::class, 'availablePakets']);
+Route::get('/all-pakets', [App\Http\Controllers\PaketController::class, 'getAllPakets']);

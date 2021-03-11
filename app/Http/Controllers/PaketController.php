@@ -17,6 +17,25 @@ class PaketController extends Controller
       $this->middleware('auth');
   }
 
+  public function getAllPakets(Request $request){
+    $filter=$request->searcher;
+    $pakets=Paket::filterByAttribute($filter)
+                    ->get();
+    $pakets_searched=[];
+    foreach($pakets as $paket){
+      $findText=stristr($paket->name,$filter);
+      if(!empty($findText)){
+        $prop='name';
+        $paket->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $paket->substr=$small_word;
+        $paket->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$paket->name);
+        $pakets_searched[]=$paket;
+      }
+    }
+    return $pakets_searched;
+  }
+
   protected function validator(array $data)
   {
       return Validator::make($data, [
