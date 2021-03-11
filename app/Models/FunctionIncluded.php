@@ -14,6 +14,12 @@ class FunctionIncluded extends Model
         'description',
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('name', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function pakets(){
       return $this->belongsToMany(Paket::class,'function_included_paket','function_id','paket_id')->withTimestamps();
     }

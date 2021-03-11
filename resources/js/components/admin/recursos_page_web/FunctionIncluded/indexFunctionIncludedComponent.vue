@@ -14,7 +14,13 @@
 
     </functions-included-oper-form-component>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">{{ $trans('messages.List') }}</h6>
+      <div class="row input-group">
+      <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
+      <!-- Topbar Search -->
+      <input-searcher-component :url="'/all-functions-included'" :emit="'functionsincluded'" @cancelsearch="functionsincludedList" @functionsincludedfilter="filtersFunctionsIncluded">
+    </input-searcher-component>
+
+    </div>
     </div>
     <div class="alert alert-success" v-if="mensage!=''">
       <ul>
@@ -161,6 +167,9 @@
     },
     onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    filtersFunctionsIncluded:function(filters){
+      this.functionsincludeds=filters;
     },
         functionsincludedList:function(){
           axios.get('/functions-included-list')
