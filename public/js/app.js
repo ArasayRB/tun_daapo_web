@@ -6558,6 +6558,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -6641,6 +6647,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    filtersPaketType: function filtersPaketType(filters) {
+      this.paket_types = filters;
     },
     paketTypeList: function paketTypeList() {
       var _this = this;
@@ -81439,9 +81448,26 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "card-header py-3" }, [
-          _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
-            _vm._v(_vm._s(_vm.$trans("messages.List")))
-          ])
+          _c(
+            "div",
+            { staticClass: "row input-group" },
+            [
+              _c(
+                "h6",
+                { staticClass: "m-0 font-weight-bold text-primary col" },
+                [_vm._v(_vm._s(_vm.$trans("messages.List")))]
+              ),
+              _vm._v(" "),
+              _c("input-searcher-component", {
+                attrs: { url: "/all-paket-types", emit: "pakettype" },
+                on: {
+                  cancelsearch: _vm.paketTypeList,
+                  pakettypefilter: _vm.filtersPaketType
+                }
+              })
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _vm.mensage != ""

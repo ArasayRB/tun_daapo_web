@@ -14,6 +14,25 @@ class PaketTypeController extends Controller
       $this->middleware('auth');
   }
 
+  public function getAllPaketType(Request $request){
+    $filter=$request->searcher;
+    $paket_types=PaketType::filterByAttribute($filter)
+                    ->get();
+    $paket_types_searched=[];
+    foreach($paket_types as $paket_type){
+      $findText=stristr($paket_type->name,$filter);
+      if(!empty($findText)){
+        $prop='name';
+        $paket_type->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $paket_type->substr=$small_word;
+        $paket_type->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$paket_type->name);
+        $paket_types_searched[]=$paket_type;
+      }
+    }
+    return $paket_types_searched;
+  }
+
   protected function validator(array $data)
   {
       return Validator::make($data, [

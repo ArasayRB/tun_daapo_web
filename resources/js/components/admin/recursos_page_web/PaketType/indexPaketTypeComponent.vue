@@ -14,7 +14,13 @@
 
     </paket-type-oper-form-component>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">{{ $trans('messages.List') }}</h6>
+      <div class="row input-group">
+      <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
+      <!-- Topbar Search -->
+      <input-searcher-component :url="'/all-paket-types'" :emit="'pakettype'" @cancelsearch="paketTypeList" @pakettypefilter="filtersPaketType">
+    </input-searcher-component>
+
+    </div>
     </div>
     <div class="alert alert-success" v-if="mensage!=''">
       <ul>
@@ -161,6 +167,9 @@
     },
     onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    filtersPaketType:function(filters){
+      this.paket_types=filters;
     },
         paketTypeList:function(){
           axios.get('/packet-type-list')

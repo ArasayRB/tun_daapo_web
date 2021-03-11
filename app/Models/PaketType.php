@@ -13,6 +13,12 @@ class PaketType extends Model
         'name',
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('name', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function pakets(){
       return $this->belongsToMany(Paket::class)->withTimestamps();
     }
