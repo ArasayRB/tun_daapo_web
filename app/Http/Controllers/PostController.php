@@ -381,7 +381,6 @@ class PostController extends Controller
       ]);
 
       $post=Post::find(request('post_id'));
-       $this->authorize('updateTranslate',$post);
       $contentType='Post';
       $tipo_content=$this->findContentId($contentType);
 

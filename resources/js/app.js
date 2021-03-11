@@ -65,6 +65,7 @@ Vue.component('edit-permiso-form-component', require('./components/admin/permiso
 Vue.component('add-permiso-form-component', require('./components/admin/permisos/forms/AddPermisoFormComponent.vue').default);
 Vue.component('edit-post-form-component', require('./components/admin/posts/forms/EditPostFormComponent.vue').default);
 Vue.component('contact-oper-form-component', require('./components/admin/recursos_page_web/Contact/forms/ContactFormComponent.vue').default);
+Vue.component('language-oper-form-component', require('./components/admin/configuration/languages/forms/LanguageFormComponent.vue').default);
 Vue.component('service-oper-form-component', require('./components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue').default);
 Vue.component('portfolio-oper-form-component', require('./components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue').default);
 Vue.component('paket-oper-form-component', require('./components/admin/recursos_page_web/Paket/forms/PaketFormComponent.vue').default);
@@ -82,6 +83,7 @@ Vue.component('index-paket-component', require('./components/admin/recursos_page
 Vue.component('index-paket-type-component', require('./components/admin/recursos_page_web/PaketType/indexPaketTypeComponent.vue').default);
 Vue.component('index-function-included-component', require('./components/admin/recursos_page_web/FunctionIncluded/indexFunctionIncludedComponent.vue').default);
 Vue.component('index-sectionpage-component', require('./components/admin/recursos_page_web/SectionPage/indexSectionPageComponent.vue').default);
+Vue.component('index-language-component', require('./components/admin/configuration/languages/indexLanguageComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 Vue.component('relationed-tags-component', require('./components/admin/posts/RelationedTagsComponent.vue').default);
 Vue.component('tun-daapo-section-component', require('./components/views/section_page/TunDaapoComponent.vue').default);

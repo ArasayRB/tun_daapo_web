@@ -19,5 +19,7 @@ use Illuminate\Support\Str;
 |
 */
 
+Route::resource('/languages', App\Http\Controllers\LanguageController::class,['except'=>['create','edit']]);
 Route::get('language/{language}', [App\Http\Controllers\LanguageController::class, 'switchLang'])->name('language.select');
 Route::get('/languagesList',[App\Http\Controllers\LanguageController::class, 'getLanguagesList']);
+Route::get('/all-languages', [App\Http\Controllers\LanguageController::class, 'getAllLanguages']);

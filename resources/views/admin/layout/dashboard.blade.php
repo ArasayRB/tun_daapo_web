@@ -117,6 +117,28 @@
           </div>
         </div>
       </li>
+
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        {{__('messages.Web Page Resources')}}
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConfiguration" aria-expanded="true" aria-controls="collapseConfiguration">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>{{__('messages.Configuration')}}</span>
+        </a>
+        <div id="collapseConfiguration" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
+            <a class="collapse-item" href="/languages">{{__('messages.Language')}}</a>
+          </div>
+        </div>
+      </li>
       @endcan
 
 
@@ -193,7 +215,7 @@
                 <i class="fa fa-bars"></i>
               </button>
 
-              
+
 
 
               <!-- Topbar Navbar -->

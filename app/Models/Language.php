@@ -14,6 +14,13 @@ class Language extends Model
       'sigla',
   ];
 
+  public function scopeFilterByAttribute($query,$filter){
+    if(!empty($filter)){
+      $query->where('language', 'LIKE', '%'.$filter.'%')
+            ->orWhere('sigla', 'LIKE', '%'.$filter.'%');
+    }
+  }
+
   public function translates(){
     return $this->belongsToMany(Translate::class,'translate_language','language_id','translate_id')->withPivot('content_trans','id')->withTimestamps();
   }
