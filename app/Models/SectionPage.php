@@ -13,4 +13,10 @@ class SectionPage extends Model
         'title',
         'description'
     ];
+
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('title', 'LIKE', '%'.$filter.'%');
+      }
+    }
 }

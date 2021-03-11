@@ -16,6 +16,26 @@ class SectionPageController extends Controller
       $this->middleware('auth');
   }
 
+  public function getAllSectionPages(Request $request){
+    $filter=$request->searcher;
+    $section_pages=SectionPage::filterByAttribute($filter)
+                    ->get();
+    $section_pages_searched=[];
+    foreach($section_pages as $section_page){
+      $findText=stristr($section_page->title,$filter);
+      if(!empty($findText)){
+        $prop='title';
+        $section_page->finded==$findText;
+        $small_word=substr($findText,0,strlen($filter));
+        $section_page->name=$section_page->title;
+        $section_page->substr=$small_word;
+        $section_page->word_black=str_ireplace($filter,'<b>'.$small_word.'</b>',$section_page->title);
+        $section_pages_searched[]=$section_page;
+      }
+    }
+    return $section_pages_searched;
+  }
+
   protected function validator(array $data)
   {
       return Validator::make($data, [

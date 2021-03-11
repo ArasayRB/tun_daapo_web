@@ -7845,6 +7845,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -7928,6 +7934,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    filtersSectionPage: function filtersSectionPage(filters) {
+      this.sectionpages = filters;
     },
     imageEdit: function imageEdit(e) {
       this.imagenpermission = e.target.files[0];
@@ -9512,15 +9521,20 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.lists = response.data;
-        _this.list = [];
 
-        _this.$emit(_this.emit + 'filter', _this.lists);
+        if (_this.lists.length != 0) {
+          _this.$emit(_this.emit + 'filter', _this.lists);
+        } else {
+          _this.show = false;
+
+          _this.$emit('cancelsearch');
+        }
       });
     },
     filterUser: function filterUser(list) {
       window.location.href = window.location.origin + '/hostal/' + list.slug;
     },
-    searchHostal: function searchHostal() {
+    searcherItems: function searcherItems() {
       clearTimeout(this.setTimeOUTSearcher);
       this.setTimeOUTSearcher = setTimeout(this.getLists, 360);
     }
@@ -83032,9 +83046,26 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "card-header py-3" }, [
-          _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
-            _vm._v(_vm._s(_vm.$trans("messages.List")))
-          ])
+          _c(
+            "div",
+            { staticClass: "row input-group" },
+            [
+              _c(
+                "h6",
+                { staticClass: "m-0 font-weight-bold text-primary col" },
+                [_vm._v(_vm._s(_vm.$trans("messages.List")))]
+              ),
+              _vm._v(" "),
+              _c("input-searcher-component", {
+                attrs: { url: "/all-section-pages", emit: "sectionspages" },
+                on: {
+                  cancelsearch: _vm.sectionpageList,
+                  sectionspagesfilter: _vm.filtersSectionPage
+                }
+              })
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _vm.mensage != ""
@@ -84998,7 +85029,7 @@ var render = function() {
         },
         domProps: { value: _vm.searcher },
         on: {
-          keyup: _vm.getLists,
+          keyup: _vm.searcherItems,
           input: function($event) {
             if ($event.target.composing) {
               return

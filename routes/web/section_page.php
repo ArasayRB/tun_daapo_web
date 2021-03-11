@@ -10,3 +10,4 @@ use Illuminate\Support\Str;
 
 Route::resource('/sectionpage', App\Http\Controllers\SectionPageController::class,['except'=>['create','edit']])->middleware('role:administrator');
 Route::get('/sectionpageList', [App\Http\Controllers\SectionPageController::class, 'getSectionPageList']);
+Route::get('/all-section-pages', [App\Http\Controllers\SectionPageController::class, 'getAllSectionPages']);

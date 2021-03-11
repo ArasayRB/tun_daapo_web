@@ -1,7 +1,7 @@
 <template>
   <div class="input-group col">
     <div class="input-group-append">
-      <input type="search" v-model="searcher" @keyup="getLists" class="form-control panel-header bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+      <input type="search" v-model="searcher" @keyup="searcherItems" class="form-control panel-header bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
 
 
         <button class="btn btn-primary" type="button" @click="getLists">
@@ -60,14 +60,19 @@ export default {
       })
           .then(response =>{
             this.lists=response.data;
-            this.list=[];
+            if(this.lists.length!=0){
             this.$emit(this.emit+'filter',this.lists);
+          }
+          else{
+            this.show=false;
+            this.$emit('cancelsearch');
+          }
           });
     },
     filterUser:function(list){
       window.location.href = window.location.origin +'/hostal/'+list.slug;
     },
-    searchHostal:function(){
+    searcherItems:function(){
       clearTimeout(this.setTimeOUTSearcher)
       this.setTimeOUTSearcher=setTimeout(this.getLists, 360)
     },
