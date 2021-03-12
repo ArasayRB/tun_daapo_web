@@ -12295,6 +12295,7 @@ module.exports = {
     "If you did not subscribe link this url for unsubscribe": "If you did not subscribe link this url for unsubscribe",
     "Image": "Image",
     "Interface": "Interface",
+    "Keywords": "Keywords",
     "Landline": "Landline",
     "Language": "Language",
     "Languages": "Languages",
@@ -12380,6 +12381,7 @@ module.exports = {
     "This password reset link will expire in :count minutes.": "This password reset link will expire in :count minutes.",
     "Title": "Title",
     "Tools": "Tools",
+    "Translate": "Translate",
     "Tun Daapo": "Tun Daapo",
     "Unidentified error": "Unidentified error",
     "Unsubscribe": "Unsubscribe",
@@ -12592,6 +12594,7 @@ module.exports = {
     "If you did not subscribe link this url for unsubscribe": "Si usted no se ha suscrito, haga click en esta link para cancelar su suscripci\xF3n",
     "Image": "Im\xE1gen",
     "Interface": "Interface",
+    "Keywords": "Palabras claves",
     "Landline": "Tel\xE9fono Fijo",
     "Language": "Idioma",
     "Languages": "Idiomas",
@@ -12677,6 +12680,7 @@ module.exports = {
     "This password reset link will expire in :count minutes.": "Este enlace de restablecimiento de contrase\xF1a expirar\xE1 en :count minutos.",
     "Title": "T\xEDtulo",
     "Tools": "Herramientas",
+    "Translate": "Traducir",
     "Tun Daapo": "Tun Daapo",
     "Unidentified error": "Error Desconocido",
     "Unsubscribe": "Cancelar Suscripci\xF3n",
@@ -78427,10 +78431,14 @@ var render = function() {
                                             [
                                               _vm._v(
                                                 _vm._s(
-                                                  _vm.$trans(
-                                                    "messages.Select Language"
+                                                  _vm.$trans("messages.Select")
+                                                ) +
+                                                  " " +
+                                                  _vm._s(
+                                                    _vm.$trans(
+                                                      "messages.Language"
+                                                    )
                                                   )
-                                                )
                                               )
                                             ]
                                           ),

@@ -15,10 +15,10 @@ class CreateTranslatesTable extends Migration
     {
         Schema::create('translates', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_content_trans');
-            $table->longText('content');
-            $table->unsignedBigInteger('tipo_content');
-            $table->string('indice_content');
+            $table->integer('id_content_trans');//original text id, for example(Post in this case)
+            $table->longText('content');//original content
+            $table->unsignedBigInteger('tipo_content');//Type of content, in this case is Post
+            $table->string('indice_content');//in the original text(Table) the title of div input
             $table->timestamps();
             $table->foreign('tipo_content')->references('id')->on('content_types')->onDelete('cascade');
         });

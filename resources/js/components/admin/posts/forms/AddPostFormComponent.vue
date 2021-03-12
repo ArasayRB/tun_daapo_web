@@ -23,7 +23,7 @@
               <div class="form-group" id="language_div" :hidden=show_lang_div>
                 <label for="lang_trans">{{ $trans('messages.Language') }}</label>
                 <select class="form-control" v-model="lang_trans" name="lang_trans" required>
-                 <option value=''>{{ $trans('messages.Select Language') }}</option>
+                 <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Language') }}</option>
                    <option v-for="language in languages" :value="language.id">{{language.language}}</option>
                 </select>
               </div>
