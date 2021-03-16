@@ -18,6 +18,20 @@ trait FunctionIncludedTrait {
                    return $functs;
     }
 
+    public function getFunction($function){
+      return FunctionIncluded::find($function);
+    }
+
+    public function getTranslatedFunctionByLang($lang,$function_id,$content_type){
+      $id_lang=$this->getLangIdByName($lang);
+      $content_types=$this->getContentTypeByName($content_type);
+      $function_translated=$this->getTranslatedTransItem($id_lang,$function_id,$content_types[0]->id);
+      $function=$this->getFunction($function_id);
+      $function->name=$function_translated['name']['content_trans'];
+      $function->description=$function_translated['description']['content_trans'];
+      return $function;
+    }
+
     public function getAllFunctionIncluded(){
       $functs = FunctionIncluded::all();
 

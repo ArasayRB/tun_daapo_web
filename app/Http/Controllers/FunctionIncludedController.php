@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\FunctionIncluded;
 use Illuminate\Http\Request;
+use App\Traits\ContentTypeTrait;
+use App\Traits\FunctionIncludedTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
 use Illuminate\Support\Facades\Validator;
 
 class FunctionIncludedController extends Controller
 {
+  use ContentTypeTrait, TranslateTrait, LanguageTrait, FunctionIncludedTrait;
 
   public function __construct()
   {
@@ -79,6 +84,38 @@ class FunctionIncludedController extends Controller
       return $functions_included;
     }
 
+    public function addTranslate(Request $request){
+      $data=request()->validate([
+        'name'=> 'required|max:255',
+        'lang'=> 'required',
+        'description'=> 'required',
+      ]);
+
+      $function=FunctionIncluded::find(request('function_id'));
+      $contentType='Function';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->findLanguageName(request('lang'));
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$function->id,
+        'content'=>$function['name'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'name',
+        'content_trans'=>request('name')],
+        ['id_content_trans'=>$function->id,
+        'content'=>$function['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $this->storeTranslate($data_trans);
+      return $function;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -107,6 +144,37 @@ class FunctionIncludedController extends Controller
       return $functions_included;
     }
 
+    public function updateTranslatedFunctionByLang($function_id,$lang_name, Request $request){
+      $dataPost=request()->validate([
+        'name'=> 'required|max:255',
+        'description'=> 'required',
+      ]);
+
+      $function=FunctionIncluded::find($function_id);
+      $contentType='Function';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->getLangIdByName($lang_name);
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$function_id,
+        'content'=>request('name'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'name',
+        'content_trans'=>request('name')],
+        ['id_content_trans'=>$function_id,
+        'content'=>request('description'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $result=$this->updateTranslate($data_trans);
+      return $result;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -116,6 +184,9 @@ class FunctionIncludedController extends Controller
     public function destroy(int $functionIncluded)
     {
       $function_included=FunctionIncluded::findOrFail($functionIncluded);
+        $contentType='Function';
+        $tipo_content=$this->findContentId($contentType);
+        $this->deleteTranslatedItemsByItem($functionIncluded,$tipo_content);
       $function_included->delete();
       return $function_included;
     }

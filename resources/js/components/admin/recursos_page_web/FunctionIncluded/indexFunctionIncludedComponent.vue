@@ -10,7 +10,7 @@
 
   </div>
   <div class="card shadow mb-4">
-    <functions-included-oper-form-component @functionsincludednew="addFunctionsIncludedIndex" @functionsincludedoperupd="updFunctionsIncludedIndex" :operation="operation" :functionsincluded="functionsincluded" :locale="locale" v-if="ventanaOperFunctionsIncluded" @close="ventanaOperFunctionsIncluded = false">
+    <functions-included-oper-form-component @functionsincludednew="addFunctionsIncludedIndex" @functionsincludedoperupd="updFunctionsIncludedIndex" :operation="operation" :lan_to_edit="lan_to_edit" :functionsincluded="functionsincluded" :locale="locale" :show_lang_div="show_lang_div" v-if="ventanaOperFunctionsIncluded" @close="ventanaOperFunctionsIncluded = false">
 
     </functions-included-oper-form-component>
     <div class="card-header py-3">
@@ -52,12 +52,26 @@
                 <tr v-for="(functionsincluded,index) in paginated('functionsincludeds')" :functionsincluded="functionsincluded" :key="functionsincluded.id">
 
                     <td>
+                      <div class="dropdown">
+                        <a class="dropdown-toggle" :id="'edit-translate-function-included-'+functionsincluded.id" v-can-user="'edit-translate-function-included'" title="Edit Translate/Editar Traducción" data-toggle="dropdown" @click="getTranslates(index,functionsincluded)" hidden>
+                          <i class="fa fa-edit"></i>
+                          <i class="fas fa-language"></i>
+                        </a>
+                        <div class="dropdown-menu">
 
-                          <a href="#" @click="openEditFunctionsIncluded(index,functionsincluded)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
+                          <a class="dropdown-item" type="button" v-for="lang_available in translated_languages" @click="openEditTranslated(functionsincluded, lang_available)">
+                              {{lang_available}}
+                          </a>
+
+                          </div>
+                      </div>
+
+                      <a href="#" @click="openAddTranslate(index,functionsincluded)" :id="'translate-function-included-'+functionsincluded.id" v-can-user="'translate-function-included'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
+                      <a href="#" @click="openEditFunctionsIncluded(index,functionsincluded)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deleteFunctionsIncluded(index,functionsincluded.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
-                    <td>{{functionsincluded.name}}</td>
-                    <td>{{functionsincluded.description}}</td>
+                    <td v-html="functionsincluded.name"></td>
+                    <td v-html="functionsincluded.description"></td>
 
                 </tr>
 
@@ -139,9 +153,12 @@
           idpermissionActualizar:-1,
           value:'',
           operation:'',
+          translated_languages:[],
           id:'',
           mensage:'',
           valueImg:'',
+          show_lang_div:false,
+          lan_to_edit:'none',
           lang:true,
           locale:'',
           ventanaOperFunctionsIncluded:false,
@@ -171,6 +188,40 @@
     filtersFunctionsIncluded:function(filters){
       this.functionsincludeds=filters;
     },
+    openEditTranslated:function(functionsincluded, lang_available){
+      let functionsincluded_translated_array;
+      axios.get('/get-translated-function-by-lang/'+lang_available+'/'+functionsincluded.id+'/Function')
+           .then(response =>{
+             functionsincluded_translated_array = response.data;
+             this.functionsincluded=functionsincluded_translated_array;
+               this.operation='update';
+                 this.ventanaOperFunctionsIncluded=true;
+                 this.lan_to_edit=lang_available;
+             if (response.data==''){
+               this.mensage=this.$trans('messages.Function Included')+'  '+this.$trans('messages.None added yet');
+             }})
+           .catch(error => this.errors.push(error));
+    },
+    getTranslates:function(index,functionsincluded){
+      axios.get('/translated-language-item/'+functionsincluded.id+'/Function')
+           .then(response =>{
+               this.lang=false;
+             if (response.data==='no-language-added'){
+               this.translated_languages = [];
+               let mensageLang=this.$trans('messages.None language added yet');
+               swal({title:this.$trans('messages.Warning!'),
+                     text:mensageLang,
+                     icon:'warning',
+                     closeOnClickOutside:false,
+                     closeOnEsc:false
+                   });
+             }
+             else{
+                 this.translated_languages = response.data;
+             }
+           })
+           .catch(error => this.errors.push(error));
+    },
         functionsincludedList:function(){
           axios.get('/functions-included-list')
                .then(response =>{
@@ -185,10 +236,12 @@
           this.operation='';
           this.functionsincludedList();
           this.mensage="";
+          this.show_lang_div=false;
           this.ventanaOperFunctionsIncluded=false;
         },
         updFunctionsIncludedIndex:function(functionsincludedUpd){
           this.operation='';
+          this.show_lang_div=false;
           const position=this.functionsincludeds.findIndex(functionsincluded=>functionsincluded.id===functionsincludedUpd.id);
           this.functionsincludedList();
           this.ventanaOperFunctionsIncluded=false;
@@ -234,12 +287,20 @@
 
 
         },
+        openAddTranslate:function(index,functionsincluded){
+          this.functionsincluded=functionsincluded;
+          this.show_lang_div=false;
+          this.operation='add';
+          this.ventanaOperFunctionsIncluded = true;
+        },
         openAddFunctionsIncluded:function(){
+          this.show_lang_div=true;
           this.operation='add';
           this.ventanaOperFunctionsIncluded = true;
         },
         openEditFunctionsIncluded:function(index,functionsincluded){
           this.operation='update';
+          this.lan_to_edit='none';
         this.functionsincluded=functionsincluded;
           this.ventanaOperFunctionsIncluded=true;
 

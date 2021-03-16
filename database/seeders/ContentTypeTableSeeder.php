@@ -39,6 +39,10 @@ class ContentTypeTableSeeder extends Seeder
       $content_type->save();
 
       $content_type=new ContentType();
+      $content_type->name='Function';
+      $content_type->save();
+
+      $content_type=new ContentType();
       $content_type->name='Section';
       $content_type->save();
     }
