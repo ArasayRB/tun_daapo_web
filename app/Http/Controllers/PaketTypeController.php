@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\PaketType;
 use Illuminate\Http\Request;
+use App\Traits\ContentTypeTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
 use Illuminate\Support\Facades\Validator;
 
 class PaketTypeController extends Controller
 {
+use ContentTypeTrait, TranslateTrait, LanguageTrait;
 
   public function __construct()
   {
@@ -45,6 +49,19 @@ class PaketTypeController extends Controller
     $types=PaketType::all();
     return $types;
   }
+
+  public function getPacket($packet){
+    return PaketType::find($packet);
+  }
+
+  public function getTranslatedPacketTypeByLang($lang,$packet_id,$content_type){
+    $id_lang=$this->getLangIdByName($lang);
+    $content_types=$this->getContentTypeByName($content_type);
+    $packet_translated=$this->getTranslatedTransItem($id_lang,$packet_id,$content_types[0]->id);
+    $packet=$this->getPacket($packet_id);
+    $packet->name=$packet_translated['name']['content_trans'];
+    return $packet;
+  }
     /**
      * Display a listing of the resource.
      *
@@ -68,6 +85,31 @@ class PaketTypeController extends Controller
       $paket_types->name=request('name');
       $paket_types->save();
       return $paket_types;
+    }
+
+    public function addTranslate(Request $request){
+      $data=request()->validate([
+        'name'=> 'required|max:255',
+        'lang'=> 'required',
+      ]);
+
+      $paket_type=PaketType::find(request('packet_type_id'));
+      $contentType='Paket Type';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->findLanguageName(request('lang'));
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$paket_type->id,
+        'content'=>$paket_type['name'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'name',
+        'content_trans'=>request('name')]
+      );
+      $this->storeTranslate($data_trans);
+      return $paket_type;
     }
 
     /**
@@ -98,6 +140,30 @@ class PaketTypeController extends Controller
       return $paket_types;
     }
 
+    public function updateTranslatedPacketTypeByLang($paket_type_id,$lang_name, Request $request){
+      $dataPost=request()->validate([
+        'name'=> 'required|max:255',
+      ]);
+
+      $paket_type=PaketType::find($paket_type_id);
+      $contentType='Paket Type';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->getLangIdByName($lang_name);
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$paket_type_id,
+        'content'=>request('name'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'name',
+        'content_trans'=>request('name')]
+      );
+      $result=$this->updateTranslate($data_trans);
+      return $result;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -107,6 +173,9 @@ class PaketTypeController extends Controller
     public function destroy(int $paketType)
     {
       $paket_type=PaketType::findOrFail($paketType);
+        $contentType='Paket Type';
+        $tipo_content=$this->findContentId($contentType);
+        $this->deleteTranslatedItemsByItem($paketType,$tipo_content);
       $paket_type->delete();
       return $paket_type;
     }

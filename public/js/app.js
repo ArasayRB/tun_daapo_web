@@ -7031,12 +7031,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     VueCkeditor: vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['locale', 'paket_type', 'operation'],
+  props: ['locale', 'paket_type', 'operation', 'show_lang_div', 'lan_to_edit'],
   data: function data() {
     return {
       msgAddTag: this.$trans('messages.Add a new Tag'),
@@ -7077,12 +7087,15 @@ __webpack_require__.r(__webpack_exports__);
         }],
         height: 300
       },
+      languages: [],
+      language: '',
       activeClass: 'active',
       showClass: 'show',
       phone: '',
       name: '',
       map: '',
       value: '',
+      lang_trans: '',
       email: '',
       src: 'images/lang/',
       ventanaOperPaketType: false,
@@ -7109,22 +7122,55 @@ __webpack_require__.r(__webpack_exports__);
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
     },
-    createPaketType: function createPaketType() {
+    getLanguageList: function getLanguageList() {
       var _this = this;
 
-      var url = "/pakettypes";
-      var msg_succ = this.$trans('messages.Packet Type') + ' ' + this.$trans('messages.Created.');
-      var mensaje = this.$trans('messages.Unidentified error');
+      axios.get('/languages-no-translated/' + this.paket_type.id + '/Paket Type').then(function (response) {
+        return _this.languages = response.data;
+      })["catch"](function (error) {
+        return _this.error.push(error);
+      });
+    },
+    createPaketType: function createPaketType() {
+      var _this2 = this;
 
-      if (this.name == '') {
-        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+      var url;
+      var msg_succ;
+      var data;
+      var mensaje;
+      var default_lang = this.$lang.getLocale();
+
+      if (this.show_lang_div === false) {
+        url = "/add-translate-packet-type";
+        msg_succ = this.$trans('messages.Packet Type') + ' ' + this.$trans('messages.Translated Succefully');
+
+        var _mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.name == '' || this.lang_trans == '') {
+          _mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        data = new FormData();
+        data.append("name", this.name);
+        data.append("name_old", this.paket_type.name);
+        data.append("packet_type_id", this.paket_type.id);
+        data.append("lang", this.lang_trans);
+      } else {
+        url = "/pakettypes";
+        msg_succ = this.$trans('messages.Packet Type') + ' ' + this.$trans('messages.Created.');
+        mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.name == '') {
+          mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        data = new FormData();
+        data.append("name", this.name);
       }
 
-      var data = new FormData();
-      data.append("name", this.name);
       axios.post(url, data).then(function (response) {
         swal({
-          title: _this.$trans('messages.Correct data'),
+          title: _this2.$trans('messages.Correct data'),
           text: msg_succ,
           icon: 'success',
           closeOnClickOutside: false,
@@ -7133,7 +7179,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var roleAdd = response.data;
 
-            _this.$emit('pakettypenew', roleAdd); //location.reload();
+            _this2.$emit('pakettypenew', roleAdd); //location.reload();
 
           }
         }); //console.log(response);
@@ -7152,7 +7198,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editedPaketType: function editedPaketType(paket_type) {
-      var _this2 = this;
+      var _this3 = this;
 
       var url;
       var data;
@@ -7162,14 +7208,25 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       };
-      data = new FormData();
-      data.append('_method', 'patch');
-      data.append("name", paket_type.name);
-      url = "/pakettypes/" + paket_type.id;
-      msg_edited = this.$trans('messages.Packet Type') + ' ' + this.$trans('messages.Edited');
+
+      if (this.lan_to_edit === 'none') {
+        data = new FormData();
+        data.append('_method', 'patch');
+        data.append("name", paket_type.name);
+        url = "/pakettypes/" + paket_type.id;
+        msg_edited = this.$trans('messages.Packet Type') + ' ' + this.$trans('messages.Edited');
+      } else {
+        data = new FormData();
+        data.append("name", paket_type.name); //data.append("tags", postTags);
+        //data.append("keywords", postKeys);
+
+        url = "/packet-type-translated-edited/" + paket_type.id + "/" + this.lan_to_edit;
+        msg_edited = this.$trans('messages.The') + ' ' + this.$trans('messages.Packet Type') + ' ' + this.$trans('messages.translation has been successfully modified');
+      }
+
       axios.post(url, data, config).then(function (response) {
         swal({
-          title: _this2.$trans('messages.Packet Type'),
+          title: _this3.$trans('messages.Packet Type'),
           text: msg_edited,
           icon: 'success',
           closeOnClickOutside: false,
@@ -7178,7 +7235,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var paketTypeUpdate = response.data;
 
-            _this2.$emit('pakettypeoperupd', paketTypeUpdate);
+            _this3.$emit('pakettypeoperupd', paketTypeUpdate);
           }
         }); //console.log(response);
       })["catch"](function (error) {
@@ -7194,7 +7251,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.getLanguageList();
+  },
   mounted: function mounted() {}
 });
 
@@ -7212,6 +7271,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7369,9 +7442,12 @@ __webpack_require__.r(__webpack_exports__);
       idpermissionActualizar: -1,
       value: '',
       operation: '',
+      translated_languages: [],
       id: '',
       mensage: '',
       valueImg: '',
+      show_lang_div: false,
+      lan_to_edit: 'none',
       lang: true,
       locale: '',
       src: 'storage/img_web/login_img/',
@@ -7403,33 +7479,72 @@ __webpack_require__.r(__webpack_exports__);
     filtersPaketType: function filtersPaketType(filters) {
       this.paket_types = filters;
     },
-    paketTypeList: function paketTypeList() {
+    openEditTranslated: function openEditTranslated(paket_type, lang_available) {
       var _this = this;
 
-      axios.get('/packet-type-list').then(function (response) {
-        _this.paket_types = response.data;
+      var section_translated_array;
+      axios.get('/get-translated-packet-type-by-lang/' + lang_available + '/' + paket_type.id + '/Paket Type').then(function (response) {
+        section_translated_array = response.data;
+        _this.paket_type = section_translated_array;
+        _this.operation = 'update';
+        _this.ventanaOperPaketType = true;
+        _this.lan_to_edit = lang_available;
 
         if (response.data == '') {
-          _this.mensage = _this.$trans('messages.None added yet');
+          _this.mensage = _this.$trans('messages.Packet Type') + '  ' + _this.$trans('messages.None added yet');
         }
       })["catch"](function (error) {
         return _this.errors.push(error);
       });
     },
+    getTranslates: function getTranslates(index, paket_type) {
+      var _this2 = this;
+
+      axios.get('/translated-language-item/' + paket_type.id + '/Paket Type').then(function (response) {
+        _this2.lang = false;
+
+        if (response.data === 'no-language-added') {
+          _this2.translated_languages = [];
+
+          var mensageLang = _this2.$trans('messages.None language added yet');
+
+          swal({
+            title: _this2.$trans('messages.Warning!'),
+            text: mensageLang,
+            icon: 'warning',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          });
+        } else {
+          _this2.translated_languages = response.data;
+        }
+      })["catch"](function (error) {
+        return _this2.errors.push(error);
+      });
+    },
+    paketTypeList: function paketTypeList() {
+      var _this3 = this;
+
+      axios.get('/packet-type-list').then(function (response) {
+        _this3.paket_types = response.data;
+
+        if (response.data == '') {
+          _this3.mensage = _this3.$trans('messages.None added yet');
+        }
+      })["catch"](function (error) {
+        return _this3.errors.push(error);
+      });
+    },
     addPaketTypeIndex: function addPaketTypeIndex(paketTypeAdd) {
       this.operation = '';
-
-      if (this.paket_types.length === 0) {
-        this.paketTypeList();
-      } else {
-        this.paket_types.push(paketTypeAdd);
-      }
-
+      this.paketTypeList();
       this.mensage = "";
+      this.show_lang_div = false;
       this.ventanaOperPaketType = false;
     },
     updPaketTypeIndex: function updPaketTypeIndex(paket_typeUpd) {
       this.operation = '';
+      this.show_lang_div = false;
       var position = this.paket_types.findIndex(function (paket_type) {
         return paket_type.id === paket_typeUpd.id;
       });
@@ -7437,7 +7552,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ventanaOperPaketType = false;
     },
     deletePaketType: function deletePaketType(index, paket_type) {
-      var _this2 = this;
+      var _this4 = this;
 
       var paket_type_id = paket_type;
       swal({
@@ -7456,17 +7571,17 @@ __webpack_require__.r(__webpack_exports__);
           var url = '/pakettypes/' + paket_type_id;
           axios["delete"](url).then(function (response) {
             swal({
-              title: _this2.$trans('messages.Correct data'),
-              text: _this2.$trans('messages.Packet Type') + ' ' + _this2.$trans('messages.Deleted'),
+              title: _this4.$trans('messages.Correct data'),
+              text: _this4.$trans('messages.Packet Type') + ' ' + _this4.$trans('messages.Deleted'),
               icon: 'success',
               closeOnClickOutside: false,
               closeOnEsc: false
             }).then(function (select) {
               if (select) {
-                _this2.paketTypeList();
+                _this4.paketTypeList();
 
-                if (_this2.paket_types.length === 0) {
-                  _this2.mensage = _this2.$trans('messages.None added yet');
+                if (_this4.paket_types.length === 0) {
+                  _this4.mensage = _this4.$trans('messages.None added yet');
                 }
               }
             });
@@ -7478,12 +7593,20 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    openAddTranslate: function openAddTranslate(index, paket_type) {
+      this.paket_type = paket_type;
+      this.show_lang_div = false;
+      this.operation = 'add';
+      this.ventanaOperPaketType = true;
+    },
     openAddPaketType: function openAddPaketType() {
+      this.show_lang_div = true;
       this.operation = 'add';
       this.ventanaOperPaketType = true;
     },
     openEditPaketType: function openEditPaketType(index, paket_type) {
       this.operation = 'update';
+      this.lan_to_edit = 'none';
       this.paket_type = paket_type;
       this.ventanaOperPaketType = true;
     }
@@ -9057,6 +9180,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     openEditSectionPage: function openEditSectionPage(index, sectionpage) {
       this.operation = 'update';
+      this.lan_to_edit = 'none';
       this.sectionpage = sectionpage;
       this.ventanaOperSectionPage = true;
     }
@@ -83964,8 +84088,13 @@ var render = function() {
                       { staticClass: "modal-header" },
                       [
                         _vm._t("default", [
-                          _vm.operation === "add"
+                          _vm.show_lang_div === false
                             ? _c(
+                                "h1",
+                                { staticClass: "text-center text-dark" },
+                                [_vm._v(_vm._s(_vm.paket_type.name))]
+                              )
+                            : _c(
                                 "h1",
                                 { staticClass: "text-center text-dark" },
                                 [
@@ -83975,22 +84104,7 @@ var render = function() {
                                       _vm._s(_vm.$trans("messages.Packet Type"))
                                   )
                                 ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.operation === "update"
-                            ? _c(
-                                "h1",
-                                { staticClass: "text-center text-dark" },
-                                [
-                                  _vm._v(
-                                    _vm._s(_vm.$trans("messages.Update")) +
-                                      " " +
-                                      _vm._s(_vm.$trans("messages.Packet Type"))
-                                  )
-                                ]
-                              )
-                            : _vm._e(),
+                              ),
                           _vm._v(" "),
                           _c(
                             "button",
@@ -84025,6 +84139,120 @@ var render = function() {
                               { staticClass: "row justify-content-center" },
                               [
                                 _c("div", { staticClass: "col-12" }, [
+                                  _vm.operation == "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div != true,
+                                              expression: "show_lang_div!=true"
+                                            }
+                                          ],
+                                          staticClass: "form-group",
+                                          attrs: { id: "language_div" }
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "lang_trans" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Language"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.lang_trans,
+                                                  expression: "lang_trans"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                name: "lang_trans",
+                                                required: ""
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$selectedVal = Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function(o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function(o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                  _vm.lang_trans = $event.target
+                                                    .multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                { attrs: { value: "" } },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Select"
+                                                      )
+                                                    ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.$trans(
+                                                          "messages.Language"
+                                                        )
+                                                      )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(_vm.languages, function(
+                                                language
+                                              ) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    domProps: {
+                                                      value: language.id
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(language.language)
+                                                    )
+                                                  ]
+                                                )
+                                              })
+                                            ],
+                                            2
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
                                   _c("div", { staticClass: "form-group" }, [
                                     _c("label", { attrs: { for: "name" } }, [
                                       _vm._v(
@@ -84114,10 +84342,52 @@ var render = function() {
                                     "div",
                                     { staticClass: "col-md-5 offset-md-4" },
                                     [
-                                      _vm.operation === "add"
+                                      _vm.show_lang_div === false
                                         ? _c(
                                             "button",
                                             {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "btn rounded btn-primary reserva",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.createPaketType()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Translate"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "button",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
                                               staticClass:
                                                 "btn rounded btn-primary reserva",
                                               attrs: { type: "button" },
@@ -84134,8 +84404,7 @@ var render = function() {
                                                 )
                                               )
                                             ]
-                                          )
-                                        : _vm._e(),
+                                          ),
                                       _vm._v(" "),
                                       _vm.operation === "update"
                                         ? _c(
@@ -84257,8 +84526,10 @@ var render = function() {
           ? _c("paket-type-oper-form-component", {
               attrs: {
                 operation: _vm.operation,
+                lan_to_edit: _vm.lan_to_edit,
                 paket_type: _vm.paket_type,
-                locale: _vm.locale
+                locale: _vm.locale,
+                show_lang_div: _vm.show_lang_div
               },
               on: {
                 pakettypenew: _vm.addPaketTypeIndex,
@@ -84362,6 +84633,114 @@ var render = function() {
                             },
                             [
                               _c("td", [
+                                _c("div", { staticClass: "dropdown" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "can-user",
+                                          rawName: "v-can-user",
+                                          value: "edit-translate-section",
+                                          expression: "'edit-translate-section'"
+                                        }
+                                      ],
+                                      staticClass: "dropdown-toggle",
+                                      attrs: {
+                                        id:
+                                          "edit-translate-section-" +
+                                          paket_type.id,
+                                        title:
+                                          "Edit Translate/Editar Traducción",
+                                        "data-toggle": "dropdown",
+                                        hidden: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getTranslates(
+                                            index,
+                                            paket_type
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", { staticClass: "fa fa-edit" }),
+                                      _vm._v(" "),
+                                      _c("i", {
+                                        staticClass: "fas fa-language"
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "dropdown-menu" },
+                                    _vm._l(_vm.translated_languages, function(
+                                      lang_available
+                                    ) {
+                                      return _c(
+                                        "a",
+                                        {
+                                          staticClass: "dropdown-item",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openEditTranslated(
+                                                paket_type,
+                                                lang_available
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(lang_available) +
+                                              "\n                        "
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "can-user",
+                                        rawName: "v-can-user",
+                                        value: "translate-section",
+                                        expression: "'translate-section'"
+                                      }
+                                    ],
+                                    attrs: {
+                                      href: "#",
+                                      id: "translate-section-" + paket_type.id,
+                                      hidden: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openAddTranslate(
+                                          index,
+                                          paket_type
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-language",
+                                      attrs: {
+                                        title: "Add Language/Añadir Lenguage"
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
                                 _c(
                                   "a",
                                   {

@@ -310,6 +310,7 @@
         },
         openEditSectionPage:function(index,sectionpage){
           this.operation='update';
+          this.lan_to_edit='none';
         this.sectionpage=sectionpage;
           this.ventanaOperSectionPage=true;
 
