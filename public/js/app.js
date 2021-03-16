@@ -4897,12 +4897,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     VueCkeditor: vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['locale', 'contact', 'operation'],
+  props: ['locale', 'contact', 'operation', 'show_lang_div', 'lan_to_edit'],
   data: function data() {
     return {
       msgAddTag: this.$trans('messages.Add a new Tag'),
@@ -4943,10 +4970,13 @@ __webpack_require__.r(__webpack_exports__);
         }],
         height: 300
       },
+      languages: [],
+      language: '',
       activeClass: 'active',
       showClass: 'show',
       phone: '',
       address: '',
+      lang_trans: '',
       map: '',
       value: '',
       email: '',
@@ -4975,25 +5005,58 @@ __webpack_require__.r(__webpack_exports__);
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
     },
-    createContact: function createContact() {
+    getLanguageList: function getLanguageList() {
       var _this = this;
 
-      var url = "/contact";
-      var msg_succ = this.$trans('messages.Contact') + ' ' + this.$trans('messages.Created.');
-      var mensaje = this.$trans('messages.Unidentified error');
+      axios.get('/languages-no-translated/' + this.contact.id + '/Contact').then(function (response) {
+        return _this.languages = response.data;
+      })["catch"](function (error) {
+        return _this.error.push(error);
+      });
+    },
+    createContact: function createContact() {
+      var _this2 = this;
 
-      if (this.email == '' || this.phone == '' || this.address == '') {
-        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+      var url;
+      var msg_succ;
+      var data;
+      var mensaje;
+      var default_lang = this.$lang.getLocale();
+
+      if (this.show_lang_div === false) {
+        url = "/add-translate-contact";
+        msg_succ = this.$trans('messages.Contact') + ' ' + this.$trans('messages.Translated Succefully');
+
+        var _mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.address == '' || this.lang_trans == '') {
+          _mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        data = new FormData();
+        data.append("address", this.address);
+        data.append("address_old", this.contact.address);
+        data.append("contact_id", this.contact.id);
+        data.append("lang", this.lang_trans);
+      } else {
+        url = "/contact";
+        msg_succ = this.$trans('messages.Contact') + ' ' + this.$trans('messages.Created.');
+        mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.email == '' || this.phone == '' || this.address == '') {
+          mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        data = new FormData();
+        data.append("email", this.email);
+        data.append("phone", this.phone);
+        data.append("address", this.address);
+        data.append("map", this.map);
       }
 
-      var data = new FormData();
-      data.append("email", this.email);
-      data.append("phone", this.phone);
-      data.append("address", this.address);
-      data.append("map", this.map);
       axios.post(url, data).then(function (response) {
         swal({
-          title: _this.$trans('messages.Correct data'),
+          title: _this2.$trans('messages.Correct data'),
           text: msg_succ,
           icon: 'success',
           closeOnClickOutside: false,
@@ -5002,7 +5065,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var roleAdd = response.data;
 
-            _this.$emit('contactnew', roleAdd); //location.reload();
+            _this2.$emit('contactnew', roleAdd); //location.reload();
 
           }
         }); //console.log(response);
@@ -5033,7 +5096,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editedContact: function editedContact(contact) {
-      var _this2 = this;
+      var _this3 = this;
 
       var url;
       var data;
@@ -5043,17 +5106,28 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       };
-      data = new FormData();
-      data.append('_method', 'patch');
-      data.append("email", contact.email);
-      data.append("phone", contact.phone);
-      data.append("address", contact.address);
-      data.append("map", contact.map);
-      url = "/contact/" + contact.id;
-      msg_edited = this.$trans('messages.Contact') + ' ' + this.$trans('messages.Edited');
+
+      if (this.lan_to_edit === 'none') {
+        data = new FormData();
+        data.append('_method', 'patch');
+        data.append("email", contact.email);
+        data.append("phone", contact.phone);
+        data.append("address", contact.address);
+        data.append("map", contact.map);
+        url = "/contact/" + contact.id;
+        msg_edited = this.$trans('messages.Contact') + ' ' + this.$trans('messages.Edited');
+      } else {
+        data = new FormData();
+        data.append("address", contact.address); //data.append("tags", postTags);
+        //data.append("keywords", postKeys);
+
+        url = "/contact-translated-edited/" + contact.id + "/" + this.lan_to_edit;
+        msg_edited = this.$trans('messages.The') + ' ' + this.$trans('messages.Contact') + ' ' + this.$trans('messages.translation has been successfully modified');
+      }
+
       axios.post(url, data, config).then(function (response) {
         swal({
-          title: _this2.$trans('messages.Contact'),
+          title: _this3.$trans('messages.Contact'),
           text: msg_edited,
           icon: 'success',
           closeOnClickOutside: false,
@@ -5062,7 +5136,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var contactUpdate = response.data;
 
-            _this2.$emit('contactoperupd', contactUpdate);
+            _this3.$emit('contactoperupd', contactUpdate);
           }
         }); //console.log(response);
       })["catch"](function (error) {
@@ -5092,7 +5166,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.getLanguageList();
+  },
   mounted: function mounted() {}
 });
 
@@ -5110,6 +5186,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5276,9 +5366,12 @@ __webpack_require__.r(__webpack_exports__);
       idpermissionActualizar: -1,
       value: '',
       operation: '',
+      translated_languages: [],
       id: '',
       mensage: '',
       valueImg: '',
+      show_lang_div: false,
+      lan_to_edit: 'none',
       lang: true,
       locale: '',
       src: 'storage/img_web/login_img/',
@@ -5313,33 +5406,72 @@ __webpack_require__.r(__webpack_exports__);
     imageEdit: function imageEdit(e) {
       this.imagenpermission = e.target.files[0];
     },
-    contactList: function contactList() {
+    openEditTranslated: function openEditTranslated(contact, lang_available) {
       var _this = this;
 
-      axios.get('/contactList').then(function (response) {
-        _this.contacts = response.data;
+      var contact_translated_array;
+      axios.get('/get-translated-contact-by-lang/' + lang_available + '/' + contact.id + '/Contact').then(function (response) {
+        contact_translated_array = response.data;
+        _this.contact = contact_translated_array;
+        _this.operation = 'update';
+        _this.ventanaOperContact = true;
+        _this.lan_to_edit = lang_available;
 
         if (response.data == '') {
-          _this.mensage = _this.$trans('messages.None added yet');
+          _this.mensage = _this.$trans('messages.Contact') + '  ' + _this.$trans('messages.None added yet');
         }
       })["catch"](function (error) {
         return _this.errors.push(error);
       });
     },
+    getTranslates: function getTranslates(index, contact) {
+      var _this2 = this;
+
+      axios.get('/translated-language-item/' + contact.id + '/Contact').then(function (response) {
+        _this2.lang = false;
+
+        if (response.data === 'no-language-added') {
+          _this2.translated_languages = [];
+
+          var mensageLang = _this2.$trans('messages.None language added yet');
+
+          swal({
+            title: _this2.$trans('messages.Warning!'),
+            text: mensageLang,
+            icon: 'warning',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          });
+        } else {
+          _this2.translated_languages = response.data;
+        }
+      })["catch"](function (error) {
+        return _this2.errors.push(error);
+      });
+    },
+    contactList: function contactList() {
+      var _this3 = this;
+
+      axios.get('/contactList').then(function (response) {
+        _this3.contacts = response.data;
+
+        if (response.data == '') {
+          _this3.mensage = _this3.$trans('messages.None added yet');
+        }
+      })["catch"](function (error) {
+        return _this3.errors.push(error);
+      });
+    },
     addContactIndex: function addContactIndex(permissionAdd) {
       this.operation = '';
-
-      if (this.contacts.length === 0) {
-        this.contactList();
-      } else {
-        this.contacts.push(permissionAdd);
-      }
-
+      this.contactList();
       this.mensage = "";
+      this.show_lang_div = false;
       this.ventanaOperContact = false;
     },
     updContactIndex: function updContactIndex(contactUpd) {
       this.operation = '';
+      this.show_lang_div = false;
       var position = this.contacts.findIndex(function (contact) {
         return contact.id === contactUpd.id;
       });
@@ -5347,7 +5479,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ventanaOperContact = false;
     },
     deleteContact: function deleteContact(index, contact) {
-      var _this2 = this;
+      var _this4 = this;
 
       var contact_id = contact;
       swal({
@@ -5366,17 +5498,17 @@ __webpack_require__.r(__webpack_exports__);
           var url = '/contact/' + contact_id;
           axios["delete"](url).then(function (response) {
             swal({
-              title: _this2.$trans('messages.Correct data'),
-              text: _this2.$trans('messages.Contact') + ' ' + _this2.$trans('messages.Deleted'),
+              title: _this4.$trans('messages.Correct data'),
+              text: _this4.$trans('messages.Contact') + ' ' + _this4.$trans('messages.Deleted'),
               icon: 'success',
               closeOnClickOutside: false,
               closeOnEsc: false
             }).then(function (select) {
               if (select) {
-                _this2.contactList();
+                _this4.contactList();
 
-                if (_this2.contacts.length === 0) {
-                  _this2.mensage = _this2.$trans('messages.None added yet');
+                if (_this4.contacts.length === 0) {
+                  _this4.mensage = _this4.$trans('messages.None added yet');
                 }
               }
             });
@@ -5388,12 +5520,20 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    openAddTranslate: function openAddTranslate(index, contact) {
+      this.contact = contact;
+      this.show_lang_div = false;
+      this.operation = 'add';
+      this.ventanaOperContact = true;
+    },
     openAddContact: function openAddContact() {
+      this.show_lang_div = true;
       this.operation = 'add';
       this.ventanaOperContact = true;
     },
     openEditContact: function openEditContact(index, contact) {
       this.operation = 'update';
+      this.lan_to_edit = 'none';
       this.contact = contact;
       this.ventanaOperContact = true;
     }
@@ -80904,10 +81044,7 @@ var render = function() {
                                   )
                                 ]
                               )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.operation === "update"
-                            ? _c(
+                            : _c(
                                 "h1",
                                 { staticClass: "text-center text-dark" },
                                 [
@@ -80917,8 +81054,7 @@ var render = function() {
                                       _vm._s(_vm.$trans("messages.Contact"))
                                   )
                                 ]
-                              )
-                            : _vm._e(),
+                              ),
                           _vm._v(" "),
                           _c(
                             "button",
@@ -80953,139 +81089,499 @@ var render = function() {
                               { staticClass: "row justify-content-center" },
                               [
                                 _c("div", { staticClass: "col-12" }, [
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c("label", { attrs: { for: "email" } }, [
-                                      _vm._v(
-                                        _vm._s(_vm.$trans("messages.Email"))
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
+                                  _vm.operation == "add"
+                                    ? _c(
+                                        "div",
+                                        {
                                           directives: [
                                             {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.email,
-                                              expression: "email"
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div != true,
+                                              expression: "show_lang_div!=true"
                                             }
                                           ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "email",
-                                            name: "email"
-                                          },
-                                          domProps: { value: _vm.email },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.email = $event.target.value
-                                            }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.contact.email,
-                                              expression: "contact.email"
-                                            }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "email",
-                                            name: "email"
-                                          },
-                                          domProps: {
-                                            value: _vm.contact.email
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                _vm.contact,
-                                                "email",
-                                                $event.target.value
+                                          staticClass: "form-group",
+                                          attrs: { id: "language_div" }
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "lang_trans" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Language"
+                                                  )
+                                                )
                                               )
-                                            }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ]),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.lang_trans,
+                                                  expression: "lang_trans"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                name: "lang_trans",
+                                                required: ""
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$selectedVal = Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function(o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function(o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                  _vm.lang_trans = $event.target
+                                                    .multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                { attrs: { value: "" } },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Select"
+                                                      )
+                                                    ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.$trans(
+                                                          "messages.Language"
+                                                        )
+                                                      )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(_vm.languages, function(
+                                                language
+                                              ) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    domProps: {
+                                                      value: language.id
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(language.language)
+                                                    )
+                                                  ]
+                                                )
+                                              })
+                                            ],
+                                            2
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c("label", { attrs: { for: "phone" } }, [
-                                      _vm._v(
-                                        _vm._s(_vm.$trans("messages.Phone"))
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
                                           directives: [
                                             {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.phone,
-                                              expression: "phone"
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
                                             }
                                           ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: { type: "tel", name: "phone" },
-                                          domProps: { value: _vm.phone },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.phone = $event.target.value
-                                            }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.contact.phone,
-                                              expression: "contact.phone"
-                                            }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: { type: "tel", name: "phone" },
-                                          domProps: {
-                                            value: _vm.contact.phone
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                _vm.contact,
-                                                "phone",
-                                                $event.target.value
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "email" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Email")
+                                                )
                                               )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.email,
+                                                    expression: "email"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "email",
+                                                  name: "email"
+                                                },
+                                                domProps: { value: _vm.email },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.email =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.contact.email,
+                                                    expression: "contact.email"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "email",
+                                                  name: "email"
+                                                },
+                                                domProps: {
+                                                  value: _vm.contact.email
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.contact,
+                                                      "email",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
                                             }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ]),
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "email" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Email")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.email,
+                                                    expression: "email"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "email",
+                                                  name: "email"
+                                                },
+                                                domProps: { value: _vm.email },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.email =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.contact.email,
+                                                    expression: "contact.email"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "email",
+                                                  name: "email"
+                                                },
+                                                domProps: {
+                                                  value: _vm.contact.email
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.contact,
+                                                      "email",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      ),
+                                  _vm._v(" "),
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "phone" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Phone")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.phone,
+                                                    expression: "phone"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "tel",
+                                                  name: "phone"
+                                                },
+                                                domProps: { value: _vm.phone },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.phone =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.contact.phone,
+                                                    expression: "contact.phone"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "tel",
+                                                  name: "phone"
+                                                },
+                                                domProps: {
+                                                  value: _vm.contact.phone
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.contact,
+                                                      "phone",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "phone" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Phone")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.phone,
+                                                    expression: "phone"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "tel",
+                                                  name: "phone"
+                                                },
+                                                domProps: { value: _vm.phone },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.phone =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.contact.phone,
+                                                    expression: "contact.phone"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "tel",
+                                                  name: "phone"
+                                                },
+                                                domProps: {
+                                                  value: _vm.contact.phone
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.contact,
+                                                      "phone",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "form-group" }, [
                                     _c("label", { attrs: { for: "address" } }, [
@@ -81157,65 +81653,195 @@ var render = function() {
                                       : _vm._e()
                                   ]),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c("label", { attrs: { for: "map" } }, [
-                                      _vm._v(_vm._s(_vm.$trans("messages.Map")))
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
                                           directives: [
                                             {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.map,
-                                              expression: "map"
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
                                             }
                                           ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: { type: "text", name: "map" },
-                                          domProps: { value: _vm.map },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.map = $event.target.value
-                                            }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.contact.map,
-                                              expression: "contact.map"
-                                            }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: { type: "text", name: "map" },
-                                          domProps: { value: _vm.contact.map },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                _vm.contact,
-                                                "map",
-                                                $event.target.value
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "map" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Map")
+                                                )
                                               )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.map,
+                                                    expression: "map"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "map"
+                                                },
+                                                domProps: { value: _vm.map },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.map =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.contact.map,
+                                                    expression: "contact.map"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "map"
+                                                },
+                                                domProps: {
+                                                  value: _vm.contact.map
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.contact,
+                                                      "map",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
                                             }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ])
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "map" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Map")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.map,
+                                                    expression: "map"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "map"
+                                                },
+                                                domProps: { value: _vm.map },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.map =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.contact.map,
+                                                    expression: "contact.map"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "map"
+                                                },
+                                                domProps: {
+                                                  value: _vm.contact.map
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.contact,
+                                                      "map",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
                                 ])
                               ]
                             )
@@ -81242,10 +81868,52 @@ var render = function() {
                                     "div",
                                     { staticClass: "col-md-5 offset-md-4" },
                                     [
-                                      _vm.operation === "add"
+                                      _vm.show_lang_div === false
                                         ? _c(
                                             "button",
                                             {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "btn rounded btn-primary reserva",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.createContact()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Translate"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "button",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
                                               staticClass:
                                                 "btn rounded btn-primary reserva",
                                               attrs: { type: "button" },
@@ -81262,8 +81930,7 @@ var render = function() {
                                                 )
                                               )
                                             ]
-                                          )
-                                        : _vm._e(),
+                                          ),
                                       _vm._v(" "),
                                       _vm.operation === "update"
                                         ? _c(
@@ -81385,8 +82052,10 @@ var render = function() {
           ? _c("contact-oper-form-component", {
               attrs: {
                 operation: _vm.operation,
+                lan_to_edit: _vm.lan_to_edit,
                 contact: _vm.contact,
-                locale: _vm.locale
+                locale: _vm.locale,
+                show_lang_div: _vm.show_lang_div
               },
               on: {
                 contactnew: _vm.addContactIndex,
@@ -81507,6 +82176,114 @@ var render = function() {
                             { key: contact.id, attrs: { contact: contact } },
                             [
                               _c("td", [
+                                _c("div", { staticClass: "dropdown" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "can-user",
+                                          rawName: "v-can-user",
+                                          value: "edit-translate-contact",
+                                          expression: "'edit-translate-contact'"
+                                        }
+                                      ],
+                                      staticClass: "dropdown-toggle",
+                                      attrs: {
+                                        id:
+                                          "edit-translate-contact-" +
+                                          contact.id,
+                                        title:
+                                          "Edit Translate/Editar Traducción",
+                                        "data-toggle": "dropdown",
+                                        hidden: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getTranslates(
+                                            index,
+                                            contact
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", { staticClass: "fa fa-edit" }),
+                                      _vm._v(" "),
+                                      _c("i", {
+                                        staticClass: "fas fa-language"
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "dropdown-menu" },
+                                    _vm._l(_vm.translated_languages, function(
+                                      lang_available
+                                    ) {
+                                      return _c(
+                                        "a",
+                                        {
+                                          staticClass: "dropdown-item",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openEditTranslated(
+                                                contact,
+                                                lang_available
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(lang_available) +
+                                              "\n                        "
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "can-user",
+                                        rawName: "v-can-user",
+                                        value: "translate-contact",
+                                        expression: "'translate-contact'"
+                                      }
+                                    ],
+                                    attrs: {
+                                      href: "#",
+                                      id: "translate-contact-" + contact.id,
+                                      hidden: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openAddTranslate(
+                                          index,
+                                          contact
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-language",
+                                      attrs: {
+                                        title: "Add Language/Añadir Lenguage"
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
                                 _c(
                                   "a",
                                   {

@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Traits\ContentTypeTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
+use App\Traits\ContactTrait;
 use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
+  use ContentTypeTrait, TranslateTrait, LanguageTrait, ContactTrait;
   public function __construct()
   {
       $this->middleware('auth');
@@ -97,6 +102,31 @@ class ContactController extends Controller
       return $contact;
     }
 
+    public function addTranslate(Request $request){
+      $data=request()->validate([
+        'address'=> 'required|max:255',
+        'lang'=> 'required',
+      ]);
+
+      $contact=Contact::find(request('contact_id'));
+      $contentType='Contact';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->findLanguageName(request('lang'));
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$contact->id,
+        'content'=>$contact['address'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'address',
+        'content_trans'=>request('address')]
+      );
+      $this->storeTranslate($data_trans);
+      return $contact;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -128,6 +158,30 @@ class ContactController extends Controller
       return $contacto;
     }
 
+    public function updateTranslatedContactByLang($contact_id,$lang_name, Request $request){
+      $dataPost=request()->validate([
+        'address'=> 'required|max:255',
+      ]);
+
+      $contact=Contact::find($contact_id);
+      $contentType='Contact';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->getLangIdByName($lang_name);
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$contact_id,
+        'content'=>request('address'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'address',
+        'content_trans'=>request('address')]
+      );
+      $result=$this->updateTranslate($data_trans);
+      return $result;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -137,6 +191,9 @@ class ContactController extends Controller
     public function destroy(Contact $contact)
     {
       $contact=Contact::findOrFail($contact->id);
+        $contentType='Contact';
+        $tipo_content=$this->findContentId($contentType);
+        $this->deleteTranslatedItemsByItem($contact->id,$tipo_content);
       $contact->delete();
     }
 }

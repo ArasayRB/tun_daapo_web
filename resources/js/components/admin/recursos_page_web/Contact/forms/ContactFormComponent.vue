@@ -8,7 +8,7 @@
       <div class="modal-header">
         <slot>
         <h1 class="text-center text-dark" v-if="operation==='add'">{{ $trans('messages.Create') }} {{ $trans('messages.Contact') }}</h1>
-        <h1 class="text-center text-dark" v-if="operation==='update'">{{ $trans('messages.Update') }} {{ $trans('messages.Contact') }}</h1>
+        <h1 class="text-center text-dark" v-else="operation==='update'">{{ $trans('messages.Update') }} {{ $trans('messages.Contact') }}</h1>
         <button type="button" class="modal-default-button btn btn-lg" @click="$emit('close')"><span aria-hidden="true">&times;</span></button>
 
         </slot>
@@ -20,30 +20,56 @@
           <div class="row justify-content-center">
             <div class="col-12">
 
+              <div class="form-group" id="language_div" v-show="show_lang_div!=true" v-if="operation=='add'">
+                <label for="lang_trans">{{ $trans('messages.Language') }}</label>
+                <select class="form-control" v-model="lang_trans" name="lang_trans" required>
+                 <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Language') }}</option>
+                   <option v-for="language in languages" :value="language.id">{{language.language}}</option>
+                </select>
+              </div>
 
-<div class="form-group">
-  <label for="email">{{ $trans('messages.Email') }}</label>
-  <input type="email" name="email" v-model="email" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="email" name="email" v-model="contact.email" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
 
-<div class="form-group">
-  <label for="phone">{{ $trans('messages.Phone') }}</label>
-  <input type="tel" name="phone" v-model="phone" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="tel" name="phone" v-model="contact.phone" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
+              <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+                <label for="email">{{ $trans('messages.Email') }}</label>
+                <input type="email" name="email" v-model="email" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="email" name="email" v-model="contact.email" class="form-control font-italic mb-2" v-if="operation==='update'">
+              </div>
 
-<div class="form-group">
-  <label for="address">{{ $trans('messages.Adress') }}</label>
-  <input type="text" name="address" v-model="address" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="address" v-model="contact.address" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
+              <div class="form-group" v-show="lan_to_edit==='none'" v-else="operation==='update'">
+                <label for="email">{{ $trans('messages.Email') }}</label>
+                <input type="email" name="email" v-model="email" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="email" name="email" v-model="contact.email" class="form-control font-italic mb-2" v-if="operation==='update'">
+              </div>
 
-<div class="form-group">
-  <label for="map">{{ $trans('messages.Map') }}</label>
-  <input type="text" name="map" v-model="map" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="map" v-model="contact.map" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
+              <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+                <label for="phone">{{ $trans('messages.Phone') }}</label>
+                <input type="tel" name="phone" v-model="phone" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="tel" name="phone" v-model="contact.phone" class="form-control font-italic mb-2" v-if="operation==='update'">
+              </div>
+
+              <div class="form-group" v-show="lan_to_edit==='none'" v-else="operation==='update'">
+                <label for="phone">{{ $trans('messages.Phone') }}</label>
+                <input type="tel" name="phone" v-model="phone" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="tel" name="phone" v-model="contact.phone" class="form-control font-italic mb-2" v-if="operation==='update'">
+              </div>
+
+              <div class="form-group">
+                <label for="address">{{ $trans('messages.Adress') }}</label>
+                <input type="text" name="address" v-model="address" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="text" name="address" v-model="contact.address" class="form-control font-italic mb-2" v-if="operation==='update'">
+              </div>
+
+              <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+                <label for="map">{{ $trans('messages.Map') }}</label>
+                <input type="text" name="map" v-model="map" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="text" name="map" v-model="contact.map" class="form-control font-italic mb-2" v-if="operation==='update'">
+              </div>
+
+              <div class="form-group" v-show="lan_to_edit==='none'" v-else="operation==='update'">
+                <label for="map">{{ $trans('messages.Map') }}</label>
+                <input type="text" name="map" v-model="map" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="text" name="map" v-model="contact.map" class="form-control font-italic mb-2" v-if="operation==='update'">
+              </div>
 
 
 
@@ -61,7 +87,8 @@
         <div class="col justify-content-center">
       <div class="form-group row mb-0">
           <div class="col-md-5 offset-md-4">
-            <button type="button" class="btn rounded btn-primary reserva" @click="createContact()" v-if="operation==='add'">{{ $trans('messages.Create') }}</button>
+            <button type="button" class="btn rounded btn-primary reserva" @click="createContact()" v-show="operation==='add'" v-if="show_lang_div===false">{{ $trans('messages.Translate') }}</button>
+            <button type="button" class="btn rounded btn-primary reserva" @click="createContact()" v-show="operation==='add'" v-else>{{ $trans('messages.Create') }}</button>
 
               <button type="button" class="btn rounded btn-primary reserva" @click="editedContact(contact)" v-if="operation==='update'">{{ $trans('messages.Update') }}</button>
 
@@ -84,7 +111,7 @@
   import VueCkeditor from 'vue-ckeditor2';
     export default {
       components: { VueCkeditor},
-      props:['locale','contact','operation'],
+      props:['locale','contact','operation','show_lang_div','lan_to_edit'],
       data(){
         return {
           msgAddTag:this.$trans('messages.Add a new Tag'),
@@ -107,10 +134,13 @@
        ],
        height: 300
      },
+          languages:[],
+          language:'',
           activeClass:'active',
           showClass:'show',
           phone:'',
           address:'',
+          lang_trans:'',
           map:'',
           value:'',
           email:'',
@@ -140,22 +170,44 @@
     onFileUploadResponse(evt) {
       console.log(evt);
     },
+    getLanguageList:function(){
+      axios.get('/languages-no-translated/'+this.contact.id+'/Contact')
+            .then(response=> this.languages=response.data)
+            .catch(error=>this.error.push(error));
+    },
         createContact:function(){
-
-            let  url="/contact";
-            let msg_succ=this.$trans('messages.Contact')+' '+this.$trans('messages.Created.');
+          let url;
+          let msg_succ;
+          let data;
+          let mensaje;
+          let default_lang=this.$lang.getLocale();
+          if(this.show_lang_div===false){
+            url="/add-translate-contact";
+            msg_succ=this.$trans('messages.Contact')+' '+this.$trans('messages.Translated Succefully');
             let mensaje=this.$trans('messages.Unidentified error');
+            if (this.address==''||this.lang_trans=='') {
+              mensaje=this.$trans('messages.You cannot leave empty fields, please check');
+            }
+            data = new FormData();
+              data.append("address", this.address);
+              data.append("address_old", this.contact.address);
+              data.append("contact_id", this.contact.id);
+              data.append("lang", this.lang_trans);
+          }
+          else{
+            url="/contact";
+            msg_succ=this.$trans('messages.Contact')+' '+this.$trans('messages.Created.');
+            mensaje=this.$trans('messages.Unidentified error');
             if (this.email==''||this.phone==''||this.address=='') {
               mensaje=this.$trans('messages.You cannot leave empty fields, please check');
             }
 
-            let data = new FormData();
+            data = new FormData();
               data.append("email", this.email);
               data.append("phone", this.phone);
               data.append("address", this.address);
               data.append("map", this.map);
-
-
+          }
 
             axios.post(url,data)
                  .then(response=>{
@@ -201,7 +253,7 @@
           let data;
           let msg_edited;
           let config= { headers: {"Content-Type": "multipart/form-data" }};
-
+            if(this.lan_to_edit==='none'){
               data = new FormData();
     	          data.append('_method', 'patch');
                 data.append("email", contact.email);
@@ -210,6 +262,15 @@
                 data.append("map", contact.map);
               url="/contact/"+contact.id;
               msg_edited=this.$trans('messages.Contact')+' '+this.$trans('messages.Edited');
+            }
+            else{
+              data = new FormData();
+                data.append("address", contact.address);
+                //data.append("tags", postTags);
+                //data.append("keywords", postKeys);
+              url="/contact-translated-edited/"+contact.id+"/"+this.lan_to_edit;
+              msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Contact')+' '+this.$trans('messages.translation has been successfully modified');
+            }
 
           axios.post(url,data,config)
                .then(response=>{
@@ -249,7 +310,7 @@
         },
       },
       created: function () {
-
+         this.getLanguageList();
          },
         mounted() {
         }

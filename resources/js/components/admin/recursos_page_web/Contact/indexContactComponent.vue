@@ -10,7 +10,7 @@
 
   </div>
   <div class="card shadow mb-4">
-    <contact-oper-form-component @contactnew="addContactIndex" @contactoperupd="updContactIndex" :operation="operation" :contact="contact" :locale="locale" v-if="ventanaOperContact" @close="ventanaOperContact = false">
+    <contact-oper-form-component @contactnew="addContactIndex" @contactoperupd="updContactIndex" :operation="operation" :lan_to_edit="lan_to_edit" :contact="contact" :locale="locale" :show_lang_div="show_lang_div" v-if="ventanaOperContact" @close="ventanaOperContact = false">
 
     </contact-oper-form-component>
     <div class="card-header py-3">
@@ -56,8 +56,22 @@
                 <tr v-for="(contact,index) in paginated('contacts')" :contact="contact" :key="contact.id">
 
                     <td>
+                      <div class="dropdown">
+                        <a class="dropdown-toggle" :id="'edit-translate-contact-'+contact.id" v-can-user="'edit-translate-contact'" title="Edit Translate/Editar Traducción" data-toggle="dropdown" @click="getTranslates(index,contact)" hidden>
+                          <i class="fa fa-edit"></i>
+                          <i class="fas fa-language"></i>
+                        </a>
+                        <div class="dropdown-menu">
 
-                          <a href="#" @click="openEditContact(index,contact)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
+                          <a class="dropdown-item" type="button" v-for="lang_available in translated_languages" @click="openEditTranslated(contact, lang_available)">
+                              {{lang_available}}
+                          </a>
+
+                          </div>
+                      </div>
+
+                      <a href="#" @click="openAddTranslate(index,contact)" :id="'translate-contact-'+contact.id" v-can-user="'translate-contact'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
+                      <a href="#" @click="openEditContact(index,contact)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deleteContact(index,contact.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
                     <td>{{contact.email}}</td>
@@ -145,9 +159,12 @@
           idpermissionActualizar:-1,
           value:'',
           operation:'',
+          translated_languages:[],
           id:'',
           mensage:'',
           valueImg:'',
+          show_lang_div:false,
+          lan_to_edit:'none',
           lang:true,
           locale:'',
           src:'storage/img_web/login_img/',
@@ -184,6 +201,40 @@
 
           this.imagenpermission=e.target.files[0];
         },
+        openEditTranslated:function(contact, lang_available){
+          let contact_translated_array;
+          axios.get('/get-translated-contact-by-lang/'+lang_available+'/'+contact.id+'/Contact')
+               .then(response =>{
+                 contact_translated_array = response.data;
+                 this.contact=contact_translated_array;
+                   this.operation='update';
+                     this.ventanaOperContact=true;
+                     this.lan_to_edit=lang_available;
+                 if (response.data==''){
+                   this.mensage=this.$trans('messages.Contact')+'  '+this.$trans('messages.None added yet');
+                 }})
+               .catch(error => this.errors.push(error));
+        },
+        getTranslates:function(index,contact){
+          axios.get('/translated-language-item/'+contact.id+'/Contact')
+               .then(response =>{
+                   this.lang=false;
+                 if (response.data==='no-language-added'){
+                   this.translated_languages = [];
+                   let mensageLang=this.$trans('messages.None language added yet');
+                   swal({title:this.$trans('messages.Warning!'),
+                         text:mensageLang,
+                         icon:'warning',
+                         closeOnClickOutside:false,
+                         closeOnEsc:false
+                       });
+                 }
+                 else{
+                     this.translated_languages = response.data;
+                 }
+               })
+               .catch(error => this.errors.push(error));
+        },
         contactList:function(){
           axios.get('/contactList')
                .then(response =>{
@@ -196,17 +247,14 @@
         },
         addContactIndex:function(permissionAdd){
           this.operation='';
-          if(this.contacts.length===0){
-            this.contactList();
-          }
-          else{
-          this.contacts.push(permissionAdd);
-          }
+          this.contactList();
           this.mensage="";
+          this.show_lang_div=false;
           this.ventanaOperContact=false;
         },
         updContactIndex:function(contactUpd){
           this.operation='';
+          this.show_lang_div=false;
           const position=this.contacts.findIndex(contact=>contact.id===contactUpd.id);
           this.contactList();
           this.ventanaOperContact=false;
@@ -252,12 +300,20 @@
 
 
         },
+        openAddTranslate:function(index,contact){
+          this.contact=contact;
+          this.show_lang_div=false;
+          this.operation='add';
+          this.ventanaOperContact = true;
+        },
         openAddContact:function(){
+          this.show_lang_div=true;
           this.operation='add';
           this.ventanaOperContact = true;
         },
         openEditContact:function(index,contact){
           this.operation='update';
+          this.lan_to_edit='none';
         this.contact=contact;
           this.ventanaOperContact=true;
 
