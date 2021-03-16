@@ -7438,12 +7438,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     VueCkeditor: vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['locale', 'portfolio', 'operation'],
+  props: ['locale', 'portfolio', 'operation', 'show_lang_div', 'lan_to_edit'],
   data: function data() {
     return {
       msgAddTag: this.$trans('messages.Add a new Tag'),
@@ -7486,11 +7530,14 @@ __webpack_require__.r(__webpack_exports__);
         }],
         height: 300
       },
+      languages: [],
+      language: '',
       activeClass: 'active',
       showClass: 'show',
       empresa_solicitante: '',
       project_name: '',
       description: '',
+      lang_trans: '',
       value: '',
       imagenPortfolio: '',
       src: '/storage/portfolio/',
@@ -7521,46 +7568,78 @@ __webpack_require__.r(__webpack_exports__);
     img: function img(e) {
       this.imagenPortfolio = e.target.files[0];
     },
-    availabelServices: function availabelServices() {
+    getLanguageList: function getLanguageList() {
       var _this = this;
 
-      axios.get('/available-services').then(function (response) {
-        _this.services = response.data;
+      axios.get('/languages-no-translated/' + this.portfolio.id + '/Portfolio').then(function (response) {
+        return _this.languages = response.data;
       })["catch"](function (error) {
-        return _this.errors.push(error);
+        return _this.error.push(error);
+      });
+    },
+    availabelServices: function availabelServices() {
+      var _this2 = this;
+
+      axios.get('/available-services').then(function (response) {
+        _this2.services = response.data;
+      })["catch"](function (error) {
+        return _this2.errors.push(error);
       });
     },
     createPortfolio: function createPortfolio() {
-      var _this2 = this;
+      var _this3 = this;
 
-      var url = "/portfolio";
-      var msg_succ = this.$trans('messages.Portfolio') + ' ' + this.$trans('messages.Created.');
-      var mensaje = this.$trans('messages.Unidentified error');
+      var url;
+      var msg_succ;
+      var data;
+      var mensaje;
+      var default_lang = this.$lang.getLocale();
 
-      if (this.img == '' || this.empresa_solicitante == '' || this.project_name == '' || this.selectedServs.length === 0) {
-        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
-      }
+      if (this.show_lang_div === false) {
+        url = "/add-translate-portfolio";
+        msg_succ = this.$trans('messages.Portfolio') + ' ' + this.$trans('messages.Translated Succefully');
+        mensaje = this.$trans('messages.Unidentified error');
 
-      var serviList = this.selectedServs;
-      var portKey = "";
-
-      for (var i = 0; i < serviList.length; i = i + 1) {
-        if (i == serviList.length - 1) {
-          portKey = '' + portKey + serviList[i].value;
-        } else {
-          portKey = '' + portKey + serviList[i].value + ',';
+        if (this.description == '' || this.lang_trans == '') {
+          mensaje = this.$trans('messages.You cannot leave empty fields, please check');
         }
+
+        data = new FormData();
+        data.append("description", this.description);
+        data.append("description_old", this.portfolio.description);
+        data.append("portfolio_id", this.portfolio.id);
+        data.append("lang", this.lang_trans);
+      } else {
+        url = "/portfolio";
+        msg_succ = this.$trans('messages.Portfolio') + ' ' + this.$trans('messages.Created.');
+        mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.img == '' || this.empresa_solicitante == '' || this.project_name == '' || this.selectedServs.length === 0) {
+          mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        var serviList = this.selectedServs;
+        var portKey = "";
+
+        for (var i = 0; i < serviList.length; i = i + 1) {
+          if (i == serviList.length - 1) {
+            portKey = '' + portKey + serviList[i].value;
+          } else {
+            portKey = '' + portKey + serviList[i].value + ',';
+          }
+        }
+
+        data = new FormData();
+        data.append("img", this.imagenPortfolio);
+        data.append("empresa_solicitante", this.empresa_solicitante);
+        data.append("project_name", this.project_name);
+        data.append("description", this.description);
+        data.append("service_id", portKey);
       }
 
-      var data = new FormData();
-      data.append("img", this.imagenPortfolio);
-      data.append("empresa_solicitante", this.empresa_solicitante);
-      data.append("project_name", this.project_name);
-      data.append("description", this.description);
-      data.append("service_id", portKey);
       axios.post(url, data).then(function (response) {
         swal({
-          title: _this2.$trans('messages.Correct data'),
+          title: _this3.$trans('messages.Correct data'),
           text: msg_succ,
           icon: 'success',
           closeOnClickOutside: false,
@@ -7569,7 +7648,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var roleAdd = response.data;
 
-            _this2.$emit('portfolionew', roleAdd); //location.reload();
+            _this3.$emit('portfolionew', roleAdd); //location.reload();
 
           }
         }); //console.log(response);
@@ -7600,7 +7679,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editedPortfolio: function editedPortfolio(portfolio) {
-      var _this3 = this;
+      var _this4 = this;
 
       var url;
       var data;
@@ -7610,29 +7689,40 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       };
-      var serviList = this.selectedServs;
-      var portKey = "";
 
-      for (var i = 0; i < serviList.length; i = i + 1) {
-        if (i == serviList.length - 1) {
-          portKey = '' + portKey + serviList[i].value;
-        } else {
-          portKey = '' + portKey + serviList[i].value + ',';
+      if (this.lan_to_edit === 'none') {
+        var serviList = this.selectedServs;
+        var portKey = "";
+
+        for (var i = 0; i < serviList.length; i = i + 1) {
+          if (i == serviList.length - 1) {
+            portKey = '' + portKey + serviList[i].value;
+          } else {
+            portKey = '' + portKey + serviList[i].value + ',';
+          }
         }
+
+        data = new FormData();
+        data.append('_method', 'patch');
+        data.append("img", this.imagenPortfolio);
+        data.append("empresa_solicitante", portfolio.empresa_solicitante);
+        data.append("project_name", portfolio.project_name);
+        data.append("description", portfolio.description);
+        data.append("service_id", portKey);
+        url = "/portfolio/" + portfolio.id;
+        msg_edited = this.$trans('messages.Portfolio') + ' ' + this.$trans('messages.Edited');
+      } else {
+        data = new FormData();
+        data.append("description", portfolio.description); //data.append("tags", postTags);
+        //data.append("keywords", postKeys);
+
+        url = "/portfolio-translated-edited/" + portfolio.id + "/" + this.lan_to_edit;
+        msg_edited = this.$trans('messages.The') + ' ' + this.$trans('messages.Portfolio') + ' ' + this.$trans('messages.translation has been successfully modified');
       }
 
-      data = new FormData();
-      data.append('_method', 'patch');
-      data.append("img", this.imagenPortfolio);
-      data.append("empresa_solicitante", portfolio.empresa_solicitante);
-      data.append("project_name", portfolio.project_name);
-      data.append("description", portfolio.description);
-      data.append("service_id", portKey);
-      url = "/portfolio/" + portfolio.id;
-      msg_edited = this.$trans('messages.Portfolio') + ' ' + this.$trans('messages.Edited');
       axios.post(url, data, config).then(function (response) {
         swal({
-          title: _this3.$trans('messages.Portfolio'),
+          title: _this4.$trans('messages.Portfolio'),
           text: msg_edited,
           icon: 'success',
           closeOnClickOutside: false,
@@ -7641,7 +7731,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var portfolioUpdate = response.data;
 
-            _this3.$emit('portfoliooperupd', portfolioUpdate);
+            _this4.$emit('portfoliooperupd', portfolioUpdate);
           }
         }); //console.log(response);
       })["catch"](function (error) {
@@ -7673,6 +7763,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.availabelServices();
+    this.getLanguageList();
 
     if (this.operation === 'update') {
       for (var i = 0; i < this.portfolio.services.length; i++) {
@@ -7700,6 +7791,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7869,9 +7973,12 @@ __webpack_require__.r(__webpack_exports__);
       idpermissionActualizar: -1,
       value: '',
       operation: '',
+      translated_languages: [],
       id: '',
       mensage: '',
       valueImg: '',
+      show_lang_div: false,
+      lan_to_edit: 'none',
       lang: true,
       locale: '',
       src: 'storage/portfolio/',
@@ -7901,27 +8008,72 @@ __webpack_require__.r(__webpack_exports__);
     filtersPortfolios: function filtersPortfolios(filters) {
       this.portfolios = filters;
     },
-    portfolioList: function portfolioList() {
+    openEditTranslated: function openEditTranslated(portfolio, lang_available) {
       var _this = this;
 
-      axios.get('/portfolioList').then(function (response) {
-        _this.portfolios = response.data;
+      var portfolio_translated_array;
+      axios.get('/get-translated-portfolio-by-lang/' + lang_available + '/' + portfolio.id + '/Portfolio').then(function (response) {
+        portfolio_translated_array = response.data;
+        _this.portfolio = portfolio_translated_array;
+        _this.operation = 'update';
+        _this.ventanaOperPortfolio = true;
+        _this.lan_to_edit = lang_available;
 
         if (response.data == '') {
-          _this.mensage = _this.$trans('messages.None added yet');
+          _this.mensage = _this.$trans('messages.Portfolio') + '  ' + _this.$trans('messages.None added yet');
         }
       })["catch"](function (error) {
         return _this.errors.push(error);
+      });
+    },
+    getTranslates: function getTranslates(index, portfolio) {
+      var _this2 = this;
+
+      axios.get('/translated-language-item/' + portfolio.id + '/Portfolio').then(function (response) {
+        _this2.lang = false;
+
+        if (response.data === 'no-language-added') {
+          _this2.translated_languages = [];
+
+          var mensageLang = _this2.$trans('messages.None language added yet');
+
+          swal({
+            title: _this2.$trans('messages.Warning!'),
+            text: mensageLang,
+            icon: 'warning',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          });
+        } else {
+          _this2.translated_languages = response.data;
+        }
+      })["catch"](function (error) {
+        return _this2.errors.push(error);
+      });
+    },
+    portfolioList: function portfolioList() {
+      var _this3 = this;
+
+      axios.get('/portfolioList').then(function (response) {
+        _this3.portfolios = response.data;
+
+        if (response.data == '') {
+          _this3.mensage = _this3.$trans('messages.None added yet');
+        }
+      })["catch"](function (error) {
+        return _this3.errors.push(error);
       });
     },
     addPortfolioIndex: function addPortfolioIndex(permissionAdd) {
       this.operation = '';
       this.portfolioList();
       this.mensage = "";
+      this.show_lang_div = false;
       this.ventanaOperPortfolio = false;
     },
     updPortfolioIndex: function updPortfolioIndex(portfolioUpd) {
       this.operation = '';
+      this.show_lang_div = false;
       var position = this.portfolios.findIndex(function (portfolio) {
         return portfolio.id === portfolioUpd.id;
       });
@@ -7929,7 +8081,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ventanaOperPortfolio = false;
     },
     deletePortfolio: function deletePortfolio(index, portfolio) {
-      var _this2 = this;
+      var _this4 = this;
 
       var portfolio_id = portfolio;
       swal({
@@ -7948,17 +8100,17 @@ __webpack_require__.r(__webpack_exports__);
           var url = '/portfolio/' + portfolio_id;
           axios["delete"](url).then(function (response) {
             swal({
-              title: _this2.$trans('messages.Correct data'),
-              text: _this2.$trans('messages.Portfolio') + ' ' + _this2.$trans('messages.Deleted'),
+              title: _this4.$trans('messages.Correct data'),
+              text: _this4.$trans('messages.Portfolio') + ' ' + _this4.$trans('messages.Deleted'),
               icon: 'success',
               closeOnClickOutside: false,
               closeOnEsc: false
             }).then(function (select) {
               if (select) {
-                _this2.portfolioList();
+                _this4.portfolioList();
 
-                if (_this2.portfolios.length === 0) {
-                  _this2.mensage = _this2.$trans('messages.None added yet');
+                if (_this4.portfolios.length === 0) {
+                  _this4.mensage = _this4.$trans('messages.None added yet');
                 }
               }
             });
@@ -7970,7 +8122,14 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    openAddTranslate: function openAddTranslate(index, portfolio) {
+      this.portfolio = portfolio;
+      this.show_lang_div = false;
+      this.operation = 'add';
+      this.ventanaOperPortfolio = true;
+    },
     openAddPortfolio: function openAddPortfolio() {
+      this.show_lang_div = true;
       this.operation = 'add';
       this.ventanaOperPortfolio = true;
     },
@@ -83414,6 +83573,14 @@ var render = function() {
                       { staticClass: "modal-header" },
                       [
                         _vm._t("default", [
+                          _vm.show_lang_div === false
+                            ? _c(
+                                "h1",
+                                { staticClass: "text-center text-dark" },
+                                [_vm._v(_vm._s(_vm.portfolio.title))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
                           _vm.operation === "add"
                             ? _c(
                                 "h1",
@@ -83475,208 +83642,689 @@ var render = function() {
                               { staticClass: "row justify-content-center" },
                               [
                                 _c("div", { staticClass: "col-12" }, [
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c("label", { attrs: { for: "img" } }, [
-                                      _vm._v(
-                                        _vm._s(_vm.$trans("messages.Image"))
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: { type: "file", name: "img" },
-                                          on: { change: _vm.img }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: { type: "file", name: "img" },
-                                          on: { change: _vm.img }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("div", { staticClass: "row" }, [
-                                          _c("img", {
-                                            attrs: {
-                                              src: _vm.src + _vm.portfolio.img,
-                                              alt: _vm.portfolio.img,
-                                              width: "100"
+                                  _vm.operation == "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div != true,
+                                              expression: "show_lang_div!=true"
                                             }
-                                          })
-                                        ])
-                                      : _vm._e()
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "empresa_solicitante" } },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$trans(
-                                              "messages.Agency/Freelancer"
-                                            )
+                                          ],
+                                          staticClass: "form-group",
+                                          attrs: { id: "language_div" }
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "lang_trans" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Language"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.lang_trans,
+                                                  expression: "lang_trans"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                name: "lang_trans",
+                                                required: ""
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$selectedVal = Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function(o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function(o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                  _vm.lang_trans = $event.target
+                                                    .multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                { attrs: { value: "" } },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Select"
+                                                      )
+                                                    ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.$trans(
+                                                          "messages.Language"
+                                                        )
+                                                      )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(_vm.languages, function(
+                                                language
+                                              ) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    domProps: {
+                                                      value: language.id
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(language.language)
+                                                    )
+                                                  ]
+                                                )
+                                              })
+                                            ],
+                                            2
                                           )
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.empresa_solicitante,
-                                              expression: "empresa_solicitante"
-                                            }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "text",
-                                            name: "empresa_solicitante"
-                                          },
-                                          domProps: {
-                                            value: _vm.empresa_solicitante
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.empresa_solicitante =
-                                                $event.target.value
-                                            }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value:
-                                                _vm.portfolio
-                                                  .empresa_solicitante,
-                                              expression:
-                                                "portfolio.empresa_solicitante"
-                                            }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "text",
-                                            name: "empresa_solicitante"
-                                          },
-                                          domProps: {
-                                            value:
-                                              _vm.portfolio.empresa_solicitante
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                _vm.portfolio,
-                                                "empresa_solicitante",
-                                                $event.target.value
-                                              )
-                                            }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ]),
+                                        ]
+                                      )
+                                    : _vm._e(),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "project_name" } },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$trans("messages.Project")
-                                          ) +
-                                            " " +
-                                            _vm._s(_vm.$trans("messages.Name"))
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
                                           directives: [
                                             {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.project_name,
-                                              expression: "project_name"
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
                                             }
                                           ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "text",
-                                            name: "project_name"
-                                          },
-                                          domProps: { value: _vm.project_name },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.project_name =
-                                                $event.target.value
-                                            }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.portfolio.project_name,
-                                              expression:
-                                                "portfolio.project_name"
-                                            }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "text",
-                                            name: "project_name"
-                                          },
-                                          domProps: {
-                                            value: _vm.portfolio.project_name
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                _vm.portfolio,
-                                                "project_name",
-                                                $event.target.value
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "img" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Image")
+                                                )
                                               )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "file",
+                                                  name: "img"
+                                                },
+                                                on: { change: _vm.img }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "file",
+                                                  name: "img"
+                                                },
+                                                on: { change: _vm.img }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "row" },
+                                                [
+                                                  _c("img", {
+                                                    attrs: {
+                                                      src:
+                                                        _vm.src +
+                                                        _vm.portfolio.img,
+                                                      alt: _vm.portfolio.img,
+                                                      width: "100"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
                                             }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ]),
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "img" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Image")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "file",
+                                                  name: "img"
+                                                },
+                                                on: { change: _vm.img }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "file",
+                                                  name: "img"
+                                                },
+                                                on: { change: _vm.img }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "row" },
+                                                [
+                                                  _c("img", {
+                                                    attrs: {
+                                                      src:
+                                                        _vm.src +
+                                                        _vm.portfolio.img,
+                                                      alt: _vm.portfolio.img,
+                                                      width: "100"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      ),
+                                  _vm._v(" "),
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            {
+                                              attrs: {
+                                                for: "empresa_solicitante"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Agency/Freelancer"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.empresa_solicitante,
+                                                    expression:
+                                                      "empresa_solicitante"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "empresa_solicitante"
+                                                },
+                                                domProps: {
+                                                  value: _vm.empresa_solicitante
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.empresa_solicitante =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.portfolio
+                                                        .empresa_solicitante,
+                                                    expression:
+                                                      "portfolio.empresa_solicitante"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "empresa_solicitante"
+                                                },
+                                                domProps: {
+                                                  value:
+                                                    _vm.portfolio
+                                                      .empresa_solicitante
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.portfolio,
+                                                      "empresa_solicitante",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            {
+                                              attrs: {
+                                                for: "empresa_solicitante"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Agency/Freelancer"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.empresa_solicitante,
+                                                    expression:
+                                                      "empresa_solicitante"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "empresa_solicitante"
+                                                },
+                                                domProps: {
+                                                  value: _vm.empresa_solicitante
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.empresa_solicitante =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.portfolio
+                                                        .empresa_solicitante,
+                                                    expression:
+                                                      "portfolio.empresa_solicitante"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "empresa_solicitante"
+                                                },
+                                                domProps: {
+                                                  value:
+                                                    _vm.portfolio
+                                                      .empresa_solicitante
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.portfolio,
+                                                      "empresa_solicitante",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      ),
+                                  _vm._v(" "),
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "project_name" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Project")
+                                                ) +
+                                                  " " +
+                                                  _vm._s(
+                                                    _vm.$trans("messages.Name")
+                                                  )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.project_name,
+                                                    expression: "project_name"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "project_name"
+                                                },
+                                                domProps: {
+                                                  value: _vm.project_name
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.project_name =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.portfolio
+                                                        .project_name,
+                                                    expression:
+                                                      "portfolio.project_name"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "project_name"
+                                                },
+                                                domProps: {
+                                                  value:
+                                                    _vm.portfolio.project_name
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.portfolio,
+                                                      "project_name",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "project_name" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Project")
+                                                ) +
+                                                  " " +
+                                                  _vm._s(
+                                                    _vm.$trans("messages.Name")
+                                                  )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.project_name,
+                                                    expression: "project_name"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "project_name"
+                                                },
+                                                domProps: {
+                                                  value: _vm.project_name
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.project_name =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.portfolio
+                                                        .project_name,
+                                                    expression:
+                                                      "portfolio.project_name"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "text",
+                                                  name: "project_name"
+                                                },
+                                                domProps: {
+                                                  value:
+                                                    _vm.portfolio.project_name
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.portfolio,
+                                                      "project_name",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "form-group" }, [
                                     _c(
@@ -83756,57 +84404,129 @@ var render = function() {
                                       : _vm._e()
                                   ]),
                                   _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "form-group" },
-                                    [
-                                      _c(
-                                        "label",
-                                        { attrs: { for: "service" } },
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
                                         [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.$trans("messages.Service")
-                                            ) + ": "
-                                          ),
                                           _c(
-                                            "span",
-                                            { staticClass: "text-danger" },
+                                            "label",
+                                            { attrs: { for: "service" } },
                                             [
                                               _vm._v(
                                                 _vm._s(
-                                                  _vm.$trans(
-                                                    "messages.Separate with (,) please"
+                                                  _vm.$trans("messages.Service")
+                                                ) + ": "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Separate with (,) please"
+                                                      )
+                                                    )
                                                   )
-                                                )
+                                                ]
                                               )
                                             ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("tags-input", {
-                                        attrs: {
-                                          "element-id": "servcs",
-                                          name: "service",
-                                          "add-tags-on-comma": true,
-                                          placeholder: "Add a service",
-                                          "existing-tags": _vm.services,
-                                          "id-field": "key",
-                                          "text-field": "value",
-                                          typeahead: true
+                                          ),
+                                          _vm._v(" "),
+                                          _c("tags-input", {
+                                            attrs: {
+                                              "element-id": "servcs",
+                                              name: "service",
+                                              "add-tags-on-comma": true,
+                                              placeholder: "Add a service",
+                                              "existing-tags": _vm.services,
+                                              "id-field": "key",
+                                              "text-field": "value",
+                                              typeahead: true
+                                            },
+                                            model: {
+                                              value: _vm.selectedServs,
+                                              callback: function($$v) {
+                                                _vm.selectedServs = $$v
+                                              },
+                                              expression: "selectedServs"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
                                         },
-                                        model: {
-                                          value: _vm.selectedServs,
-                                          callback: function($$v) {
-                                            _vm.selectedServs = $$v
-                                          },
-                                          expression: "selectedServs"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "service" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Service")
+                                                ) + ": "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Separate with (,) please"
+                                                      )
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("tags-input", {
+                                            attrs: {
+                                              "element-id": "servcs",
+                                              name: "service",
+                                              "add-tags-on-comma": true,
+                                              placeholder: "Add a service",
+                                              "existing-tags": _vm.services,
+                                              "id-field": "key",
+                                              "text-field": "value",
+                                              typeahead: true
+                                            },
+                                            model: {
+                                              value: _vm.selectedServs,
+                                              callback: function($$v) {
+                                                _vm.selectedServs = $$v
+                                              },
+                                              expression: "selectedServs"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
                                 ])
                               ]
                             )
@@ -83833,10 +84553,52 @@ var render = function() {
                                     "div",
                                     { staticClass: "col-md-5 offset-md-4" },
                                     [
-                                      _vm.operation === "add"
+                                      _vm.show_lang_div === false
                                         ? _c(
                                             "button",
                                             {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "btn rounded btn-primary reserva",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.createPortfolio()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Translate"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "button",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
                                               staticClass:
                                                 "btn rounded btn-primary reserva",
                                               attrs: { type: "button" },
@@ -83853,8 +84615,7 @@ var render = function() {
                                                 )
                                               )
                                             ]
-                                          )
-                                        : _vm._e(),
+                                          ),
                                       _vm._v(" "),
                                       _vm.operation === "update"
                                         ? _c(
@@ -83976,8 +84737,10 @@ var render = function() {
           ? _c("portfolio-oper-form-component", {
               attrs: {
                 operation: _vm.operation,
+                lan_to_edit: _vm.lan_to_edit,
                 portfolio: _vm.portfolio,
-                locale: _vm.locale
+                locale: _vm.locale,
+                show_lang_div: _vm.show_lang_div
               },
               on: {
                 portfolionew: _vm.addPortfolioIndex,
@@ -84125,6 +84888,115 @@ var render = function() {
                             },
                             [
                               _c("td", [
+                                _c("div", { staticClass: "dropdown" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "can-user",
+                                          rawName: "v-can-user",
+                                          value: "edit-translate-portfolio",
+                                          expression:
+                                            "'edit-translate-portfolio'"
+                                        }
+                                      ],
+                                      staticClass: "dropdown-toggle",
+                                      attrs: {
+                                        id:
+                                          "edit-translate-portfolio-" +
+                                          portfolio.id,
+                                        title:
+                                          "Edit Translate/Editar Traducción",
+                                        "data-toggle": "dropdown",
+                                        hidden: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getTranslates(
+                                            index,
+                                            portfolio
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", { staticClass: "fa fa-edit" }),
+                                      _vm._v(" "),
+                                      _c("i", {
+                                        staticClass: "fas fa-language"
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "dropdown-menu" },
+                                    _vm._l(_vm.translated_languages, function(
+                                      lang_available
+                                    ) {
+                                      return _c(
+                                        "a",
+                                        {
+                                          staticClass: "dropdown-item",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openEditTranslated(
+                                                portfolio,
+                                                lang_available
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(lang_available) +
+                                              "\n                        "
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "can-user",
+                                        rawName: "v-can-user",
+                                        value: "translate-portfolio",
+                                        expression: "'translate-portfolio'"
+                                      }
+                                    ],
+                                    attrs: {
+                                      href: "#",
+                                      id: "translate-portfolio-" + portfolio.id,
+                                      hidden: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openAddTranslate(
+                                          index,
+                                          portfolio
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-language",
+                                      attrs: {
+                                        title: "Add Language/Añadir Lenguage"
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
                                 _c(
                                   "a",
                                   {

@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
 use App\Traits\ServiceTrait;
+use App\Traits\PortfolioTrait;
+use App\Traits\ContentTypeTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PortfolioController extends Controller
 {
-  use ServiceTrait, ImageTrait;
+  use ServiceTrait, ImageTrait, PortfolioTrait, ContentTypeTrait,  TranslateTrait,  LanguageTrait;
 
   public function __construct()
   {
@@ -80,13 +84,6 @@ class PortfolioController extends Controller
       return $services_array;
   }
 
-  public function getPortfolio($portfolio){
-    $portfolios=Portfolio::with('services')
-                 ->where('id',$portfolio)
-                 ->first();
-    return $portfolios;
-  }
-
   public function getPortfolioList(){
     $portfolios=Portfolio::with('services')
                          ->get();
@@ -145,6 +142,31 @@ class PortfolioController extends Controller
 
       $portToAdd=$this->getPortfolio($portfolio->id);
       return $portToAdd;
+    }
+
+    public function addTranslate(Request $request){
+      $data=request()->validate([
+        'lang'=> 'required',
+        'description'=> 'required',
+      ]);
+
+      $portfolio=Portfolio::find(request('portfolio_id'));
+      $contentType='Portfolio';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->findLanguageName(request('lang'));
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$portfolio->id,
+        'content'=>$portfolio['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $this->storeTranslate($data_trans);
+      return $portfolio;
     }
 
     /**
@@ -211,6 +233,30 @@ class PortfolioController extends Controller
       return $portToAdd;
     }
 
+    public function updateTranslatedPortfolioByLang($portfolio_id,$lang_name, Request $request){
+      $dataPost=request()->validate([
+        'description'=> 'required',
+      ]);
+
+      $portfolio=Portfolio::find($portfolio_id);
+      $contentType='Portfolio';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->getLangIdByName($lang_name);
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$portfolio_id,
+        'content'=>request('description'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $result=$this->updateTranslate($data_trans);
+      return $result;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -220,6 +266,9 @@ class PortfolioController extends Controller
     public function destroy(Portfolio $portfolio)
     {
       $portfol=Portfolio::findOrFail($portfolio->id);
+        $contentType='Portfolio';
+        $tipo_content=$this->findContentId($contentType);
+        $this->deleteTranslatedItemsByItem($portfolio->id,$tipo_content);
       $this->delImageFile($portfol->img,'portfolio');
       $portfol->delete();
       $portfol->services()->detach();

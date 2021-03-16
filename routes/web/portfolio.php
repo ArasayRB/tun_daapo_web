@@ -12,3 +12,6 @@ Route::resource('/portfolio', App\Http\Controllers\PortfolioController::class,['
 Route::get('/portfolioList', [App\Http\Controllers\PortfolioController::class, 'getPortfolioList']);
 Route::get('/available-services', [App\Http\Controllers\PortfolioController::class, 'availableService']);
 Route::get('/all-portfolios', [App\Http\Controllers\PortfolioController::class, 'getAllPortfolios']);
+Route::get('/get-translated-portfolio-by-lang/{lang}/{id_section}/{content_type}',[App\Http\Controllers\PortfolioController::class, 'getTranslatedPortfolioByLang']);
+Route::post('/add-translate-portfolio', [App\Http\Controllers\PortfolioController::class, 'addTranslate']);
+Route::post('/portfolio-translated-edited/{id_section}/{lang_name}',[App\Http\Controllers\PortfolioController::class, 'updateTranslatedPortfolioByLang']);

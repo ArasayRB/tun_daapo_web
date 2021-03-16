@@ -10,7 +10,7 @@ Portfolio<template>
 
   </div>
   <div class="card shadow mb-4">
-    <portfolio-oper-form-component @portfolionew="addPortfolioIndex" @portfoliooperupd="updPortfolioIndex" :operation="operation" :portfolio="portfolio" :locale="locale" v-if="ventanaOperPortfolio" @close="ventanaOperPortfolio = false">
+    <portfolio-oper-form-component @portfolionew="addPortfolioIndex" @portfoliooperupd="updPortfolioIndex" :operation="operation" :lan_to_edit="lan_to_edit" :portfolio="portfolio" :locale="locale" :show_lang_div="show_lang_div" v-if="ventanaOperPortfolio" @close="ventanaOperPortfolio = false">
 
     </portfolio-oper-form-component>
     <div class="card-header py-3">
@@ -58,8 +58,21 @@ Portfolio<template>
                 <tr v-for="(portfolio,index) in paginated('portfolios')" :portfolio="portfolio" :key="portfolio.id">
 
                     <td>
+                      <div class="dropdown">
+                        <a class="dropdown-toggle" :id="'edit-translate-portfolio-'+portfolio.id" v-can-user="'edit-translate-portfolio'" title="Edit Translate/Editar Traducción" data-toggle="dropdown" @click="getTranslates(index,portfolio)" hidden>
+                          <i class="fa fa-edit"></i>
+                          <i class="fas fa-language"></i>
+                        </a>
+                        <div class="dropdown-menu">
 
-                          <a href="#" @click="openEditPortfolio(index,portfolio)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
+                          <a class="dropdown-item" type="button" v-for="lang_available in translated_languages" @click="openEditTranslated(portfolio, lang_available)">
+                              {{lang_available}}
+                          </a>
+
+                          </div>
+                      </div>
+                      <a href="#" @click="openAddTranslate(index,portfolio)" :id="'translate-portfolio-'+portfolio.id" v-can-user="'translate-portfolio'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
+                      <a href="#" @click="openEditPortfolio(index,portfolio)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deletePortfolio(index,portfolio.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
                     <td><img :src="src+portfolio.img"  width="100"></td>
@@ -148,9 +161,12 @@ Portfolio<template>
           idpermissionActualizar:-1,
           value:'',
           operation:'',
+          translated_languages:[],
           id:'',
           mensage:'',
           valueImg:'',
+          show_lang_div:false,
+          lan_to_edit:'none',
           lang:true,
           locale:'',
           src:'storage/portfolio/',
@@ -181,6 +197,40 @@ Portfolio<template>
     filtersPortfolios:function(filters){
       this.portfolios=filters;
     },
+    openEditTranslated:function(portfolio, lang_available){
+      let portfolio_translated_array;
+      axios.get('/get-translated-portfolio-by-lang/'+lang_available+'/'+portfolio.id+'/Portfolio')
+           .then(response =>{
+             portfolio_translated_array = response.data;
+             this.portfolio=portfolio_translated_array;
+               this.operation='update';
+                 this.ventanaOperPortfolio=true;
+                 this.lan_to_edit=lang_available;
+             if (response.data==''){
+               this.mensage=this.$trans('messages.Portfolio')+'  '+this.$trans('messages.None added yet');
+             }})
+           .catch(error => this.errors.push(error));
+    },
+    getTranslates:function(index,portfolio){
+      axios.get('/translated-language-item/'+portfolio.id+'/Portfolio')
+           .then(response =>{
+               this.lang=false;
+             if (response.data==='no-language-added'){
+               this.translated_languages = [];
+               let mensageLang=this.$trans('messages.None language added yet');
+               swal({title:this.$trans('messages.Warning!'),
+                     text:mensageLang,
+                     icon:'warning',
+                     closeOnClickOutside:false,
+                     closeOnEsc:false
+                   });
+             }
+             else{
+                 this.translated_languages = response.data;
+             }
+           })
+           .catch(error => this.errors.push(error));
+    },
         portfolioList:function(){
           axios.get('/portfolioList')
                .then(response =>{
@@ -192,12 +242,15 @@ Portfolio<template>
                .catch(error => this.errors.push(error));
         },
         addPortfolioIndex:function(permissionAdd){
-          this.operation='';this.portfolioList();
+          this.operation='';
+          this.portfolioList();
           this.mensage="";
+          this.show_lang_div=false;
           this.ventanaOperPortfolio=false;
         },
         updPortfolioIndex:function(portfolioUpd){
           this.operation='';
+          this.show_lang_div=false;
           const position=this.portfolios.findIndex(portfolio=>portfolio.id===portfolioUpd.id);
           this.portfolioList();
           this.ventanaOperPortfolio=false;
@@ -243,7 +296,14 @@ Portfolio<template>
 
 
         },
+        openAddTranslate:function(index,portfolio){
+          this.portfolio=portfolio;
+          this.show_lang_div=false;
+          this.operation='add';
+          this.ventanaOperPortfolio = true;
+        },
         openAddPortfolio:function(){
+          this.show_lang_div=true;
           this.operation='add';
           this.ventanaOperPortfolio = true;
         },
