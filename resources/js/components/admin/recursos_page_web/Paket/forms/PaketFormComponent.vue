@@ -7,8 +7,9 @@
     <div class="modal-container">
       <div class="modal-header">
         <slot>
-        <h1 class="text-center text-dark" v-if="operation==='add'">{{ $trans('messages.Create') }} {{ $trans('messages.Packet') }}</h1>
-        <h1 class="text-center text-dark" v-if="operation==='update'">{{ $trans('messages.Update') }} {{ $trans('messages.Packet') }}</h1>
+          <h1 class="text-center text-dark" v-if="show_lang_div===false">{{paket.name}}</h1>
+        <h1 class="text-center text-dark" v-else="operation==='add'">{{ $trans('messages.Create') }} {{ $trans('messages.Packet') }}</h1>
+        <h1 class="text-center text-dark" v-else="operation==='update'">{{ $trans('messages.Update') }} {{ $trans('messages.Packet') }}</h1>
         <button type="button" class="modal-default-button btn btn-lg" @click="$emit('close')"><span aria-hidden="true">&times;</span></button>
 
         </slot>
@@ -19,85 +20,134 @@
         <div class="container mt-5">
           <div class="row justify-content-center">
             <div class="col-12">
+              <div class="form-group" id="language_div" v-show="show_lang_div!=true" v-if="operation=='add'">
+                <label for="lang_trans">{{ $trans('messages.Language') }}</label>
+                <select class="form-control" v-model="lang_trans" name="lang_trans" required>
+                 <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Language') }}</option>
+                   <option v-for="language in languages" :value="language.id">{{language.language}}</option>
+                </select>
+              </div>
 
-<div class="form-group">
-  <label for="type_paket">{{ $trans('messages.Packet') }}</label>
-  <select class="form-control" v-model="type_paket" name="type_paket" required v-if="operation==='add'">
-   <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Packet Type') }}</option>
-     <option v-for="packet in packets" :value="packet.id">{{packet.name}}</option>
-  </select>
-  <select class="form-control" v-model="type_paket" name="type_paket" required v-if="operation==='update'">
-   <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Packet Type') }}</option>
-     <option v-for="packet in packets" :selected=" paket.type_id=== packet.id" :value="packet.id" selected>{{packet.name}}</option>
-  </select>
-</div>
+              <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+                <label for="type_paket">{{ $trans('messages.Packet') }}</label>
+                <select class="form-control" v-model="type_paket" name="type_paket" required v-if="operation==='add'">
+                  <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Packet Type') }}</option>
+                  <option v-for="packet in packets" :value="packet.id">{{packet.name}}</option>
+                </select>
+                <select class="form-control" v-model="type_paket" name="type_paket" required v-if="operation==='update'">
+                  <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Packet Type') }}</option>
+                  <option v-for="packet in packets" :selected=" paket.type_id=== packet.id" :value="packet.id" selected>{{packet.name}}</option>
+                </select>
+              </div>
+              <div class="form-group" v-show="lan_to_edit==='none'" v-else="operation==='update'">
+                <label for="type_paket">{{ $trans('messages.Packet') }}</label>
+                <select class="form-control" v-model="type_paket" name="type_paket" required v-if="operation==='add'">
+                  <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Packet Type') }}</option>
+                  <option v-for="packet in packets" :value="packet.id">{{packet.name}}</option>
+                </select>
+                <select class="form-control" v-model="type_paket" name="type_paket" required v-if="operation==='update'">
+                  <option value=''>{{ $trans('messages.Select') }} {{ $trans('messages.Packet Type') }}</option>
+                  <option v-for="packet in packets" :selected=" paket.type_id=== packet.id" :value="packet.id" selected>{{packet.name}}</option>
+                </select>
+              </div>
 
-<div class="form-group">
-  <label for="name">{{ $trans('messages.Name') }}</label>
-  <input type="text" name="name" v-model="name" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="name" v-model="paket.name" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
+              <div class="form-group">
+                <label for="name">{{ $trans('messages.Name') }}</label>
+                <input type="text" name="name" v-model="name" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="text" name="name" v-model="paket.name" class="form-control font-italic mb-2" v-if="operation==='update'">
+              </div>
 
-<div class="form-group">
-  <label for="functions">{{ $trans('messages.Functions Included') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
+              <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+                <label for="functions">{{ $trans('messages.Functions Included') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
 
-  <tags-input element-id="servcs" name="functions" :add-tags-on-comma=true	class=""
-     v-model="selectedFunc"
-     placeholder="Add a function"
-     :existing-tags="functions"
-     id-field="key"
-     text-field="value"
-     :typeahead="true">
-  </tags-input>
-</div>
+                <tags-input element-id="servcs" name="functions" :add-tags-on-comma=true	class=""
+                v-model="selectedFunc"
+                placeholder="Add a function"
+                :existing-tags="functions"
+                id-field="key"
+                text-field="value"
+                :typeahead="true">
+              </tags-input>
+            </div>
+            <div class="form-group" v-show="lan_to_edit==='none'" v-else="operation==='update'">
+              <label for="functions">{{ $trans('messages.Functions Included') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
 
-<div class="form-group">
-  <label for="name_button">{{ $trans('messages.Name') }} {{ $trans('messages.Button') }}</label>
-  <input type="text" name="name_button" v-model="name_button" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="text" name="name_button" v-model="paket.name_button" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
+              <tags-input element-id="servcs" name="functions" :add-tags-on-comma=true	class=""
+              v-model="selectedFunc"
+              placeholder="Add a function"
+              :existing-tags="functions"
+              id-field="key"
+              text-field="value"
+              :typeahead="true">
+            </tags-input>
+          </div>
 
-<div class="form-group">
-  <label for="description">{{ $trans('messages.Description') }}</label>
-  <vue-ckeditor
-   v-model="description"
-   :config="config"
-   @blur="onBlur($event)"
-   @focus="onFocus($event)"
-   @contentDom="onContentDom($event)"
-   @dialogDefinition="onDialogDefinition($event)"
-   @fileUploadRequest="onFileUploadRequest($event)"
-   @fileUploadResponse="onFileUploadResponse($event)"
-   v-if="operation==='add'"/>
-   <vue-ckeditor
-    v-model="paket.description"
-    :config="config"
-    @blur="onBlur($event)"
-    @focus="onFocus($event)"
-    @contentDom="onContentDom($event)"
-    @dialogDefinition="onDialogDefinition($event)"
-    @fileUploadRequest="onFileUploadRequest($event)"
-    @fileUploadResponse="onFileUploadResponse($event)"
-    v-if="operation==='update'"/>
-</div>
+            <div class="form-group">
+              <label for="name_button">{{ $trans('messages.Name') }} {{ $trans('messages.Button') }}</label>
+              <input type="text" name="name_button" v-model="name_button" class="form-control font-italic mb-2" v-if="operation==='add'">
+              <input type="text" name="name_button" v-model="paket.name_button" class="form-control font-italic mb-2" v-if="operation==='update'">
+            </div>
 
-<div class="form-group">
-  <label for="price">{{ $trans('messages.Price') }}</label>
-  <input type="number" min="1"  step="0.1" name="price" v-model="price" class="form-control font-italic mb-2" v-if="operation==='add'">
-  <input type="number" min="1"  step="0.1" name="price" v-model="paket.price" class="form-control font-italic mb-2" v-if="operation==='update'">
-</div>
-<div class="form-group">
-  <label for="service">{{ $trans('messages.Service') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
+            <div class="form-group">
+              <label for="description">{{ $trans('messages.Description') }}</label>
+              <vue-ckeditor
+              v-model="description"
+              :config="config"
+              @blur="onBlur($event)"
+              @focus="onFocus($event)"
+              @contentDom="onContentDom($event)"
+              @dialogDefinition="onDialogDefinition($event)"
+              @fileUploadRequest="onFileUploadRequest($event)"
+              @fileUploadResponse="onFileUploadResponse($event)"
+              v-if="operation==='add'"/>
+              <vue-ckeditor
+              v-model="paket.description"
+              :config="config"
+              @blur="onBlur($event)"
+              @focus="onFocus($event)"
+              @contentDom="onContentDom($event)"
+              @dialogDefinition="onDialogDefinition($event)"
+              @fileUploadRequest="onFileUploadRequest($event)"
+              @fileUploadResponse="onFileUploadResponse($event)"
+              v-if="operation==='update'"/>
+            </div>
 
-  <tags-input element-id="servcs" name="service" :add-tags-on-comma=true	class=""
-     v-model="selectedServs"
-     placeholder="Add a service"
-     :existing-tags="services"
-     id-field="key"
-     text-field="value"
-     :typeahead="true">
-  </tags-input>
-</div>
+            <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+              <label for="price">{{ $trans('messages.Price') }}</label>
+              <input type="number" min="1"  step="0.1" name="price" v-model="price" class="form-control font-italic mb-2" v-if="operation==='add'">
+              <input type="number" min="1"  step="0.1" name="price" v-model="paket.price" class="form-control font-italic mb-2" v-if="operation==='update'">
+            </div>
+
+            <div class="form-group" v-show="lan_to_edit==='none'" v-else="operation==='update'">
+              <label for="price">{{ $trans('messages.Price') }}</label>
+              <input type="number" min="1"  step="0.1" name="price" v-model="price" class="form-control font-italic mb-2" v-if="operation==='add'">
+              <input type="number" min="1"  step="0.1" name="price" v-model="paket.price" class="form-control font-italic mb-2" v-if="operation==='update'">
+            </div>
+            <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+              <label for="service">{{ $trans('messages.Service') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
+
+              <tags-input element-id="servcs" name="service" :add-tags-on-comma=true	class=""
+              v-model="selectedServs"
+              placeholder="Add a service"
+              :existing-tags="services"
+              id-field="key"
+              text-field="value"
+              :typeahead="true">
+            </tags-input>
+          </div>
+
+          <div class="form-group" v-show="lan_to_edit==='none'" v-else="operation==='update'">
+            <label for="service">{{ $trans('messages.Service') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
+
+            <tags-input element-id="servcs" name="service" :add-tags-on-comma=true	class=""
+            v-model="selectedServs"
+            placeholder="Add a service"
+            :existing-tags="services"
+            id-field="key"
+            text-field="value"
+            :typeahead="true">
+          </tags-input>
+        </div>
 
 
 
@@ -114,7 +164,8 @@
         <div class="col justify-content-center">
       <div class="form-group row mb-0">
           <div class="col-md-5 offset-md-4">
-            <button type="button" class="btn rounded btn-primary reserva" @click="createPaket()" v-if="operation==='add'">{{ $trans('messages.Create') }}</button>
+            <button type="button" class="btn rounded btn-primary reserva" @click="createPaket()" v-show="operation==='add'" v-if="show_lang_div===false">{{ $trans('messages.Translate') }}</button>
+            <button type="button" class="btn rounded btn-primary reserva" @click="createPaket()" v-show="operation==='add'" v-else>{{ $trans('messages.Create') }}</button>
 
               <button type="button" class="btn rounded btn-primary reserva" @click="editedPaket(paket)" v-if="operation==='update'">{{ $trans('messages.Update') }}</button>
 
@@ -137,7 +188,7 @@
   import VueCkeditor from 'vue-ckeditor2';
     export default {
       components: { VueCkeditor},
-      props:['locale','paket','operation'],
+      props:['locale','paket','operation','show_lang_div','lan_to_edit'],
       data(){
         return {
           msgAddTag:this.$trans('messages.Add a new Tag'),
@@ -164,9 +215,12 @@
        ],
        height: 300
      },
+          languages:[],
+          language:'',
           activeClass:'active',
           showClass:'show',
           description:'',
+          lang_trans:'',
           price:'',
           map:'',
           packets:[],
@@ -201,6 +255,11 @@
     onFileUploadResponse(evt) {
       console.log(evt);
     },
+    getLanguageList:function(){
+      axios.get('/languages-no-translated/'+this.paket.id+'/Paket')
+            .then(response=> this.languages=response.data)
+            .catch(error=>this.error.push(error));
+    },
     packetType:function(){
       axios.get('/packet-type-list')
            .then(response => this.packets = response.data)
@@ -221,10 +280,30 @@
            .catch(error => this.errors.push(error));
     },
         createPaket:function(){
-
-            let  url="/paket";
-            let msg_succ=this.$trans('messages.Packet')+' '+this.$trans('messages.Created.');
+          let url;
+          let msg_succ;
+          let data;
+          let mensaje;
+          let default_lang=this.$lang.getLocale();
+          if(this.show_lang_div===false){
+            url="/add-translate-packet";
+            msg_succ=this.$trans('messages.Packet')+' '+this.$trans('messages.Translated Succefully');
             let mensaje=this.$trans('messages.Unidentified error');
+            if (this.name==''||this.name_button==''||this.description==''||this.lang_trans=='') {
+              mensaje=this.$trans('messages.You cannot leave empty fields, please check');
+            }
+            data = new FormData();
+              data.append("name", this.name);
+              data.append("name_old", this.paket.name);
+              data.append("paket_id", this.paket.id);
+              data.append("lang", this.lang_trans);
+              data.append("description", this.description);
+                data.append("name_button", this.name_button);
+          }
+          else{
+            url="/paket";
+            msg_succ=this.$trans('messages.Packet')+' '+this.$trans('messages.Created.');
+            mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.name_button==''||this.description==''||this.price==''||this.selectedServs.length===0||this.type_paket=='') {
               mensaje=this.$trans('messages.You cannot leave empty fields, please check');
             }
@@ -251,7 +330,7 @@
             }
             }
 
-            let data = new FormData();
+            data = new FormData();
               data.append("name", this.name);
                 data.append("name_button", this.name_button);
               data.append("description", this.description);
@@ -259,6 +338,7 @@
               data.append("service_id", portKey);
               data.append("type_id",this.type_paket);
               data.append("functions_included",functKey);
+          }
 
 
 
@@ -315,40 +395,52 @@
           let data;
           let msg_edited;
           let config= { headers: {"Content-Type": "multipart/form-data" }};
+          if(this.lan_to_edit==='none'){
+            let serviList=this.selectedServs;
+            let portKey="";
+            for(var i=0; i<serviList.length;i=i+1){
+              if(i==(serviList.length-1)){
+              portKey= ''+portKey+serviList[i].value;
+            }
+            else{
+              portKey= ''+portKey+serviList[i].value+',';
+            }
+            }
 
-
-          let serviList=this.selectedServs;
-          let portKey="";
-          for(var i=0; i<serviList.length;i=i+1){
-            if(i==(serviList.length-1)){
-            portKey= ''+portKey+serviList[i].value;
+            let functList=this.selectedFunc;
+            let functKey="";
+            for(var i=0; i<functList.length;i=i+1){
+              if(i==(functList.length-1)){
+              functKey= ''+functKey+functList[i].value;
+            }
+            else{
+              functKey= ''+functKey+functList[i].value+',';
+            }
+            }
+                data = new FormData();
+      	          data.append('_method', 'patch');
+                  data.append("name", paket.name);
+                  data.append("name_button", paket.name_button);
+                  data.append("description", paket.description);
+                  data.append("price", paket.price);
+                  data.append("service_id", portKey);
+                  data.append("type_id",this.type_paket);
+                  data.append("functions_included",functKey);
+                url="/paket/"+paket.id;
+                msg_edited=this.$trans('messages.Packet')+' '+this.$trans('messages.Edited');
           }
           else{
-            portKey= ''+portKey+serviList[i].value+',';
-          }
+            data = new FormData();
+              data.append("name", paket.name);
+              data.append("name_button", paket.name_button);
+              data.append("description", paket.description);
+              //data.append("tags", postTags);
+              //data.append("keywords", postKeys);
+            url="/packet-translated-edited/"+paket.id+"/"+this.lan_to_edit;
+            msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Packet')+' '+this.$trans('messages.translation has been successfully modified');
           }
 
-          let functList=this.selectedFunc;
-          let functKey="";
-          for(var i=0; i<functList.length;i=i+1){
-            if(i==(functList.length-1)){
-            functKey= ''+functKey+functList[i].value;
-          }
-          else{
-            functKey= ''+functKey+functList[i].value+',';
-          }
-          }
-              data = new FormData();
-    	          data.append('_method', 'patch');
-                data.append("name", paket.name);
-                data.append("name_button", paket.name_button);
-                data.append("description", paket.description);
-                data.append("price", paket.price);
-                data.append("service_id", portKey);
-                data.append("type_id",this.type_paket);
-                data.append("functions_included",functKey);
-              url="/paket/"+paket.id;
-              msg_edited=this.$trans('messages.Packet')+' '+this.$trans('messages.Edited');
+
 
           axios.post(url,data,config)
                .then(response=>{
@@ -400,6 +492,8 @@
         this.availabelServices();
         this.packetType();
         this.availabelFunctions();
+        this.getLanguageList();
+        console.log('paket',this.paket);
         if(this.operation==='update'){
           for(var i=0; i<this.paket.services.length;i++){
             this.selectedServs.push({'key':'',

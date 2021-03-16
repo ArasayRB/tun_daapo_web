@@ -10,7 +10,7 @@
 
   </div>
   <div class="card shadow mb-4">
-    <paket-oper-form-component @paketnew="addPaketIndex" @paketperupd="updPaketIndex" :operation="operation" :paket="paket" :locale="locale" v-if="ventanaOperPaket" @close="ventanaOperPaket = false">
+    <paket-oper-form-component @paketnew="addPaketIndex" @paketperupd="updPaketIndex" :operation="operation" :lan_to_edit="lan_to_edit" :paket="paket" :locale="locale" :show_lang_div="show_lang_div" v-if="ventanaOperPaket" @close="ventanaOperPaket = false">
 
     </paket-oper-form-component>
     <div class="card-header py-3">
@@ -56,8 +56,22 @@
                 <tr v-for="(paket,index) in paginated('pakets')" :paket="paket" :key="paket.id">
 
                     <td>
+                      <div class="dropdown">
+                        <a class="dropdown-toggle" :id="'edit-translate-packet-'+paket.id" v-can-user="'edit-translate-packet'" title="Edit Translate/Editar Traducción" data-toggle="dropdown" @click="getTranslates(index,paket)" hidden>
+                          <i class="fa fa-edit"></i>
+                          <i class="fas fa-language"></i>
+                        </a>
+                        <div class="dropdown-menu">
 
-                          <a href="#" @click="openEditPaket(index,paket)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
+                          <a class="dropdown-item" type="button" v-for="lang_available in translated_languages" @click="openEditTranslated(paket, lang_available)">
+                              {{lang_available}}
+                          </a>
+
+                          </div>
+                      </div>
+
+                      <a href="#" @click="openAddTranslate(index,paket)" :id="'translate-packet-'+paket.id" v-can-user="'translate-packet'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
+                      <a href="#" @click="openEditPaket(index,paket)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deletePaket(index,paket.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
                     <td>{{paket.name}}</td>
@@ -144,9 +158,12 @@
           idpermissionActualizar:-1,
           value:'',
           operation:'',
+          translated_languages:[],
           id:'',
           mensage:'',
           valueImg:'',
+          show_lang_div:false,
+          lan_to_edit:'none',
           lang:true,
           locale:'',
           src:'storage/img_web/login_img/',
@@ -182,6 +199,40 @@
 
           this.imagenpermission=e.target.files[0];
         },
+        openEditTranslated:function(paket, lang_available){
+          let paket_translated_array;
+          axios.get('/get-translated-packet-by-lang/'+lang_available+'/'+paket.id+'/Paket')
+               .then(response =>{
+                 paket_translated_array = response.data;
+                 this.paket=paket_translated_array;
+                   this.operation='update';
+                     this.ventanaOperPaket=true;
+                     this.lan_to_edit=lang_available;
+                 if (response.data==''){
+                   this.mensage=this.$trans('messages.Packet')+'  '+this.$trans('messages.None added yet');
+                 }})
+               .catch(error => this.errors.push(error));
+        },
+        getTranslates:function(index,paket){
+          axios.get('/translated-language-item/'+paket.id+'/Paket')
+               .then(response =>{
+                   this.lang=false;
+                 if (response.data==='no-language-added'){
+                   this.translated_languages = [];
+                   let mensageLang=this.$trans('messages.None language added yet');
+                   swal({title:this.$trans('messages.Warning!'),
+                         text:mensageLang,
+                         icon:'warning',
+                         closeOnClickOutside:false,
+                         closeOnEsc:false
+                       });
+                 }
+                 else{
+                     this.translated_languages = response.data;
+                 }
+               })
+               .catch(error => this.errors.push(error));
+        },
         paketList:function(){
           axios.get('/paketList')
                .then(response =>{
@@ -196,10 +247,12 @@
           this.operation='';
           this.paketList();
           this.mensage="";
+          this.show_lang_div=false;
           this.ventanaOperPaket=false;
         },
         updPaketIndex:function(paketUpd){
           this.operation='';
+          this.show_lang_div=false;
           const position=this.pakets.findIndex(paket=>paket.id===paketUpd.id);
           this.paketList();
           this.ventanaOperPaket=false;
@@ -245,11 +298,19 @@
 
 
         },
+        openAddTranslate:function(index,paket){
+          this.paket=paket;
+          this.show_lang_div=false;
+          this.operation='add';
+          this.ventanaOperPaket = true;
+        },
         openAddPaket:function(){
+          this.show_lang_div=true;
           this.operation='add';
           this.ventanaOperPaket = true;
         },
         openEditPaket:function(index,paket){
+          this.lan_to_edit='none';
           this.operation='update';
         this.paket=paket;
           this.ventanaOperPaket=true;

@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Paket;
 use App\Traits\ServiceTrait;
 use App\Traits\PaketTrait;
+use App\Traits\ContentTypeTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
 use App\Traits\FunctionIncludedTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PaketController extends Controller
 {
-  use ServiceTrait, PaketTrait, FunctionIncludedTrait;
+  use ServiceTrait, PaketTrait, FunctionIncludedTrait, ContentTypeTrait, TranslateTrait, LanguageTrait;
   public function __construct()
   {
       $this->middleware('auth');
@@ -45,14 +48,6 @@ class PaketController extends Controller
           'price' => ['required'],
           'type_id' => ['required'],
       ]);
-  }
-
-  public function getPaket($paket){
-    $pakets=Paket::with('services')
-                 ->with('functions')
-                 ->where('id',$paket)
-                 ->first();
-    return $pakets;
   }
     /**
      * Display a listing of the resource.
@@ -120,6 +115,45 @@ class PaketController extends Controller
       }
       $pakToAdd=$this->getPaket($pakets->id);
       return $pakToAdd;
+    }
+
+    public function addTranslate(Request $request){
+      $data=request()->validate([
+        'name'=> 'required|max:255',
+        'lang'=> 'required',
+        'description'=> 'required',
+        'name_button'=> 'required',
+      ]);
+
+      $packet=Paket::find(request('paket_id'));
+      $contentType='Paket';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->findLanguageName(request('lang'));
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$packet->id,
+        'content'=>$packet['name'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'name',
+        'content_trans'=>request('name')],
+        ['id_content_trans'=>$packet->id,
+        'content'=>$packet['name_button'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'name_button',
+        'content_trans'=>request('name_button')],
+        ['id_content_trans'=>$packet->id,
+        'content'=>$packet['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $this->storeTranslate($data_trans);
+      return $packet;
     }
 
     /**
@@ -197,6 +231,44 @@ class PaketController extends Controller
       return $paketToAdd;
     }
 
+    public function updateTranslatedPacketByLang($packet_id,$lang_name, Request $request){
+      $dataPost=request()->validate([
+        'name'=> 'required|max:255',
+        'name_button'=> 'required',
+        'description'=> 'required',
+      ]);
+
+      $packet=Paket::find($packet_id);
+      $contentType='Paket';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->getLangIdByName($lang_name);
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$packet_id,
+        'content'=>request('name'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'name',
+        'content_trans'=>request('name')],
+        ['id_content_trans'=>$packet_id,
+        'content'=>request('name_button'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'name_button',
+        'content_trans'=>request('name_button')],
+        ['id_content_trans'=>$packet_id,
+        'content'=>request('description'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $result=$this->updateTranslate($data_trans);
+      return $result;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -206,6 +278,9 @@ class PaketController extends Controller
     public function destroy(Paket $paket)
     {
       $pakete=Paket::findOrFail($paket->id);
+        $contentType='Paket';
+        $tipo_content=$this->findContentId($contentType);
+        $this->deleteTranslatedItemsByItem($paket->id,$tipo_content);
       $pakete->delete();
       $pakete->services()->detach();
     }

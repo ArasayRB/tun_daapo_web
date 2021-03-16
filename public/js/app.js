@@ -6150,12 +6150,63 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     VueCkeditor: vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['locale', 'paket', 'operation'],
+  props: ['locale', 'paket', 'operation', 'show_lang_div', 'lan_to_edit'],
   data: function data() {
     return {
       msgAddTag: this.$trans('messages.Add a new Tag'),
@@ -6200,9 +6251,12 @@ __webpack_require__.r(__webpack_exports__);
         }],
         height: 300
       },
+      languages: [],
+      language: '',
       activeClass: 'active',
       showClass: 'show',
       description: '',
+      lang_trans: '',
       price: '',
       map: '',
       packets: [],
@@ -6236,77 +6290,112 @@ __webpack_require__.r(__webpack_exports__);
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
     },
-    packetType: function packetType() {
+    getLanguageList: function getLanguageList() {
       var _this = this;
 
-      axios.get('/packet-type-list').then(function (response) {
-        return _this.packets = response.data;
+      axios.get('/languages-no-translated/' + this.paket.id + '/Paket').then(function (response) {
+        return _this.languages = response.data;
       })["catch"](function (error) {
-        return _this.errors.push(error);
+        return _this.error.push(error);
       });
     },
-    availabelServices: function availabelServices() {
+    packetType: function packetType() {
       var _this2 = this;
 
-      axios.get('/available-services').then(function (response) {
-        _this2.services = response.data;
+      axios.get('/packet-type-list').then(function (response) {
+        return _this2.packets = response.data;
       })["catch"](function (error) {
         return _this2.errors.push(error);
       });
     },
-    availabelFunctions: function availabelFunctions() {
+    availabelServices: function availabelServices() {
       var _this3 = this;
 
-      axios.get('/available-functions').then(function (response) {
-        _this3.functions = response.data;
+      axios.get('/available-services').then(function (response) {
+        _this3.services = response.data;
       })["catch"](function (error) {
         return _this3.errors.push(error);
       });
     },
-    createPaket: function createPaket() {
+    availabelFunctions: function availabelFunctions() {
       var _this4 = this;
 
-      var url = "/paket";
-      var msg_succ = this.$trans('messages.Packet') + ' ' + this.$trans('messages.Created.');
-      var mensaje = this.$trans('messages.Unidentified error');
+      axios.get('/available-functions').then(function (response) {
+        _this4.functions = response.data;
+      })["catch"](function (error) {
+        return _this4.errors.push(error);
+      });
+    },
+    createPaket: function createPaket() {
+      var _this5 = this;
 
-      if (this.name == '' || this.name_button == '' || this.description == '' || this.price == '' || this.selectedServs.length === 0 || this.type_paket == '') {
-        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
-      }
+      var url;
+      var msg_succ;
+      var data;
+      var mensaje;
+      var default_lang = this.$lang.getLocale();
 
-      var serviList = this.selectedServs;
-      var portKey = "";
+      if (this.show_lang_div === false) {
+        url = "/add-translate-packet";
+        msg_succ = this.$trans('messages.Packet') + ' ' + this.$trans('messages.Translated Succefully');
 
-      for (var i = 0; i < serviList.length; i = i + 1) {
-        if (i == serviList.length - 1) {
-          portKey = '' + portKey + serviList[i].value;
-        } else {
-          portKey = '' + portKey + serviList[i].value + ',';
+        var _mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.name == '' || this.name_button == '' || this.description == '' || this.lang_trans == '') {
+          _mensaje = this.$trans('messages.You cannot leave empty fields, please check');
         }
-      }
 
-      var functList = this.selectedFunc;
-      var functKey = "";
+        data = new FormData();
+        data.append("name", this.name);
+        data.append("name_old", this.paket.name);
+        data.append("paket_id", this.paket.id);
+        data.append("lang", this.lang_trans);
+        data.append("description", this.description);
+        data.append("name_button", this.name_button);
+      } else {
+        url = "/paket";
+        msg_succ = this.$trans('messages.Packet') + ' ' + this.$trans('messages.Created.');
+        mensaje = this.$trans('messages.Unidentified error');
 
-      for (var i = 0; i < functList.length; i = i + 1) {
-        if (i == functList.length - 1) {
-          functKey = '' + functKey + functList[i].value;
-        } else {
-          functKey = '' + functKey + functList[i].value + ',';
+        if (this.name == '' || this.name_button == '' || this.description == '' || this.price == '' || this.selectedServs.length === 0 || this.type_paket == '') {
+          mensaje = this.$trans('messages.You cannot leave empty fields, please check');
         }
+
+        var serviList = this.selectedServs;
+        var portKey = "";
+
+        for (var i = 0; i < serviList.length; i = i + 1) {
+          if (i == serviList.length - 1) {
+            portKey = '' + portKey + serviList[i].value;
+          } else {
+            portKey = '' + portKey + serviList[i].value + ',';
+          }
+        }
+
+        var functList = this.selectedFunc;
+        var functKey = "";
+
+        for (var i = 0; i < functList.length; i = i + 1) {
+          if (i == functList.length - 1) {
+            functKey = '' + functKey + functList[i].value;
+          } else {
+            functKey = '' + functKey + functList[i].value + ',';
+          }
+        }
+
+        data = new FormData();
+        data.append("name", this.name);
+        data.append("name_button", this.name_button);
+        data.append("description", this.description);
+        data.append("price", this.price);
+        data.append("service_id", portKey);
+        data.append("type_id", this.type_paket);
+        data.append("functions_included", functKey);
       }
 
-      var data = new FormData();
-      data.append("name", this.name);
-      data.append("name_button", this.name_button);
-      data.append("description", this.description);
-      data.append("price", this.price);
-      data.append("service_id", portKey);
-      data.append("type_id", this.type_paket);
-      data.append("functions_included", functKey);
       axios.post(url, data).then(function (response) {
         swal({
-          title: _this4.$trans('messages.Correct data'),
+          title: _this5.$trans('messages.Correct data'),
           text: msg_succ,
           icon: 'success',
           closeOnClickOutside: false,
@@ -6315,7 +6404,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var roleAdd = response.data;
 
-            _this4.$emit('paketnew', roleAdd); //location.reload();
+            _this5.$emit('paketnew', roleAdd); //location.reload();
 
           }
         }); //console.log(response);
@@ -6358,7 +6447,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editedPaket: function editedPaket(paket) {
-      var _this5 = this;
+      var _this6 = this;
 
       var url;
       var data;
@@ -6368,42 +6457,55 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       };
-      var serviList = this.selectedServs;
-      var portKey = "";
 
-      for (var i = 0; i < serviList.length; i = i + 1) {
-        if (i == serviList.length - 1) {
-          portKey = '' + portKey + serviList[i].value;
-        } else {
-          portKey = '' + portKey + serviList[i].value + ',';
+      if (this.lan_to_edit === 'none') {
+        var serviList = this.selectedServs;
+        var portKey = "";
+
+        for (var i = 0; i < serviList.length; i = i + 1) {
+          if (i == serviList.length - 1) {
+            portKey = '' + portKey + serviList[i].value;
+          } else {
+            portKey = '' + portKey + serviList[i].value + ',';
+          }
         }
+
+        var functList = this.selectedFunc;
+        var functKey = "";
+
+        for (var i = 0; i < functList.length; i = i + 1) {
+          if (i == functList.length - 1) {
+            functKey = '' + functKey + functList[i].value;
+          } else {
+            functKey = '' + functKey + functList[i].value + ',';
+          }
+        }
+
+        data = new FormData();
+        data.append('_method', 'patch');
+        data.append("name", paket.name);
+        data.append("name_button", paket.name_button);
+        data.append("description", paket.description);
+        data.append("price", paket.price);
+        data.append("service_id", portKey);
+        data.append("type_id", this.type_paket);
+        data.append("functions_included", functKey);
+        url = "/paket/" + paket.id;
+        msg_edited = this.$trans('messages.Packet') + ' ' + this.$trans('messages.Edited');
+      } else {
+        data = new FormData();
+        data.append("name", paket.name);
+        data.append("name_button", paket.name_button);
+        data.append("description", paket.description); //data.append("tags", postTags);
+        //data.append("keywords", postKeys);
+
+        url = "/packet-translated-edited/" + paket.id + "/" + this.lan_to_edit;
+        msg_edited = this.$trans('messages.The') + ' ' + this.$trans('messages.Packet') + ' ' + this.$trans('messages.translation has been successfully modified');
       }
 
-      var functList = this.selectedFunc;
-      var functKey = "";
-
-      for (var i = 0; i < functList.length; i = i + 1) {
-        if (i == functList.length - 1) {
-          functKey = '' + functKey + functList[i].value;
-        } else {
-          functKey = '' + functKey + functList[i].value + ',';
-        }
-      }
-
-      data = new FormData();
-      data.append('_method', 'patch');
-      data.append("name", paket.name);
-      data.append("name_button", paket.name_button);
-      data.append("description", paket.description);
-      data.append("price", paket.price);
-      data.append("service_id", portKey);
-      data.append("type_id", this.type_paket);
-      data.append("functions_included", functKey);
-      url = "/paket/" + paket.id;
-      msg_edited = this.$trans('messages.Packet') + ' ' + this.$trans('messages.Edited');
       axios.post(url, data, config).then(function (response) {
         swal({
-          title: _this5.$trans('messages.Packet'),
+          title: _this6.$trans('messages.Packet'),
           text: msg_edited,
           icon: 'success',
           closeOnClickOutside: false,
@@ -6412,7 +6514,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var paketUpdate = response.data;
 
-            _this5.$emit('paketperupd', paketUpdate);
+            _this6.$emit('paketperupd', paketUpdate);
           }
         }); //console.log(response);
       })["catch"](function (error) {
@@ -6458,6 +6560,8 @@ __webpack_require__.r(__webpack_exports__);
     this.availabelServices();
     this.packetType();
     this.availabelFunctions();
+    this.getLanguageList();
+    console.log('paket', this.paket);
 
     if (this.operation === 'update') {
       for (var i = 0; i < this.paket.services.length; i++) {
@@ -6494,6 +6598,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6659,9 +6777,12 @@ __webpack_require__.r(__webpack_exports__);
       idpermissionActualizar: -1,
       value: '',
       operation: '',
+      translated_languages: [],
       id: '',
       mensage: '',
       valueImg: '',
+      show_lang_div: false,
+      lan_to_edit: 'none',
       lang: true,
       locale: '',
       src: 'storage/img_web/login_img/',
@@ -6695,27 +6816,72 @@ __webpack_require__.r(__webpack_exports__);
     imageEdit: function imageEdit(e) {
       this.imagenpermission = e.target.files[0];
     },
-    paketList: function paketList() {
+    openEditTranslated: function openEditTranslated(paket, lang_available) {
       var _this = this;
 
-      axios.get('/paketList').then(function (response) {
-        _this.pakets = response.data;
+      var paket_translated_array;
+      axios.get('/get-translated-packet-by-lang/' + lang_available + '/' + paket.id + '/Paket').then(function (response) {
+        paket_translated_array = response.data;
+        _this.paket = paket_translated_array;
+        _this.operation = 'update';
+        _this.ventanaOperPaket = true;
+        _this.lan_to_edit = lang_available;
 
         if (response.data == '') {
-          _this.mensage = _this.$trans('messages.None added yet');
+          _this.mensage = _this.$trans('messages.Packet') + '  ' + _this.$trans('messages.None added yet');
         }
       })["catch"](function (error) {
         return _this.errors.push(error);
+      });
+    },
+    getTranslates: function getTranslates(index, paket) {
+      var _this2 = this;
+
+      axios.get('/translated-language-item/' + paket.id + '/Paket').then(function (response) {
+        _this2.lang = false;
+
+        if (response.data === 'no-language-added') {
+          _this2.translated_languages = [];
+
+          var mensageLang = _this2.$trans('messages.None language added yet');
+
+          swal({
+            title: _this2.$trans('messages.Warning!'),
+            text: mensageLang,
+            icon: 'warning',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          });
+        } else {
+          _this2.translated_languages = response.data;
+        }
+      })["catch"](function (error) {
+        return _this2.errors.push(error);
+      });
+    },
+    paketList: function paketList() {
+      var _this3 = this;
+
+      axios.get('/paketList').then(function (response) {
+        _this3.pakets = response.data;
+
+        if (response.data == '') {
+          _this3.mensage = _this3.$trans('messages.None added yet');
+        }
+      })["catch"](function (error) {
+        return _this3.errors.push(error);
       });
     },
     addPaketIndex: function addPaketIndex(paketAdd) {
       this.operation = '';
       this.paketList();
       this.mensage = "";
+      this.show_lang_div = false;
       this.ventanaOperPaket = false;
     },
     updPaketIndex: function updPaketIndex(paketUpd) {
       this.operation = '';
+      this.show_lang_div = false;
       var position = this.pakets.findIndex(function (paket) {
         return paket.id === paketUpd.id;
       });
@@ -6723,7 +6889,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ventanaOperPaket = false;
     },
     deletePaket: function deletePaket(index, paket) {
-      var _this2 = this;
+      var _this4 = this;
 
       var paket_id = paket;
       swal({
@@ -6742,17 +6908,17 @@ __webpack_require__.r(__webpack_exports__);
           var url = '/paket/' + paket_id;
           axios["delete"](url).then(function (response) {
             swal({
-              title: _this2.$trans('messages.Correct data'),
-              text: _this2.$trans('messages.Packet') + ' ' + _this2.$trans('messages.Deleted'),
+              title: _this4.$trans('messages.Correct data'),
+              text: _this4.$trans('messages.Packet') + ' ' + _this4.$trans('messages.Deleted'),
               icon: 'success',
               closeOnClickOutside: false,
               closeOnEsc: false
             }).then(function (select) {
               if (select) {
-                _this2.paketList();
+                _this4.paketList();
 
-                if (_this2.pakets.length === 0) {
-                  _this2.mensage = _this2.$trans('messages.None added yet');
+                if (_this4.pakets.length === 0) {
+                  _this4.mensage = _this4.$trans('messages.None added yet');
                 }
               }
             });
@@ -6764,11 +6930,19 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    openAddTranslate: function openAddTranslate(index, paket) {
+      this.paket = paket;
+      this.show_lang_div = false;
+      this.operation = 'add';
+      this.ventanaOperPaket = true;
+    },
     openAddPaket: function openAddPaket() {
+      this.show_lang_div = true;
       this.operation = 'add';
       this.ventanaOperPaket = true;
     },
     openEditPaket: function openEditPaket(index, paket) {
+      this.lan_to_edit = 'none';
       this.operation = 'update';
       this.paket = paket;
       this.ventanaOperPaket = true;
@@ -81945,8 +82119,13 @@ var render = function() {
                       { staticClass: "modal-header" },
                       [
                         _vm._t("default", [
-                          _vm.operation === "add"
+                          _vm.show_lang_div === false
                             ? _c(
+                                "h1",
+                                { staticClass: "text-center text-dark" },
+                                [_vm._v(_vm._s(_vm.paket.name))]
+                              )
+                            : _c(
                                 "h1",
                                 { staticClass: "text-center text-dark" },
                                 [
@@ -81956,22 +82135,7 @@ var render = function() {
                                       _vm._s(_vm.$trans("messages.Packet"))
                                   )
                                 ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.operation === "update"
-                            ? _c(
-                                "h1",
-                                { staticClass: "text-center text-dark" },
-                                [
-                                  _vm._v(
-                                    _vm._s(_vm.$trans("messages.Update")) +
-                                      " " +
-                                      _vm._s(_vm.$trans("messages.Packet"))
-                                  )
-                                ]
-                              )
-                            : _vm._e(),
+                              ),
                           _vm._v(" "),
                           _c(
                             "button",
@@ -82006,177 +82170,517 @@ var render = function() {
                               { staticClass: "row justify-content-center" },
                               [
                                 _c("div", { staticClass: "col-12" }, [
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "type_paket" } },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.$trans("messages.Packet"))
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c(
-                                          "select",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.type_paket,
-                                                expression: "type_paket"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              name: "type_paket",
-                                              required: ""
-                                            },
-                                            on: {
-                                              change: function($event) {
-                                                var $$selectedVal = Array.prototype.filter
-                                                  .call(
-                                                    $event.target.options,
-                                                    function(o) {
-                                                      return o.selected
-                                                    }
-                                                  )
-                                                  .map(function(o) {
-                                                    var val =
-                                                      "_value" in o
-                                                        ? o._value
-                                                        : o.value
-                                                    return val
-                                                  })
-                                                _vm.type_paket = $event.target
-                                                  .multiple
-                                                  ? $$selectedVal
-                                                  : $$selectedVal[0]
-                                              }
+                                  _vm.operation == "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div != true,
+                                              expression: "show_lang_div!=true"
                                             }
-                                          },
-                                          [
-                                            _c(
-                                              "option",
-                                              { attrs: { value: "" } },
-                                              [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm.$trans(
-                                                      "messages.Select"
-                                                    )
-                                                  ) +
-                                                    " " +
-                                                    _vm._s(
-                                                      _vm.$trans(
-                                                        "messages.Packet Type"
-                                                      )
-                                                    )
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _vm._l(_vm.packets, function(
-                                              packet
-                                            ) {
-                                              return _c(
-                                                "option",
-                                                {
-                                                  domProps: { value: packet.id }
-                                                },
-                                                [_vm._v(_vm._s(packet.name))]
-                                              )
-                                            })
                                           ],
-                                          2
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c(
-                                          "select",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.type_paket,
-                                                expression: "type_paket"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              name: "type_paket",
-                                              required: ""
-                                            },
-                                            on: {
-                                              change: function($event) {
-                                                var $$selectedVal = Array.prototype.filter
-                                                  .call(
-                                                    $event.target.options,
-                                                    function(o) {
-                                                      return o.selected
-                                                    }
+                                          staticClass: "form-group",
+                                          attrs: { id: "language_div" }
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "lang_trans" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Language"
                                                   )
-                                                  .map(function(o) {
-                                                    var val =
-                                                      "_value" in o
-                                                        ? o._value
-                                                        : o.value
-                                                    return val
-                                                  })
-                                                _vm.type_paket = $event.target
-                                                  .multiple
-                                                  ? $$selectedVal
-                                                  : $$selectedVal[0]
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "option",
-                                              { attrs: { value: "" } },
-                                              [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm.$trans(
-                                                      "messages.Select"
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.lang_trans,
+                                                  expression: "lang_trans"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                name: "lang_trans",
+                                                required: ""
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$selectedVal = Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function(o) {
+                                                        return o.selected
+                                                      }
                                                     )
-                                                  ) +
-                                                    " " +
+                                                    .map(function(o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                  _vm.lang_trans = $event.target
+                                                    .multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                { attrs: { value: "" } },
+                                                [
+                                                  _vm._v(
                                                     _vm._s(
                                                       _vm.$trans(
-                                                        "messages.Packet Type"
+                                                        "messages.Select"
                                                       )
+                                                    ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.$trans(
+                                                          "messages.Language"
+                                                        )
+                                                      )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(_vm.languages, function(
+                                                language
+                                              ) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    domProps: {
+                                                      value: language.id
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(language.language)
                                                     )
+                                                  ]
                                                 )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _vm._l(_vm.packets, function(
-                                              packet
-                                            ) {
-                                              return _c(
-                                                "option",
+                                              })
+                                            ],
+                                            2
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "type_paket" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Packet")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c(
+                                                "select",
                                                 {
-                                                  attrs: { selected: "" },
-                                                  domProps: {
-                                                    selected:
-                                                      _vm.paket.type_id ===
-                                                      packet.id,
-                                                    value: packet.id
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.type_paket,
+                                                      expression: "type_paket"
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  attrs: {
+                                                    name: "type_paket",
+                                                    required: ""
+                                                  },
+                                                  on: {
+                                                    change: function($event) {
+                                                      var $$selectedVal = Array.prototype.filter
+                                                        .call(
+                                                          $event.target.options,
+                                                          function(o) {
+                                                            return o.selected
+                                                          }
+                                                        )
+                                                        .map(function(o) {
+                                                          var val =
+                                                            "_value" in o
+                                                              ? o._value
+                                                              : o.value
+                                                          return val
+                                                        })
+                                                      _vm.type_paket = $event
+                                                        .target.multiple
+                                                        ? $$selectedVal
+                                                        : $$selectedVal[0]
+                                                    }
                                                   }
                                                 },
-                                                [_vm._v(_vm._s(packet.name))]
+                                                [
+                                                  _c(
+                                                    "option",
+                                                    { attrs: { value: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.$trans(
+                                                            "messages.Select"
+                                                          )
+                                                        ) +
+                                                          " " +
+                                                          _vm._s(
+                                                            _vm.$trans(
+                                                              "messages.Packet Type"
+                                                            )
+                                                          )
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._l(_vm.packets, function(
+                                                    packet
+                                                  ) {
+                                                    return _c(
+                                                      "option",
+                                                      {
+                                                        domProps: {
+                                                          value: packet.id
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(packet.name)
+                                                        )
+                                                      ]
+                                                    )
+                                                  })
+                                                ],
+                                                2
                                               )
-                                            })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c(
+                                                "select",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.type_paket,
+                                                      expression: "type_paket"
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  attrs: {
+                                                    name: "type_paket",
+                                                    required: ""
+                                                  },
+                                                  on: {
+                                                    change: function($event) {
+                                                      var $$selectedVal = Array.prototype.filter
+                                                        .call(
+                                                          $event.target.options,
+                                                          function(o) {
+                                                            return o.selected
+                                                          }
+                                                        )
+                                                        .map(function(o) {
+                                                          var val =
+                                                            "_value" in o
+                                                              ? o._value
+                                                              : o.value
+                                                          return val
+                                                        })
+                                                      _vm.type_paket = $event
+                                                        .target.multiple
+                                                        ? $$selectedVal
+                                                        : $$selectedVal[0]
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "option",
+                                                    { attrs: { value: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.$trans(
+                                                            "messages.Select"
+                                                          )
+                                                        ) +
+                                                          " " +
+                                                          _vm._s(
+                                                            _vm.$trans(
+                                                              "messages.Packet Type"
+                                                            )
+                                                          )
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._l(_vm.packets, function(
+                                                    packet
+                                                  ) {
+                                                    return _c(
+                                                      "option",
+                                                      {
+                                                        attrs: { selected: "" },
+                                                        domProps: {
+                                                          selected:
+                                                            _vm.paket
+                                                              .type_id ===
+                                                            packet.id,
+                                                          value: packet.id
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(packet.name)
+                                                        )
+                                                      ]
+                                                    )
+                                                  })
+                                                ],
+                                                2
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
                                           ],
-                                          2
-                                        )
-                                      : _vm._e()
-                                  ]),
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "type_paket" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Packet")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c(
+                                                "select",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.type_paket,
+                                                      expression: "type_paket"
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  attrs: {
+                                                    name: "type_paket",
+                                                    required: ""
+                                                  },
+                                                  on: {
+                                                    change: function($event) {
+                                                      var $$selectedVal = Array.prototype.filter
+                                                        .call(
+                                                          $event.target.options,
+                                                          function(o) {
+                                                            return o.selected
+                                                          }
+                                                        )
+                                                        .map(function(o) {
+                                                          var val =
+                                                            "_value" in o
+                                                              ? o._value
+                                                              : o.value
+                                                          return val
+                                                        })
+                                                      _vm.type_paket = $event
+                                                        .target.multiple
+                                                        ? $$selectedVal
+                                                        : $$selectedVal[0]
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "option",
+                                                    { attrs: { value: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.$trans(
+                                                            "messages.Select"
+                                                          )
+                                                        ) +
+                                                          " " +
+                                                          _vm._s(
+                                                            _vm.$trans(
+                                                              "messages.Packet Type"
+                                                            )
+                                                          )
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._l(_vm.packets, function(
+                                                    packet
+                                                  ) {
+                                                    return _c(
+                                                      "option",
+                                                      {
+                                                        domProps: {
+                                                          value: packet.id
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(packet.name)
+                                                        )
+                                                      ]
+                                                    )
+                                                  })
+                                                ],
+                                                2
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c(
+                                                "select",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: _vm.type_paket,
+                                                      expression: "type_paket"
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  attrs: {
+                                                    name: "type_paket",
+                                                    required: ""
+                                                  },
+                                                  on: {
+                                                    change: function($event) {
+                                                      var $$selectedVal = Array.prototype.filter
+                                                        .call(
+                                                          $event.target.options,
+                                                          function(o) {
+                                                            return o.selected
+                                                          }
+                                                        )
+                                                        .map(function(o) {
+                                                          var val =
+                                                            "_value" in o
+                                                              ? o._value
+                                                              : o.value
+                                                          return val
+                                                        })
+                                                      _vm.type_paket = $event
+                                                        .target.multiple
+                                                        ? $$selectedVal
+                                                        : $$selectedVal[0]
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "option",
+                                                    { attrs: { value: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.$trans(
+                                                            "messages.Select"
+                                                          )
+                                                        ) +
+                                                          " " +
+                                                          _vm._s(
+                                                            _vm.$trans(
+                                                              "messages.Packet Type"
+                                                            )
+                                                          )
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._l(_vm.packets, function(
+                                                    packet
+                                                  ) {
+                                                    return _c(
+                                                      "option",
+                                                      {
+                                                        attrs: { selected: "" },
+                                                        domProps: {
+                                                          selected:
+                                                            _vm.paket
+                                                              .type_id ===
+                                                            packet.id,
+                                                          value: packet.id
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(packet.name)
+                                                        )
+                                                      ]
+                                                    )
+                                                  })
+                                                ],
+                                                2
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "form-group" }, [
                                     _c("label", { attrs: { for: "name" } }, [
@@ -82240,59 +82744,133 @@ var render = function() {
                                       : _vm._e()
                                   ]),
                                   _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "form-group" },
-                                    [
-                                      _c(
-                                        "label",
-                                        { attrs: { for: "functions" } },
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
                                         [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.$trans(
-                                                "messages.Functions Included"
-                                              )
-                                            ) + ": "
-                                          ),
                                           _c(
-                                            "span",
-                                            { staticClass: "text-danger" },
+                                            "label",
+                                            { attrs: { for: "functions" } },
                                             [
                                               _vm._v(
                                                 _vm._s(
                                                   _vm.$trans(
-                                                    "messages.Separate with (,) please"
+                                                    "messages.Functions Included"
                                                   )
-                                                )
+                                                ) + ": "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Separate with (,) please"
+                                                      )
+                                                    )
+                                                  )
+                                                ]
                                               )
                                             ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("tags-input", {
-                                        attrs: {
-                                          "element-id": "servcs",
-                                          name: "functions",
-                                          "add-tags-on-comma": true,
-                                          placeholder: "Add a function",
-                                          "existing-tags": _vm.functions,
-                                          "id-field": "key",
-                                          "text-field": "value",
-                                          typeahead: true
+                                          ),
+                                          _vm._v(" "),
+                                          _c("tags-input", {
+                                            attrs: {
+                                              "element-id": "servcs",
+                                              name: "functions",
+                                              "add-tags-on-comma": true,
+                                              placeholder: "Add a function",
+                                              "existing-tags": _vm.functions,
+                                              "id-field": "key",
+                                              "text-field": "value",
+                                              typeahead: true
+                                            },
+                                            model: {
+                                              value: _vm.selectedFunc,
+                                              callback: function($$v) {
+                                                _vm.selectedFunc = $$v
+                                              },
+                                              expression: "selectedFunc"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
                                         },
-                                        model: {
-                                          value: _vm.selectedFunc,
-                                          callback: function($$v) {
-                                            _vm.selectedFunc = $$v
-                                          },
-                                          expression: "selectedFunc"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "functions" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Functions Included"
+                                                  )
+                                                ) + ": "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Separate with (,) please"
+                                                      )
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("tags-input", {
+                                            attrs: {
+                                              "element-id": "servcs",
+                                              name: "functions",
+                                              "add-tags-on-comma": true,
+                                              placeholder: "Add a function",
+                                              "existing-tags": _vm.functions,
+                                              "id-field": "key",
+                                              "text-field": "value",
+                                              typeahead: true
+                                            },
+                                            model: {
+                                              value: _vm.selectedFunc,
+                                              callback: function($$v) {
+                                                _vm.selectedFunc = $$v
+                                              },
+                                              expression: "selectedFunc"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "form-group" }, [
                                     _c(
@@ -82486,129 +83064,327 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c("label", { attrs: { for: "price" } }, [
-                                      _vm._v(
-                                        _vm._s(_vm.$trans("messages.Price"))
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
                                           directives: [
                                             {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.price,
-                                              expression: "price"
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
                                             }
                                           ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "number",
-                                            min: "1",
-                                            step: "0.1",
-                                            name: "price"
-                                          },
-                                          domProps: { value: _vm.price },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.price = $event.target.value
-                                            }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.paket.price,
-                                              expression: "paket.price"
-                                            }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "number",
-                                            min: "1",
-                                            step: "0.1",
-                                            name: "price"
-                                          },
-                                          domProps: { value: _vm.paket.price },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                _vm.paket,
-                                                "price",
-                                                $event.target.value
-                                              )
-                                            }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "form-group" },
-                                    [
-                                      _c(
-                                        "label",
-                                        { attrs: { for: "service" } },
+                                          staticClass: "form-group"
+                                        },
                                         [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.$trans("messages.Service")
-                                            ) + ": "
-                                          ),
                                           _c(
-                                            "span",
-                                            { staticClass: "text-danger" },
+                                            "label",
+                                            { attrs: { for: "price" } },
                                             [
                                               _vm._v(
                                                 _vm._s(
-                                                  _vm.$trans(
-                                                    "messages.Separate with (,) please"
-                                                  )
+                                                  _vm.$trans("messages.Price")
                                                 )
                                               )
                                             ]
-                                          )
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.price,
+                                                    expression: "price"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  step: "0.1",
+                                                  name: "price"
+                                                },
+                                                domProps: { value: _vm.price },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.price =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.paket.price,
+                                                    expression: "paket.price"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  step: "0.1",
+                                                  name: "price"
+                                                },
+                                                domProps: {
+                                                  value: _vm.paket.price
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.paket,
+                                                      "price",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "price" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Price")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.price,
+                                                    expression: "price"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  step: "0.1",
+                                                  name: "price"
+                                                },
+                                                domProps: { value: _vm.price },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.price =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.paket.price,
+                                                    expression: "paket.price"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  step: "0.1",
+                                                  name: "price"
+                                                },
+                                                domProps: {
+                                                  value: _vm.paket.price
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.paket,
+                                                      "price",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
                                         ]
                                       ),
-                                      _vm._v(" "),
-                                      _c("tags-input", {
-                                        attrs: {
-                                          "element-id": "servcs",
-                                          name: "service",
-                                          "add-tags-on-comma": true,
-                                          placeholder: "Add a service",
-                                          "existing-tags": _vm.services,
-                                          "id-field": "key",
-                                          "text-field": "value",
-                                          typeahead: true
+                                  _vm._v(" "),
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
                                         },
-                                        model: {
-                                          value: _vm.selectedServs,
-                                          callback: function($$v) {
-                                            _vm.selectedServs = $$v
-                                          },
-                                          expression: "selectedServs"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "service" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Service")
+                                                ) + ": "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Separate with (,) please"
+                                                      )
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("tags-input", {
+                                            attrs: {
+                                              "element-id": "servcs",
+                                              name: "service",
+                                              "add-tags-on-comma": true,
+                                              placeholder: "Add a service",
+                                              "existing-tags": _vm.services,
+                                              "id-field": "key",
+                                              "text-field": "value",
+                                              typeahead: true
+                                            },
+                                            model: {
+                                              value: _vm.selectedServs,
+                                              callback: function($$v) {
+                                                _vm.selectedServs = $$v
+                                              },
+                                              expression: "selectedServs"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "service" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Service")
+                                                ) + ": "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "text-danger" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Separate with (,) please"
+                                                      )
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("tags-input", {
+                                            attrs: {
+                                              "element-id": "servcs",
+                                              name: "service",
+                                              "add-tags-on-comma": true,
+                                              placeholder: "Add a service",
+                                              "existing-tags": _vm.services,
+                                              "id-field": "key",
+                                              "text-field": "value",
+                                              typeahead: true
+                                            },
+                                            model: {
+                                              value: _vm.selectedServs,
+                                              callback: function($$v) {
+                                                _vm.selectedServs = $$v
+                                              },
+                                              expression: "selectedServs"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
                                 ])
                               ]
                             )
@@ -82635,10 +83411,52 @@ var render = function() {
                                     "div",
                                     { staticClass: "col-md-5 offset-md-4" },
                                     [
-                                      _vm.operation === "add"
+                                      _vm.show_lang_div === false
                                         ? _c(
                                             "button",
                                             {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "btn rounded btn-primary reserva",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.createPaket()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Translate"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "button",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
                                               staticClass:
                                                 "btn rounded btn-primary reserva",
                                               attrs: { type: "button" },
@@ -82655,8 +83473,7 @@ var render = function() {
                                                 )
                                               )
                                             ]
-                                          )
-                                        : _vm._e(),
+                                          ),
                                       _vm._v(" "),
                                       _vm.operation === "update"
                                         ? _c(
@@ -82778,8 +83595,10 @@ var render = function() {
           ? _c("paket-oper-form-component", {
               attrs: {
                 operation: _vm.operation,
+                lan_to_edit: _vm.lan_to_edit,
                 paket: _vm.paket,
-                locale: _vm.locale
+                locale: _vm.locale,
+                show_lang_div: _vm.show_lang_div
               },
               on: {
                 paketnew: _vm.addPaketIndex,
@@ -82909,6 +83728,109 @@ var render = function() {
                             { key: paket.id, attrs: { paket: paket } },
                             [
                               _c("td", [
+                                _c("div", { staticClass: "dropdown" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "can-user",
+                                          rawName: "v-can-user",
+                                          value: "edit-translate-packet",
+                                          expression: "'edit-translate-packet'"
+                                        }
+                                      ],
+                                      staticClass: "dropdown-toggle",
+                                      attrs: {
+                                        id: "edit-translate-packet-" + paket.id,
+                                        title:
+                                          "Edit Translate/Editar Traducción",
+                                        "data-toggle": "dropdown",
+                                        hidden: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getTranslates(index, paket)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", { staticClass: "fa fa-edit" }),
+                                      _vm._v(" "),
+                                      _c("i", {
+                                        staticClass: "fas fa-language"
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "dropdown-menu" },
+                                    _vm._l(_vm.translated_languages, function(
+                                      lang_available
+                                    ) {
+                                      return _c(
+                                        "a",
+                                        {
+                                          staticClass: "dropdown-item",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openEditTranslated(
+                                                paket,
+                                                lang_available
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(lang_available) +
+                                              "\n                        "
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "can-user",
+                                        rawName: "v-can-user",
+                                        value: "translate-packet",
+                                        expression: "'translate-packet'"
+                                      }
+                                    ],
+                                    attrs: {
+                                      href: "#",
+                                      id: "translate-packet-" + paket.id,
+                                      hidden: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openAddTranslate(
+                                          index,
+                                          paket
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-language",
+                                      attrs: {
+                                        title: "Add Language/Añadir Lenguage"
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
                                 _c(
                                   "a",
                                   {
