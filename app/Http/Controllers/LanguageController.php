@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Language;
 use Illuminate\Http\Request;
+use App\Traits\LanguageTrait;
 use Illuminate\Support\Facades\Validator;
 
 class LanguageController extends Controller
 {
+  use LanguageTrait;
   public function __construct()
   {
       $this->middleware('auth');
@@ -59,11 +61,6 @@ class LanguageController extends Controller
       return redirect()->back();
   }
 
-  public function getLanguagesList()
-  {
-    $language_list=Language::all();
-    return $language_list;
-  }
 
   /**
    * Display a listing of the resource.

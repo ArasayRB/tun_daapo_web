@@ -266,11 +266,11 @@ class PostController extends Controller
 
     public function getTranslatedPostById($id){
       $array_translates_posts=$this->getPostTranslatesById($id);
-      dd($array_translates_posts);
+      return $array_translates_posts;
     }
 
     public function getTranslatedLanguagePostById($id){
-      $array_trans_lang_post=$this->getPostTranslatesLanguageById($id);
+      $array_trans_lang_post=$this->getItemTranslatesLanguageById($id);
       return $array_trans_lang_post;
     }
 
@@ -426,6 +426,9 @@ class PostController extends Controller
       $this->authorize('delete',$post);
         $post=Post::find($post->id);
         $this->delImage($post->img_url);
+          $contentType='Post';
+          $tipo_content=$this->findContentId($contentType);
+          $this->deleteTranslatedItemsByItem($post->id,$tipo_content);
         $post->delete();
         $post->untag();
         $post->keywords()->detach();

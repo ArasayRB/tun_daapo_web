@@ -421,7 +421,7 @@
           this.ventanaCreatPost = true;
         },
         getTranslates:function(index,post){
-          axios.get('/translated-language-post/'+post.id)
+          axios.get('/translated-language-item/'+post.id+'/Post')
                .then(response =>{
                    this.lang=false;
                  if (response.data==='no-language-added'){
@@ -448,7 +448,7 @@
         },
         openEditTranslated:function(post, lang_available){
           let post_translated_array;
-          axios.get('/get-translated-post-by-lang/'+lang_available+'/'+post.id)
+          axios.get('/get-translated-post-by-lang/'+lang_available+'/'+post.id+'/Post')
                .then(response =>{
                  post_translated_array = response.data;
                  this.post=post_translated_array;

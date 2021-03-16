@@ -30,9 +30,10 @@ trait PostTrait {
       return $posts_more_read;
     }
 
-    public function getTranslatedPostByLang($lang,$post_id){
+    public function getTranslatedPostByLang($lang,$post_id,$content_type){
       $id_lang=$this->getLangIdByName($lang);
-      $post_translated=$this->getTranslatedTransPost($id_lang,$post_id);
+      $content_types=$this->getContentTypeByName($content_type);
+      $post_translated=$this->getTranslatedTransItem($id_lang,$post_id,$content_types[0]->id);
       $post=$this->getPost($post_id);
       $post->title=$post_translated['title']['content_trans'];
       $post->content=$post_translated['content']['content_trans'];
@@ -59,7 +60,7 @@ trait PostTrait {
 
     public function getTranslatedPostBySigLang($lang,$post_id){
       $id_lang=$this->getLangIdBySigla($lang);
-      $post_translated=$this->getTranslatedTransPost($id_lang,$post_id);
+      $post_translated=$this->getTranslatedTransItem($id_lang,$post_id);
       $post=$this->getPost($post_id);
       if(count($post_translated)!=0){
         $post->title=$post_translated['title']['content_trans'];

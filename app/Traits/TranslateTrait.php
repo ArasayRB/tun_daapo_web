@@ -64,10 +64,11 @@ trait TranslateTrait {
                                return $translate_post_array;
     }
 
-    public function getPostTranslatesLanguageById($idPost){
+    public function getItemTranslatesLanguageById($id,$id_content_type){
       $languages_array=[];
       $translate_post=Translate::with('languages')
-                               ->where('id_content_trans',$idPost)
+                               ->where('tipo_content',$id_content_type)
+                               ->where('id_content_trans',$id)
                                ->get();
       foreach ($translate_post as $translate) {
         $language=$translate->languages;
@@ -82,21 +83,28 @@ trait TranslateTrait {
                                return $languages_array;
     }
 
-    public function getTranslatedTransPost($id_lang,$post_id){
-      $post=[];
+    public function getTranslatedTransItem($id_lang,$item_id,$content_type){
+      $item=[];
       $translateds=Translate::with('languages')
-                            ->where('id_content_trans',$post_id)
+                            ->where('tipo_content',$content_type)
+                            ->where('id_content_trans',$item_id)
                             ->get();
         foreach ($translateds as $translated) {
           if($translated->languages[0]->id===$id_lang){
-            $post[$translated->indice_content]=[
+            $item[$translated->indice_content]=[
               'language_id'=>$translated->languages[0]->id,
               'language'=>$translated->languages[0]->language,
               'content_trans'=>$translated->languages[0]->pivot->content_trans
             ];
           }
         }
-                            return $post;
+                            return $item;
+    }
+
+    public function deleteTranslatedItemsByItem(int $item_id,string $content_type){
+      $deleted=Translate::where('tipo_content',$content_type)
+                        ->where('id_content_trans',$item_id)
+                        ->delete();
     }
 
 

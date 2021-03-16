@@ -320,7 +320,7 @@ text-field="value"
         },
       },
       created: function () {
-        axios.get('/languagesList')
+        axios.get('/languages-no-translated/'+this.post.id+'/Post')
               .then(response=> this.languages=response.data)
               .catch(error=>this.error.push(error));
 

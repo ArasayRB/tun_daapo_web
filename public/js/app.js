@@ -3857,7 +3857,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this2 = this;
 
-    axios.get('/languagesList').then(function (response) {
+    axios.get('/languages-no-translated/' + this.post.id + '/Post').then(function (response) {
       return _this2.languages = response.data;
     })["catch"](function (error) {
       return _this2.error.push(error);
@@ -4736,7 +4736,7 @@ __webpack_require__.r(__webpack_exports__);
     getTranslates: function getTranslates(index, post) {
       var _this4 = this;
 
-      axios.get('/translated-language-post/' + post.id).then(function (response) {
+      axios.get('/translated-language-item/' + post.id + '/Post').then(function (response) {
         _this4.lang = false;
 
         if (response.data === 'no-language-added') {
@@ -4766,7 +4766,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this5 = this;
 
       var post_translated_array;
-      axios.get('/get-translated-post-by-lang/' + lang_available + '/' + post.id).then(function (response) {
+      axios.get('/get-translated-post-by-lang/' + lang_available + '/' + post.id + '/Post').then(function (response) {
         post_translated_array = response.data;
         _this5.post = post_translated_array;
         _this5.ventanaEditPost = true;
@@ -8103,12 +8103,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     VueCkeditor: vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['locale', 'sectionpage', 'operation'],
+  props: ['locale', 'sectionpage', 'operation', 'show_lang_div', 'lan_to_edit'],
   data: function data() {
     return {
       msgAddTag: this.$trans('messages.Add a new Tag'),
@@ -8149,10 +8166,14 @@ __webpack_require__.r(__webpack_exports__);
         }],
         height: 300
       },
+      languages: [],
+      language: '',
+      transl: '',
       activeClass: 'active',
       showClass: 'show',
       title: '',
       description: '',
+      lang_trans: '',
       map: '',
       value: '',
       email: '',
@@ -8185,24 +8206,59 @@ __webpack_require__.r(__webpack_exports__);
     img: function img(e) {
       this.imagenSectionPage = e.target.files[0];
     },
-    createSectionPage: function createSectionPage() {
+    getLanguageList: function getLanguageList() {
       var _this = this;
 
-      var url = "/sectionpage";
-      var msg_succ = this.$trans('messages.Section Page') + ' ' + this.$trans('messages.Created.');
-      var mensaje = this.$trans('messages.Unidentified error');
+      axios.get('/languages-no-translated/' + this.sectionpage.id + '/Section').then(function (response) {
+        return _this.languages = response.data;
+      })["catch"](function (error) {
+        return _this.error.push(error);
+      });
+    },
+    createSectionPage: function createSectionPage() {
+      var _this2 = this;
 
-      if (this.img == '' || this.title == '' || this.description == '') {
-        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+      var url;
+      var msg_succ;
+      var data;
+      var mensaje;
+      var default_lang = this.$lang.getLocale();
+
+      if (this.show_lang_div === false) {
+        url = "/add-translate-section";
+        msg_succ = this.$trans('messages.Section Page') + ' ' + this.$trans('messages.Translated Succefully');
+
+        var _mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.title == '' || this.description == '' || this.lang_trans == '') {
+          _mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        data = new FormData();
+        data.append("title", this.title);
+        data.append("title_old", this.sectionpage.title);
+        data.append("section_id", this.sectionpage.id);
+        data.append("lang", this.lang_trans);
+        data.append("description", this.description);
+      } else {
+        url = "/sectionpage";
+        msg_succ = this.$trans('messages.Section Page') + ' ' + this.$trans('messages.Created.');
+        mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.img == '' || this.title == '' || this.description == '') {
+          mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        data = new FormData();
+        data.append("img", this.imagenSectionPage);
+        data.append("title", this.title);
+        data.append("lang", this.lang_trans);
+        data.append("description", this.description);
       }
 
-      var data = new FormData();
-      data.append("img", this.imagenSectionPage);
-      data.append("title", this.title);
-      data.append("description", this.description);
       axios.post(url, data).then(function (response) {
         swal({
-          title: _this.$trans('messages.Correct data'),
+          title: _this2.$trans('messages.Correct data'),
           text: msg_succ,
           icon: 'success',
           closeOnClickOutside: false,
@@ -8211,7 +8267,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var roleAdd = response.data;
 
-            _this.$emit('sectionpagenew', roleAdd); //location.reload();
+            _this2.$emit('sectionpagenew', roleAdd); //location.reload();
 
           }
         }); //console.log(response);
@@ -8238,7 +8294,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editedSectionPage: function editedSectionPage(sectionpage) {
-      var _this2 = this;
+      var _this3 = this;
 
       var url;
       var data;
@@ -8248,16 +8304,28 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       };
-      data = new FormData();
-      data.append('_method', 'patch');
-      data.append("img", this.imagenSectionPage);
-      data.append("title", sectionpage.title);
-      data.append("description", sectionpage.description);
-      url = "/sectionpage/" + sectionpage.id;
-      msg_edited = this.$trans('messages.Section Page') + ' ' + this.$trans('messages.Edited');
+
+      if (this.lan_to_edit === 'none') {
+        data = new FormData();
+        data.append('_method', 'patch');
+        data.append("img", this.imagenSectionPage);
+        data.append("title", sectionpage.title);
+        data.append("description", sectionpage.description);
+        url = "/sectionpage/" + sectionpage.id;
+        msg_edited = this.$trans('messages.Section Page') + ' ' + this.$trans('messages.Edited');
+      } else {
+        data = new FormData();
+        data.append("title", sectionpage.title);
+        data.append("description", sectionpage.description); //data.append("tags", postTags);
+        //data.append("keywords", postKeys);
+
+        url = "/section-translated-edited/" + sectionpage.id + "/" + this.lan_to_edit;
+        msg_edited = this.$trans('messages.The') + ' ' + this.$trans('messages.Section Page') + ' ' + this.$trans('messages.translation has been successfully modified');
+      }
+
       axios.post(url, data, config).then(function (response) {
         swal({
-          title: _this2.$trans('messages.Section Page'),
+          title: _this3.$trans('messages.Section Page'),
           text: msg_edited,
           icon: 'success',
           closeOnClickOutside: false,
@@ -8266,7 +8334,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var sectionpageUpdate = response.data;
 
-            _this2.$emit('sectionpageoperupd', sectionpageUpdate);
+            _this3.$emit('sectionpageoperupd', sectionpageUpdate);
           }
         }); //console.log(response);
       })["catch"](function (error) {
@@ -8292,7 +8360,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.getLanguageList();
+  },
   mounted: function mounted() {}
 });
 
@@ -8310,6 +8380,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8473,9 +8557,12 @@ __webpack_require__.r(__webpack_exports__);
       idpermissionActualizar: -1,
       value: '',
       operation: '',
+      translated_languages: [],
       id: '',
       mensage: '',
       valueImg: '',
+      show_lang_div: false,
+      lan_to_edit: 'none',
       lang: true,
       locale: '',
       src: 'storage/section_page/',
@@ -8510,27 +8597,72 @@ __webpack_require__.r(__webpack_exports__);
     imageEdit: function imageEdit(e) {
       this.imagenpermission = e.target.files[0];
     },
-    sectionpageList: function sectionpageList() {
+    openEditTranslated: function openEditTranslated(sectionpage, lang_available) {
       var _this = this;
 
-      axios.get('/sectionpageList').then(function (response) {
-        _this.sectionpages = response.data;
+      var section_translated_array;
+      axios.get('/get-translated-section-by-lang/' + lang_available + '/' + sectionpage.id + '/Section').then(function (response) {
+        section_translated_array = response.data;
+        _this.sectionpage = section_translated_array;
+        _this.operation = 'update';
+        _this.ventanaOperSectionPage = true;
+        _this.lan_to_edit = lang_available;
 
         if (response.data == '') {
-          _this.mensage = _this.$trans('messages.None added yet');
+          _this.mensage = _this.$trans('messages.None Post added yet');
         }
       })["catch"](function (error) {
         return _this.errors.push(error);
+      });
+    },
+    getTranslates: function getTranslates(index, sectionpage) {
+      var _this2 = this;
+
+      axios.get('/translated-language-item/' + sectionpage.id + '/Section').then(function (response) {
+        _this2.lang = false;
+
+        if (response.data === 'no-language-added') {
+          _this2.translated_languages = [];
+
+          var mensageLang = _this2.$trans('messages.None language added yet');
+
+          swal({
+            title: _this2.$trans('messages.Warning!'),
+            text: mensageLang,
+            icon: 'warning',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          });
+        } else {
+          _this2.translated_languages = response.data;
+        }
+      })["catch"](function (error) {
+        return _this2.errors.push(error);
+      });
+    },
+    sectionpageList: function sectionpageList() {
+      var _this3 = this;
+
+      axios.get('/sectionpageList').then(function (response) {
+        _this3.sectionpages = response.data;
+
+        if (response.data == '') {
+          _this3.mensage = _this3.$trans('messages.None added yet');
+        }
+      })["catch"](function (error) {
+        return _this3.errors.push(error);
       });
     },
     addSectionPageIndex: function addSectionPageIndex(permissionAdd) {
       this.operation = '';
       this.sectionpageList();
       this.mensage = "";
+      this.show_lang_div = false;
       this.ventanaOperSectionPage = false;
     },
     updSectionPageIndex: function updSectionPageIndex(sectionpageUpd) {
       this.operation = '';
+      this.show_lang_div = false;
       var position = this.sectionpages.findIndex(function (sectionpage) {
         return sectionpage.id === sectionpageUpd.id;
       });
@@ -8538,7 +8670,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ventanaOperSectionPage = false;
     },
     deleteSectionPage: function deleteSectionPage(index, sectionpage) {
-      var _this2 = this;
+      var _this4 = this;
 
       var sectionpage_id = sectionpage;
       swal({
@@ -8557,17 +8689,17 @@ __webpack_require__.r(__webpack_exports__);
           var url = '/sectionpage/' + sectionpage_id;
           axios["delete"](url).then(function (response) {
             swal({
-              title: _this2.$trans('messages.Correct data'),
-              text: _this2.$trans('messages.Section Page') + ' ' + _this2.$trans('messages.Deleted'),
+              title: _this4.$trans('messages.Correct data'),
+              text: _this4.$trans('messages.Section Page') + ' ' + _this4.$trans('messages.Deleted'),
               icon: 'success',
               closeOnClickOutside: false,
               closeOnEsc: false
             }).then(function (select) {
               if (select) {
-                _this2.sectionpageList();
+                _this4.sectionpageList();
 
-                if (_this2.sectionpages.length === 0) {
-                  _this2.mensage = _this2.$trans('messages.None added yet');
+                if (_this4.sectionpages.length === 0) {
+                  _this4.mensage = _this4.$trans('messages.None added yet');
                 }
               }
             });
@@ -8579,7 +8711,14 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    openAddTranslate: function openAddTranslate(index, sectionpage) {
+      this.sectionpage = sectionpage;
+      this.show_lang_div = false;
+      this.operation = 'add';
+      this.ventanaOperSectionPage = true;
+    },
     openAddSectionPage: function openAddSectionPage() {
+      this.show_lang_div = true;
       this.operation = 'add';
       this.ventanaOperSectionPage = true;
     },
@@ -84025,8 +84164,13 @@ var render = function() {
                       { staticClass: "modal-header" },
                       [
                         _vm._t("default", [
-                          _vm.operation === "add"
+                          _vm.show_lang_div === false
                             ? _c(
+                                "h1",
+                                { staticClass: "text-center text-dark" },
+                                [_vm._v(_vm._s(_vm.sectionpage.title))]
+                              )
+                            : _c(
                                 "h1",
                                 { staticClass: "text-center text-dark" },
                                 [
@@ -84038,24 +84182,7 @@ var render = function() {
                                       )
                                   )
                                 ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.operation === "update"
-                            ? _c(
-                                "h1",
-                                { staticClass: "text-center text-dark" },
-                                [
-                                  _vm._v(
-                                    _vm._s(_vm.$trans("messages.Update")) +
-                                      " " +
-                                      _vm._s(
-                                        _vm.$trans("messages.Section Page")
-                                      )
-                                  )
-                                ]
-                              )
-                            : _vm._e(),
+                              ),
                           _vm._v(" "),
                           _c(
                             "button",
@@ -84090,44 +84217,259 @@ var render = function() {
                               { staticClass: "row justify-content-center" },
                               [
                                 _c("div", { staticClass: "col-12" }, [
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c("label", { attrs: { for: "img" } }, [
-                                      _vm._v(
-                                        _vm._s(_vm.$trans("messages.Image"))
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: { type: "file", name: "img" },
-                                          on: { change: _vm.img }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: { type: "file", name: "img" },
-                                          on: { change: _vm.img }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("div", { staticClass: "row" }, [
-                                          _c("img", {
-                                            attrs: {
-                                              src:
-                                                _vm.src + _vm.sectionpage.img,
-                                              alt: _vm.sectionpage.img,
-                                              width: "100"
+                                  _vm.operation == "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div != true,
+                                              expression: "show_lang_div!=true"
                                             }
-                                          })
-                                        ])
-                                      : _vm._e()
-                                  ]),
+                                          ],
+                                          staticClass: "form-group",
+                                          attrs: { id: "language_div" }
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "lang_trans" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Language"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.lang_trans,
+                                                  expression: "lang_trans"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                name: "lang_trans",
+                                                required: ""
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$selectedVal = Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function(o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function(o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                  _vm.lang_trans = $event.target
+                                                    .multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                { attrs: { value: "" } },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Select"
+                                                      )
+                                                    ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.$trans(
+                                                          "messages.Language"
+                                                        )
+                                                      )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(_vm.languages, function(
+                                                language
+                                              ) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    domProps: {
+                                                      value: language.id
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(language.language)
+                                                    )
+                                                  ]
+                                                )
+                                              })
+                                            ],
+                                            2
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "img" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Image")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "file",
+                                                  name: "img"
+                                                },
+                                                on: { change: _vm.img }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "file",
+                                                  name: "img"
+                                                },
+                                                on: { change: _vm.img }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "row" },
+                                                [
+                                                  _c("img", {
+                                                    attrs: {
+                                                      src:
+                                                        _vm.src +
+                                                        _vm.sectionpage.img,
+                                                      alt: _vm.sectionpage.img,
+                                                      width: "100"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
+                                            }
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "img" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Image")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "file",
+                                                  name: "img"
+                                                },
+                                                on: { change: _vm.img }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "file",
+                                                  name: "img"
+                                                },
+                                                on: { change: _vm.img }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "row" },
+                                                [
+                                                  _c("img", {
+                                                    attrs: {
+                                                      src:
+                                                        _vm.src +
+                                                        _vm.sectionpage.img,
+                                                      alt: _vm.sectionpage.img,
+                                                      width: "100"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "form-group" }, [
                                     _c("label", { attrs: { for: "title" } }, [
@@ -84339,10 +84681,52 @@ var render = function() {
                                     "div",
                                     { staticClass: "col-md-5 offset-md-4" },
                                     [
-                                      _vm.operation === "add"
+                                      _vm.show_lang_div === false
                                         ? _c(
                                             "button",
                                             {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "btn rounded btn-primary reserva",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.createSectionPage()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Translate"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "button",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
                                               staticClass:
                                                 "btn rounded btn-primary reserva",
                                               attrs: { type: "button" },
@@ -84359,8 +84743,7 @@ var render = function() {
                                                 )
                                               )
                                             ]
-                                          )
-                                        : _vm._e(),
+                                          ),
                                       _vm._v(" "),
                                       _vm.operation === "update"
                                         ? _c(
@@ -84482,8 +84865,10 @@ var render = function() {
           ? _c("sectionpage-oper-form-component", {
               attrs: {
                 operation: _vm.operation,
+                lan_to_edit: _vm.lan_to_edit,
                 sectionpage: _vm.sectionpage,
-                locale: _vm.locale
+                locale: _vm.locale,
+                show_lang_div: _vm.show_lang_div
               },
               on: {
                 sectionpagenew: _vm.addSectionPageIndex,
@@ -84607,6 +84992,116 @@ var render = function() {
                             },
                             [
                               _c("td", [
+                                _c("div", { staticClass: "dropdown" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "can-user",
+                                          rawName: "v-can-user",
+                                          value: "edit-translate-section",
+                                          expression: "'edit-translate-section'"
+                                        }
+                                      ],
+                                      staticClass: "dropdown-toggle",
+                                      attrs: {
+                                        id:
+                                          "edit-translate-section-" +
+                                          sectionpage.id,
+                                        title:
+                                          "Edit Translate/Editar Traducción",
+                                        "data-toggle": "dropdown",
+                                        hidden: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getTranslates(
+                                            index,
+                                            sectionpage
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", { staticClass: "fa fa-edit" }),
+                                      _vm._v(" "),
+                                      _c("i", {
+                                        staticClass: "fas fa-language"
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "dropdown-menu" },
+                                    _vm._l(_vm.translated_languages, function(
+                                      lang_available
+                                    ) {
+                                      return _c(
+                                        "a",
+                                        {
+                                          staticClass: "dropdown-item",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openEditTranslated(
+                                                sectionpage,
+                                                lang_available
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(lang_available) +
+                                              "\n                        "
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "can-user",
+                                        rawName: "v-can-user",
+                                        value: "translate-section",
+                                        expression: "'translate-section'"
+                                      }
+                                    ],
+                                    attrs: {
+                                      href: "#",
+                                      id:
+                                        "translate-translate-section-" +
+                                        sectionpage.id,
+                                      hidden: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openAddTranslate(
+                                          index,
+                                          sectionpage
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-language",
+                                      attrs: {
+                                        title: "Add Language/Añadir Lenguage"
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
                                 _c(
                                   "a",
                                   {

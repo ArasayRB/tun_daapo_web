@@ -4,16 +4,70 @@ namespace App\Http\Controllers;
 
 use App\Models\SectionPage;
 use Illuminate\Http\Request;
+use App\Traits\ContentTypeTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
+use App\Traits\SectionPageTrait;
 use App\Traits\ImageTrait;
 use Illuminate\Support\Facades\Validator;
 
 class SectionPageController extends Controller
 {
-  use ImageTrait;
+  use ImageTrait, ContentTypeTrait, TranslateTrait, LanguageTrait, SectionPageTrait;
 
   public function __construct()
   {
       $this->middleware('auth');
+  }
+
+  public function updateTranslatedSectionByLang($section_id,$lang_name, Request $request){
+    $dataPost=request()->validate([
+      'title'=> 'required|max:255',
+      'description'=> 'required',
+    ]);
+
+    $section=SectionPage::find($section_id);
+    $contentType='Section';
+    $tipo_content=$this->findContentId($contentType);
+
+    $lang=$this->getLangIdByName($lang_name);
+
+
+    $data_trans=array(
+      ['id_content_trans'=>$section_id,
+      'content'=>request('title'),
+      'tipo_content'=>$tipo_content,
+      'trans_lang'=>$lang,
+      'indice_content'=>'title',
+      'content_trans'=>request('title')],
+      ['id_content_trans'=>$section_id,
+      'content'=>request('description'),
+      'tipo_content'=>$tipo_content,
+      'trans_lang'=>$lang,
+      'indice_content'=>'description',
+      'content_trans'=>request('description')]
+    );
+    $result=$this->updateTranslate($data_trans);
+    return $result;
+  }
+
+
+
+  public function getNoTransLangItem(int $idItem){
+    $languages=$this->getLanguagesList();
+    $newListTranslate=[];
+    $contentType='Section';
+    $tipo_content=$this->findContentId($contentType);
+    $languages_translated=$this->getItemTranslatesLanguageById($idItem,$tipo_content);
+    if($languages_translated!='no-language-added'){
+    foreach ($languages as $trans) {
+      if(array_search($trans->language,$languages_translated)===false){
+        $newListTranslate[]=$trans;
+         }
+       }
+      return $newListTranslate;
+     }
+     return $languages;
   }
 
   public function getAllSectionPages(Request $request){
@@ -89,6 +143,38 @@ class SectionPageController extends Controller
       return $section_page;
     }
 
+    public function addTranslate(Request $request){
+      $data=request()->validate([
+        'title'=> 'required|max:255',
+        'lang'=> 'required',
+        'description'=> 'required',
+      ]);
+
+      $section=SectionPage::find(request('section_id'));
+      $contentType='Section';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->findLanguageName(request('lang'));
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$section->id,
+        'content'=>$section['title'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'title',
+        'content_trans'=>request('title')],
+        ['id_content_trans'=>$section->id,
+        'content'=>$section['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $this->storeTranslate($data_trans);
+      return $section;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -137,6 +223,9 @@ class SectionPageController extends Controller
      */
     public function destroy(int $sectionPage)
     {  $section_page=SectionPage::findOrFail($sectionPage);
+      $contentType='Section';
+      $tipo_content=$this->findContentId($contentType);
+      $this->deleteTranslatedItemsByItem($sectionPage,$tipo_content);
       $this->delImageFile($section_page->img,'section_page');
       $section_page->delete();
     }

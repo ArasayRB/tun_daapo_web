@@ -10,7 +10,7 @@
 
   </div>
   <div class="card shadow mb-4">
-    <sectionpage-oper-form-component @sectionpagenew="addSectionPageIndex" @sectionpageoperupd="updSectionPageIndex" :operation="operation" :sectionpage="sectionpage" :locale="locale" v-if="ventanaOperSectionPage" @close="ventanaOperSectionPage = false">
+    <sectionpage-oper-form-component @sectionpagenew="addSectionPageIndex" @sectionpageoperupd="updSectionPageIndex" :operation="operation" :lan_to_edit="lan_to_edit" :sectionpage="sectionpage" :locale="locale" :show_lang_div="show_lang_div" v-if="ventanaOperSectionPage" @close="ventanaOperSectionPage = false">
 
     </sectionpage-oper-form-component>
     <div class="card-header py-3">
@@ -54,8 +54,22 @@
                 <tr v-for="(sectionpage,index) in paginated('sectionpages')" :sectionpage="sectionpage" :key="sectionpage.id">
 
                     <td>
+                      <div class="dropdown">
+                        <a class="dropdown-toggle" :id="'edit-translate-section-'+sectionpage.id" v-can-user="'edit-translate-section'" title="Edit Translate/Editar Traducción" data-toggle="dropdown" @click="getTranslates(index,sectionpage)" hidden>
+                          <i class="fa fa-edit"></i>
+                          <i class="fas fa-language"></i>
+                        </a>
+                        <div class="dropdown-menu">
 
-                          <a href="#" @click="openEditSectionPage(index,sectionpage)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
+                          <a class="dropdown-item" type="button" v-for="lang_available in translated_languages" @click="openEditTranslated(sectionpage, lang_available)">
+                              {{lang_available}}
+                          </a>
+
+                          </div>
+                      </div>
+
+                      <a href="#" @click="openAddTranslate(index,sectionpage)" :id="'translate-translate-section-'+sectionpage.id" v-can-user="'translate-section'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
+                      <a href="#" @click="openEditSectionPage(index,sectionpage)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deleteSectionPage(index,sectionpage.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
                     <td><img :src="src+sectionpage.img"  width="100" v-if="sectionpage.img!=null"></td>
@@ -142,9 +156,12 @@
           idpermissionActualizar:-1,
           value:'',
           operation:'',
+          translated_languages:[],
           id:'',
           mensage:'',
           valueImg:'',
+          show_lang_div:false,
+          lan_to_edit:'none',
           lang:true,
           locale:'',
           src:'storage/section_page/',
@@ -181,6 +198,40 @@
 
           this.imagenpermission=e.target.files[0];
         },
+        openEditTranslated:function(sectionpage, lang_available){
+          let section_translated_array;
+          axios.get('/get-translated-section-by-lang/'+lang_available+'/'+sectionpage.id+'/Section')
+               .then(response =>{
+                 section_translated_array = response.data;
+                 this.sectionpage=section_translated_array;
+                   this.operation='update';
+                     this.ventanaOperSectionPage=true;
+                     this.lan_to_edit=lang_available;
+                 if (response.data==''){
+                   this.mensage=this.$trans('messages.None Post added yet');
+                 }})
+               .catch(error => this.errors.push(error));
+        },
+        getTranslates:function(index,sectionpage){
+          axios.get('/translated-language-item/'+sectionpage.id+'/Section')
+               .then(response =>{
+                   this.lang=false;
+                 if (response.data==='no-language-added'){
+                   this.translated_languages = [];
+                   let mensageLang=this.$trans('messages.None language added yet');
+                   swal({title:this.$trans('messages.Warning!'),
+                         text:mensageLang,
+                         icon:'warning',
+                         closeOnClickOutside:false,
+                         closeOnEsc:false
+                       });
+                 }
+                 else{
+                     this.translated_languages = response.data;
+                 }
+               })
+               .catch(error => this.errors.push(error));
+        },
         sectionpageList:function(){
           axios.get('/sectionpageList')
                .then(response =>{
@@ -195,10 +246,12 @@
           this.operation='';
           this.sectionpageList();
           this.mensage="";
+          this.show_lang_div=false;
           this.ventanaOperSectionPage=false;
         },
         updSectionPageIndex:function(sectionpageUpd){
           this.operation='';
+          this.show_lang_div=false;
           const position=this.sectionpages.findIndex(sectionpage=>sectionpage.id===sectionpageUpd.id);
           this.sectionpageList();
           this.ventanaOperSectionPage=false;
@@ -244,7 +297,14 @@
 
 
         },
+        openAddTranslate:function(index,sectionpage){
+          this.sectionpage=sectionpage;
+          this.show_lang_div=false;
+          this.operation='add';
+          this.ventanaOperSectionPage = true;
+        },
         openAddSectionPage:function(){
+          this.show_lang_div=true;
           this.operation='add';
           this.ventanaOperSectionPage = true;
         },

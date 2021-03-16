@@ -9,4 +9,10 @@ trait ContentTypeTrait {
                             ->get();
     return $id_content[0]['id'];
   }
+
+  public function getContentTypeByName($name){
+    $content_type=ContentType::where('name',$name)
+                             ->get();
+                             return $content_type;
+  }
 }

@@ -34,4 +34,6 @@ Route::get('/tun-daapo-contact', [App\Http\Controllers\WelcomeController::class,
 Route::get('/paketList', [App\Http\Controllers\WelcomeController::class, 'getPaketList']);
 Route::post('/ask-budget', [App\Http\Controllers\AskBudgetController::class, 'store']);
 Route::post('/suscripcion', [App\Http\Controllers\SuscriptionController::class, 'store']);
+Route::get('/translated-language-item/{id}/{contentType}',[App\Http\Controllers\HomeController::class, 'hasTranslate']);
+Route::get('/languages-no-translated/{id_item}/{content}',[App\Http\Controllers\HomeController::class, 'getNoTransLangItem']);
 Route::get('/unsubscribe/{suscriptor}', [App\Http\Controllers\SuscriptionController::class, 'delete'])->middleware(['guest'])->name('unsubscribe');
