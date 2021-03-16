@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Traits\ContentTypeTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
+use App\Traits\ServiceTrait;
 use Illuminate\Support\Facades\Validator;
 
 class ServiceController extends Controller
 {
+  use ContentTypeTrait, TranslateTrait, LanguageTrait, ServiceTrait;
   public function __construct()
   {
       $this->middleware('auth');
@@ -71,6 +76,38 @@ class ServiceController extends Controller
       return $service;
     }
 
+    public function addTranslate(Request $request){
+      $data=request()->validate([
+        'name'=> 'required|max:255',
+        'lang'=> 'required',
+        'description'=> 'required',
+      ]);
+
+      $service=Service::find(request('service_id'));
+      $contentType='Service';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->findLanguageName(request('lang'));
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$service->id,
+        'content'=>$service['name'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'name',
+        'content_trans'=>request('name')],
+        ['id_content_trans'=>$service->id,
+        'content'=>$service['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $this->storeTranslate($data_trans);
+      return $service;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -100,6 +137,37 @@ class ServiceController extends Controller
       return $servicio;
     }
 
+    public function updateTranslatedServByLang($service_id,$lang_name, Request $request){
+      $dataPost=request()->validate([
+        'name'=> 'required|max:255',
+        'description'=> 'required',
+      ]);
+
+      $service=Service::find($service_id);
+      $contentType='Service';
+      $tipo_content=$this->findContentId($contentType);
+
+      $lang=$this->getLangIdByName($lang_name);
+
+
+      $data_trans=array(
+        ['id_content_trans'=>$service_id,
+        'content'=>request('name'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'name',
+        'content_trans'=>request('name')],
+        ['id_content_trans'=>$service_id,
+        'content'=>request('description'),
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'description',
+        'content_trans'=>request('description')]
+      );
+      $result=$this->updateTranslate($data_trans);
+      return $result;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -109,6 +177,9 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
       $servicio=Service::findOrFail($service->id);
+        $contentType='Service';
+        $tipo_content=$this->findContentId($contentType);
+        $this->deleteTranslatedItemsByItem($service->id,$tipo_content);
       $servicio->delete();
     }
 }

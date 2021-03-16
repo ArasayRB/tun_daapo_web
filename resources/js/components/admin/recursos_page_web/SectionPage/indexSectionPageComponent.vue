@@ -68,7 +68,7 @@
                           </div>
                       </div>
 
-                      <a href="#" @click="openAddTranslate(index,sectionpage)" :id="'translate-translate-section-'+sectionpage.id" v-can-user="'translate-section'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
+                      <a href="#" @click="openAddTranslate(index,sectionpage)" :id="'translate-section-'+sectionpage.id" v-can-user="'translate-section'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
                       <a href="#" @click="openEditSectionPage(index,sectionpage)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deleteSectionPage(index,sectionpage.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
@@ -208,7 +208,7 @@
                      this.ventanaOperSectionPage=true;
                      this.lan_to_edit=lang_available;
                  if (response.data==''){
-                   this.mensage=this.$trans('messages.None Post added yet');
+                   this.mensage=this.$trans('messages.Section Page')+'  '+this.$trans('messages.None added yet');
                  }})
                .catch(error => this.errors.push(error));
         },

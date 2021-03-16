@@ -8609,7 +8609,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.lan_to_edit = lang_available;
 
         if (response.data == '') {
-          _this.mensage = _this.$trans('messages.None Post added yet');
+          _this.mensage = _this.$trans('messages.Section Page') + '  ' + _this.$trans('messages.None added yet');
         }
       })["catch"](function (error) {
         return _this.errors.push(error);
@@ -8848,12 +8848,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     VueCkeditor: vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ['locale', 'service', 'operation'],
+  props: ['locale', 'service', 'operation', 'show_lang_div', 'lan_to_edit'],
   data: function data() {
     return {
       msgAddTag: this.$trans('messages.Add a new Tag'),
@@ -8895,6 +8911,8 @@ __webpack_require__.r(__webpack_exports__);
         height: 300
       },
       activeClass: 'active',
+      languages: [],
+      language: '',
       showClass: 'show',
       description: '',
       price: '',
@@ -8926,24 +8944,58 @@ __webpack_require__.r(__webpack_exports__);
     onFileUploadResponse: function onFileUploadResponse(evt) {
       console.log(evt);
     },
-    createService: function createService() {
+    getLanguageList: function getLanguageList() {
       var _this = this;
 
-      var url = "/service";
-      var msg_succ = this.$trans('messages.Service') + ' ' + this.$trans('messages.Created.');
-      var mensaje = this.$trans('messages.Unidentified error');
+      axios.get('/languages-no-translated/' + this.service.id + '/Service').then(function (response) {
+        return _this.languages = response.data;
+      })["catch"](function (error) {
+        return _this.error.push(error);
+      });
+    },
+    createService: function createService() {
+      var _this2 = this;
 
-      if (this.name == '' || this.description == '') {
-        mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+      var url;
+      var msg_succ;
+      var data;
+      var mensaje;
+      var default_lang = this.$lang.getLocale();
+
+      if (this.show_lang_div === false) {
+        url = "/add-translate-service";
+        msg_succ = this.$trans('messages.Service') + ' ' + this.$trans('messages.Translated Succefully');
+
+        var _mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.name == '' || this.description == '' || this.lang_trans == '') {
+          _mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        data = new FormData();
+        data.append("name", this.name);
+        data.append("name_old", this.service.name);
+        data.append("service_id", this.service.id);
+        data.append("lang", this.lang_trans);
+        data.append("description", this.description);
+      } else {
+        url = "/service";
+        msg_succ = this.$trans('messages.Service') + ' ' + this.$trans('messages.Created.');
+        mensaje = this.$trans('messages.Unidentified error');
+
+        if (this.name == '' || this.description == '') {
+          mensaje = this.$trans('messages.You cannot leave empty fields, please check');
+        }
+
+        data = new FormData();
+        data.append("name", this.name);
+        data.append("description", this.description);
+        data.append("price", this.price);
       }
 
-      var data = new FormData();
-      data.append("name", this.name);
-      data.append("description", this.description);
-      data.append("price", this.price);
       axios.post(url, data).then(function (response) {
         swal({
-          title: _this.$trans('messages.Correct data'),
+          title: _this2.$trans('messages.Correct data'),
           text: msg_succ,
           icon: 'success',
           closeOnClickOutside: false,
@@ -8952,7 +9004,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var roleAdd = response.data;
 
-            _this.$emit('servicenew', roleAdd); //location.reload();
+            _this2.$emit('servicenew', roleAdd); //location.reload();
 
           }
         }); //console.log(response);
@@ -8971,19 +9023,11 @@ __webpack_require__.r(__webpack_exports__);
           mensaje += '-' + wrong.description[0];
         }
 
-        if (wrong.hasOwnProperty('price')) {
-          mensaje += '-' + wrong.price[0];
-        }
-
-        if (wrong.hasOwnProperty('map')) {
-          mensaje += '-' + wrong.map[0];
-        }
-
         swal('Error', mensaje, 'error'); //console.log(error.response.data);
       });
     },
     editedService: function editedService(service) {
-      var _this2 = this;
+      var _this3 = this;
 
       var url;
       var data;
@@ -8993,16 +9037,28 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       };
-      data = new FormData();
-      data.append('_method', 'patch');
-      data.append("name", service.name);
-      data.append("description", service.description);
-      data.append("price", service.price);
-      url = "/service/" + service.id;
-      msg_edited = this.$trans('messages.Service') + ' ' + this.$trans('messages.Edited');
+
+      if (this.lan_to_edit === 'none') {
+        data = new FormData();
+        data.append('_method', 'patch');
+        data.append("name", service.name);
+        data.append("description", service.description);
+        data.append("price", service.price);
+        url = "/service/" + service.id;
+        msg_edited = this.$trans('messages.Service') + ' ' + this.$trans('messages.Edited');
+      } else {
+        data = new FormData();
+        data.append("name", service.name);
+        data.append("description", service.description); //data.append("tags", postTags);
+        //data.append("keywords", postKeys);
+
+        url = "/service-translated-edited/" + service.id + "/" + this.lan_to_edit;
+        msg_edited = this.$trans('messages.The') + ' ' + this.$trans('messages.Service') + ' ' + this.$trans('messages.translation has been successfully modified');
+      }
+
       axios.post(url, data, config).then(function (response) {
         swal({
-          title: _this2.$trans('messages.Service'),
+          title: _this3.$trans('messages.Service'),
           text: msg_edited,
           icon: 'success',
           closeOnClickOutside: false,
@@ -9011,7 +9067,7 @@ __webpack_require__.r(__webpack_exports__);
           if (select) {
             var serviceUpdate = response.data;
 
-            _this2.$emit('serviceperupd', serviceUpdate);
+            _this3.$emit('serviceperupd', serviceUpdate);
           }
         }); //console.log(response);
       })["catch"](function (error) {
@@ -9029,19 +9085,13 @@ __webpack_require__.r(__webpack_exports__);
           mensaje += '-' + wrong.description[0];
         }
 
-        if (wrong.hasOwnProperty('price')) {
-          mensaje += '-' + wrong.price[0];
-        }
-
-        if (wrong.hasOwnProperty('map')) {
-          mensaje += '-' + wrong.map[0];
-        }
-
         swal('Error', mensaje, 'error'); //console.log(error.response.data);
       });
     }
   },
-  created: function created() {},
+  created: function created() {
+    this.getLanguageList();
+  },
   mounted: function mounted() {}
 });
 
@@ -9059,6 +9109,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9221,9 +9285,12 @@ __webpack_require__.r(__webpack_exports__);
       idpermissionActualizar: -1,
       value: '',
       operation: '',
+      translated_languages: [],
       id: '',
       mensage: '',
       valueImg: '',
+      show_lang_div: false,
+      lan_to_edit: 'none',
       lang: true,
       locale: '',
       src: 'storage/img_web/login_img/',
@@ -9257,33 +9324,72 @@ __webpack_require__.r(__webpack_exports__);
     imageEdit: function imageEdit(e) {
       this.imagenpermission = e.target.files[0];
     },
-    serviceList: function serviceList() {
+    openEditTranslated: function openEditTranslated(service, lang_available) {
       var _this = this;
 
-      axios.get('/serviceList').then(function (response) {
-        _this.services = response.data;
+      var service_translated_array;
+      axios.get('/get-translated-service-by-lang/' + lang_available + '/' + service.id + '/Service').then(function (response) {
+        service_translated_array = response.data;
+        _this.service = service_translated_array;
+        _this.operation = 'update';
+        _this.ventanaOperService = true;
+        _this.lan_to_edit = lang_available;
 
         if (response.data == '') {
-          _this.mensage = _this.$trans('messages.None added yet');
+          _this.mensage = _this.$trans('messages.Service') + '  ' + _this.$trans('messages.None added yet');
         }
       })["catch"](function (error) {
         return _this.errors.push(error);
       });
     },
+    getTranslates: function getTranslates(index, service) {
+      var _this2 = this;
+
+      axios.get('/translated-language-item/' + service.id + '/Service').then(function (response) {
+        _this2.lang = false;
+
+        if (response.data === 'no-language-added') {
+          _this2.translated_languages = [];
+
+          var mensageLang = _this2.$trans('messages.None language added yet');
+
+          swal({
+            title: _this2.$trans('messages.Warning!'),
+            text: mensageLang,
+            icon: 'warning',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          });
+        } else {
+          _this2.translated_languages = response.data;
+        }
+      })["catch"](function (error) {
+        return _this2.errors.push(error);
+      });
+    },
+    serviceList: function serviceList() {
+      var _this3 = this;
+
+      axios.get('/serviceList').then(function (response) {
+        _this3.services = response.data;
+
+        if (response.data == '') {
+          _this3.mensage = _this3.$trans('messages.None added yet');
+        }
+      })["catch"](function (error) {
+        return _this3.errors.push(error);
+      });
+    },
     addServiceIndex: function addServiceIndex(serviceAdd) {
       this.operation = '';
-
-      if (this.services.length === 0) {
-        this.serviceList();
-      } else {
-        this.services.push(serviceAdd);
-      }
-
+      this.serviceList();
+      this.show_lang_div = false;
       this.mensage = "";
       this.ventanaOperService = false;
     },
     updServiceIndex: function updServiceIndex(serviceUpd) {
       this.operation = '';
+      this.show_lang_div = false;
       var position = this.services.findIndex(function (service) {
         return service.id === serviceUpd.id;
       });
@@ -9291,7 +9397,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ventanaOperService = false;
     },
     deleteService: function deleteService(index, service) {
-      var _this2 = this;
+      var _this4 = this;
 
       var service_id = service;
       swal({
@@ -9310,17 +9416,17 @@ __webpack_require__.r(__webpack_exports__);
           var url = '/service/' + service_id;
           axios["delete"](url).then(function (response) {
             swal({
-              title: _this2.$trans('messages.Correct data'),
-              text: _this2.$trans('messages.Service') + ' ' + _this2.$trans('messages.Deleted'),
+              title: _this4.$trans('messages.Correct data'),
+              text: _this4.$trans('messages.Service') + ' ' + _this4.$trans('messages.Deleted'),
               icon: 'success',
               closeOnClickOutside: false,
               closeOnEsc: false
             }).then(function (select) {
               if (select) {
-                _this2.serviceList();
+                _this4.serviceList();
 
-                if (_this2.services.length === 0) {
-                  _this2.mensage = _this2.$trans('messages.None added yet');
+                if (_this4.services.length === 0) {
+                  _this4.mensage = _this4.$trans('messages.None added yet');
                 }
               }
             });
@@ -9332,7 +9438,14 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    openAddTranslate: function openAddTranslate(index, service) {
+      this.service = service;
+      this.show_lang_div = false;
+      this.operation = 'add';
+      this.ventanaOperService = true;
+    },
     openAddService: function openAddService() {
+      this.show_lang_div = true;
       this.operation = 'add';
       this.ventanaOperService = true;
     },
@@ -85078,9 +85191,7 @@ var render = function() {
                                     ],
                                     attrs: {
                                       href: "#",
-                                      id:
-                                        "translate-translate-section-" +
-                                        sectionpage.id,
+                                      id: "translate-section-" + sectionpage.id,
                                       hidden: ""
                                     },
                                     on: {
@@ -85250,8 +85361,13 @@ var render = function() {
                       { staticClass: "modal-header" },
                       [
                         _vm._t("default", [
-                          _vm.operation === "add"
+                          _vm.show_lang_div === false
                             ? _c(
+                                "h1",
+                                { staticClass: "text-center text-dark" },
+                                [_vm._v(_vm._s(_vm.service.name))]
+                              )
+                            : _c(
                                 "h1",
                                 { staticClass: "text-center text-dark" },
                                 [
@@ -85261,22 +85377,7 @@ var render = function() {
                                       _vm._s(_vm.$trans("messages.Service"))
                                   )
                                 ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.operation === "update"
-                            ? _c(
-                                "h1",
-                                { staticClass: "text-center text-dark" },
-                                [
-                                  _vm._v(
-                                    _vm._s(_vm.$trans("messages.Update")) +
-                                      " " +
-                                      _vm._s(_vm.$trans("messages.Service"))
-                                  )
-                                ]
-                              )
-                            : _vm._e(),
+                              ),
                           _vm._v(" "),
                           _c(
                             "button",
@@ -85311,6 +85412,120 @@ var render = function() {
                               { staticClass: "row justify-content-center" },
                               [
                                 _c("div", { staticClass: "col-12" }, [
+                                  _vm.operation == "add"
+                                    ? _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div != true,
+                                              expression: "show_lang_div!=true"
+                                            }
+                                          ],
+                                          staticClass: "form-group",
+                                          attrs: { id: "language_div" }
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "lang_trans" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Language"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.lang_trans,
+                                                  expression: "lang_trans"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                name: "lang_trans",
+                                                required: ""
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$selectedVal = Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function(o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function(o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                  _vm.lang_trans = $event.target
+                                                    .multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                { attrs: { value: "" } },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$trans(
+                                                        "messages.Select"
+                                                      )
+                                                    ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.$trans(
+                                                          "messages.Language"
+                                                        )
+                                                      )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(_vm.languages, function(
+                                                language
+                                              ) {
+                                                return _c(
+                                                  "option",
+                                                  {
+                                                    domProps: {
+                                                      value: language.id
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(language.language)
+                                                    )
+                                                  ]
+                                                )
+                                              })
+                                            ],
+                                            2
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
                                   _c("div", { staticClass: "form-group" }, [
                                     _c("label", { attrs: { for: "name" } }, [
                                       _vm._v(
@@ -85486,79 +85701,203 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c("label", { attrs: { for: "price" } }, [
-                                      _vm._v(
-                                        _vm._s(_vm.$trans("messages.Price"))
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _vm.operation === "add"
-                                      ? _c("input", {
+                                  _vm.operation === "add"
+                                    ? _c(
+                                        "div",
+                                        {
                                           directives: [
                                             {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.price,
-                                              expression: "price"
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.show_lang_div,
+                                              expression: "show_lang_div"
                                             }
                                           ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "number",
-                                            min: "1",
-                                            step: "0.1",
-                                            name: "price"
-                                          },
-                                          domProps: { value: _vm.price },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.price = $event.target.value
-                                            }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.operation === "update"
-                                      ? _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.service.price,
-                                              expression: "service.price"
-                                            }
-                                          ],
-                                          staticClass:
-                                            "form-control font-italic mb-2",
-                                          attrs: {
-                                            type: "number",
-                                            min: "1",
-                                            step: "0.1",
-                                            name: "price"
-                                          },
-                                          domProps: {
-                                            value: _vm.service.price
-                                          },
-                                          on: {
-                                            input: function($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.$set(
-                                                _vm.service,
-                                                "price",
-                                                $event.target.value
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "price" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Price")
+                                                )
                                               )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.price,
+                                                    expression: "price"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  step: "0.1",
+                                                  name: "price"
+                                                },
+                                                domProps: { value: _vm.price },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.price =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.service.price,
+                                                    expression: "service.price"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  step: "0.1",
+                                                  name: "price"
+                                                },
+                                                domProps: {
+                                                  value: _vm.service.price
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.service,
+                                                      "price",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.lan_to_edit === "none",
+                                              expression: "lan_to_edit==='none'"
                                             }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ])
+                                          ],
+                                          staticClass: "form-group"
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { attrs: { for: "price" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans("messages.Price")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.operation === "add"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.price,
+                                                    expression: "price"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  step: "0.1",
+                                                  name: "price"
+                                                },
+                                                domProps: { value: _vm.price },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.price =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.operation === "update"
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.service.price,
+                                                    expression: "service.price"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "form-control font-italic mb-2",
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  step: "0.1",
+                                                  name: "price"
+                                                },
+                                                domProps: {
+                                                  value: _vm.service.price
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      _vm.service,
+                                                      "price",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      )
                                 ])
                               ]
                             )
@@ -85585,10 +85924,52 @@ var render = function() {
                                     "div",
                                     { staticClass: "col-md-5 offset-md-4" },
                                     [
-                                      _vm.operation === "add"
+                                      _vm.show_lang_div === false
                                         ? _c(
                                             "button",
                                             {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
+                                              staticClass:
+                                                "btn rounded btn-primary reserva",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.createService()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.$trans(
+                                                    "messages.Translate"
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "button",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.operation === "add",
+                                                  expression:
+                                                    "operation==='add'"
+                                                }
+                                              ],
                                               staticClass:
                                                 "btn rounded btn-primary reserva",
                                               attrs: { type: "button" },
@@ -85605,8 +85986,7 @@ var render = function() {
                                                 )
                                               )
                                             ]
-                                          )
-                                        : _vm._e(),
+                                          ),
                                       _vm._v(" "),
                                       _vm.operation === "update"
                                         ? _c(
@@ -85728,8 +86108,10 @@ var render = function() {
           ? _c("service-oper-form-component", {
               attrs: {
                 operation: _vm.operation,
+                lan_to_edit: _vm.lan_to_edit,
                 service: _vm.service,
-                locale: _vm.locale
+                locale: _vm.locale,
+                show_lang_div: _vm.show_lang_div
               },
               on: {
                 servicenew: _vm.addServiceIndex,
@@ -85846,6 +86228,114 @@ var render = function() {
                             { key: service.id, attrs: { service: service } },
                             [
                               _c("td", [
+                                _c("div", { staticClass: "dropdown" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "can-user",
+                                          rawName: "v-can-user",
+                                          value: "edit-translate-service",
+                                          expression: "'edit-translate-service'"
+                                        }
+                                      ],
+                                      staticClass: "dropdown-toggle",
+                                      attrs: {
+                                        id:
+                                          "edit-translate-service-" +
+                                          service.id,
+                                        title:
+                                          "Edit Translate/Editar Traducción",
+                                        "data-toggle": "dropdown",
+                                        hidden: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getTranslates(
+                                            index,
+                                            service
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", { staticClass: "fa fa-edit" }),
+                                      _vm._v(" "),
+                                      _c("i", {
+                                        staticClass: "fas fa-language"
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "dropdown-menu" },
+                                    _vm._l(_vm.translated_languages, function(
+                                      lang_available
+                                    ) {
+                                      return _c(
+                                        "a",
+                                        {
+                                          staticClass: "dropdown-item",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.openEditTranslated(
+                                                service,
+                                                lang_available
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                            " +
+                                              _vm._s(lang_available) +
+                                              "\n                        "
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "can-user",
+                                        rawName: "v-can-user",
+                                        value: "translate-service",
+                                        expression: "'translate-service'"
+                                      }
+                                    ],
+                                    attrs: {
+                                      href: "#",
+                                      id: "translate-service-" + service.id,
+                                      hidden: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openAddTranslate(
+                                          index,
+                                          service
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-language",
+                                      attrs: {
+                                        title: "Add Language/Añadir Lenguage"
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
                                 _c(
                                   "a",
                                   {

@@ -36,7 +36,7 @@
     <img :src="src+sectionpage.img" :alt="sectionpage.img" width="100">
   </div>
 </div>
-<div class="form-group"v-show="lan_to_edit==='none'" v-else="operation==='update'">
+<div class="form-group" v-show="lan_to_edit==='none'" v-else="operation==='update'">
   <label for="img">{{ $trans('messages.Image') }}</label>
   <input type="file" name="img"  v-on:change="img" class="form-control font-italic mb-2" v-if="operation==='add'">
   <input type="file" name="img"  v-on:change="img" class="form-control font-italic mb-2" v-if="operation==='update'">

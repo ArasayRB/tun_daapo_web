@@ -10,7 +10,7 @@
 
   </div>
   <div class="card shadow mb-4">
-    <service-oper-form-component @servicenew="addServiceIndex" @serviceperupd="updServiceIndex" :operation="operation" :service="service" :locale="locale" v-if="ventanaOperService" @close="ventanaOperService = false">
+    <service-oper-form-component @servicenew="addServiceIndex" @serviceperupd="updServiceIndex" :operation="operation" :lan_to_edit="lan_to_edit" :service="service" :locale="locale" :show_lang_div="show_lang_div" v-if="ventanaOperService" @close="ventanaOperService = false">
 
     </service-oper-form-component>
     <div class="card-header py-3">
@@ -54,8 +54,22 @@
                 <tr v-for="(service,index) in paginated('services')" :service="service" :key="service.id">
 
                     <td>
+                      <div class="dropdown">
+                        <a class="dropdown-toggle" :id="'edit-translate-service-'+service.id" v-can-user="'edit-translate-service'" title="Edit Translate/Editar Traducción" data-toggle="dropdown" @click="getTranslates(index,service)" hidden>
+                          <i class="fa fa-edit"></i>
+                          <i class="fas fa-language"></i>
+                        </a>
+                        <div class="dropdown-menu">
 
-                          <a href="#" @click="openEditService(index,service)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
+                          <a class="dropdown-item" type="button" v-for="lang_available in translated_languages" @click="openEditTranslated(service, lang_available)">
+                              {{lang_available}}
+                          </a>
+
+                          </div>
+                      </div>
+
+                      <a href="#" @click="openAddTranslate(index,service)" :id="'translate-service-'+service.id" v-can-user="'translate-service'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
+                      <a href="#" @click="openEditService(index,service)"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deleteService(index,service.id)"><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
                    </td>
                     <td>{{service.name}}</td>
@@ -141,9 +155,12 @@
           idpermissionActualizar:-1,
           value:'',
           operation:'',
+          translated_languages:[],
           id:'',
           mensage:'',
           valueImg:'',
+          show_lang_div:false,
+          lan_to_edit:'none',
           lang:true,
           locale:'',
           src:'storage/img_web/login_img/',
@@ -179,6 +196,40 @@
 
           this.imagenpermission=e.target.files[0];
         },
+        openEditTranslated:function(service, lang_available){
+          let service_translated_array;
+          axios.get('/get-translated-service-by-lang/'+lang_available+'/'+service.id+'/Service')
+               .then(response =>{
+                 service_translated_array = response.data;
+                 this.service=service_translated_array;
+                   this.operation='update';
+                     this.ventanaOperService=true;
+                     this.lan_to_edit=lang_available;
+                 if (response.data==''){
+                   this.mensage=this.$trans('messages.Service')+'  '+this.$trans('messages.None added yet');
+                 }})
+               .catch(error => this.errors.push(error));
+        },
+        getTranslates:function(index,service){
+          axios.get('/translated-language-item/'+service.id+'/Service')
+               .then(response =>{
+                   this.lang=false;
+                 if (response.data==='no-language-added'){
+                   this.translated_languages = [];
+                   let mensageLang=this.$trans('messages.None language added yet');
+                   swal({title:this.$trans('messages.Warning!'),
+                         text:mensageLang,
+                         icon:'warning',
+                         closeOnClickOutside:false,
+                         closeOnEsc:false
+                       });
+                 }
+                 else{
+                     this.translated_languages = response.data;
+                 }
+               })
+               .catch(error => this.errors.push(error));
+        },
         serviceList:function(){
           axios.get('/serviceList')
                .then(response =>{
@@ -191,17 +242,14 @@
         },
         addServiceIndex:function(serviceAdd){
           this.operation='';
-          if(this.services.length===0){
-            this.serviceList();
-          }
-          else{
-          this.services.push(serviceAdd);
-          }
+          this.serviceList();
+          this.show_lang_div=false;
           this.mensage="";
           this.ventanaOperService=false;
         },
         updServiceIndex:function(serviceUpd){
           this.operation='';
+          this.show_lang_div=false;
           const position=this.services.findIndex(service=>service.id===serviceUpd.id);
           this.serviceList();
           this.ventanaOperService=false;
@@ -247,7 +295,14 @@
 
 
         },
+        openAddTranslate:function(index,service){
+          this.service=service;
+          this.show_lang_div=false;
+          this.operation='add';
+          this.ventanaOperService = true;
+        },
         openAddService:function(){
+          this.show_lang_div=true;
           this.operation='add';
           this.ventanaOperService = true;
         },
