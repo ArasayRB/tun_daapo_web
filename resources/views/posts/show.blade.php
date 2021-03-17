@@ -30,8 +30,20 @@
 @endif
 
     <h1 id="us_ttle" class="text-uppercase text-center pt-5 animate__animated animate__zoomIn card-title">{{$post->title}}</h1>
-    <cont-view-share-like-component model="post" url_post="{{url('/welcome/'.$post->id)}}" id_post="{{$post->id}}" title="{{$post->title}}" cant_read="{{$post->cant_access_read}}" cant_shares="{{$post->cant_shares}}" cant_likes="{{$post->cant_likes}}">
+    <div class="row">
+    <cont-view-share-like-component class="col-2" model="post" url_post="{{url('/welcome/'.$post->id)}}" id_post="{{$post->id}}" title="{{$post->title}}" cant_read="{{$post->cant_access_read}}" cant_shares="{{$post->cant_shares}}" cant_likes="{{$post->cant_likes}}">
     </cont-view-share-like-component>
+    <div class="col shadow card bg-info rounded">
+      <h3 class="card-header mt-1 text-center">{{ __('messages.Summary') }}</h3>
+      <p class="card-body">{!!$post->summary!!}</p>
+      <div class="card-footer shadow mb-1">
+        <img src="{!! asset('/storage/img_web/login_img/'.$post->users->imagen_url) !!}" class="rounded rounded-cirlce img-fluid">
+        <strong class="d-inline-block mb-2 text-primary">{{ __('messages.Posted by: ') }}{{$post->users->name}}</strong>
+        <p class="text-primary">{{$post->users->profile}}</p>
+      </div>
+    </div>
+
+    </div>
   </div>
     <p class="text-justify mx-2 my-2">{!!$post->content!!}</p>
       <div class="box"> <h3 class="text-center">{{ __('messages.Find us with') }} QR:</h3> <img src="{{ asset('/storage/qrcodes/posts/'.$post->qr_img_url) }}" title="Qr: {{$post->title}} Post" class="img-fluid mx-auto d-block mt-5">
