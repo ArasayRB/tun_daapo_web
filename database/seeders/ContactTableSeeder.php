@@ -24,7 +24,7 @@ class ContactTableSeeder extends Seeder
       $contact->address='Camilo Cienfuegos #180 A entre José Martí y Miguel Calzada, Trinidad, Sacti Spíritus, Cuba | CP 62600';
       $contact->phone=+5353419001;
       $contact->save();
-      $contentType='Section';
+      $contentType='Contact';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
       $content_address='At 180 A Camilo Cienfuegos, between José Martí and Miguel Calzada street. Trinidad, Cuba, Sancti Spíritus | CP-62600';
