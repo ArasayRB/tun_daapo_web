@@ -20,7 +20,7 @@
             <strong class="d-inline-block mb-2 text-primary"><i title="Reads/ Lecturas" class="fa fa-eye"></i> {{pot.cant_access_read}} | <i title="Show your love/ Muestra tu amor" class="fa fa-heart"></i> {{pot.cant_likes}}</strong>
             <h3 class="mb-0">{{pot.title}}</h3>
             <div class="mb-1 text-muted">{{pot.created_at}}</div>
-            <p class="card-text mb-auto">{{pot.summary}}</p>
+            <p class="card-text mb-auto" v-html="pot.summary"></p>
             <a :href="hreff+pot.slug" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
 
            </div>

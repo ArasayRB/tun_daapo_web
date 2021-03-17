@@ -42,7 +42,15 @@
               </div>
               <div class="form-group">
                 <label for="check-edit-summary">{{ $trans('messages.Summary') }}</label>
-                <textarea name="check-edit-summary" v-model="post.summary" id="check-edit-summary" cols="10" rows="8" class="form-control font-italic mb-2"></textarea>
+                <vue-ckeditor
+                 v-model="post.summary"
+                 :config="config"
+                 @blur="onBlur($event)"
+                 @focus="onFocus($event)"
+                 @contentDom="onContentDom($event)"
+                 @dialogDefinition="onDialogDefinition($event)"
+                 @fileUploadRequest="onFileUploadRequest($event)"
+                 @fileUploadResponse="onFileUploadResponse($event)" />
               </div>
               <div class="form-group">
                 <label for="check-edit-content">{{ $trans('messages.Content') }}</label>

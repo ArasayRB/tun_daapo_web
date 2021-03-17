@@ -3632,6 +3632,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3905,6 +3913,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_ckeditor2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-ckeditor2 */ "./node_modules/vue-ckeditor2/dist/vue-ckeditor2.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -78773,9 +78789,10 @@ var render = function() {
                       _vm._v(_vm._s(pot.created_at))
                     ]),
                     _vm._v(" "),
-                    _c("p", { staticClass: "card-text mb-auto" }, [
-                      _vm._v(_vm._s(pot.summary))
-                    ]),
+                    _c("p", {
+                      staticClass: "card-text mb-auto",
+                      domProps: { innerHTML: _vm._s(pot.summary) }
+                    }),
                     _vm._v(" "),
                     _c(
                       "a",
@@ -79603,46 +79620,63 @@ var render = function() {
                                       ])
                                     : _vm._e(),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "check-edit-summary" } },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.$trans("messages.Summary"))
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("textarea", {
-                                      directives: [
+                                  _c(
+                                    "div",
+                                    { staticClass: "form-group" },
+                                    [
+                                      _c(
+                                        "label",
                                         {
-                                          name: "model",
-                                          rawName: "v-model",
+                                          attrs: { for: "check-edit-summary" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$trans("messages.Summary")
+                                            )
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("vue-ckeditor", {
+                                        attrs: { config: _vm.config },
+                                        on: {
+                                          blur: function($event) {
+                                            return _vm.onBlur($event)
+                                          },
+                                          focus: function($event) {
+                                            return _vm.onFocus($event)
+                                          },
+                                          contentDom: function($event) {
+                                            return _vm.onContentDom($event)
+                                          },
+                                          dialogDefinition: function($event) {
+                                            return _vm.onDialogDefinition(
+                                              $event
+                                            )
+                                          },
+                                          fileUploadRequest: function($event) {
+                                            return _vm.onFileUploadRequest(
+                                              $event
+                                            )
+                                          },
+                                          fileUploadResponse: function($event) {
+                                            return _vm.onFileUploadResponse(
+                                              $event
+                                            )
+                                          }
+                                        },
+                                        model: {
                                           value: _vm.checkEditSummary,
+                                          callback: function($$v) {
+                                            _vm.checkEditSummary = $$v
+                                          },
                                           expression: "checkEditSummary"
                                         }
-                                      ],
-                                      staticClass:
-                                        "form-control font-italic mb-2",
-                                      attrs: {
-                                        name: "check-edit-summary",
-                                        id: "check-edit-summary",
-                                        cols: "10",
-                                        rows: "8"
-                                      },
-                                      domProps: { value: _vm.checkEditSummary },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.checkEditSummary =
-                                            $event.target.value
-                                        }
-                                      }
-                                    })
-                                  ]),
+                                      })
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "div",
@@ -80153,49 +80187,63 @@ var render = function() {
                                       ])
                                     : _vm._e(),
                                   _vm._v(" "),
-                                  _c("div", { staticClass: "form-group" }, [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "check-edit-summary" } },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.$trans("messages.Summary"))
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("textarea", {
-                                      directives: [
+                                  _c(
+                                    "div",
+                                    { staticClass: "form-group" },
+                                    [
+                                      _c(
+                                        "label",
                                         {
-                                          name: "model",
-                                          rawName: "v-model",
+                                          attrs: { for: "check-edit-summary" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$trans("messages.Summary")
+                                            )
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("vue-ckeditor", {
+                                        attrs: { config: _vm.config },
+                                        on: {
+                                          blur: function($event) {
+                                            return _vm.onBlur($event)
+                                          },
+                                          focus: function($event) {
+                                            return _vm.onFocus($event)
+                                          },
+                                          contentDom: function($event) {
+                                            return _vm.onContentDom($event)
+                                          },
+                                          dialogDefinition: function($event) {
+                                            return _vm.onDialogDefinition(
+                                              $event
+                                            )
+                                          },
+                                          fileUploadRequest: function($event) {
+                                            return _vm.onFileUploadRequest(
+                                              $event
+                                            )
+                                          },
+                                          fileUploadResponse: function($event) {
+                                            return _vm.onFileUploadResponse(
+                                              $event
+                                            )
+                                          }
+                                        },
+                                        model: {
                                           value: _vm.post.summary,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.post, "summary", $$v)
+                                          },
                                           expression: "post.summary"
                                         }
-                                      ],
-                                      staticClass:
-                                        "form-control font-italic mb-2",
-                                      attrs: {
-                                        name: "check-edit-summary",
-                                        id: "check-edit-summary",
-                                        cols: "10",
-                                        rows: "8"
-                                      },
-                                      domProps: { value: _vm.post.summary },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.post,
-                                            "summary",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ]),
+                                      })
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "div",
