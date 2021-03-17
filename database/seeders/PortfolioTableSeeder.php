@@ -5,9 +5,14 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Portfolio;
 use App\Models\Service;
+use App\Traits\ContentTypeTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
+use App\Traits\PortfolioTrait;
 
 class PortfolioTableSeeder extends Seeder
 {
+  use ContentTypeTrait, TranslateTrait, LanguageTrait, PortfolioTrait;
     /**
      * Run the database seeds.
      *
@@ -30,6 +35,19 @@ class PortfolioTableSeeder extends Seeder
       $section_portfolio->project_name='Post promocional COVID-19';
       $section_portfolio->service_id='Administración y Manejo de Redes Sociales';
       $section_portfolio->save();
+      $contentType='Portfolio';
+      $tipo_content=$this->findContentId($contentType);
+      $lang=$this->getLangIdByName('English');
+      $content_description='This Post give the new rules for COVID-19 in the hostal';
+      $data_trans=array(
+        ['id_content_trans'=>$section_portfolio->id,
+        'content'=>$section_portfolio['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'description',
+        'content_trans'=>$content_description]
+      );
+      $this->storeTranslate($data_trans);
       $section_portfolio->services()->attach($service1[0]->id);
 
       $section_portfolio=new Portfolio();
@@ -39,6 +57,19 @@ class PortfolioTableSeeder extends Seeder
       $section_portfolio->project_name='Post Promocional de oferta especial';
       $section_portfolio->service_id='Administración y Manejo de Redes Sociales';
       $section_portfolio->save();
+      $contentType='Portfolio';
+      $tipo_content=$this->findContentId($contentType);
+      $lang=$this->getLangIdByName('English');
+      $content_description='This post promotion an special offer in the nethworks sociality';
+      $data_trans=array(
+        ['id_content_trans'=>$section_portfolio->id,
+        'content'=>$section_portfolio['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'description',
+        'content_trans'=>$content_description]
+      );
+      $this->storeTranslate($data_trans);
       $section_portfolio->services()->attach($service1[0]->id);
 
       $section_portfolio=new Portfolio();
@@ -48,6 +79,19 @@ class PortfolioTableSeeder extends Seeder
       $section_portfolio->project_name='Post con medidas covid-19';
       $section_portfolio->service_id='Administración y Manejo de Redes Sociales';
       $section_portfolio->save();
+      $contentType='Portfolio';
+      $tipo_content=$this->findContentId($contentType);
+      $lang=$this->getLangIdByName('English');
+      $content_description='This post inform to the potencial clients about the new about COVID-19';
+      $data_trans=array(
+        ['id_content_trans'=>$section_portfolio->id,
+        'content'=>$section_portfolio['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'description',
+        'content_trans'=>$content_description]
+      );
+      $this->storeTranslate($data_trans);
       $section_portfolio->services()->attach($service1[0]->id);
 
       $section_portfolio=new Portfolio();
@@ -57,6 +101,19 @@ class PortfolioTableSeeder extends Seeder
       $section_portfolio->project_name='Portal-Blog';
       $section_portfolio->service_id='Diseño Web,Programación Web,Diseño y optimización de imágenes';
       $section_portfolio->save();
+      $contentType='Portfolio';
+      $tipo_content=$this->findContentId($contentType);
+      $lang=$this->getLangIdByName('English');
+      $content_description='Automatic website to agency Programming and Digital  Marketing';
+      $data_trans=array(
+        ['id_content_trans'=>$section_portfolio->id,
+        'content'=>$section_portfolio['description'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>$lang,
+        'indice_content'=>'description',
+        'content_trans'=>$content_description]
+      );
+      $this->storeTranslate($data_trans);
       $section_portfolio->services()->attach($service2[0]->id);
       $section_portfolio->services()->attach($service3[0]->id);
       $section_portfolio->services()->attach($service4[0]->id);
