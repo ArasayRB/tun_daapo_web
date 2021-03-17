@@ -24,7 +24,7 @@
                   {{ __('You are in Preview Post, the navbar no function, this is only for check how look before publish it') }}
               </div>
 
-          <a type="button" href="/posts" class="btn btn-primary">{{ __('Back Dashboard') }}</a>
+          <a type="button" href="/posts" class="btn btn-primary">{{ __('messages.Back Dashboard') }}</a>
         </ul>
       </div>
 @endif
@@ -34,13 +34,13 @@
     </cont-view-share-like-component>
   </div>
     <p class="text-justify mx-2 my-2">{!!$post->content!!}</p>
-      <div class="box"> <h3 class="text-center">{{ __('Find us with QR') }}:</h3> <img src="{{ asset('/storage/qrcodes/posts/'.$post->qr_img_url) }}" title="Qr: {{$post->title}} Post" class="img-fluid mx-auto d-block mt-5">
+      <div class="box"> <h3 class="text-center">{{ __('messages.Find us with') }} QR:</h3> <img src="{{ asset('/storage/qrcodes/posts/'.$post->qr_img_url) }}" title="Qr: {{$post->title}} Post" class="img-fluid mx-auto d-block mt-5">
   </div>
   <section class="card-footer mt-3">
 
     <div class="card">
       <div class="card-body">
-        <relationed-tags-component id_post="{{$post->id}}">
+        <relationed-tags-component locale="{{ App::getLocale() }}" id_post="{{$post->id}}">
         </relationed-tags-component>
       </div>
 

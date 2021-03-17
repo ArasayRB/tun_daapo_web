@@ -55,6 +55,7 @@ return [
     'English'=>'Inglés',
     'Forgot Your Password?'=>'Olvidó su contraseña?',
     'Functions Included'=>'Funciones Incluidas',
+    'Find us with'=>'Encuéntranos con',
     'Greetings'=>'Saludos',
     'Home'=>'Inicio',
     'Hi'=>'Hola',

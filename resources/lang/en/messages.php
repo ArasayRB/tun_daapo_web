@@ -55,6 +55,7 @@ return [
     'English'=>'English',
     'Forgot Your Password?'=>'Forgot Your Password?',
     'Functions Included'=>'Functions Included',
+    'Find us with'=>'Find us with',
     'Greetings'=>'Greetings',
     'Home'=>'Home',
     'Hi'=>'Hi',

@@ -54,7 +54,12 @@
               });
          },
         mounted() {
-
+          if (this.$attrs.locale) {
+               this.$lang.setLocale(this.$attrs.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

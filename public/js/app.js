@@ -3488,7 +3488,13 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    if (this.$attrs.locale) {
+      this.$lang.setLocale(this.$attrs.locale);
+    } else {
+      this.$lang.setLocale('en');
+    }
+  }
 });
 
 /***/ }),
@@ -13281,6 +13287,7 @@ module.exports = {
     "Edited": "Edited",
     "Email": "Email",
     "English": "English",
+    "Find us with": "Find us with",
     "Forgot Your Password?": "Forgot Your Password?",
     "Functions Included": "Functions Included",
     "Greetings": "Greetings",
@@ -13584,6 +13591,7 @@ module.exports = {
     "Edited": "Editado",
     "Email": "Correo",
     "English": "Ingl\xE9s",
+    "Find us with": "Encu\xE9ntranos con",
     "Forgot Your Password?": "Olvid\xF3 su contrase\xF1a?",
     "Functions Included": "Funciones Incluidas",
     "Greetings": "Saludos",
