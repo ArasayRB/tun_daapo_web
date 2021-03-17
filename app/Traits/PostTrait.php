@@ -60,7 +60,9 @@ trait PostTrait {
 
     public function getTranslatedPostBySigLang($lang,$post_id){
       $id_lang=$this->getLangIdBySigla($lang);
-      $post_translated=$this->getTranslatedTransItem($id_lang,$post_id);
+      $content_type='Post';
+      $content_types=$this->getContentTypeByName($content_type);
+      $post_translated=$this->getTranslatedTransItem($id_lang,$post_id,$content_types[0]->id);
       $post=$this->getPost($post_id);
       if(count($post_translated)!=0){
         $post->title=$post_translated['title']['content_trans'];

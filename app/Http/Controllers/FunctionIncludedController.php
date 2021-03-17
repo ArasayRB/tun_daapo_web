@@ -88,7 +88,6 @@ class FunctionIncludedController extends Controller
       $data=request()->validate([
         'name'=> 'required|max:255',
         'lang'=> 'required',
-        'description'=> 'required',
       ]);
 
       $function=FunctionIncluded::find(request('function_id'));
@@ -96,22 +95,35 @@ class FunctionIncludedController extends Controller
       $tipo_content=$this->findContentId($contentType);
 
       $lang=$this->findLanguageName(request('lang'));
+      $data_trans=[];
+       if(request('description')==''||request('description')==null){
+         $data_trans=array(
+           ['id_content_trans'=>$function->id,
+           'content'=>$function['name'],
+           'tipo_content'=>$tipo_content,
+           'trans_lang'=>request('lang'),
+           'indice_content'=>'name',
+           'content_trans'=>request('name')]
+         );
+       }
+       else{
+         $data_trans=array(
+           ['id_content_trans'=>$function->id,
+           'content'=>$function['name'],
+           'tipo_content'=>$tipo_content,
+           'trans_lang'=>request('lang'),
+           'indice_content'=>'name',
+           'content_trans'=>request('name')],
+           ['id_content_trans'=>$function->id,
+           'content'=>$function['description'],
+           'tipo_content'=>$tipo_content,
+           'trans_lang'=>request('lang'),
+           'indice_content'=>'description',
+           'content_trans'=>request('description')]
+         );
+       }
 
 
-      $data_trans=array(
-        ['id_content_trans'=>$function->id,
-        'content'=>$function['name'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>request('lang'),
-        'indice_content'=>'name',
-        'content_trans'=>request('name')],
-        ['id_content_trans'=>$function->id,
-        'content'=>$function['description'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>request('lang'),
-        'indice_content'=>'description',
-        'content_trans'=>request('description')]
-      );
       $this->storeTranslate($data_trans);
       return $function;
     }
@@ -147,7 +159,6 @@ class FunctionIncludedController extends Controller
     public function updateTranslatedFunctionByLang($function_id,$lang_name, Request $request){
       $dataPost=request()->validate([
         'name'=> 'required|max:255',
-        'description'=> 'required',
       ]);
 
       $function=FunctionIncluded::find($function_id);
@@ -155,22 +166,34 @@ class FunctionIncludedController extends Controller
       $tipo_content=$this->findContentId($contentType);
 
       $lang=$this->getLangIdByName($lang_name);
+      $data_trans=[];
 
-
-      $data_trans=array(
-        ['id_content_trans'=>$function_id,
-        'content'=>request('name'),
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'name',
-        'content_trans'=>request('name')],
-        ['id_content_trans'=>$function_id,
-        'content'=>request('description'),
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'description',
-        'content_trans'=>request('description')]
-      );
+      if(request('description')==''||request('description')==null){
+        $data_trans=array(
+          ['id_content_trans'=>$function_id,
+          'content'=>request('name'),
+          'tipo_content'=>$tipo_content,
+          'trans_lang'=>$lang,
+          'indice_content'=>'name',
+          'content_trans'=>request('name')]
+        );
+      }
+      else{
+        $data_trans=array(
+          ['id_content_trans'=>$function_id,
+          'content'=>request('name'),
+          'tipo_content'=>$tipo_content,
+          'trans_lang'=>$lang,
+          'indice_content'=>'name',
+          'content_trans'=>request('name')],
+          ['id_content_trans'=>$function_id,
+          'content'=>request('description'),
+          'tipo_content'=>$tipo_content,
+          'trans_lang'=>$lang,
+          'indice_content'=>'description',
+          'content_trans'=>request('description')]
+        );
+      }
       $result=$this->updateTranslate($data_trans);
       return $result;
     }

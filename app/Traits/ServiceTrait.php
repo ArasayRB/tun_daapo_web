@@ -27,7 +27,31 @@ trait ServiceTrait {
     public function getServicesInOffer(){
       $services=Service::where('status',1)
                           ->get();
-      return $services;
+  $content_type='Service';
+  $services_array_lang=[];
+  foreach ($services as $service) {
+    $services_array_lang[]=$this->getTranslatedServiceBySigLang(app()->getLocale(),$service->id,$content_type);
+  }
+
+  return $services_array_lang;
+    }
+
+    public function getTranslatedServiceBySigLang($lang,$service_id,$content_type){
+      $id_lang=$this->getLangIdBySigla($lang);
+      $content_types=$this->getContentTypeByName($content_type);
+      $service_translated=$this->getTranslatedTransItem($id_lang,$service_id,$content_types[0]->id);
+      $service=$this->getservice($service_id);
+      $keys_array=array_keys($service_translated);
+      if(count($service_translated)!=0){
+        foreach($keys_array as $key){
+          $service[$key]=$service_translated[$key]['content_trans'];
+        }
+        return $service;
+      }
+      else{
+        return $service;
+      }
+
     }
 
     public function getService($service){

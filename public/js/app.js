@@ -12880,6 +12880,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/section_name/' + this.section_name).then(function (response) {
         _this.sectionItem = response.data;
+        console.log('tun_dapo', response.data);
 
         if (_this.sectionItem.length === 0) {
           $("#sectionTunDaapo").hide(true);
@@ -13352,6 +13353,7 @@ module.exports = {
     "Tags": "Tags",
     "Thank you for subscribe!": "Thank you for subscribe!",
     "Thank you for using our application!": "Thank you for using our application!",
+    "The": "The",
     "The Post had been publicate": "The Post had been publicate",
     "The latest posts": "The latest posts",
     "The most liked": "The most liked",
@@ -13362,6 +13364,7 @@ module.exports = {
     "Title": "Title",
     "Tools": "Tools",
     "Translate": "Translate",
+    "Translated Succefully": "Translated Succefully",
     "Tun Daapo": "Tun Daapo",
     "Unidentified error": "Unidentified error",
     "Unsubscribe": "Unsubscribe",
@@ -13389,7 +13392,9 @@ module.exports = {
     "You sended succefully this contact message to: ": "You sended succefully this contact message to: ",
     "You sended succefully this request to: ": "You sended succefully this request to: ",
     "click here to request another": "click here to request another",
-    "sended": "sended"
+    "sended": "sended",
+    "since": "since",
+    "translation has been successfully modified": "translation has been successfully modified"
   },
   "en.pagination": {
     "next": "Next &raquo;",
@@ -13651,6 +13656,7 @@ module.exports = {
     "Tags": "Etiquetas",
     "Thank you for subscribe!": "Gracias por suscribirse!",
     "Thank you for using our application!": "Gracias por usar nuestra aplicaci\xF3n!",
+    "The": "El o La",
     "The Post had been publicate": "El Post ha sido publicado",
     "The latest posts": "\xDAltimos Posts",
     "The most liked": "Lo m\xE1s gustado",
@@ -13661,6 +13667,7 @@ module.exports = {
     "Title": "T\xEDtulo",
     "Tools": "Herramientas",
     "Translate": "Traducir",
+    "Translated Succefully": "Traducido Satisfactoriamente",
     "Tun Daapo": "Tun Daapo",
     "Unidentified error": "Error Desconocido",
     "Unsubscribe": "Cancelar Suscripci\xF3n",
@@ -13688,7 +13695,9 @@ module.exports = {
     "You sended succefully this contact message to: ": "Usted envi\xF3 satisfactoriamente su mensage de contacto a: ",
     "You sended succefully this request to: ": "Usted ha enviado satisfactoriamente su solicitud de Presupuesto a: ",
     "click here to request another": "click aqu\xED para pedir otro correo",
-    "sended": "enviado"
+    "sended": "enviado",
+    "since": "a partir de",
+    "translation has been successfully modified": "traducci\xF3n ha sido actualizado satisfactoriamente"
   },
   "es.pagination": {
     "next": "Siguiente &raquo;",
@@ -92888,7 +92897,7 @@ var render = function() {
             [
               planItem.name == "Premium"
                 ? _c("p", { staticClass: "text-light" }, [
-                    _vm._v(" a partir de")
+                    _vm._v(" " + _vm._s(_vm.$trans("messages.since")))
                   ])
                 : _vm._e(),
               _vm._v(" "),

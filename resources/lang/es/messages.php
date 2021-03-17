@@ -137,6 +137,7 @@ return [
     'Sigla'=>'Sigla',
     'Spanish'=>'Español',
     'Separate with (,) please'=>'Separado con (,) por favor',
+    'since'=>'a partir de',
     'Summary'=>'Resumen',
     'Subscribe yourself!! Do not lost the Blog News and Promotions'=>'Suscríbete!! No te pierdas las novedades de nuestro Blog y Promociones',
     'Tabs'=>'Tablas',

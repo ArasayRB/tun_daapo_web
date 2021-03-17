@@ -5,7 +5,7 @@
       <h4 class="my-0 font-weight-normal"><small class="text-muted h3">{{planItem.name}}</small></h4>
     </div>
     <div :class="planItem.name=='Premium'?classe='card-body bg-dark':'card-body'">
-      <p class="text-light" v-if="planItem.name=='Premium'"> a partir de</p>
+      <p class="text-light" v-if="planItem.name=='Premium'"> {{ $trans('messages.since') }}</p>
       <h1 class="card-title pricing-card-title"><small :class="planItem.name=='Premium'?classe='text-light':'text-muted'">${{planItem.price}}</small></h1>
       <ul class="list-unstyled mt-3 mb-4">
         <li :class="planItem.name=='Premium'?classe='text-light':''" v-for="(funct,index_func) in planItem.functions" v-html="funct.name"></li>

@@ -7,6 +7,8 @@ use App\Traits\SectionPageTrait;
 use App\Traits\ServiceTrait;
 use App\Traits\PortfolioTrait;
 use App\Traits\PostTrait;
+use App\Traits\FunctionIncludedTrait;
+use App\Traits\ContentTypeTrait;
 use App\Traits\TranslateTrait;
 use App\Traits\PaketTrait;
 use App\Traits\ContactTrait;
@@ -14,7 +16,7 @@ use App\Traits\LanguageTrait;
 
 class WelcomeController extends Controller
 {
-  use SectionPageTrait, ContactTrait, PaketTrait, ServiceTrait, PortfolioTrait, PostTrait, TranslateTrait, LanguageTrait;
+  use SectionPageTrait, ContactTrait, FunctionIncludedTrait, ContentTypeTrait, PaketTrait, ServiceTrait, PortfolioTrait, PostTrait, TranslateTrait, LanguageTrait;
 
   public function welcome()
   {

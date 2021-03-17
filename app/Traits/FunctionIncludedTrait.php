@@ -4,13 +4,6 @@ namespace App\Traits;
 use App\Models\FunctionIncluded;
 
 trait FunctionIncludedTrait {
-    public function store($funct) {
-        // Fetch all the users from the 'users' table.
-        $functs = new FunctionIncluded();
-        $functs->name=$funct;
-        $functs->save();
-        return $functs;
-    }
 
     public function getFunctionIncludedIf($funct){
       $functs = FunctionIncluded::firstOrCreate(['name'=>$funct],['name'=>$funct]);
@@ -27,9 +20,16 @@ trait FunctionIncludedTrait {
       $content_types=$this->getContentTypeByName($content_type);
       $function_translated=$this->getTranslatedTransItem($id_lang,$function_id,$content_types[0]->id);
       $function=$this->getFunction($function_id);
-      $function->name=$function_translated['name']['content_trans'];
-      $function->description=$function_translated['description']['content_trans'];
-      return $function;
+      $keys_array=array_keys($function_translated);
+      if(count($function_translated)!=0){
+        foreach($keys_array as $key){
+          $function[$key]=$function_translated[$key]['content_trans'];
+        }
+        return $function;
+      }
+      else{
+        return $function;
+      }
     }
 
     public function getAllFunctionIncluded(){

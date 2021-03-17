@@ -137,6 +137,7 @@ return [
     'Sigla'=>'Sigla',
     'Spanish'=>'Spanish',
     'Separate with (,) please'=>'Separate with (,) please',
+    'since'=>'since',
     'Summary'=>'Summary',
     'Subscribe yourself!! Do not lost the Blog News and Promotions'=>'Subscribe yourself!! Do not lost the Blog News and Promotions',
     'Tabs'=>'Tabs',

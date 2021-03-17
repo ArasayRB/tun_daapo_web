@@ -23,6 +23,7 @@ Route::get('/', [App\Http\Controllers\WelcomeController::class, 'welcome'])->nam
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('language/{language}', [App\Http\Controllers\WelcomeController::class, 'switchLang'])->name('language.select');
 Route::get('/section_name/{name}', [App\Http\Controllers\WelcomeController::class, 'getSectionItem']);
 Route::get('/services_offer', [App\Http\Controllers\WelcomeController::class, 'getServicesInOffer']);
 Route::get('/tun-daapo-portfolio', [App\Http\Controllers\WelcomeController::class, 'getPortfolioView']);

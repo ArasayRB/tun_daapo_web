@@ -21,6 +21,7 @@
           axios.get('/section_name/'+this.section_name)
               .then(response =>{
                 this.sectionItem=response.data;
+                console.log('tun_dapo',response.data);
                 if(this.sectionItem.length===0){
              $("#sectionTunDaapo").hide(true);
                 }
