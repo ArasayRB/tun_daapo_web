@@ -222,7 +222,7 @@ class PostController extends Controller
         return $postToAdd;
     }
 
-    public function addTranslate(Request $request){
+    public function addTranslatePost(Request $request){
       $dataPost=request()->validate([
         'title'=> 'required|max:255',
         'lang'=> 'required',

@@ -84,7 +84,7 @@ class FunctionIncludedController extends Controller
       return $functions_included;
     }
 
-    public function addTranslate(Request $request){
+    public function addTranslateFunction(Request $request){
       $data=request()->validate([
         'name'=> 'required|max:255',
         'lang'=> 'required',

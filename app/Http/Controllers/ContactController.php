@@ -102,7 +102,7 @@ class ContactController extends Controller
       return $contact;
     }
 
-    public function addTranslate(Request $request){
+    public function addTranslateContact(Request $request){
       $data=request()->validate([
         'address'=> 'required|max:255',
         'lang'=> 'required',

@@ -143,7 +143,7 @@ class SectionPageController extends Controller
       return $section_page;
     }
 
-    public function addTranslate(Request $request){
+    public function addTranslateSection(Request $request){
       $data=request()->validate([
         'title'=> 'required|max:255',
         'lang'=> 'required',

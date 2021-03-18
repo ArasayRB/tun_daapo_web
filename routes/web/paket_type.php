@@ -13,5 +13,5 @@ Route::get('/available-type-pakets', [App\Http\Controllers\PaketTypeController::
 Route::get('/packet-type-list', [App\Http\Controllers\PaketTypeController::class, 'typePaketTypes']);
 Route::get('/all-paket-types', [App\Http\Controllers\PaketTypeController::class, 'getAllPaketType']);
 Route::get('/get-translated-packet-type-by-lang/{lang}/{id_packtype}/{content_type}',[App\Http\Controllers\PaketTypeController::class, 'getTranslatedPacketTypeByLang']);
-Route::post('/add-translate-packet-type', [App\Http\Controllers\PaketTypeController::class, 'addTranslate']);
+Route::post('/add-translate-packet-type', [App\Http\Controllers\PaketTypeController::class, 'addTranslatePackType']);
 Route::post('/packet-type-translated-edited/{id_packtype}/{lang_name}',[App\Http\Controllers\PaketTypeController::class, 'updateTranslatedPacketTypeByLang']);

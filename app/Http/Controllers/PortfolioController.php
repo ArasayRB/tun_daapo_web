@@ -144,7 +144,7 @@ class PortfolioController extends Controller
       return $portToAdd;
     }
 
-    public function addTranslate(Request $request){
+    public function addTranslatePortfolio(Request $request){
       $data=request()->validate([
         'lang'=> 'required',
         'description'=> 'required',

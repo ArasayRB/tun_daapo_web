@@ -87,7 +87,7 @@ use ContentTypeTrait, TranslateTrait, LanguageTrait;
       return $paket_types;
     }
 
-    public function addTranslate(Request $request){
+    public function addTranslatePackType(Request $request){
       $data=request()->validate([
         'name'=> 'required|max:255',
         'lang'=> 'required',

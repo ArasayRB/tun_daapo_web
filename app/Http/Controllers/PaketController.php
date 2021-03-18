@@ -117,7 +117,7 @@ class PaketController extends Controller
       return $pakToAdd;
     }
 
-    public function addTranslate(Request $request){
+    public function addTranslatePacket(Request $request){
       $data=request()->validate([
         'name'=> 'required|max:255',
         'lang'=> 'required',

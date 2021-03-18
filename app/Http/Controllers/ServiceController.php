@@ -76,7 +76,7 @@ class ServiceController extends Controller
       return $service;
     }
 
-    public function addTranslate(Request $request){
+    public function addTranslateService(Request $request){
       $data=request()->validate([
         'name'=> 'required|max:255',
         'lang'=> 'required',
