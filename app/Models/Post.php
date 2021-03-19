@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Models\CategoriaPost;
 use App\Models\File;
+use App\Models\TagLang;
 use App\Models\ComentarioPost;
 use App\Models\Keyword;
+use App\Models\TaggingTag;
 use App\Models\User;
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,7 +32,6 @@ class Post extends Model
         'cant_shares',
         'tags',
         'slug',
-        'keywords',
     ];
 
     public function scopeFilterByAttribute($query,$filter){
@@ -46,13 +47,23 @@ class Post extends Model
       return $this->belongsTo(User::class,'user_id');
     }
 
+    public function taggingtags(){
+      return $this->belongsToMany(TaggingTag::class,'post_tagging_tag','post_id','tag_id')->withPivot('language_id')->withTimestamps();
+    }
+
+    public function getlangTagPost($lang,$post){
+      return PostTaggingTag::where('post_id',$post)
+                           ->where('tag_id',$lang)
+                           ->get();
+    }
+
 
     public function categoriaPosts(){
       return $this->belongsTo('App\Models\CategoriaPost','category_id');
     }
 
     public function keywords(){
-      return $this->belongsToMany(Keyword::class)->withTimestamps();
+      return $this->belongsToMany(Keyword::class,'keyword_post','post_id','keyword_id')->withTimestamps();
     }
 
     public function comentarioPosts(){

@@ -38,11 +38,37 @@ trait PostTrait {
       $post->title=$post_translated['title']['content_trans'];
       $post->content=$post_translated['content']['content_trans'];
       $post->summary=$post_translated['summary']['content_trans'];
+      $tags_lang=[];
+      $keywords_lang=[];
+      $tags=[];
+      $keywords=[];
+      $id_lang_post=$this->getLangIdBySigla($post->default_lang);
+      foreach ($post->taggingtags as $tag) {
+        if($tag->pivot->language_id===$id_lang){
+          $tags_lang[]=$tag;
+        }
+        if($tag->pivot->language_id===$id_lang_post){
+          $tags[]=$tag;
+        }
+      }
+      for($i=0;$i<count($post->keywords);$i++) {
+        if($post->keywords[$i]->language_id===$id_lang){
+          $keywords_lang[]=$post->keywords[$i];
+        }
+        if($post->keywords[$i]->language_id===$id_lang_post){
+          $keywords[]=$post->keywords[$i];
+        }
+      }
+      $post->tags_lang=$tags_lang;
+      $post->tags_post=$tags;
+      $post->keywords_lang=$keywords_lang;
+      $post->keywords_post=$keywords;
       return $post;
     }
 
     public function getPost($post){
       $posts=Post::with('categoriaPosts')
+                   ->with('taggingtags')
                    ->with('keywords')
                    ->with('users')
                    ->where('id',$post)

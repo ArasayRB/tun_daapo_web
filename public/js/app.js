@@ -3750,6 +3750,35 @@ __webpack_require__.r(__webpack_exports__);
       var msg_succ;
       var data;
       var default_lang = this.$lang.getLocale();
+      var tagsList = this.selectedTags;
+      var postTags = "";
+
+      for (var i = 0; i < tagsList.length; i = i + 1) {
+        if (i == tagsList.length - 1) {
+          postTags = '' + postTags + tagsList[i].value;
+        } else {
+          postTags = '' + postTags + tagsList[i].value + ',';
+        }
+      }
+
+      var keysList = this.selectedKeys;
+      var postKeys = "";
+
+      for (var i = 0; i < keysList.length; i = i + 1) {
+        if (i == keysList.length - 1) {
+          postKeys = '' + postKeys + keysList[i].value;
+        } else {
+          postKeys = '' + postKeys + keysList[i].value + ',';
+        }
+      }
+
+      data = new FormData();
+      data.append("title", this.title);
+      data.append("lang", this.lang_trans);
+      data.append("checkEditSummary", this.checkEditSummary);
+      data.append("checkEditContent", this.checkEditContent);
+      data.append("tags", postTags);
+      data.append("keywords", postKeys);
 
       if (this.show_lang_div === false) {
         url = "/addTranslate";
@@ -3761,13 +3790,8 @@ __webpack_require__.r(__webpack_exports__);
           _mensaje = this.$trans('messages.You cannot leave empty fields, please check');
         }
 
-        data = new FormData();
-        data.append("title", this.title);
         data.append("title_old", this.post.title);
         data.append("post_id", this.post.id);
-        data.append("lang", this.lang_trans);
-        data.append("checkEditSummary", this.checkEditSummary);
-        data.append("checkEditContent", this.checkEditContent);
       } else {
         url = "/posts";
         msg_succ = this.$trans('messages.Post created successfully');
@@ -3778,38 +3802,9 @@ __webpack_require__.r(__webpack_exports__);
           _mensaje2 = this.$trans('messages.You cannot leave empty fields, please check');
         }
 
-        var tagsList = this.selectedTags;
-        var postTags = "";
-
-        for (var i = 0; i < tagsList.length; i = i + 1) {
-          if (i == tagsList.length - 1) {
-            postTags = '' + postTags + tagsList[i].value;
-          } else {
-            postTags = '' + postTags + tagsList[i].value + ',';
-          }
-        }
-
-        var keysList = this.selectedKeys;
-        var postKeys = "";
-
-        for (var i = 0; i < keysList.length; i = i + 1) {
-          if (i == keysList.length - 1) {
-            postKeys = '' + postKeys + keysList[i].value;
-          } else {
-            postKeys = '' + postKeys + keysList[i].value + ',';
-          }
-        }
-
-        data = new FormData();
-        data.append("title", this.title);
         data.append("image", this.imagenPost);
         data.append("category", this.categoria);
-        data.append("lang", this.lang_trans);
         data.append("default-lang", default_lang);
-        data.append("checkEditSummary", this.checkEditSummary);
-        data.append("checkEditContent", this.checkEditContent);
-        data.append("tags", postTags);
-        data.append("keywords", postKeys);
       }
 
       axios.post(url, data).then(function (response) {
@@ -3895,13 +3890,11 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   mounted: function mounted() {
-    /*
     if (this.$attrs.locale) {
-         this.$lang.setLocale(this.$attrs.locale);
-         }
-    else {
+      this.$lang.setLocale(this.$attrs.locale);
+    } else {
       this.$lang.setLocale('en');
-    }*/
+    }
   }
 });
 
@@ -4162,27 +4155,24 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      data = new FormData();
+      data.append("title", post.title);
+      data.append("summary", post.summary);
+      data.append("content", post.content);
+      data.append("tags", postTags);
+      data.append("keywords", postKeys);
+
       if (this.lan_to_edit === 'none') {
-        data = new FormData();
         data.append('_method', 'patch');
-        data.append("title", post.title);
         data.append("default-lang", default_lang);
         data.append("img_url", this.imagenPost);
         data.append("category_id", this.categoria);
-        data.append("summary", post.summary);
-        data.append("content", post.content);
-        data.append("tags", postTags);
-        data.append("keywords", postKeys);
         url = "/posts/" + post.id;
         post.img_url = this.imagenPost;
         msg_edited = this.$trans('messages.The post has been successfully modified');
       } else {
-        data = new FormData();
-        data.append("title", post.title);
-        data.append("summary", post.summary);
-        data.append("content", post.content); //data.append("tags", postTags);
+        //data.append("tags", postTags);
         //data.append("keywords", postKeys);
-
         url = "/posts-translated-edited/" + post.id + "/" + this.lan_to_edit;
         msg_edited = this.$trans('messages.The post translation has been successfully modified');
       }
@@ -4242,18 +4232,34 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this2 = this;
 
-    for (var i = 0; i < this.post.tags.length; i++) {
-      this.selectedTags.push({
-        'key': '',
-        'value': this.post.tags[i].name
-      });
-    }
+    if (this.lan_to_edit != 'none') {
+      for (var i = 0; i < this.post.tags_lang.length; i++) {
+        this.selectedTags.push({
+          'key': '',
+          'value': this.post.tags_lang[i].name
+        });
+      }
 
-    for (var i = 0; i < this.post.keywords.length; i++) {
-      this.selectedKeys.push({
-        'key': '',
-        'value': this.post.keywords[i].name
-      });
+      for (var i = 0; i < this.post.keywords_lang.length; i++) {
+        this.selectedKeys.push({
+          'key': '',
+          'value': this.post.keywords_lang[i].name
+        });
+      }
+    } else {
+      for (var i = 0; i < this.post.tags_post.length; i++) {
+        this.selectedTags.push({
+          'key': '',
+          'value': this.post.tags_post[i].name
+        });
+      }
+
+      for (var i = 0; i < this.post.keywords_post.length; i++) {
+        this.selectedKeys.push({
+          'key': '',
+          'value': this.post.keywords_post[i].name
+        });
+      }
     }
 
     axios.get('/languagesList').then(function (response) {
@@ -4781,6 +4787,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     openEditPost: function openEditPost(index, post) {
+      this.lan_to_edit = 'none';
       this.post = post;
       this.ventanaEditPost = true;
     },
@@ -79744,102 +79751,91 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _vm.show_lang_div === true
-                                    ? _c(
-                                        "div",
-                                        { staticClass: "form-group" },
-                                        [
-                                          _c("label", [
+                                  _c(
+                                    "div",
+                                    { staticClass: "form-group" },
+                                    [
+                                      _c("label", [
+                                        _vm._v(
+                                          _vm._s(_vm.$trans("messages.Tags")) +
+                                            " : "
+                                        ),
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-danger" },
+                                          [_vm._v("*")]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c("tags-input", {
+                                        attrs: {
+                                          "element-id": "tags",
+                                          "add-tags-on-comma": true,
+                                          "existing-tags": _vm.tags,
+                                          "id-field": "key",
+                                          "text-field": "value",
+                                          typeahead: true
+                                        },
+                                        model: {
+                                          value: _vm.selectedTags,
+                                          callback: function($$v) {
+                                            _vm.selectedTags = $$v
+                                          },
+                                          expression: "selectedTags"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "form-group" },
+                                    [
+                                      _c("label", { attrs: { for: "title" } }, [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$trans("messages.Keywords")
+                                          ) + ": "
+                                        ),
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-danger" },
+                                          [
                                             _vm._v(
                                               _vm._s(
-                                                _vm.$trans("messages.Tags")
-                                              ) + " : "
-                                            ),
-                                            _c(
-                                              "span",
-                                              { staticClass: "text-danger" },
-                                              [_vm._v("*")]
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c("tags-input", {
-                                            attrs: {
-                                              "element-id": "tags",
-                                              "add-tags-on-comma": true,
-                                              "existing-tags": _vm.tags,
-                                              "id-field": "key",
-                                              "text-field": "value",
-                                              typeahead: true
-                                            },
-                                            model: {
-                                              value: _vm.selectedTags,
-                                              callback: function($$v) {
-                                                _vm.selectedTags = $$v
-                                              },
-                                              expression: "selectedTags"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.show_lang_div === true
-                                    ? _c(
-                                        "div",
-                                        { staticClass: "form-group" },
-                                        [
-                                          _c(
-                                            "label",
-                                            { attrs: { for: "title" } },
-                                            [
-                                              _vm._v(
-                                                _vm._s(
-                                                  _vm.$trans(
-                                                    "messages.Keywords"
-                                                  )
-                                                ) + ": "
-                                              ),
-                                              _c(
-                                                "span",
-                                                { staticClass: "text-danger" },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      _vm.$trans(
-                                                        "messages.Separate with (,) please"
-                                                      )
-                                                    )
-                                                  )
-                                                ]
+                                                _vm.$trans(
+                                                  "messages.Separate with (,) please"
+                                                )
                                               )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("tags-input", {
-                                            attrs: {
-                                              "element-id": "keys",
-                                              "add-tags-on-comma": true,
-                                              placeholder: "Add a keyword",
-                                              "existing-tags": _vm.keywords,
-                                              "id-field": "key",
-                                              "text-field": "value",
-                                              typeahead: true
-                                            },
-                                            model: {
-                                              value: _vm.selectedKeys,
-                                              callback: function($$v) {
-                                                _vm.selectedKeys = $$v
-                                              },
-                                              expression: "selectedKeys"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tags-input", {
+                                        attrs: {
+                                          "element-id": "keys",
+                                          "add-tags-on-comma": true,
+                                          placeholder: "Add a keyword",
+                                          "existing-tags": _vm.keywords,
+                                          "id-field": "key",
+                                          "text-field": "value",
+                                          typeahead: true
+                                        },
+                                        model: {
+                                          value: _vm.selectedKeys,
+                                          callback: function($$v) {
+                                            _vm.selectedKeys = $$v
+                                          },
+                                          expression: "selectedKeys"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
                                 ])
                               ]
                             )
@@ -80962,7 +80958,7 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "td",
-                                _vm._l(post.tags, function(tag) {
+                                _vm._l(post.tags_post, function(tag) {
                                   return _c("div", {}, [
                                     _c("p", [
                                       _c(

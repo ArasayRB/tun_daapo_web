@@ -93,7 +93,7 @@
                     </td>
                     <td>{{post.title}}</td>
                     <td>
-                      <div class="" v-for="tag in post.tags ">
+                      <div class="" v-for="tag in post.tags_post ">
                       <p> <span class="badge badge-pill badge-primary">{{tag.name}}</span></p>
                       </div>
                     </td>
@@ -441,7 +441,7 @@
                .catch(error => this.errors.push(error));
         },
         openEditPost:function(index,post){
-
+       this.lan_to_edit='none';
         this.post=post;
           this.ventanaEditPost=true;
 

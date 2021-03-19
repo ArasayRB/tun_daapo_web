@@ -12,7 +12,7 @@ Route::post('/publicate-post/{id}/{state}', [App\Http\Controllers\PostController
 Route::resource('/posts', App\Http\Controllers\PostController::class)->middleware('role:administrator,viewer-content,writer-content,publisher-content');
 Route::get('/categoriesList', [App\Http\Controllers\PostController::class, 'getCategories']);
 Route::get('/postsTable', [App\Http\Controllers\PostController::class, 'getPostAutentUser']);
-Route::get('/available-tags', [App\Http\Controllers\PostController::class, 'getTags']);
+Route::get('/available-tags', [App\Http\Controllers\PostController::class, 'getTagsExisting']);
 Route::get('/available-keys', [App\Http\Controllers\PostController::class, 'availableKeys']);
 Route::post('/addTranslate',[App\Http\Controllers\PostController::class, 'addTranslatePost']);
 Route::get('/translated-post/{id}',[App\Http\Controllers\PostController::class, 'getTranslatedPostById']);

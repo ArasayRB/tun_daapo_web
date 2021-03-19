@@ -70,7 +70,7 @@
        @fileUploadResponse="onFileUploadResponse($event)" />
       </div>
 
-      <div class="form-group" v-if="show_lang_div===true">
+      <div class="form-group">
                  <label>{{ $trans('messages.Tags') }} : <span class="text-danger">*</span></label>
                  <br>
                  <tags-input element-id="tags" :add-tags-on-comma=true	class=""
@@ -84,7 +84,7 @@ text-field="value"
 
       </div>
 
-      <div class="form-group" v-if="show_lang_div===true">
+      <div class="form-group">
         <label for="title">{{ $trans('messages.Keywords') }}: <span class="text-danger">{{ $trans('messages.Separate with (,) please') }}</span></label></label>
 
         <tags-input element-id="keys" :add-tags-on-comma=true	class=""
@@ -219,6 +219,34 @@ text-field="value"
             let data;
 
            let default_lang=this.$lang.getLocale();
+           let tagsList=this.selectedTags;
+           let postTags="";
+           for(var i=0; i<tagsList.length;i=i+1){
+             if(i==(tagsList.length-1)){
+             postTags= ''+postTags+tagsList[i].value;
+           }
+           else{
+             postTags= ''+postTags+tagsList[i].value+',';
+           }
+           }
+
+           let keysList=this.selectedKeys;
+           let postKeys="";
+           for(var i=0; i<keysList.length;i=i+1){
+             if(i==(keysList.length-1)){
+             postKeys= ''+postKeys+keysList[i].value;
+           }
+           else{
+             postKeys= ''+postKeys+keysList[i].value+',';
+           }
+           }
+           data = new FormData();
+             data.append("title", this.title);
+             data.append("lang", this.lang_trans);
+             data.append("checkEditSummary", this.checkEditSummary);
+             data.append("checkEditContent", this.checkEditContent);
+             data.append("tags", postTags);
+             data.append("keywords", postKeys);
            if(this.show_lang_div===false){
               url="/addTranslate";
               msg_succ=this.$trans('messages.Post translated successfully');
@@ -226,13 +254,8 @@ text-field="value"
               if (this.title==''||this.checkEditSummary==''||this.checkEditContent==''||this.lang_trans=='') {
                 mensaje=this.$trans('messages.You cannot leave empty fields, please check');
               }
-              data = new FormData();
-                data.append("title", this.title);
                 data.append("title_old", this.post.title);
                 data.append("post_id", this.post.id);
-                data.append("lang", this.lang_trans);
-                data.append("checkEditSummary", this.checkEditSummary);
-                data.append("checkEditContent", this.checkEditContent);
            }
            else{
             url="/posts";
@@ -241,37 +264,9 @@ text-field="value"
             if (this.title==''||this.imagenPost==''||this.categoria==''||this.checkEditSummary==''||this.checkEditContent==''||this.selectedTags==''||this.keywords=='') {
               mensaje=this.$trans('messages.You cannot leave empty fields, please check');
             }
-            let tagsList=this.selectedTags;
-            let postTags="";
-            for(var i=0; i<tagsList.length;i=i+1){
-              if(i==(tagsList.length-1)){
-              postTags= ''+postTags+tagsList[i].value;
-            }
-            else{
-              postTags= ''+postTags+tagsList[i].value+',';
-            }
-            }
-
-            let keysList=this.selectedKeys;
-            let postKeys="";
-            for(var i=0; i<keysList.length;i=i+1){
-              if(i==(keysList.length-1)){
-              postKeys= ''+postKeys+keysList[i].value;
-            }
-            else{
-              postKeys= ''+postKeys+keysList[i].value+',';
-            }
-            }
-            data = new FormData();
-              data.append("title", this.title);
               data.append("image", this.imagenPost);
               data.append("category", this.categoria);
-              data.append("lang", this.lang_trans);
               data.append("default-lang", default_lang);
-              data.append("checkEditSummary", this.checkEditSummary);
-              data.append("checkEditContent", this.checkEditContent);
-              data.append("tags", postTags);
-              data.append("keywords", postKeys);
            }
 
 
@@ -351,13 +346,13 @@ text-field="value"
                    .catch(error => this.errors.push(error));
          },
         mounted() {
-          /*
+
           if (this.$attrs.locale) {
                this.$lang.setLocale(this.$attrs.locale);
                }
           else {
             this.$lang.setLocale('en');
-          }*/
+          }
         }
     }
 </script>

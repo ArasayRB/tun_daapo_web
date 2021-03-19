@@ -220,27 +220,25 @@ placeholder="Add a keyword"
               postKeys= ''+postKeys+keysList[i].value+',';
             }
             }
+            data = new FormData();
+            data.append("title", post.title);
+            data.append("summary", post.summary);
+            data.append("content", post.content);
+            data.append("tags", postTags);
+            data.append("keywords", postKeys);
             if(this.lan_to_edit==='none'){
-              data = new FormData();
+
     	          data.append('_method', 'patch');
-                data.append("title", post.title);
                 data.append("default-lang", default_lang);
                 data.append("img_url", this.imagenPost);
                 data.append("category_id", this.categoria);
-                data.append("summary", post.summary);
-                data.append("content", post.content);
-                data.append("tags", postTags);
-                data.append("keywords", postKeys);
+
               url="/posts/"+post.id;
               post.img_url=this.imagenPost;
               msg_edited=this.$trans('messages.The post has been successfully modified');
             }
 
             else{
-              data = new FormData();
-                data.append("title", post.title);
-                data.append("summary", post.summary);
-                data.append("content", post.content);
                 //data.append("tags", postTags);
                 //data.append("keywords", postKeys);
               url="/posts-translated-edited/"+post.id+"/"+this.lan_to_edit;
@@ -295,15 +293,28 @@ placeholder="Add a keyword"
 
       },
       created: function () {
-          for(var i=0; i<this.post.tags.length;i++){
+        if(this.lan_to_edit!='none'){
+          for(var i=0; i<this.post.tags_lang.length;i++){
             this.selectedTags.push({'key':'',
-                                      'value':this.post.tags[i].name});
+                                      'value':this.post.tags_lang[i].name});
           }
 
-          for(var i=0; i<this.post.keywords.length;i++){
+          for(var i=0; i<this.post.keywords_lang.length;i++){
             this.selectedKeys.push({'key':'',
-                                      'value':this.post.keywords[i].name});
+                                      'value':this.post.keywords_lang[i].name});
           }
+        }
+        else{
+          for(var i=0; i<this.post.tags_post.length;i++){
+            this.selectedTags.push({'key':'',
+                                      'value':this.post.tags_post[i].name});
+          }
+
+          for(var i=0; i<this.post.keywords_post.length;i++){
+            this.selectedKeys.push({'key':'',
+                                      'value':this.post.keywords_post[i].name});
+          }
+        }
         axios.get('/languagesList')
               .then(response=> this.languages=response.data)
               .catch(error=>this.error.push(error));
