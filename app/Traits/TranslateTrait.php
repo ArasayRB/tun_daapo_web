@@ -107,5 +107,13 @@ trait TranslateTrait {
                         ->delete();
     }
 
+    public function getTransByIndContType($indice_content,$tipo_content){
+      $items=Translate::with('languages')
+                      ->where('tipo_content',$tipo_content)
+                      ->where('indice_content',$indice_content)
+                      ->get();
+                      return $items;
+    }
+
 
 }

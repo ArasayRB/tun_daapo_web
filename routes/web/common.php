@@ -27,7 +27,7 @@ Route::get('language/{language}', [App\Http\Controllers\WelcomeController::class
 Route::get('/section_name/{name}', [App\Http\Controllers\WelcomeController::class, 'getSectionItem']);
 Route::get('/services_offer', [App\Http\Controllers\WelcomeController::class, 'getServicesInOffer']);
 Route::get('/tun-daapo-portfolio', [App\Http\Controllers\WelcomeController::class, 'getPortfolioView']);
-Route::get('/post-list/{id}', [App\Http\Controllers\WelcomeController::class, 'showPost']);
+Route::get('/post-list/{id}', [App\Http\Controllers\WelcomeController::class, 'showPost'])->name('post-list');
 Route::get('/posts-list', [App\Http\Controllers\WelcomeController::class, 'getPostsList']);
 Route::post('/share/{id}/{media}', [App\Http\Controllers\WelcomeController::class, 'sharePostMedia']);
 Route::post('/post-love/{id}', [App\Http\Controllers\WelcomeController::class, 'addLove']);

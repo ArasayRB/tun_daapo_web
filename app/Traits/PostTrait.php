@@ -2,9 +2,13 @@
 
 namespace App\Traits;
 use App\Models\Post;
+use App\Traits\ContentTypeTrait;
+use App\Traits\TranslateTrait;
+use App\Traits\LanguageTrait;
 use Illuminate\Support\Facades\Cache;
 
 trait PostTrait {
+  use ContentTypeTrait, TranslateTrait, LanguageTrait;
     public function getPosts() {
     $posts=Post::with('users')
                 ->where('publicate_state',1)
@@ -38,6 +42,7 @@ trait PostTrait {
       $post->title=$post_translated['title']['content_trans'];
       $post->content=$post_translated['content']['content_trans'];
       $post->summary=$post_translated['summary']['content_trans'];
+      $post->slug=$post_translated['slug']['content_trans'];
       $tags_lang=[];
       $keywords_lang=[];
       $tags=[];
@@ -66,13 +71,17 @@ trait PostTrait {
       return $post;
     }
 
-    public function getPost($post){
-      $posts=Post::with('categoriaPosts')
+    public function getPostById($id){
+      return Post::with('categoriaPosts')
                    ->with('taggingtags')
                    ->with('keywords')
                    ->with('users')
-                   ->where('id',$post)
+                   ->where('id',$id)
                    ->first();
+    }
+
+    public function getPost($post){
+      $posts=$this->getPostById($post);
 
        if($posts->publicate_state===0){
          $posts->show=false;
@@ -94,6 +103,7 @@ trait PostTrait {
         $post->title=$post_translated['title']['content_trans'];
         $post->content=$post_translated['content']['content_trans'];
         $post->summary=$post_translated['summary']['content_trans'];
+        $post->slug=$post_translated['slug']['content_trans'];
         return $post;
       }
       else{
@@ -144,10 +154,31 @@ trait PostTrait {
 
     }
 
-    public function show($postSlug,$type){
-      $post=Post::with('users')
-                  ->where('slug',$postSlug)
+
+    public function getPostBySlug($slug){
+      return Post::with('categoriaPosts')
+                   ->with('taggingtags')
+                   ->with('keywords')
+                   ->with('users')
+                  ->where('slug',$slug)
                   ->first();
+    }
+
+    public function show($postSlug,$type){
+      $post=$this->getPostBySlug($postSlug);
+                  $id_post;
+                  if($post===null||$post===''){
+                    $id_content=$this->findContentId('Post');
+                  $contet_translated=$this->getTransByIndContType('slug',$id_content);
+                  foreach ($contet_translated as $cont) {
+                    foreach ($cont->languages as $lang) {
+                      if($lang->pivot->content_trans===$postSlug){
+                        $id_post=$cont->id_content_trans;
+                  }
+                    }
+                  }
+              $post=$this->getPostById($id_post);
+                  }
     if($type==="real"){
 
       if(Cache::has($post->id)==false){
@@ -161,7 +192,44 @@ trait PostTrait {
           $post->title=$post_lang->title;
           $post->content=$post_lang->content;
           $post->summary= $post_lang->summary;
+          $post->slug= $post_lang->slug;
         }
+        $id_lang=$this->getLangIdBySigla(app()->getLocale());
+        $tags_lang=[];
+        $keywords_lang=[];
+        $tags=[];
+        $keywords=[];
+        $id_lang_post=$this->getLangIdBySigla($post->default_lang);
+        foreach ($post->taggingtags as $tag) {
+          if($tag->pivot->language_id===$id_lang){
+            $tags_lang[]=$tag;
+          }
+          if($tag->pivot->language_id===$id_lang_post){
+            $tags[]=$tag;
+          }
+        }
+        for($i=0;$i<count($post->keywords);$i++) {
+          if($post->keywords[$i]->language_id===$id_lang){
+            $keywords_lang[]=$post->keywords[$i];
+          }
+          if($post->keywords[$i]->language_id===$id_lang_post){
+            $keywords[]=$post->keywords[$i];
+          }
+        }
+        $post->tags_lang=$tags_lang;
+        $post->tags_post=$tags;
+        $keywords_lang_array='';
+        for ($i=0;$i<count($keywords_lang);$i++) {
+          if($i==0){
+            $keywords_lang_array=$keywords_lang[$i]->name;
+          }
+          else{
+          $keywords_lang_array.=','.$keywords_lang[$i]->name;
+        }
+        }
+        $post->keywords_lang_array=$keywords_lang_array;
+        $post->keywords_post=$keywords;
+
       return view('/posts/show',['post'=>$post]);
     }
 

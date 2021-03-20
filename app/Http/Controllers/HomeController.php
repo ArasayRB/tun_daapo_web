@@ -3,13 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Traits\SectionPageTrait;
+use App\Traits\ServiceTrait;
+use App\Traits\PortfolioTrait;
+use App\Traits\PostTrait;
+use App\Traits\FunctionIncludedTrait;
 use App\Traits\ContentTypeTrait;
 use App\Traits\TranslateTrait;
+use App\Traits\PaketTrait;
+use App\Traits\TaggingTagTrait;
+use App\Traits\ContactTrait;
 use App\Traits\LanguageTrait;
 
 class HomeController extends Controller
 {
-  use ContentTypeTrait, TranslateTrait, LanguageTrait;
+  use SectionPageTrait, TaggingTagTrait, ContactTrait, FunctionIncludedTrait, ContentTypeTrait, PaketTrait, ServiceTrait, PortfolioTrait, PostTrait, TranslateTrait, LanguageTrait;
     /**
      * Create a new controller instance.
      *
@@ -27,7 +35,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+      $posts=$this->existPost();
+        return view('home',['posts'=>$posts]);
     }
 
     public function hasTranslate($idItem,$name_content){

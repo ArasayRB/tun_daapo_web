@@ -1,4 +1,11 @@
 @extends('layouts.app_tundaapo')
+@section('description')
+  <meta name="description" content="{{$post->summary}}" />
+@stop
+@section('keywords')
+  <meta name="keywords" content="{{$post->keywords_lang_array}}" />
+
+  @stop
 @section('header')
 <header>
   <img src="{{ asset('/storage/img_web/posts_img/'.$post->img_url) }}" title="Image: {{$post->title}}" class="img-fluid mx-auto d-block">

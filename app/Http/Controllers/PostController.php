@@ -351,7 +351,13 @@ class PostController extends Controller
         'tipo_content'=>$tipo_content,
         'trans_lang'=>request('lang'),
         'indice_content'=>'title',
-        'content_trans'=>request('title')]
+        'content_trans'=>request('title')],
+        ['id_content_trans'=>$post->id,
+        'content'=>$post['slug'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'slug',
+        'content_trans'=>Str::slug(request('title'), '-')]
       );
       $this->storeTranslate($data_trans);
 
@@ -638,7 +644,13 @@ if(is_array($tags)){
         'tipo_content'=>$tipo_content,
         'trans_lang'=>$lang,
         'indice_content'=>'title',
-        'content_trans'=>request('title')]
+        'content_trans'=>request('title')],
+        ['id_content_trans'=>$post->id,
+        'content'=>$post['slug'],
+        'tipo_content'=>$tipo_content,
+        'trans_lang'=>request('lang'),
+        'indice_content'=>'slug',
+        'content_trans'=>Str::slug(request('title'), '-')]
       );
       $result=$this->updateTranslate($data_trans);
 

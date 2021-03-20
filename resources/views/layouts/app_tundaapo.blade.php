@@ -15,10 +15,13 @@
     <!--Author-->
     <meta name="author" content="Tun Daapo" />
     <!--Description app-->
+    @section('description')
     <meta name="description" content="{{__('messages.Proyect to programming and web development, expert in design and Marketing Digital.')}}" />
+    @show
     <meta name="generator" content="Laravel 8.0" />
-
+    @section('keywords')
     <meta name="keywords" content="seo y marketing digital, desarrollo y programación web, web" />
+    @show
     <!--App name-->
     <meta name="application-name" content="{{ config('app.name') }}" />
     <title>{{ config('app.name', 'Tun Daapo | Diseño y Marketing Digital') }}</title>

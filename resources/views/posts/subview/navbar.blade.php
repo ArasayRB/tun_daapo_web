@@ -1,7 +1,7 @@
 <nav class="navbar sticky-top navbar-expand-md navbar-dark">
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#uno"><img src="{!! asset('images/img/tunDaapo32x32.ico') !!}"></button>
 <div class="collapse navbar-collapse" id="uno">
-    @if (isset($preview))
+    @if (!isset($preview))
       <ul class="navbar-nav">
         @auth
             <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link text-light">{{__('Home')}}</a></li>
@@ -40,12 +40,12 @@
 
               <li class="nav-item"><a href="/admin" class="nav-link text-light">{{__('Dashboard')}}</a></li>
         @endguest
-       <li class="nav-item"><a href="#tun_daapo" class="nav-link text-light">{{__('Tun Daapo')}}</a></li>
-       <li class="nav-item"><a href="#services" class="nav-link text-light">{{__('Services')}}</a></li>
-       <li class="nav-item"><a href="#planes_precios" class="nav-link text-light">{{__('Pricing')}}</a></li>
-       <li class="nav-item"><a href="#portafolio" class="nav-link text-light">{{__('Portafolio')}}</a></li>
-       <li class="nav-item"><a href="#blog" class="nav-link text-light">{{__('Blog')}}</a></li>
-       <li class="nav-item"><a href="#contacto" class="nav-link text-light">{{__('Contact')}}</a></li>
+       <li class="nav-item"><a href="/#tun_daapo" class="nav-link text-light">{{__('Tun Daapo')}}</a></li>
+       <li class="nav-item"><a href="/#services" class="nav-link text-light">{{__('Services')}}</a></li>
+       <li class="nav-item"><a href="/#planes_precios" class="nav-link text-light">{{__('Pricing')}}</a></li>
+       <li class="nav-item"><a href="/#portafolio" class="nav-link text-light">{{__('Portafolio')}}</a></li>
+       <li class="nav-item"><a href="/#blog" class="nav-link text-light">{{__('Blog')}}</a></li>
+       <li class="nav-item"><a href="/#contacto" class="nav-link text-light">{{__('Contact')}}</a></li>
        <!--Comprobamos si el status esta a true y existe más de un lenguaje-->
      @if (config('locale.status') && count(config('locale.languages')) > 1)
                       <li class="nav-item dropdown">

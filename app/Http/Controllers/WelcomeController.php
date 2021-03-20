@@ -45,6 +45,7 @@ class WelcomeController extends Controller
       $posts_more_liked[$i]->title=$post_liked->title;
       $posts_more_liked[$i]->content=$post_liked->content;
       $posts_more_liked[$i]->summary=$post_liked->summary;
+      $posts_more_liked[$i]->slug=$post_liked->slug;
 
     }
     }
@@ -55,6 +56,7 @@ class WelcomeController extends Controller
       $posts_more_read[$i]->title=$post_read->title;
       $posts_more_read[$i]->content=$post_read->content;
       $posts_more_read[$i]->summary= $post_read->summary;
+      $posts_more_read[$i]->slug=$post_read->slug;
     }
     }
     $latest_posts=$this->getLatestPosts(3);
@@ -64,6 +66,7 @@ class WelcomeController extends Controller
       $latest_posts[$i]->title=$latest->title;
       $latest_posts[$i]->content=$latest->content;
       $latest_posts[$i]->summary=$latest->summary;
+      $latest_posts[$i]->slug=$latest->slug;
     }
     }
     $posts=$this->getPosts();
@@ -73,6 +76,7 @@ class WelcomeController extends Controller
       $posts[$i]->title=$post->title;
       $posts[$i]->content=$post->content;
       $posts[$i]->summary=$post->summary;
+      $posts[$i]->slug=$post->slug;
      }
     }
     return ['posts'=>$posts,'posts_more_liked'=>$posts_more_liked,'posts_more_read'=>$posts_more_read,'latest_posts'=>$latest_posts];
