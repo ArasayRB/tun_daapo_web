@@ -1,10 +1,8 @@
-<div class="contenedor-slider-testimonios">
-  <div class="testimonial-slider bg-info">
-      <div class="rounded row">
+  <div class="rounded row mx-5 my-5">
         <tun-daapo-section-component name_section="Tun Daapo">
         </tun-daapo-section-component>
 
-        <div class="mt-5" id="services"><h1 class="text-center mb-2 mt-2">{{__('messages.Services')}}</h1>
+        <div class="mt-5" id="services"><h1 class="text-center text-light mb-2 mt-2">{{__('messages.Services')}}</h1>
           <service-section-component>
           </service-section-component>
 
@@ -13,11 +11,6 @@
 
 
       </div>
-  </div>
-
-
-
-</div>
 <div class="contenedor-testimonios"><!--SECTION TESTIMONIOS-->
 <portfolio-section-component>
 </portfolio-section-component>

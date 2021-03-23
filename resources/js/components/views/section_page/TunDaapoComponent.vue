@@ -1,6 +1,6 @@
 <template>
   <div class="row" id="sectionTunDaapo">
-  <h1 class="text-center border-bottom-blue animate__animated animate__zoomIn" id="us_ttle"><img :src="src+sectionItem[0].img" class="mr-2 img-fluid" >Tun Daapo</h1>
+  <h1 class="text-center text-light border-bottom-yelow animate__animated animate__zoomIn" id="us_ttle"><img :src="src+sectionItem[0].img" class="mr-2 img-fluid" >Tun Daapo</h1>
   <span v-html="sectionItem[0].description"></span>
 </div>
 </template>

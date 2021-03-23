@@ -47,12 +47,11 @@
     <div id="app">
         <div id="page" class="container-fluid col-12">
         @section('header')
-          <header>
-            <img src="{!! asset('images/img/topeheader.png') !!}" class="img-fluid mx-auto d-block">
-          </header>
+          <header-section-component>
+          </header-section-component>
         @show
           @section('nav')
-          <nav class="navbar sticky-top navbar-expand-md navbar-dark">
+          <nav class="navbar sticky-top navbar-expand-md navbar-dark shadow">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#uno"><img src="{!! asset('images/img/tunDaapo32x32.ico') !!}"></button>
             <div class="collapse navbar-collapse" id="uno">
              <ul class="navbar-nav">
@@ -122,7 +121,6 @@
           </nav>
         @show
           <div class="clearfix"></div>
-          <div class="contenedor-testimonios" id="tun_daapo"><!--SECTION TESTIMONIOS-->
         <main>
             @yield('content')
         </main>
@@ -144,7 +142,6 @@
            </footer>
           </div>
         </div>
-        </div><!--Fin SECTION TESTIMONIOS-->
         </div>
     </div>
 </body>

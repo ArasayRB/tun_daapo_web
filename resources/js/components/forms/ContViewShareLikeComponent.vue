@@ -1,15 +1,14 @@
 <template>
 
   <div>
-     <strong class="d-inline-block mb-1 text-primary"><p class="text-info"><i title="Reads/ Lecturas"  class="fa fa-eye"></i> {{cant_read}} | </p>
-     <a href="#" @click="addLove()"> <p class="text-info"><i title="Show your love/ Muestra tu amor" class="fa fa-heart"></i> {{likes}} </p></a></strong>
-    
+     <strong class="d-inline-block mb-1 text-primary">
+       <p class="text-info"><i title="Reads/ Lecturas"  class="fa fa-eye"></i> {{cant_read}} | <a href="#" @click="addLove()"><i title="Show your love/ Muestra tu amor" class="fa fa-heart"></i> {{likes}} </a></p>
 
-        <div class=" mr-1">
-        <a href="#" class="social-button ml-1" @click="shareSocialMedia('facebook')"><i title="Share/ Compartir" class="fab fa-facebook "></i></a>
-        <a href="#" class="social-button ml-1" @click="shareSocialMedia('twitter')"><i title="Share/ Compartir" class="fab fa-twitter-square "></i></a>
-        </div>
-        <p class=" mr-1 text-info">{{sharess}}</p>
+       <p class=" mr-1 text-info"><a href="#" class="social-button ml-1" @click="shareSocialMedia('facebook')"><i title="Share/ Compartir" class="fab fa-facebook "></i></a>
+       <a href="#" class="social-button ml-1" @click="shareSocialMedia('twitter')"><i title="Share/ Compartir" class="fab fa-twitter-square "></i></a>
+       {{sharess}}</p>
+       </strong>
+
 
     </div>
 

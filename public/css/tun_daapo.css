@@ -162,6 +162,14 @@ nav{
   weight:30%;
   margin-right: 40px;
 }
+.border-bottom-yellow {
+  border-bottom: 0.25rem solid #e7bb01 !important;
+  weight:30%;
+  margin-right: 40px;
+}
+.bg-tundaapo-blue{
+  background-color: #07075c !important;
+}
 .card > hr {
   margin-right: 0;
   margin-left: 0;
