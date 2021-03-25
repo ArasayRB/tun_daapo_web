@@ -11,7 +11,23 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" /><!--Description app-->
-    <meta name="description" content="Diseño WEB y Marketing Digital" />
+    <meta name="description" content="{{__('messages.Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.')}}">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://sitelabs.es/">
+    <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{__('messages.Tun Daapo | Digital Marketing and Web Design in Cuba')}}">
+    <meta property="og:description" content="{{__('messages.Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.')}}">
+    <meta property="og:url" content="http://tundaapoweb.localhost/">
+    <meta property="og:site_name" content="Tun Daapo">
+    <meta property="article:modified_time" content="2021-03-25T19:57:01+00:00">
+    <meta property="og:image" content="http://tundaapoweb.localhost/images/img/pie_tundaapo_para_web.png">
+    <meta property="og:image:width" content="250">
+    <meta property="og:image:height" content="250">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{__('messages.Tun Daapo | Digital Marketing and Web Design in Cuba')}}">
+    <meta name="twitter:description" content="{{__('messages.Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.')}}">
+    <meta name="twitter:image" content="http://tundaapoweb.localhost/images/img/pie_tundaapo_para_web.png">
     <!--Author-->
     <meta name="author" content="Tun Daapo" />
     <!--Description app-->
@@ -24,7 +40,7 @@
     @show
     <!--App name-->
     <meta name="application-name" content="{{ config('app.name') }}" />
-    <title>{{ config('app.name', 'Tun Daapo | Diseño y Marketing Digital') }}</title>
+    <title>{{ config('app.name', 'messages.Tun Daapo | Digital Marketing and Web Design in Cuba') }}</title>
     <meta http-equiv="x-ua-compatible" content="ie-edge">
 
     <!-- Scripts -->
@@ -121,7 +137,7 @@
           </nav>
         @show
           <div class="clearfix"></div>
-        <main>
+        <main class="mt-5">
             @yield('content')
         </main>
         <div class="container-fluid col-12 mt-2 mb-2 pb-2 foot">
