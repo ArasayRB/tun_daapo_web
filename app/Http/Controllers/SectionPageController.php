@@ -226,7 +226,9 @@ class SectionPageController extends Controller
       $contentType='Section';
       $tipo_content=$this->findContentId($contentType);
       $this->deleteTranslatedItemsByItem($sectionPage,$tipo_content);
+      if($section_page->img!='' || $section_page->img!=null){
       $this->delImageFile($section_page->img,'section_page');
+    }
       $section_page->delete();
     }
 }

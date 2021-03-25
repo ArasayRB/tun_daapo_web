@@ -8,6 +8,7 @@ use App\Traits\ContentTypeTrait;
 use App\Traits\TranslateTrait;
 use App\Traits\LanguageTrait;
 use App\Traits\ServiceTrait;
+use App\Traits\ImageTrait;
 use Illuminate\Support\Facades\Validator;
 
 class ServiceController extends Controller
@@ -45,6 +46,16 @@ class ServiceController extends Controller
       ]);
   }
 
+
+  protected function validatorUpd(array $data)
+  {
+      return Validator::make($data, [
+          'title' => ['required', 'string'],
+          'description' => ['required', 'string'],
+      ]);
+  }
+
+
   public function getServiceList(){
     $services=Service::all();
     return $services;
@@ -69,6 +80,11 @@ class ServiceController extends Controller
     {
       $this->validator($request->all())->validate();
       $service=new Service();
+      if(request('img')!=''&&request('img')!=null){
+
+        $newFileName=$this->manageImageFile(request('img'),'service');
+        $service->img=$newFileName;
+      }
       $service->name=request('name');
       $service->description=request('description');
       $service->price=request('price');
@@ -128,8 +144,20 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-      $this->validator($request->all())->validate();
       $servicio=Service::findOrFail($service->id);
+      $newFileName;
+      if (request('img')!=""){
+        $this->validator($request->all())->validate();
+        $newFileName=$this->manageImageFile(request('img'),'service');
+
+        if($servicio->img!=null && $servicio->img!=''){
+        $this->delImageFile($servicio->img,'service');
+      }
+          $servicio->img=$newFileName;
+      }
+      else{
+        $this->validatorUpd($request->all())->validate();
+      }
       $servicio->name=request('name');
       $servicio->description=request('description');
       $servicio->price=request('price');
@@ -180,6 +208,9 @@ class ServiceController extends Controller
         $contentType='Service';
         $tipo_content=$this->findContentId($contentType);
         $this->deleteTranslatedItemsByItem($service->id,$tipo_content);
+        if($service->img!='' || $service->img!=null){
+        $this->delImageFile($service->img,'service');
+      }
       $servicio->delete();
     }
 }

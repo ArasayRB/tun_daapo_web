@@ -36,6 +36,15 @@
                 <input type="text" name="name" v-model="service.name" class="form-control font-italic mb-2" v-if="operation==='update'">
               </div>
 
+              <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+                <label for="img">{{ $trans('messages.Image') }}</label>
+                <input type="file" name="img"  v-on:change="img" class="form-control font-italic mb-2" v-if="operation==='add'">
+                <input type="file" name="img"  v-on:change="img" class="form-control font-italic mb-2" v-if="operation==='update'">
+                <div class="row" v-if="operation==='update'">
+                  <img :src="src+sectionpage.img" :alt="sectionpage.img" width="100">
+                </div>
+              </div>
+
               <div class="form-group">
                 <label for="description">{{ $trans('messages.Description') }}</label>
                 <vue-ckeditor
@@ -144,6 +153,8 @@
           map:'',
           value:'',
           name:'',
+          img:'',
+          imagenSectionPage:'',
           src:'images/lang/',
           ventanaOperService:false,
           error:'',
@@ -169,6 +180,9 @@
     },
     onFileUploadResponse(evt) {
       console.log(evt);
+    },
+    img:function(e){
+      this.imagenSectionPage=e.target.files[0];
     },
 
     getLanguageList:function(){
@@ -207,6 +221,7 @@
             }
 
             data = new FormData();
+              data.append("img", this.imagenSectionPage);
               data.append("name", this.name);
               data.append("description", this.description);
               data.append("price", this.price);
@@ -238,6 +253,9 @@
                      swal('Error',''+error.response.data.message,'error');
                    }
                    let wrong=error.response.data.errors;
+                   if(wrong.hasOwnProperty('img')){
+                     mensaje+='-'+wrong.img[0];
+                   }
                    if(wrong.hasOwnProperty('name')){
                      mensaje+='-'+wrong.name[0];
                    }
@@ -258,6 +276,7 @@
           if(this.lan_to_edit==='none'){
             data = new FormData();
               data.append('_method', 'patch');
+              data.append("img", this.imagenSectionPage);
               data.append("name", service.name);
               data.append("description", service.description);
               data.append("price", service.price);
@@ -296,6 +315,9 @@
                    swal('Error',''+error.response.data.message,'error');
                  }
                  let wrong=error.response.data.errors;
+                 if(wrong.hasOwnProperty('img')){
+                   mensaje+='-'+wrong.img[0];
+                 }
                  if(wrong.hasOwnProperty('name')){
                    mensaje+='-'+wrong.name[0];
                  }

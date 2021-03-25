@@ -1,11 +1,6 @@
 <template>
-        <div class="carousel-item pt-5">
-          <div class="card align-content-center">
-            <div class="card-body" v-html="sectionItem[0].description">
-
-            </div>
-          </div>
-        </div>
+  <div class="col-lg-12" v-html="sectionItem[0].description">
+</div>
 </template>
 
 <script>

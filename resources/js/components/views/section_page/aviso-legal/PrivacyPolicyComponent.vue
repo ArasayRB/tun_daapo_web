@@ -1,11 +1,6 @@
 <template>
-        <div class="carousel-item pt-5">
-          <div class="card align-content-center">
-            <div class="card-body bg-tundaapo-blue" v-html="sectionItem[0].description">
-
-            </div>
-          </div>
-        </div>
+  <div class="col-lg-12" v-html="sectionItem[0].description">
+</div>
 </template>
 
 <script>
@@ -14,7 +9,7 @@
         return{
           sectionItem:[],
           src:'/storage/section_page/',
-          section_name:'Marketing Digital',
+          section_name:'Política de Privacidad',
           token:window.CSRF_TOKEN,
         }
       },

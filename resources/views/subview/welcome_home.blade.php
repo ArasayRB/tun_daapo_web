@@ -14,7 +14,7 @@
 <div class="contenedor-testimonios"><!--SECTION TESTIMONIOS-->
 <portfolio-section-component>
 </portfolio-section-component>
-<div class="contenedor-slider-testimonios programming"><!--Blog-->
+<div class="contenedor-slider-testimonios programming mb-5"><!--Blog-->
 <design-section-component name_section="Diseñamos">
 </design-section-component>
 
@@ -26,7 +26,7 @@
 
 </div><!--Fin SECTION TESTIMONIOS-->
 
-<section class="mt-5" description="Planes y Precios" id="planes_precios"><!--Pricing and Planes-->
+<section class="mt-5 pt-5" description="Planes y Precios" id="planes_precios"><!--Pricing and Planes-->
   <development-section-component name_section="Planes de Desarrollo Web">
   </development-section-component>
   <development-plan-section-component @messageaskbudget="messageBudgetChange">

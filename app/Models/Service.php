@@ -11,6 +11,7 @@ class Service extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'img',
         'name',
         'description',
         'status',

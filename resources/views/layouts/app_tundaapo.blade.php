@@ -47,8 +47,7 @@
     <div id="app">
         <div id="page" class="container-fluid col-12">
         @section('header')
-          <header-section-component>
-          </header-section-component>
+          <img src="{!! asset('/images/img/topeheader.png') !!}" class="img-fluid mx-auto d-block">
         @show
           @section('nav')
           <nav class="navbar sticky-top navbar-expand-md navbar-dark shadow">
@@ -98,6 +97,7 @@
               <li class="nav-item"><a href="#portafolio" class="nav-link text-light">{{__('messages.Portfolio')}}</a></li>
               <li class="nav-item"><a href="#blog" class="nav-link text-light">{{__('messages.Blog')}}</a></li>
               <li class="nav-item"><a href="#contacto" class="nav-link text-light">{{__('messages.Contact')}}</a></li>
+              <li class="nav-item"><a href="/questions-frequently" class="nav-link text-light">{{__('messages.Frequently Questions')}}</a></li>
               <!--Comprobamos si el status esta a true y existe más de un lenguaje-->
             @if (config('locale.status') && count(config('locale.languages')) > 1)
                              <li class="nav-item dropdown">
@@ -136,6 +136,10 @@
                <img src="{!! asset('images/img/ico-instagram.png') !!}" class="mx-2 my-2 img-foot">
                <img src="{!! asset('images/img/ico-twitter.png') !!}" class="mx-2 my-2 img-foot">
              </div>
+             <div class="col">
+                 <p class="text-light text-center"><a href="/terms-conditions" class="text-light text-center">{{__('messages.Terms and Conditions')}}</a> |
+                   <a href="/privacy-policy" class="text-light text-center">{{__('messages.Privacy Policy')}}</a></p>
+                   </div>
 
         <h6 class="text-center text-light  font-weight-bold"> Tun Daapo.</h6>
         <h6 class="text-center text-light font-weight-bold pb-3">©2020 {{__('messages.All rights reserved')}}</h6>

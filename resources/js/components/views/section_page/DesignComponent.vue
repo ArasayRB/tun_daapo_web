@@ -1,7 +1,7 @@
 <template>
   <div class="rounded row">
         <div class="col-6" id="sectionDesign">
-          <img :src="src+sectionItem[0].img" class="img-fluid animate__animated animate__slideInLeft">
+          <img :src="src+sectionItem[0].img" height="150" class="img-fluid h-20 animate__animated animate__slideInLeft">
         </div>
         <div class="col-6 mt-xl-5 mt-md-5">
 

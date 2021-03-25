@@ -25,6 +25,18 @@ class WelcomeController extends Controller
       return view('welcome_tun_daapo',['posts'=>$posts]);
   }
 
+  public function questionsFrequently(){
+    return view('questions');
+  }
+
+  public function termConditions(){
+    return view('terms_and_conditions');
+  }
+
+  public function policyPrivacy(){
+    return view('privacy_policy');
+  }
+
   public function showPost($slug){
     return $this->show($slug,'real');
   }

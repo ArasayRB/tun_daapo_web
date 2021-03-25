@@ -92,11 +92,8 @@ Vue.component('design-section-component', require('./components/views/section_pa
 Vue.component('header-section-component', require('./components/views/section_page/HeaderCarrousel.vue').default);
 Vue.component('development-section-component', require('./components/views/section_page/DevelopmentWebPlansComponent.vue').default);
 Vue.component('necesitas-plan-section-component', require('./components/views/section_page/header-carrousel/NecesitasUnPlan.vue').default);
-Vue.component('logo-header-section-component', require('./components/views/section_page/header-carrousel/LogoHeader.vue').default);
-Vue.component('por-que-section-component', require('./components/views/section_page/header-carrousel/PorQue.vue').default);
-Vue.component('marketing-section-component', require('./components/views/section_page/header-carrousel/Marqueting.vue').default);
-Vue.component('diseno-comunicacion-section-component', require('./components/views/section_page/header-carrousel/DisenoComunicacion.vue').default);
-Vue.component('sin-recursos-section-component', require('./components/views/section_page/header-carrousel/SinRecursos.vue').default);
+Vue.component('terms-conditions-section-component', require('./components/views/section_page/aviso-legal/TermsAndConditionsComponent.vue').default);
+Vue.component('privacy-policy-section-component', require('./components/views/section_page/aviso-legal/PrivacyPolicyComponent.vue').default);
 Vue.component('ask-budget-section-component', require('./components/views/section_page/AskBudgetComponent.vue').default);
 Vue.component('development-plan-section-component', require('./components/views/development_web_plans/DevelopmentPlansWebComponent.vue').default);
 Vue.component('service-section-component', require('./components/views/service/ServiceComponent.vue').default);
