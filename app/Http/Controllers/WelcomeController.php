@@ -55,16 +55,16 @@ class WelcomeController extends Controller
     return view('privacy_policy');
   }
 
-  public function showPost($slug){
-    return $this->show($slug,'real');
+  public function showPost(Request $request,$slug){
+    return $this->show($request->ip(),$slug,'real');
   }
 
-  public function sharePostMedia($id,$media){
-    return $this->sharePostMediaSocial($id,$media);
+  public function sharePostMedia(Request $request,$id,$media){
+    return $this->sharePostMediaSocial($request->ip(),$id,$media,request('page'),request('neth'));
   }
 
-  public function addLove($id){
-    return $this->addLovePost($id);
+  public function addLove(Request $request,$id){
+    return $this->addLovePost($request->ip(),$id);
   }
 
   public function getPostsList(){

@@ -49,8 +49,10 @@
        for (var i = 0; i < lba.length; i++) {
            lba[i].addEventListener("click", myPopup, false);
        }
-
-      axios.post(url)
+      let data = new FormData();
+        data.append("page", urlSocial);
+        data.append("neth", media);
+      axios.post(url,data)
         .then(response=>{
           let shar=response.data;
           this.sharess=shar.cant_shares;

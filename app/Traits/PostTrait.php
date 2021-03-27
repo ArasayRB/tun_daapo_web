@@ -4,11 +4,15 @@ namespace App\Traits;
 use App\Models\Post;
 use App\Traits\ContentTypeTrait;
 use App\Traits\TranslateTrait;
+use App\Traits\PostVisitorAccessTrait;
+use App\Traits\PostShareVisitorTrait;
 use App\Traits\LanguageTrait;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 trait PostTrait {
-  use ContentTypeTrait, TranslateTrait, LanguageTrait;
+  use ContentTypeTrait, TranslateTrait, LanguageTrait, PostVisitorAccessTrait, PostShareVisitorTrait;
     public function getPosts() {
     $posts=Post::with('users')
                 ->where('publicate_state',1)
@@ -164,7 +168,7 @@ trait PostTrait {
                   ->first();
     }
 
-    public function show($postSlug,$type){
+    public function show($ip,$postSlug,$type){
       $post=$this->getPostBySlug($postSlug);
                   $id_post;
                   if($post===null||$post===''){
@@ -181,11 +185,38 @@ trait PostTrait {
                   }
     if($type==="real"){
 
-      if(Cache::has($post->id)==false){
-         Cache::add($post->id,'contador',0.30);
-         $post->cant_access_read++;
-         $post->save();
+      $viewed=$this->isIp($ip);
+      $viewed_post=$this->viewedVisitor($viewed->id);
+      if($viewed_post!=null){
+        if($viewed_post->read==null){
+        $date=Carbon::now()->format('Y-m-d');
+          if(Cache::has($post->id)==false){
+             Cache::add($post->id,'contador',0.30);
+             $post->cant_access_read++;
+             $post->save();
+             $post->visitorsPosts()->updateExistingPivot($viewed->id, array(
+        'date'=>$date,
+        'read' =>1,
+        'read_date'=>$date
+    ));
+          }
+
+        }
       }
+      else{
+        $date=Carbon::now()->format('Y-m-d');
+          if(Cache::has($post->id)==false){
+             Cache::add($post->id,'contador',0.30);
+             $post->cant_access_read++;
+             $post->save();
+             $post->visitorsPosts()->attach($viewed->id, array(
+        'date'=>$date,
+        'read' =>1,
+        'read_date'=>$date
+    ));
+      }
+    }
+
 
         if($post->default_lang!=app()->getLocale()){
           $post_lang=$this->getTranslatedPostBySigLang(app()->getLocale(),$post->id);
@@ -255,19 +286,51 @@ trait PostTrait {
                 return ['tags'=>$tags,'relationed_posts'=>$relationed_posts];
     }
 
-    public function addLovePost($idPost){
+    public function addLovePost($ip,$idPost){
       $post=Post::with('users')
                   ->find($idPost);
+      $viewed=$this->isIp($ip);
+      $viewed_post=$this->viewedVisitor($viewed->id);
+      if($viewed_post!=null){
+        if($viewed_post->like==null){
+        $date=Carbon::now()->format('Y-m-d');
         $post->cant_likes++;
         $post->save();
+             $post->visitorsPosts()->updateExistingPivot($viewed->id, array(
+        'date'=>$date,
+        'like' =>1,
+        'like_date'=>$date
+    ));
+
+        }
+      }
+      else{
+        $date=Carbon::now()->format('Y-m-d');
+        $post->cant_likes++;
+        $post->save();
+             $post->visitorsPosts()->attach($viewed->id, array(
+        'date'=>$date,
+        'like' =>1,
+        'like_date'=>$date
+    ));
+      }
+
       return $post;
     }
 
-    public function sharePostMediaSocial($idPost,$idMedia){
+    public function sharePostMediaSocial($ip,$idPost,$idMedia,$page,$neth){
       $post=Post::with('users')
                   ->find($idPost);
-        $post->cant_shares++;
-        $post->save();
+                  $viewed=$this->isIp($ip);
+                  $viewed_post=$this->sharedVisitor($viewed->id);
+                    $date=Carbon::now()->format('Y-m-d');
+                    $post->cant_shares++;
+                    $post->save();
+                         $post->sharesVisitorsPosts()->attach($viewed->id, array(
+                    'date'=>$date,
+                    'page' =>$page,
+                    'neth'=>$neth
+                ));
       return $post;
     }
 

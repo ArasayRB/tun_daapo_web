@@ -52,7 +52,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.posts.index');
+      $posts=$this->existPost();
+        return view('admin.posts.index',['posts'=>$posts]);
     }
 
     public function getPostAutentUser(){
@@ -108,8 +109,8 @@ class PostController extends Controller
                    return $posts;
     }
 
-    public function previewPost($slug){
-      return $this->show($slug,'preview');
+    public function previewPost(Request $request,$slug){
+      return $this->show($request->ip(),$slug,'preview');
     }
 
     public function publicatePost($idPost,$state){

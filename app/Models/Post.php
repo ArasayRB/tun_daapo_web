@@ -8,6 +8,7 @@ use App\Models\TagLang;
 use App\Models\ComentarioPost;
 use App\Models\Keyword;
 use App\Models\TaggingTag;
+use App\Models\VisitorAccess;
 use App\Models\User;
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,6 +46,14 @@ class Post extends Model
 
     public function users(){
       return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function sharesVisitorsPosts(){
+      return $this->belongsToMany(VisitorAccess::class,'post_share_visitors','post_id','visitor_id')->withPivot('date','page','neth')->withTimestamps();
+    }
+
+    public function visitorsPosts(){
+      return $this->belongsToMany(VisitorAccess::class,'post_visitor_accesses','post_id','visitor_id')->withPivot('date','like','like_date','read','read_date')->withTimestamps();
     }
 
     public function taggingtags(){

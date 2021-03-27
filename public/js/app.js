@@ -12238,7 +12238,10 @@ __webpack_require__.r(__webpack_exports__);
         lba[i].addEventListener("click", myPopup, false);
       }
 
-      axios.post(url).then(function (response) {
+      var data = new FormData();
+      data.append("page", urlSocial);
+      data.append("neth", media);
+      axios.post(url, data).then(function (response) {
         var shar = response.data;
         _this.sharess = shar.cant_shares;
       })["catch"](function (error) {
