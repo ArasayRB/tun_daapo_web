@@ -13,21 +13,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" /><!--Description app-->
     <meta name="description" content="{{__('messages.Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.')}}">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://sitelabs.es/">
+    <link rel="canonical" href="http://www.tundaapoweb.localhost/">
     <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{__('messages.Tun Daapo | Digital Marketing and Web Design in Cuba')}}">
     <meta property="og:description" content="{{__('messages.Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.')}}">
-    <meta property="og:url" content="http://tundaapoweb.localhost/">
+    <meta property="og:url" content="http://www.tundaapoweb.localhost/">
     <meta property="og:site_name" content="Tun Daapo">
     <meta property="article:modified_time" content="2021-03-25T19:57:01+00:00">
-    <meta property="og:image" content="http://tundaapoweb.localhost/images/img/pie_tundaapo_para_web.png">
+    <meta property="og:image" content="http://www.tundaapoweb.localhost/images/img/pie_tundaapo_para_web.png">
     <meta property="og:image:width" content="250">
     <meta property="og:image:height" content="250">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{__('messages.Tun Daapo | Digital Marketing and Web Design in Cuba')}}">
     <meta name="twitter:description" content="{{__('messages.Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.')}}">
-    <meta name="twitter:image" content="http://tundaapoweb.localhost/images/img/pie_tundaapo_para_web.png">
+    <meta name="twitter:image" content="http://www.tundaapoweb.localhost/images/img/pie_tundaapo_para_web.png">
     <!--Author-->
     <meta name="author" content="Tun Daapo" />
     <!--Description app-->
@@ -65,8 +65,9 @@
         @section('header')
           <img src="{!! asset('/images/img/topeheader.png') !!}" class="img-fluid mx-auto d-block">
         @show
+        <div class="sticky-top">
           @section('nav')
-          <nav class="navbar sticky-top navbar-expand-md navbar-dark shadow">
+          <nav class="navbar navbar-expand-md navbar-dark shadow">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#uno"><img src="{!! asset('images/img/tunDaapo32x32.ico') !!}"></button>
             <div class="collapse navbar-collapse" id="uno">
              <ul class="navbar-nav">
@@ -136,6 +137,10 @@
            </div>
           </nav>
         @show
+
+        <accept-cookies-component>
+        </accept-cookies-component>
+        </div>
           <div class="clearfix"></div>
         <main class="mt-5">
             @yield('content')

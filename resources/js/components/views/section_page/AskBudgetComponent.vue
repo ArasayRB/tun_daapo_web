@@ -11,8 +11,13 @@
           <div class="col-6 mb-2"><input type="text" v-model="phone" class="form-control font-italic" placeholder="Teléfono de contacto..."></div>
             <div class="col-2 d-block">
             </div>
-          <div class="col-6"><input type="text" v-model="email" class="form-control font-italic" placeholder="Email de contacto..."></div>
-          <div class="col-2"><button type="button" @click="askbudget()" class="btn rounded bg-warning ">{{ $trans('messages.Ask for budget') }}</button></div>
+          <div class="col-6"><input type="text" v-model="email" class="form-control font-italic" placeholder="Email de contacto..."></div><div class="col-2 d-block">
+          </div>
+          <div class="row ml-2 col-6">
+          <input type="checkbox" checked="checked" name="privacy" v-model="privacy" class="form-control font-italic mt-2 col-1">
+          <label for="privacy" class=" font-weight-bold text-light mt-3 col-5">{{ $trans('messages.I accept this Privacy Policy') }}</label>
+          </div>
+          <div class="col-2 mt-2"><button type="button" @click="askbudget()" class="btn rounded bg-warning ">{{ $trans('messages.Ask for budget') }}</button></div>
         </div>
       </div>
     </form>
@@ -29,6 +34,7 @@
           name:'',
           phone:'',
           email:'',
+          privacy:'',
           mensage:'',
           url:'/ask-budget',
           src:'/storage/section_page/',
@@ -55,6 +61,15 @@
           if (this.email==''||this.name==''||this.phone=='') {
             mensaje=this.$trans('messages.You cannot leave empty fields, please check');
           }
+          if(this.privacy==''||this.privacy!=true){
+            swal({title:this.$trans('messages.Warning!'),
+                  text:this.$trans('messages.You need accept Privacy Policy, please.'),
+                  icon:'warning',
+                  closeOnClickOutside:false,
+                  closeOnEsc:false
+                });
+          }
+          else{
           let data = new FormData();
               data.append("email", this.email);
               data.append("name_or_company", this.name);
@@ -98,11 +113,14 @@
                    swal('Error',mensaje,'error');
                    //console.log(error.response.data);
                  });
+               }
           //alert('Hola');
         },
       },
       created(){
        this.getSection();
+
+       this.privacy=true;
        console.log('message es: '+this.mensage);
       },
         mounted() {

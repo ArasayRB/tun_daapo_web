@@ -12325,6 +12325,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -12332,10 +12336,17 @@ __webpack_require__.r(__webpack_exports__);
       tuun_daapo_data: [],
       name: '',
       message: '',
+      privacy: '',
       ventanaContact: false,
       token: window.CSRF_TOKEN
     };
   },
+
+  /*  watch:{
+      privacy(val){
+        alert(val);
+      },
+    },*/
   methods: {
     tunDaapoData: function tunDaapoData() {
       var _this = this;
@@ -12354,42 +12365,55 @@ __webpack_require__.r(__webpack_exports__);
         mensaje = this.$trans('messages.You cannot leave empty fields, please check');
       }
 
-      var data = new FormData();
-      data.append("email", this.email);
-      data.append("name", this.name);
-      data.append("token", this.token);
-      data.append("message", this.message);
-      data.append("company_email", this.tuun_daapo_data.email);
-      axios.post(url, data).then(function (response) {
-        var contact = response.data;
-        _this2.ventanaContact = false;
-        _this2.email = '';
-        _this2.name = '';
-        _this2.message = '';
+      if (this.privacy == '' || this.privacy != true) {
         swal({
-          title: _this2.$trans('messages.Message') + ' ' + _this2.$trans('messages.sended'),
-          text: _this2.$trans('messages.You go to receive an answare as soon like be possible!'),
-          icon: 'success',
+          title: this.$trans('messages.Warning!'),
+          text: this.$trans('messages.You need accept Privacy Policy, please.'),
+          icon: 'warning',
           closeOnClickOutside: false,
           closeOnEsc: false
-        }); //console.log(response);
-      })["catch"](function (error) {
-        if (error.response.data.message) {
-          swal('Error', '' + error.response.data.message, 'error');
-        }
+        });
+      } else {
+        var data = new FormData();
+        data.append("email", this.email);
+        data.append("name", this.name);
+        data.append("token", this.token);
+        data.append("message", this.message);
+        data.append("privacy", this.privacy);
+        data.append("company_email", this.tuun_daapo_data.email);
+        axios.post(url, data).then(function (response) {
+          var contact = response.data;
+          _this2.ventanaContact = false;
+          _this2.email = '';
+          _this2.name = '';
+          _this2.message = '';
+          swal({
+            title: _this2.$trans('messages.Message') + ' ' + _this2.$trans('messages.sended'),
+            text: _this2.$trans('messages.You go to receive an answare as soon like be possible!'),
+            icon: 'success',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          }); //console.log(response);
+        })["catch"](function (error) {
+          if (error.response.data.message) {
+            swal('Error', '' + error.response.data.message, 'error');
+          }
 
-        var wrong = error.response.data.errors;
+          var wrong = error.response.data.errors;
 
-        if (wrong.hasOwnProperty('email')) {
-          mensaje += '-' + wrong.email[0];
-        }
+          if (wrong.hasOwnProperty('email')) {
+            mensaje += '-' + wrong.email[0];
+          }
 
-        swal('Error', mensaje, 'error'); //console.log(error.response.data);
-      }); //alert('Hola');
+          swal('Error', mensaje, 'error'); //console.log(error.response.data);
+        });
+      } //alert('Hola');
+
     }
   },
   mounted: function mounted() {
     this.tunDaapoData();
+    this.privacy = true;
 
     if (this.$attrs.locale) {
       this.$lang.setLocale(this.$attrs.locale);
@@ -12429,11 +12453,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       email: '',
       name: '',
+      privacy: '',
       src: '/images/img/enviar.png',
       token: window.CSRF_TOKEN
     };
@@ -12449,39 +12480,62 @@ __webpack_require__.r(__webpack_exports__);
         mensaje = this.$trans('messages.You cannot leave empty fields, please check');
       }
 
-      var data = new FormData();
-      data.append("email", this.email);
-      data.append("name", this.name);
-      axios.post(url, data).then(function (response) {
-        _this.name = '';
-        _this.email = '';
+      if (this.privacy == false) {
+        mensaje = mensaje + this.$trans('messages.You need accept Privacy Policy, please.');
+      }
+
+      if (this.privacy == '' || this.privacy != true) {
         swal({
-          title: _this.$trans('messages.Correct data'),
-          text: _this.$trans('messages.Thank you for subscribe!'),
-          icon: 'success',
+          title: this.$trans('messages.Warning!'),
+          text: this.$trans('messages.You need accept Privacy Policy, please.'),
+          icon: 'warning',
           closeOnClickOutside: false,
           closeOnEsc: false
-        }); //console.log(response);
-      })["catch"](function (error) {
-        if (error.response.data.message) {
-          swal('Error', '' + error.response.data.message, 'error');
-        }
+        });
+      } else {
+        var data = new FormData();
+        data.append("email", this.email);
+        data.append("name", this.name);
+        data.append("privacy", this.privacy);
+        axios.post(url, data).then(function (response) {
+          _this.name = '';
+          _this.email = '';
+          _this.privacy = true;
+          swal({
+            title: _this.$trans('messages.Correct data'),
+            text: _this.$trans('messages.Thank you for subscribe!'),
+            icon: 'success',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          }); //console.log(response);
+        })["catch"](function (error) {
+          if (error.response.data.message) {
+            swal('Error', '' + error.response.data.message, 'error');
+          }
 
-        var wrong = error.response.data.errors;
+          var wrong = error.response.data.errors;
 
-        if (wrong.hasOwnProperty('email')) {
-          mensaje += '-' + wrong.email[0];
-        }
+          if (wrong.hasOwnProperty('email')) {
+            mensaje += '-' + wrong.email[0];
+          }
 
-        if (wrong.hasOwnProperty('name')) {
-          mensaje += '-' + wrong.name[0];
-        }
+          if (wrong.hasOwnProperty('name')) {
+            mensaje += '-' + wrong.name[0];
+          }
 
-        swal('Error', mensaje, 'error'); //console.log(error.response.data);
-      }); //alert('Hola');
+          if (wrong.hasOwnProperty('privacy')) {
+            mensaje += '-' + wrong.privacy[0];
+          }
+
+          swal('Error', mensaje, 'error'); //console.log(error.response.data);
+        });
+      } //alert('Hola');
+
     }
   },
   mounted: function mounted() {
+    this.privacy = true;
+
     if (this.$attrs.locale) {
       this.$lang.setLocale(this.$attrs.locale);
     } else {
@@ -12565,6 +12619,92 @@ __webpack_require__.r(__webpack_exports__);
     } else {
       this.$lang.setLocale('en');
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['mensageaskbudget'],
+  data: function data() {
+    return {
+      sectionItem: '',
+      show: false,
+      name: '',
+      phone: '',
+      email: '',
+      privacy: '',
+      mensage: '',
+      url: '/cookies-accepted',
+      src: '/storage/section_page/',
+      section_name: this.$attrs.name_section,
+      token: window.CSRF_TOKEN
+    };
+  },
+  methods: {
+    getCookieMssg: function getCookieMssg() {
+      var _this = this;
+
+      axios.get('/is-cookies-accepted').then(function (response) {
+        _this.sectionItem = response.data;
+        console.log('Cookie is acepted:' + _this.sectionItem);
+
+        if (_this.sectionItem === false) {
+          _this.show = true;
+        } else {
+          _this.show = false;
+        }
+        /*  else{
+            this.comentarios=
+          }*/
+
+      });
+    },
+    aceptCookies: function aceptCookies() {
+      var _this2 = this;
+
+      axios.get(this.url).then(function (response) {
+        _this2.show = false;
+      })["catch"](function (error) {
+        if (error.response.data.message) {
+          swal('Error', '' + error.response.data.message, 'error');
+        }
+
+        swal('Error', mensaje, 'error'); //console.log(error.response.data);
+      }); //alert('Hola');
+    }
+  },
+  created: function created() {
+    this.getCookieMssg();
+  },
+  mounted: function mounted() {
+    console.log('Component mounted.');
   }
 });
 
@@ -12685,6 +12825,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['mensageaskbudget'],
   data: function data() {
@@ -12693,6 +12838,7 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       phone: '',
       email: '',
+      privacy: '',
       mensage: '',
       url: '/ask-budget',
       src: '/storage/section_page/',
@@ -12725,54 +12871,66 @@ __webpack_require__.r(__webpack_exports__);
         mensaje = this.$trans('messages.You cannot leave empty fields, please check');
       }
 
-      var data = new FormData();
-      data.append("email", this.email);
-      data.append("name_or_company", this.name);
-      data.append("token", this.token);
-      data.append("contact_phone", this.phone);
-      data.append("paket_name", this.mensageaskbudget);
-      axios.post(this.url, data).then(function (response) {
-        var contact = response.data;
-        _this2.ventanaContact = false;
-
-        _this2.$emit('resetaskbudgetmssg');
-
-        _this2.mensageaskbudget = '';
-        _this2.name = '';
-        _this2.phone = '';
-        _this2.email = '';
+      if (this.privacy == '' || this.privacy != true) {
         swal({
-          title: _this2.$trans('messages.Message') + ' ' + _this2.$trans('messages.sended'),
-          text: _this2.$trans('messages.You go to receive an answare as soon like be possible!'),
-          icon: 'success',
+          title: this.$trans('messages.Warning!'),
+          text: this.$trans('messages.You need accept Privacy Policy, please.'),
+          icon: 'warning',
           closeOnClickOutside: false,
           closeOnEsc: false
-        }); //console.log(response);
-      })["catch"](function (error) {
-        if (error.response.data.message) {
-          swal('Error', '' + error.response.data.message, 'error');
-        }
+        });
+      } else {
+        var data = new FormData();
+        data.append("email", this.email);
+        data.append("name_or_company", this.name);
+        data.append("token", this.token);
+        data.append("contact_phone", this.phone);
+        data.append("paket_name", this.mensageaskbudget);
+        axios.post(this.url, data).then(function (response) {
+          var contact = response.data;
+          _this2.ventanaContact = false;
 
-        var wrong = error.response.data.errors;
+          _this2.$emit('resetaskbudgetmssg');
 
-        if (wrong.hasOwnProperty('email')) {
-          mensaje += '-' + wrong.email[0];
-        }
+          _this2.mensageaskbudget = '';
+          _this2.name = '';
+          _this2.phone = '';
+          _this2.email = '';
+          swal({
+            title: _this2.$trans('messages.Message') + ' ' + _this2.$trans('messages.sended'),
+            text: _this2.$trans('messages.You go to receive an answare as soon like be possible!'),
+            icon: 'success',
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          }); //console.log(response);
+        })["catch"](function (error) {
+          if (error.response.data.message) {
+            swal('Error', '' + error.response.data.message, 'error');
+          }
 
-        if (wrong.hasOwnProperty('name')) {
-          mensaje += '-' + wrong.name[0];
-        }
+          var wrong = error.response.data.errors;
 
-        if (wrong.hasOwnProperty('phone')) {
-          mensaje += '-' + wrong.phone[0];
-        }
+          if (wrong.hasOwnProperty('email')) {
+            mensaje += '-' + wrong.email[0];
+          }
 
-        swal('Error', mensaje, 'error'); //console.log(error.response.data);
-      }); //alert('Hola');
+          if (wrong.hasOwnProperty('name')) {
+            mensaje += '-' + wrong.name[0];
+          }
+
+          if (wrong.hasOwnProperty('phone')) {
+            mensaje += '-' + wrong.phone[0];
+          }
+
+          swal('Error', mensaje, 'error'); //console.log(error.response.data);
+        });
+      } //alert('Hola');
+
     }
   },
   created: function created() {
     this.getSection();
+    this.privacy = true;
     console.log('message es: ' + this.mensage);
   },
   mounted: function mounted() {
@@ -13334,6 +13492,7 @@ Vue.component('necesitas-plan-section-component', __webpack_require__(/*! ./comp
 Vue.component('terms-conditions-section-component', __webpack_require__(/*! ./components/views/section_page/aviso-legal/TermsAndConditionsComponent.vue */ "./resources/js/components/views/section_page/aviso-legal/TermsAndConditionsComponent.vue").default);
 Vue.component('privacy-policy-section-component', __webpack_require__(/*! ./components/views/section_page/aviso-legal/PrivacyPolicyComponent.vue */ "./resources/js/components/views/section_page/aviso-legal/PrivacyPolicyComponent.vue").default);
 Vue.component('ask-budget-section-component', __webpack_require__(/*! ./components/views/section_page/AskBudgetComponent.vue */ "./resources/js/components/views/section_page/AskBudgetComponent.vue").default);
+Vue.component('accept-cookies-component', __webpack_require__(/*! ./components/views/legacy-message/CookiesMssgComponent.vue */ "./resources/js/components/views/legacy-message/CookiesMssgComponent.vue").default);
 Vue.component('development-plan-section-component', __webpack_require__(/*! ./components/views/development_web_plans/DevelopmentPlansWebComponent.vue */ "./resources/js/components/views/development_web_plans/DevelopmentPlansWebComponent.vue").default);
 Vue.component('service-section-component', __webpack_require__(/*! ./components/views/service/ServiceComponent.vue */ "./resources/js/components/views/service/ServiceComponent.vue").default);
 Vue.component('cont-view-share-like-component', __webpack_require__(/*! ./components/forms/ContViewShareLikeComponent.vue */ "./resources/js/components/forms/ContViewShareLikeComponent.vue").default);
@@ -13507,10 +13666,13 @@ module.exports = {
     "English": "English",
     "Find us with": "Find us with",
     "Forgot Your Password?": "Forgot Your Password?",
+    "Frequently Questions": "Frequently Questions",
     "Functions Included": "Functions Included",
     "Greetings": "Greetings",
     "Hi": "Hi",
     "Home": "Home",
+    "I Accept": "I Accept",
+    "I accept this Privacy Policy": "I accept this Privacy Policy",
     "If you did not create an account, no further action is required.": "If you did not create an account, no further action is required.",
     "If you did not receive the email": "If you did not receive the email",
     "If you did not request a password reset, no further action is required.": "If you did not request a password reset, no further action is required.",
@@ -13526,6 +13688,7 @@ module.exports = {
     "Logout": "Logout",
     "Manage User": "Manage User",
     "Map": "Map",
+    "Marketing and Web Design in Cuba": "Marketing and Web Design in Cuba",
     "Message": "Message",
     "Mobile Phone": "Mobile Phone",
     "Name": "Name",
@@ -13557,6 +13720,7 @@ module.exports = {
     "Previous": "Previous",
     "Price": "Price",
     "Pricing": "Pricing",
+    "Privacy Policy": "Privacy Policy",
     "Profile": "Profile",
     "Project": "Project",
     "Proyect to programming and web development, expert in design and Marketing Digital.": "Proyect to programming and web development, expert in design and Marketing Digital.",
@@ -13574,6 +13738,7 @@ module.exports = {
     "Role": "Role",
     "Rolls": "Rolls",
     "Section Page": "Section Page",
+    "See more about": "See more about",
     "Select": "Select",
     "Select Category": "Select Category",
     "Select Role": "Select Role",
@@ -13592,6 +13757,7 @@ module.exports = {
     "Summary": "Summary",
     "Tabs": "Tabs",
     "Tags": "Tags",
+    "Terms and Conditions": "Terms and Conditions",
     "Thank you for subscribe!": "Thank you for subscribe!",
     "Thank you for using our application!": "Thank you for using our application!",
     "The": "The",
@@ -13602,11 +13768,14 @@ module.exports = {
     "The post has been successfully modified": "The post has been successfully modified",
     "The post translation has been successfully modified": "The post translation has been successfully modified",
     "This password reset link will expire in :count minutes.": "This password reset link will expire in :count minutes.",
+    "This website use cookies own and of thirds, accept it for continue.": "This website use cookies own and of thirds, accept it for continue.",
     "Title": "Title",
     "Tools": "Tools",
     "Translate": "Translate",
     "Translated Succefully": "Translated Succefully",
     "Tun Daapo": "Tun Daapo",
+    "Tun Daapo | Digital Marketing and Web Design in Cuba": "Tun Daapo | Digital Marketing and Web Design in Cuba",
+    "Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.": "Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.",
     "Unidentified error": "Unidentified error",
     "Unsubscribe": "Unsubscribe",
     "Update": "Update",
@@ -13630,6 +13799,7 @@ module.exports = {
     "You cannot leave empty fields, please check": "You cannot leave empty fields, please check",
     "You go to receive an answare as soon like be possible!": "You go to receive an answare as soon like be possible!",
     "You go to receive very soon an answare.": "You go to receive very soon an answare.",
+    "You need accept Privacy Policy, please.": "You need accept Privacy Policy, please.",
     "You sended succefully this contact message to: ": "You sended succefully this contact message to: ",
     "You sended succefully this request to: ": "You sended succefully this request to: ",
     "click here to request another": "click here to request another",
@@ -13811,10 +13981,13 @@ module.exports = {
     "English": "Ingl\xE9s",
     "Find us with": "Encu\xE9ntranos con",
     "Forgot Your Password?": "Olvid\xF3 su contrase\xF1a?",
+    "Frequently Questions": "Preguntas Frecuentes",
     "Functions Included": "Funciones Incluidas",
     "Greetings": "Saludos",
     "Hi": "Hola",
     "Home": "Inicio",
+    "I Accept": "Yo Acepto",
+    "I accept this Privacy Policy": "Yo acepto estas Pol\xEDticas de Privacidad",
     "If you did not create an account, no further action is required.": "Si usted no ha creado una cuenta en nuestra web, no se requiere ninguna acci\xF3n de su parte.",
     "If you did not receive the email": "Si usted no ha recibido un correo",
     "If you did not request a password reset, no further action is required.": "Si no ha solicitado el restablecimiento de contrase\xF1a, omita este mensaje de correo electr\xF3nico.",
@@ -13830,6 +14003,7 @@ module.exports = {
     "Logout": "Cerrar Sesi\xF3n",
     "Manage User": "Manejar Usuarios",
     "Map": "Mapa",
+    "Marketing and Web Design in Cuba": "Marketing y Dise\xF1o Web en Cuba",
     "Message": "Mensaje",
     "Mobile Phone": "Tel\xE9fono M\xF3vil",
     "Name": "Nombre",
@@ -13861,6 +14035,7 @@ module.exports = {
     "Previous": "Previo",
     "Price": "Precio",
     "Pricing": "Precios",
+    "Privacy Policy": "Pol\xEDtica de Privacidad",
     "Profile": "Perfil",
     "Project": "Proyecto",
     "Proyect to programming and web development, expert in design and Marketing Digital.": "Proyecto para programaci\xF3n y desarrollo web, expertos en dise\xF1o y Marketing Digital.",
@@ -13878,6 +14053,7 @@ module.exports = {
     "Role": "Rol",
     "Rolls": "Roles",
     "Section Page": "Secci\xF3n de P\xE1gina",
+    "See more about": "Ver m\xE1s acerca",
     "Select": "Seleccione",
     "Select Category": "Seleccione una Categor\xEDa",
     "Select Role": "Seleccione un rol",
@@ -13896,6 +14072,7 @@ module.exports = {
     "Summary": "Resumen",
     "Tabs": "Tablas",
     "Tags": "Etiquetas",
+    "Terms and Conditions": "T\xE9rminos y Condiciones",
     "Thank you for subscribe!": "Gracias por suscribirse!",
     "Thank you for using our application!": "Gracias por usar nuestra aplicaci\xF3n!",
     "The": "El o La",
@@ -13906,11 +14083,14 @@ module.exports = {
     "The post has been successfully modified": "El Post ha sido actualizado satisfactoriamente",
     "The post translation has been successfully modified": "La traducci\xF3n del Post se ha actualizado satisfactoriamente",
     "This password reset link will expire in :count minutes.": "Este enlace de restablecimiento de contrase\xF1a expirar\xE1 en :count minutos.",
+    "This website use cookies own and of thirds, accept it for continue.": "Este sitioo web usa cookies propias y de terceros, ac\xE9ptelas para continuar.",
     "Title": "T\xEDtulo",
     "Tools": "Herramientas",
     "Translate": "Traducir",
     "Translated Succefully": "Traducido Satisfactoriamente",
     "Tun Daapo": "Tun Daapo",
+    "Tun Daapo | Digital Marketing and Web Design in Cuba": "Tun Daapo | Dise\xF1o Web y Marketing Digital en Cuba",
+    "Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.": "Tun Daapo: Dise\xF1o WEB y Marketing Digital desde Cuba. Peque\xF1a Agencia Freelancer especialista en marketing y desarrollo de webs para PYMES y aut\xF3nomos.",
     "Unidentified error": "Error Desconocido",
     "Unsubscribe": "Cancelar Suscripci\xF3n",
     "Update": "Actualizar",
@@ -13934,6 +14114,7 @@ module.exports = {
     "You cannot leave empty fields, please check": "Usted no debe dejar campos vac\xEDos, por favor revise",
     "You go to receive an answare as soon like be possible!": "Usted recibir\xE1 una respuesta tan pronto como sea posible!",
     "You go to receive very soon an answare.": "Usted recibir\xE1 muy pronto una respuesta.",
+    "You need accept Privacy Policy, please.": "Usted necesita aceptar la Pol\xEDtica de Privacidad, por favor.",
     "You sended succefully this contact message to: ": "Usted envi\xF3 satisfactoriamente su mensage de contacto a: ",
     "You sended succefully this request to: ": "Usted ha enviado satisfactoriamente su solicitud de Presupuesto a: ",
     "click here to request another": "click aqu\xED para pedir otro correo",
@@ -75245,6 +75426,45 @@ component.options.__file = "resources/js/components/views/development_web_plans/
 
 /***/ }),
 
+/***/ "./resources/js/components/views/legacy-message/CookiesMssgComponent.vue":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/views/legacy-message/CookiesMssgComponent.vue ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CookiesMssgComponent_vue_vue_type_template_id_3ea175a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CookiesMssgComponent.vue?vue&type=template&id=3ea175a4& */ "./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=template&id=3ea175a4&");
+/* harmony import */ var _CookiesMssgComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CookiesMssgComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _CookiesMssgComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _CookiesMssgComponent_vue_vue_type_template_id_3ea175a4___WEBPACK_IMPORTED_MODULE_0__.render,
+  _CookiesMssgComponent_vue_vue_type_template_id_3ea175a4___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/views/legacy-message/CookiesMssgComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/views/portfolio/PortfolioComponent.vue":
 /*!************************************************************************!*\
   !*** ./resources/js/components/views/portfolio/PortfolioComponent.vue ***!
@@ -76224,6 +76444,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DevelopmentPlansWebComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DevelopmentPlansWebComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/views/development_web_plans/DevelopmentPlansWebComponent.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DevelopmentPlansWebComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CookiesMssgComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CookiesMssgComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CookiesMssgComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -77214,6 +77450,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DevelopmentPlansWebComponent_vue_vue_type_template_id_0bfb6398___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DevelopmentPlansWebComponent_vue_vue_type_template_id_0bfb6398___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DevelopmentPlansWebComponent.vue?vue&type=template&id=0bfb6398& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/views/development_web_plans/DevelopmentPlansWebComponent.vue?vue&type=template&id=0bfb6398&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=template&id=3ea175a4&":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=template&id=3ea175a4& ***!
+  \**************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CookiesMssgComponent_vue_vue_type_template_id_3ea175a4___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CookiesMssgComponent_vue_vue_type_template_id_3ea175a4___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CookiesMssgComponent_vue_vue_type_template_id_3ea175a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./CookiesMssgComponent.vue?vue&type=template&id=3ea175a4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=template&id=3ea175a4&");
 
 
 /***/ }),
@@ -93298,6 +93551,66 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
+              _c("div", { staticClass: "row ml-2" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.privacy,
+                      expression: "privacy"
+                    }
+                  ],
+                  staticClass: "form-control font-italic mt-2 col-1",
+                  attrs: {
+                    type: "checkbox",
+                    checked: "checked",
+                    name: "privacy"
+                  },
+                  domProps: {
+                    checked: Array.isArray(_vm.privacy)
+                      ? _vm._i(_vm.privacy, null) > -1
+                      : _vm.privacy
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.privacy,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.privacy = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.privacy = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.privacy = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: " font-weight-bold text-light mt-3 col-5",
+                    attrs: { for: "privacy" }
+                  },
+                  [
+                    _vm._v(
+                      _vm._s(
+                        _vm.$trans("messages.I accept this Privacy Policy")
+                      )
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
               _c(
                 "button",
                 {
@@ -93444,6 +93757,62 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
+        _c("div", { staticClass: "col-2 d-block" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "row ml-2 col-6" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.privacy,
+                expression: "privacy"
+              }
+            ],
+            staticClass: "form-control font-italic mt-2 col-1",
+            attrs: { type: "checkbox", checked: "checked", name: "privacy" },
+            domProps: {
+              checked: Array.isArray(_vm.privacy)
+                ? _vm._i(_vm.privacy, null) > -1
+                : _vm.privacy
+            },
+            on: {
+              change: function($event) {
+                var $$a = _vm.privacy,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.privacy = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.privacy = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
+                } else {
+                  _vm.privacy = $$c
+                }
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: " font-weight-bold text-light mt-3 col-5",
+              attrs: { for: "privacy" }
+            },
+            [
+              _vm._v(
+                _vm._s(_vm.$trans("messages.I accept this Privacy Policy"))
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "col-2" }, [
           _c("img", {
             staticClass: "btn rounded bg-info px-2 py-2 newsletter",
@@ -93584,6 +93953,76 @@ var render = function() {
     ],
     2
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=template&id=3ea175a4&":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/views/legacy-message/CookiesMssgComponent.vue?vue&type=template&id=3ea175a4& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.show == true
+    ? _c("div", { staticClass: "alert", attrs: { id: "cookies-sms" } }, [
+        _c("ul", { staticClass: "text-center" }, [
+          _c(
+            "div",
+            {
+              staticClass: "alert alert-success font-weight-bold text-center",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(
+                    _vm.$trans(
+                      "messages.This website use cookies own and of thirds, accept it for continue."
+                    )
+                  ) +
+                  "\n            "
+              ),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button", href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.aceptCookies()
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.$trans("messages.I Accept")))]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button", href: "/privacy-policy" }
+                },
+                [_vm._v(_vm._s(_vm.$trans("messages.See more about")))]
+              )
+            ]
+          )
+        ])
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -93855,8 +94294,67 @@ var render = function() {
                 }
               })
             ]),
+            _c("div", { staticClass: "col-2 d-block" }),
             _vm._v(" "),
-            _c("div", { staticClass: "col-2" }, [
+            _c("div", { staticClass: "row ml-2 col-6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.privacy,
+                    expression: "privacy"
+                  }
+                ],
+                staticClass: "form-control font-italic mt-2 col-1",
+                attrs: {
+                  type: "checkbox",
+                  checked: "checked",
+                  name: "privacy"
+                },
+                domProps: {
+                  checked: Array.isArray(_vm.privacy)
+                    ? _vm._i(_vm.privacy, null) > -1
+                    : _vm.privacy
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.privacy,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.privacy = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.privacy = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.privacy = $$c
+                    }
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: " font-weight-bold text-light mt-3 col-5",
+                  attrs: { for: "privacy" }
+                },
+                [
+                  _vm._v(
+                    _vm._s(_vm.$trans("messages.I accept this Privacy Policy"))
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-2 mt-2" }, [
               _c(
                 "button",
                 {

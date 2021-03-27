@@ -25,6 +25,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/questions-frequently', [App\Http\Controllers\WelcomeController::class, 'questionsFrequently'])->name('questions');
 Route::get('/terms-conditions', [App\Http\Controllers\WelcomeController::class, 'termConditions'])->name('terms_conditions');
+Route::get('/cookies-accepted', [App\Http\Controllers\WelcomeController::class, 'cookiesAccepted'])->name('cookies_accepted');
+Route::get('/is-cookies-accepted', [App\Http\Controllers\WelcomeController::class, 'isCookiesAccepted'])->name('is_cookies_accepted');
 Route::get('/privacy-policy', [App\Http\Controllers\WelcomeController::class, 'policyPrivacy'])->name('privacy_policy');
 Route::get('language/{language}', [App\Http\Controllers\WelcomeController::class, 'switchLang'])->name('language.select');
 Route::get('/section_name/{name}', [App\Http\Controllers\WelcomeController::class, 'getSectionItem']);

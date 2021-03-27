@@ -16,9 +16,14 @@
 @stop
 @section('content')
   <div class="row">
+    <aside class="col-1">
+      <cont-view-share-like-component class="col position-fixed" model="post" url_post="{{url('/welcome/'.$post->id)}}" id_post="{{$post->id}}" title="{{$post->title}}" cant_read="{{$post->cant_access_read}}" cant_shares="{{$post->cant_shares}}" cant_likes="{{$post->cant_likes}}">
+      </cont-view-share-like-component>
 
 
-  <div class="card align-content-center col-12">
+    </aside>
+
+  <div class="card align-content-center col-11">
     <div class="box">
       @if (isset($preview))
       <div class="alert alert-primary" id='mensage'>

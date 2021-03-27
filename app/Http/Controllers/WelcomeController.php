@@ -11,13 +11,14 @@ use App\Traits\FunctionIncludedTrait;
 use App\Traits\ContentTypeTrait;
 use App\Traits\TranslateTrait;
 use App\Traits\PaketTrait;
+use App\Traits\VisitorAccessTrait;
 use App\Traits\TaggingTagTrait;
 use App\Traits\ContactTrait;
 use App\Traits\LanguageTrait;
 
 class WelcomeController extends Controller
 {
-  use SectionPageTrait, TaggingTagTrait, ContactTrait, FunctionIncludedTrait, ContentTypeTrait, PaketTrait, ServiceTrait, PortfolioTrait, PostTrait, TranslateTrait, LanguageTrait;
+  use SectionPageTrait, VisitorAccessTrait, TaggingTagTrait, ContactTrait, FunctionIncludedTrait, ContentTypeTrait, PaketTrait, ServiceTrait, PortfolioTrait, PostTrait, TranslateTrait, LanguageTrait;
 
   public function welcome()
   {
@@ -31,6 +32,23 @@ class WelcomeController extends Controller
 
   public function termConditions(){
     return view('terms_and_conditions');
+  }
+
+  public function cookiesAccepted(Request $request){
+    $ip=$request->ip();
+    $is_there=$this->isIp($ip);
+    if($is_there->accept_cookies==false){
+       $this->updIpDataCook(1,$is_there->ip_visitor);
+    }
+  }
+
+  public function isCookiesAccepted(Request $request){
+    $ip=$request->ip();
+    $is_there=$this->isIp($ip);
+    if($is_there->accept_cookies==false){
+       return 'false';
+    }
+    return 'true';
   }
 
   public function policyPrivacy(){

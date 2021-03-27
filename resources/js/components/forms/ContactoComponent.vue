@@ -11,6 +11,10 @@
           <input type="text" v-model="email" class="form-control font-italic mt-5" placeholder="Email/Correo...">
           <input type="text" v-model="name" class="form-control font-italic mt-2" placeholder="Name/Nombre...">
           <textarea name="mensaje" v-model="message" class="form-control font-italic mt-2" id="" cols="33" rows="2" placeholder="Message/Mensaje..."></textarea>
+          <div class="row ml-2">
+          <input type="checkbox" checked="checked" name="privacy" v-model="privacy" class="form-control font-italic mt-2 col-1">
+          <label for="privacy" class=" font-weight-bold text-light mt-3 col-5">{{ $trans('messages.I accept this Privacy Policy') }}</label>
+          </div>
          <button type="button" class="btn btn-primary rounded btn-lg mt-3" @click="contact()">{{ $trans('messages.Send') }}</button>
       </form>
       </div>
@@ -39,11 +43,17 @@
           tuun_daapo_data:[],
           name:'',
           message:'',
+          privacy:'',
           ventanaContact:false,
           token   : window.CSRF_TOKEN,
 
         }
       },
+    /*  watch:{
+        privacy(val){
+          alert(val);
+        },
+      },*/
       methods:{
         tunDaapoData:function(){
           axios.get('/tun-daapo-contact')
@@ -53,17 +63,26 @@
                });
         },
       contact:function(){
-
         let url="/contact_us";
         let mensaje=this.$trans('messages.Unidentified error');
         if (this.email==''||this.name==''||this.message=='') {
           mensaje=this.$trans('messages.You cannot leave empty fields, please check');
         }
+        if(this.privacy==''||this.privacy!=true){
+          swal({title:this.$trans('messages.Warning!'),
+                text:this.$trans('messages.You need accept Privacy Policy, please.'),
+                icon:'warning',
+                closeOnClickOutside:false,
+                closeOnEsc:false
+              });
+        }
+        else{
         let data = new FormData();
             data.append("email", this.email);
             data.append("name", this.name);
             data.append("token", this.token);
             data.append("message", this.message);
+            data.append("privacy", this.privacy);
             data.append("company_email", this.tuun_daapo_data.email);
 
           axios.post(url,data)
@@ -94,11 +113,14 @@
                  swal('Error',mensaje,'error');
                  //console.log(error.response.data);
                });
+             }
         //alert('Hola');
       }
       },
         mounted() {
           this.tunDaapoData();
+
+          this.privacy=true;
           if (this.$attrs.locale) {
                this.$lang.setLocale(this.$attrs.locale);
                }

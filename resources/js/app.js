@@ -95,6 +95,7 @@ Vue.component('necesitas-plan-section-component', require('./components/views/se
 Vue.component('terms-conditions-section-component', require('./components/views/section_page/aviso-legal/TermsAndConditionsComponent.vue').default);
 Vue.component('privacy-policy-section-component', require('./components/views/section_page/aviso-legal/PrivacyPolicyComponent.vue').default);
 Vue.component('ask-budget-section-component', require('./components/views/section_page/AskBudgetComponent.vue').default);
+Vue.component('accept-cookies-component', require('./components/views/legacy-message/CookiesMssgComponent.vue').default);
 Vue.component('development-plan-section-component', require('./components/views/development_web_plans/DevelopmentPlansWebComponent.vue').default);
 Vue.component('service-section-component', require('./components/views/service/ServiceComponent.vue').default);
 Vue.component('cont-view-share-like-component', require('./components/forms/ContViewShareLikeComponent.vue').default);

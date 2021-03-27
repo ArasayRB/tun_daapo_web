@@ -7,6 +7,12 @@
           <div class="col-2 d-block">
           </div>
         <div class="col-6"><input type="text" v-model="email" class="form-control font-italic" placeholder="Déjanos tu email..."></div>
+        <div class="col-2 d-block">
+        </div>
+        <div class="row ml-2 col-6">
+        <input type="checkbox" checked="checked" name="privacy" v-model="privacy" class="form-control font-italic mt-2 col-1">
+        <label for="privacy" class=" font-weight-bold text-light mt-3 col-5">{{ $trans('messages.I accept this Privacy Policy') }}</label>
+        </div>
         <div class="col-2"><img :src="src" alt="" type="button" @click="suscribe()" id="enviar-news" class="btn rounded bg-info px-2 py-2 newsletter"></div>
       </div>
 
@@ -21,6 +27,7 @@
         return {
           email:'',
           name:'',
+          privacy:'',
           src:'/images/img/enviar.png',
           token   : window.CSRF_TOKEN,
 
@@ -33,14 +40,28 @@
         if (this.email==''||this.name=='') {
           mensaje=this.$trans('messages.You cannot leave empty fields, please check');
         }
-        let data = new FormData();
+        if(this.privacy==false){
+          mensaje=mensaje+this.$trans('messages.You need accept Privacy Policy, please.');
+        }
+        if(this.privacy==''||this.privacy!=true){
+          swal({title:this.$trans('messages.Warning!'),
+                text:this.$trans('messages.You need accept Privacy Policy, please.'),
+                icon:'warning',
+                closeOnClickOutside:false,
+                closeOnEsc:false
+              });
+        }
+        else{
+          let data = new FormData();
           data.append("email", this.email);
           data.append("name", this.name);
+          data.append("privacy", this.privacy);
 
           axios.post(url,data)
                .then(response=>{
                  this.name='';
                  this.email='';
+                 this.privacy=true;
                  swal({title:this.$trans('messages.Correct data'),
                        text:this.$trans('messages.Thank you for subscribe!'),
                        icon:'success',
@@ -60,14 +81,19 @@
                  if(wrong.hasOwnProperty('name')){
                    mensaje+='-'+wrong.name[0];
                  }
+                 if(wrong.hasOwnProperty('privacy')){
+                   mensaje+='-'+wrong.privacy[0];
+                 }
 
                  swal('Error',mensaje,'error');
                  //console.log(error.response.data);
                });
+             }
         //alert('Hola');
       }
       },
         mounted() {
+          this.privacy=true;
           if (this.$attrs.locale) {
                this.$lang.setLocale(this.$attrs.locale);
                }

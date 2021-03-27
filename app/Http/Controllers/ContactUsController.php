@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\ContactUs;
 use Illuminate\Http\Request;
 use App\Traits\MessageTrait;
+use App\Traits\VisitorAccessTrait;
 use Illuminate\Support\Facades\Validator;
 
 class ContactUsController extends Controller
 {
-  use MessageTrait;
+  use MessageTrait, VisitorAccessTrait;
 
   protected function validator(array $data)
   {
@@ -48,6 +49,11 @@ class ContactUsController extends Controller
 
        public function store(Request $request)
        {
+         $ip=$request->ip();
+         $is_there=$this->isIp($ip);
+         if($is_there->accept_privacy_pol==false){
+            $this->updIpDataPol(1,$is_there->ip_visitor);
+         }
            $this->validator($request->all())->validate();
            $contact=new ContactUs;
            $contact->email=request('email');

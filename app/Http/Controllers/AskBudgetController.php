@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\AskBudget;
 use Illuminate\Http\Request;
 use App\Traits\MessageTrait;
+use App\Traits\VisitorAccessTrait;
 use App\Traits\PaketTrait;
 use Illuminate\Support\Facades\Validator;
 
 class AskBudgetController extends Controller
 {
-  use MessageTrait, PaketTrait;
+  use MessageTrait, PaketTrait, VisitorAccessTrait;
 
   protected function validator(array $data)
   {
@@ -22,6 +23,11 @@ class AskBudgetController extends Controller
   }
 
     public function store(Request $request){
+      $ip=$request->ip();
+      $is_there=$this->isIp($ip);
+      if($is_there->accept_privacy_pol==false){
+         $this->updIpDataPol(1,$is_there->ip_visitor);
+      }
       $this->validator($request->all())->validate();
       $ask_budget=new AskBudget();
       $ask_budget->email=request('email');
