@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Validator;
 
 trait PostVisitorAccessTrait {
   public function viewedVisitor($ip){
-    $visitor=PostVisitorAccess::find($ip);
+    $visitor=PostVisitorAccess::where('visitor_id',$ip)
+                              ->first();
     return $visitor;
 
   }
