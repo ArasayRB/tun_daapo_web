@@ -28,5 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(FunctionIncludedTableSeeder::class);
         $this->call(PaketTableSeeder::class);
         $this->call(ContactTableSeeder::class);
+        $this->call(ChatTypeMessageTableSeeder::class);
+        $this->call(ChatTypeRoomTableSeeder::class);
+        $this->call(ChatRoomTableSeeder::class);
     }
 }

@@ -1,4 +1,21 @@
 @extends('layouts.app_tundaapo')
+@section('nethwork')
+<link rel="canonical" href="http://www.tundaapoweb.localhost/">
+<meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{__('messages.Tun Daapo')}} | {{$post->title}}">
+<meta property="og:description" content="{{$post->summary}}">
+<meta property="og:url" content="http://www.tundaapoweb.localhost/post-list/{{$post->slug}}">
+<meta property="og:site_name" content="Tun Daapo">
+<meta property="article:modified_time" content="2021-03-25T19:57:01+00:00">
+<meta property="og:image" content="{!! asset('/storage/img_web/login_img/'.$post->users->imagen_url) !!}">
+<meta property="og:image:width" content="250">
+<meta property="og:image:height" content="250">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{__('messages.Tun Daapo')}} | {{$post->title}}">
+<meta name="twitter:description" content="{{$post->summary}}">
+<meta name="twitter:image" content="{!! asset('/storage/img_web/login_img/'.$post->users->imagen_url) !!}">
+@stop
 @section('description')
   <meta name="description" content="{{$post->summary}}" />
 @stop
@@ -14,16 +31,31 @@
 @section('nav')
   @include('posts.subview.navbar')
 @stop
+@section('red_chat')
+  <div class="row float-right">
+  <div class="col-lg-12">
+    <container-component v-if="ventanaChat" @close="ventanaChat = false">
+    </container-component>
+  </div>
+  <div class="container">
+    <input type="checkbox" id="btn-mas" class="d-none">
+    <div class="redes-chat">
+      <cont-view-share-like-component v-if="ventanaChat==false" model="post" url_post="{{url('/welcome/'.$post->id)}}" id_post="{{$post->id}}" title="{{$post->title}}" cant_read="{{$post->cant_access_read}}" cant_shares="{{$post->cant_shares}}" cant_likes="{{$post->cant_likes}}">
+      </cont-view-share-like-component>
+      @auth ()
+        <a href="#" v-if="ventanaChat==false" @click="ventanaChat = true" class=" d-block text-decoration-none bg-fuccia text-white text-center"><img src="{!! asset('images/img/comentario01.jpg') !!}" alt="" id="btn-chat" height="50px" class="img-rounded rounded rounded-circle" title="Chat with Us"></a>
+        @endauth
+    </div>
+    <div class="btn-mas">
+      <label for="btn-mas" class="fas fa-plus text-decoration-none bg-fuccia text-white text-center"></label>
+    </div>
+  </div>
+  </div>
+@stop
 @section('content')
   <div class="row">
-    <aside class="col-1">
-      <cont-view-share-like-component class="col position-fixed" model="post" url_post="{{url('/welcome/'.$post->id)}}" id_post="{{$post->id}}" title="{{$post->title}}" cant_read="{{$post->cant_access_read}}" cant_shares="{{$post->cant_shares}}" cant_likes="{{$post->cant_likes}}">
-      </cont-view-share-like-component>
 
-
-    </aside>
-
-  <div class="card align-content-center col-11">
+  <div class="card align-content-center col">
     <div class="box">
       @if (isset($preview))
       <div class="alert alert-primary" id='mensage'>
@@ -46,8 +78,6 @@
   <div class="panel bg-info rounded">
     <div class="row bg-light panel-header shadow mt-1">
       <h3 class="col text-center text-primary">{{ __('messages.Summary') }}</h3><br>
-      <cont-view-share-like-component class="col" model="post" url_post="{{url('/welcome/'.$post->id)}}" id_post="{{$post->id}}" title="{{$post->title}}" cant_read="{{$post->cant_access_read}}" cant_shares="{{$post->cant_shares}}" cant_likes="{{$post->cant_likes}}">
-      </cont-view-share-like-component>
     </div>
 
     <p class="panel-body text-light mx-2 ml-2">{!!$post->summary!!}</p>

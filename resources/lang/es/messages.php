@@ -156,6 +156,7 @@ return [
     'Tun Daapo'=>'Tun Daapo',
     'Tun Daapo | Digital Marketing and Web Design in Cuba'=>'Tun Daapo | Diseño Web y Marketing Digital en Cuba',
     'Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.'=>'Tun Daapo: Diseño WEB y Marketing Digital desde Cuba. Pequeña Agencia Freelancer especialista en marketing y desarrollo de webs para PYMES y autónomos.',
+    'Thank you, we love you to!'=>'Gracias, nosotros también te amamos!',
     'The Post had been publicate'=>'El Post ha sido publicado',
     'The post translation has been successfully modified'=>'La traducción del Post se ha actualizado satisfactoriamente',
     'The most readed'=>'Lo más leído',

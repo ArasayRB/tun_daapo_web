@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+require('dotenv').config();
 //const WebpackShellPlugin = require('webpack-shell-plugin');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next');
 

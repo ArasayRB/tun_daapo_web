@@ -156,6 +156,7 @@ return [
     'Tun Daapo'=>'Tun Daapo',
     'Tun Daapo | Digital Marketing and Web Design in Cuba'=>'Tun Daapo | Digital Marketing and Web Design in Cuba',
     'Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.'=>'Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.',
+    'Thank you, we love you to!'=>'Thank you, we love you to!',
     'The Post had been publicate'=>'The Post had been publicate',
     'The post translation has been successfully modified'=>'The post translation has been successfully modified',
     'The most readed'=>'The most readed',

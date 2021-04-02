@@ -15,18 +15,18 @@ class CategoriaPostTableSeeder extends Seeder
     public function run()
     {
       $categoria=new CategoriaPost();
-      $categoria->category_post='Comidas';
-      $categoria->description='Habla sobre los diferentes tipos de comida que puedes encontrar en nuestro país';
+      $categoria->category_post='Emprendimiento y Empoderamiento';
+      $categoria->description='Temas relacionados con emprendimiento, empoderamiento, trabajo por cuenta propia, negocios propios';
       $categoria->save();
 
       $categoria=new CategoriaPost();
-      $categoria->category_post='Excursiones';
-      $categoria->description='Habla sobre todas las excursiones que puedes realizar en  nuestra ciudad';
+      $categoria->category_post='Programacion';
+      $categoria->description='Sobre temas relacionados con prgramacion desde distintos lenguajes';
       $categoria->save();
 
       $categoria=new CategoriaPost();
-      $categoria->category_post='Vida y Ocio';
-      $categoria->description='Habla sobre cultura y forma de vida de nuestra ciudad';
+      $categoria->category_post='Marketing Digital';
+      $categoria->description='Desarrollo de estrategias, planes de Marketing Digital, optimizacion SEO en webs, imagenes, publicaciones, estrategias SEM';
       $categoria->save();
     }
 }

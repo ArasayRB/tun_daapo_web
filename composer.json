@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "mariuzzo/laravel-js-localization": "^1.7",
+        "pusher/pusher-php-server": "~4.0",
         "rtconner/laravel-tagging": "^4.1",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-sitemap": "^5.9"

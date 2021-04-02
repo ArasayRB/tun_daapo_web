@@ -34,7 +34,42 @@
   padding: 0;
   box-sizing: border-box;
   }
-
+.container-mssg{
+  overflow-y: scroll !important;
+  height: 90px !important;
+}
+.bg-fuccia{
+  background-color: #000f39;
+  color: #fff;
+  line-height: 55px;
+  width:55px;
+  height: 55px;
+  border-radius: 50%;
+  box-shadow: 0px 1px 10px rgba(0,0,0,0.4);
+  transition: all 500ms ease;
+}
+.redes-chat a:hover{
+  background-color: #f3fc08;
+}
+.redes-chat a{
+  margin-bottom: -15px;
+  opacity: 0;
+  visibility: hidden;
+}
+#btn-mas:checked~ .redes-chat a{
+  margin-bottom: 10px;
+  opacity: 1;
+  visibility: visible;
+}
+.fa-plus{
+  cursor: pointer;
+  background: #062271;
+  font-size: 18px;
+}
+#btn-mas:checked ~ .btn-mas .fa-plus{
+  transform: rotate(137deg);
+  font-size: 20px;
+}
 body{
 font-family: Arial;
   background-color: #02164f;
@@ -42,6 +77,13 @@ font-family: Arial;
 nav{
   position: absolute;
   background-color: #02164f;
+}
+input {
+
+   border-radius: 60px !important;
+}
+.chat{
+  border-radius: 60px !important;
 }
 #nav{
   background-color: #02164f;
@@ -88,7 +130,7 @@ nav{
 .contenedor-slider-testimonios .testimonial-slider .carousel-item .block-quote {
 	position: relative;
 	margin-bottom: 15px;
-	width: 90%%;
+	width: 90%;
 	margin: 0 auto 15px;
 }
 
@@ -354,6 +396,11 @@ nav{
   animation: jello; /* referring directly to the animation's @keyframe declaration */
   animation-duration: 2s; /* don't forget to set a duration! */
 }
+.chat-btn:hover{
+  animation: jello; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
+  background-color: #09189f;
+}
 .pricing-header {
   max-width: 700px;
 }
@@ -390,3 +437,58 @@ nav{
   animation: jello; /* referring directly to the animation's @keyframe declaration */
   animation-duration: 2s; /* don't forget to set a duration! */
 }
+.modal-mask{
+  position:fixed;
+  z-index:9998;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:rgba(0,0,0,.5);
+  display:table;
+  transition:opacity .3s ease;
+  }
+  .modal-wrapper{
+    display:table-cell;
+    vertical-align:middle;
+    }
+  .modal-container{
+    border-radius: 60px !important;
+    width:300px;
+    margin:0px auto;
+    /*padding:20px 30px;*/
+    background-color:#fff;
+    border-radius:2px;
+    box-shadow:0 2px 8px rgba(0,0,0,.33);
+    transition:all .3s ease;
+    font-family:Helvetica,Arial,sans-serif;
+    }
+  .modal-header h3{
+    border-radius: 60px !important;
+    margin-top:0;
+    color:#42b983;
+    }
+  /*.modal-body{
+    margin:20px 0;
+    }*/
+  .modal-default-button{
+    float:right;
+    }
+  .modal-enter{
+    opacity:0;
+    }
+  .modal-leave-active{
+    opacity:0;
+    }
+  .modal-enter .modal-container,.modal-leave-active .modal-container{
+    -webkit-transform:scale(1.1);
+    transform:scale(1.1);
+  }
+  .bg-modal-fuccia{
+    border-top-right-radius: 60px;
+    border-top-left-radius: 60px;
+    background-color: #000f39;
+  }
+  .bg-button-fuccia{
+    background-color: #000f39;
+  }

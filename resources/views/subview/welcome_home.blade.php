@@ -29,7 +29,7 @@
 <section class="mt-5 pt-5" description="Planes y Precios" id="planes_precios"><!--Pricing and Planes-->
   <development-section-component name_section="Planes de Desarrollo Web">
   </development-section-component>
-  <development-plan-section-component @messageaskbudget="messageBudgetChange">
+  <development-plan-section-component>
   </development-plan-section-component>
 
 </section><!--END Pricing and Planes-->

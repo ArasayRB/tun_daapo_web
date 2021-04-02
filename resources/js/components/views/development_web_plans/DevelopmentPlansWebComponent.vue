@@ -6,7 +6,7 @@
     </div>
     <div :class="planItem.name=='Premium'?classe='card-body bg-dark':'card-body'">
       <p class="text-light" v-if="planItem.name=='Premium'"> {{ $trans('messages.since') }}</p>
-      <h1 class="card-title pricing-card-title"><small :class="planItem.name=='Premium'?classe='text-light':'text-muted'">${{planItem.price}}</small></h1>
+      <h1 class="card-title pricing-card-title"><small :class="planItem.name=='Premium'?classe='text-light':'text-muted'"><i class="fas fa-euro-sign"></i>{{planItem.price}}</small></h1>
       <ul class="list-unstyled mt-3 mb-4">
         <li :class="planItem.name=='Premium'?classe='text-light':''" v-for="(funct,index_func) in planItem.functions" v-html="funct.name"></li>
       </ul>

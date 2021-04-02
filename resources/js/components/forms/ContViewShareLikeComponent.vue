@@ -1,16 +1,10 @@
 <template>
-
-  <div>
-     <strong class="d-inline-block mb-1 text-primary">
-       <p class="text-info"><i title="Reads/ Lecturas"  class="fa fa-eye"></i> {{cant_read}} | <a href="#" @click="addLove()"><i title="Show your love/ Muestra tu amor" class="fa fa-heart"></i> {{likes}} </a></p>
-
-       <p class=" mr-1 text-info"><a href="#" class="social-button ml-1" @click="shareSocialMedia('facebook')"><i title="Share/ Compartir" class="fab fa-facebook "></i></a>
-       <a href="#" class="social-button ml-1" @click="shareSocialMedia('twitter')"><i title="Share/ Compartir" class="fab fa-twitter-square "></i></a>
-       {{sharess}}</p>
-       </strong>
-
-
-    </div>
+     <div class="redes-chat">
+       <a href="#" class="fa fa-eye d-block text-decoration-none bg-fuccia text-white text-center" title="Reads/ Lecturas">{{cant_read}}</a>
+       <a href="#" @click="addLove()" class="fa fa-heart d-block text-decoration-none bg-fuccia text-white text-center" title="Show your love/ Muestra tu amor">{{likes}}</a>
+       <a href="#" @click="shareSocialMedia('facebook')" class="fab fa-facebook d-block text-decoration-none bg-fuccia text-white text-center" title="Share/ Compartir"></a>
+       <a href="#" @click="shareSocialMedia('twitter')" class="fab fa-twitter d-block text-decoration-none bg-fuccia text-white text-center" title="Share/ Compartir"></a>
+     </div>
 
 </template>
 

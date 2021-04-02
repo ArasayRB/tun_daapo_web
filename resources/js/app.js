@@ -18,6 +18,16 @@ import "./src/directives/directives.js";
 import VueLang from '@eli5/vue-lang-js';
 import translations from './vue-translations.js';
 import VoerroTagsInput from '@voerro/vue-tagsinput';
+import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+  broadcaster: 'pusher',
+  key: process.env.MIX_PUSHER_APP_KEY,
+  cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+  forceTLS: true
+});
 require('lang.js');
 
 Vue.use(VCalendar, {
@@ -103,6 +113,11 @@ Vue.component('newsletter-component', require('./components/forms/NewsletterComp
 Vue.component('contact-us-component', require('./components/forms/ContactoComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 Vue.component('input-searcher-component', require('./components/admin/searcher/SearcherInputComponent.vue').default);
+Vue.component('chat-room-select', require('./components/chat/ChatRoomSelectComponent.vue').default);
+Vue.component('container-component', require('./components/chat/ContainerComponent.vue').default);
+Vue.component('input-message-component', require('./components/chat/InputMessageComponent.vue').default);
+Vue.component('message-container-component', require('./components/chat/MessageContainerComponent.vue').default);
+Vue.component('message-item-component', require('./components/chat/MessageItemComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -115,6 +130,7 @@ const app = new Vue({
     data(){
       return{
       ventanaResetEmail:'',
+      ventanaChat:'',
       sectionItem:[],
       token   : window.CSRF_TOKEN,
     }

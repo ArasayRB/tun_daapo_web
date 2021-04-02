@@ -13,6 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" /><!--Description app-->
     <meta name="description" content="{{__('messages.Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.')}}">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    @section('nethwork')
     <link rel="canonical" href="http://www.tundaapoweb.localhost/">
     <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
     <meta property="og:type" content="website">
@@ -28,6 +29,7 @@
     <meta name="twitter:title" content="{{__('messages.Tun Daapo | Digital Marketing and Web Design in Cuba')}}">
     <meta name="twitter:description" content="{{__('messages.Tun Daapo: Digital Marketing and Web Design since Cuba. Freelancer Small Agency specialist web development and marketing to PYMES and freelancers.')}}">
     <meta name="twitter:image" content="http://www.tundaapoweb.localhost/images/img/pie_tundaapo_para_web.png">
+    @show
     <!--Author-->
     <meta name="author" content="Tun Daapo" />
     <!--Description app-->
@@ -140,9 +142,32 @@
           </nav>
         @show
 
-        <accept-cookies-component>
-        </accept-cookies-component>
+          <accept-cookies-component>
+          </accept-cookies-component>
+          @section('red_chat')
+            <div class="row float-right">
+            <div class="col-lg-12">
+              <container-component v-if="ventanaChat" @close="ventanaChat = false">
+              </container-component>
+            </div>
+            <div class="container">
+              <input type="checkbox" id="btn-mas" class="d-none">
+              <div class="redes-chat">
+                <a href="#" v-if="ventanaChat==false" class="fab fa-facebook d-block text-decoration-none bg-fuccia text-white text-center"></a>
+                <a href="#" v-if="ventanaChat==false" class="fab fa-twitter  d-block text-decoration-none bg-fuccia text-white text-center"></a>
+                <a href="#" v-if="ventanaChat==false" class="fab fa-instagram  d-block text-decoration-none bg-fuccia text-white text-center"></a>
+                @auth ()
+                <a href="#" v-if="ventanaChat==false" @click="ventanaChat = true" class=" d-block text-decoration-none bg-fuccia text-white text-center"><img src="{!! asset('images/img/comentario01.jpg') !!}" alt="" id="btn-chat" height="50px" class="img-rounded rounded rounded-circle" title="Chat with Us"></a>
+                @endauth
+              </div>
+              <div class="btn-mas">
+                <label for="btn-mas" class="fas fa-plus text-decoration-none bg-fuccia text-white text-center"></label>
+              </div>
+            </div>
+          </div>
+         @show
         </div>
+
           <div class="clearfix"></div>
         <main class="mt-5">
             @yield('content')

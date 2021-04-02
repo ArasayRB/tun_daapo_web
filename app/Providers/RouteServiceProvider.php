@@ -62,6 +62,7 @@ class RouteServiceProvider extends ServiceProvider
                   require base_path('routes/web/paket_type.php');
                   require base_path('routes/web/section_page.php');
                   require base_path('routes/web/function_included.php');
+                  require base_path('routes/web/chat.php');
                 });
         });
     }
