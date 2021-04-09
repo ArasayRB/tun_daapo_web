@@ -23,6 +23,16 @@ class ChatRoomTableSeeder extends Seeder
       $room->save();
 
       $room=new ChatRoom();
+      $room->name='Visitor Contact';
+      $room->type_id=$room_type->id;
+      $room->save();
+
+      $room=new ChatRoom();
+      $room->name='Enterprise Contact';
+      $room->type_id=$room_type->id;
+      $room->save();
+
+      $room=new ChatRoom();
       $room->name='Admin Contact';
       $room->type_id=$room_type->id;
       $room->save();
