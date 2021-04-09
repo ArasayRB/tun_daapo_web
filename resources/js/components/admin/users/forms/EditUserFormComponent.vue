@@ -196,8 +196,6 @@
                });
         },
         getPermissionsByRole:function(role){
-         console.log('permiss-user-array:',this.user.permissions);
-          console.log('permiss-old-array:',this.permissions);
           axios.get('/available-permissions/'+role)
                .then(response =>{
                  this.permissions = response.data;

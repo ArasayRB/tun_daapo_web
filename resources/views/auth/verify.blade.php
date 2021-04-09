@@ -43,3 +43,6 @@
 </div>
 </div>
 @endsection
+@section('scripts')
+
+@stop

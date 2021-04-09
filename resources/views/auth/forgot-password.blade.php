@@ -13,3 +13,6 @@
 @section('content')
 @include('auth.forms.resetForm')
 @endsection
+@section('scripts')
+
+@stop

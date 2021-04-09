@@ -1,7 +1,10 @@
 <template>
     <div class=" container-mssg overflow-auto">
+      <div class="badge badge-pill badge-dark" v-if="typing!=''">
+      {{typing}}
+      </div>
       <div :key="index" v-for="(message,index) in messages">
-        <message-item-component :message="message">
+        <message-item-component :message="message" :user="user">
         </message-item-component>
       </div>
     </div>
@@ -9,9 +12,14 @@
 
 <script>
     export default {
-      props:['messages'],
-      created(){
-        console.log('mensages en el container de mensages',this.messages);
+      props:['messages','typing'],
+      data:function(){
+        return{
+          user:[],
+        }
+      },
+      mounted(){
+        this.user=window.UserId;
       }
     }
 </script>

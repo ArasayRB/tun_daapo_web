@@ -38,6 +38,7 @@
         "pusher-js": "^7.0.3",
         "sweetalert": "^2.1.2",
         "v-calendar": "^2.2.4",
+        "v-toaster": "^1.0.3",
         "vue-ckeditor2": "^2.1.5",
         "vue-cookies": "^1.7.4",
         "vue-localstorage": "^0.6.2",

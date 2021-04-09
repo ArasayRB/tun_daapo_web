@@ -15,10 +15,13 @@ import VCalendar from 'v-calendar';
 import VuePaginate from 'vue-paginate';
 /**Directives*/
 import "./src/directives/directives.js";
+/**Directives*/
 import VueLang from '@eli5/vue-lang-js';
 import translations from './vue-translations.js';
 import VoerroTagsInput from '@voerro/vue-tagsinput';
 import Echo from 'laravel-echo';
+import Toaster from 'v-toaster';
+import 'v-toaster/dist/v-toaster.css';
 
 window.Pusher = require('pusher-js');
 
@@ -43,6 +46,7 @@ Vue.use(VCalendar, {
  },
                  // ...other defaults
 });
+Vue.use(Toaster,{timeout:5000});
 Vue.use(VuePaginate);
 Vue.use(VueLang, {
   messages: translations, // Provide locale file
@@ -82,6 +86,9 @@ Vue.component('paket-oper-form-component', require('./components/admin/recursos_
 Vue.component('functions-included-oper-form-component', require('./components/admin/recursos_page_web/FunctionIncluded/forms/FunctionIncludedFormComponent.vue').default);
 Vue.component('paket-type-oper-form-component', require('./components/admin/recursos_page_web/PaketType/forms/PaketTypeFormComponent.vue').default);
 Vue.component('sectionpage-oper-form-component', require('./components/admin/recursos_page_web/SectionPage/forms/SectionPageFormComponent.vue').default);
+Vue.component('room-chat-oper-form-component', require('./components/admin/chat/ChatAdmin/forms/RoomFormComponent.vue').default);
+Vue.component('roomt-chat-oper-form-component', require('./components/admin/chat/ChatRoomType/forms/RoomTypeFormComponent.vue').default);
+Vue.component('mssgt-chat-oper-form-component', require('./components/admin/chat/ChatTypeMessage/forms/MessageTypeFormComponent.vue').default);
 Vue.component('index-post-component', require('./components/admin/posts/indexPostComponent.vue').default);
 Vue.component('index-user-component', require('./components/admin/users/indexUserComponent.vue').default);
 Vue.component('index-role-component', require('./components/admin/roles/indexRoleComponent.vue').default);
@@ -94,6 +101,9 @@ Vue.component('index-paket-type-component', require('./components/admin/recursos
 Vue.component('index-function-included-component', require('./components/admin/recursos_page_web/FunctionIncluded/indexFunctionIncludedComponent.vue').default);
 Vue.component('index-sectionpage-component', require('./components/admin/recursos_page_web/SectionPage/indexSectionPageComponent.vue').default);
 Vue.component('index-language-component', require('./components/admin/configuration/languages/indexLanguageComponent.vue').default);
+Vue.component('index-room-chat-component', require('./components/admin/chat/ChatAdmin/indexRoomComponent.vue').default);
+Vue.component('index-roomt-chat-component', require('./components/admin/chat/ChatRoomType/indexRoomTypeComponent.vue').default);
+Vue.component('index-mssgt-chat-component', require('./components/admin/chat/ChatTypeMessage/indexMessageTypeComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 Vue.component('relationed-tags-component', require('./components/admin/posts/RelationedTagsComponent.vue').default);
 Vue.component('tun-daapo-section-component', require('./components/views/section_page/TunDaapoComponent.vue').default);
@@ -117,6 +127,7 @@ Vue.component('chat-room-select', require('./components/chat/ChatRoomSelectCompo
 Vue.component('container-component', require('./components/chat/ContainerComponent.vue').default);
 Vue.component('input-message-component', require('./components/chat/InputMessageComponent.vue').default);
 Vue.component('message-container-component', require('./components/chat/MessageContainerComponent.vue').default);
+Vue.component('users-active-container-component', require('./components/chat/UsersActiveContainerComponent.vue').default);
 Vue.component('message-item-component', require('./components/chat/MessageItemComponent.vue').default);
 
 /**

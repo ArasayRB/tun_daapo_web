@@ -139,6 +139,21 @@
           </div>
         </div>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseChat" aria-expanded="true" aria-controls="collapseChat">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>{{__('messages.Chat')}}</span>
+        </a>
+        <div id="collapseChat" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
+            <a class="collapse-item" href="/room-chat">{{__('messages.Chat')}} {{__('messages.Room')}}</a>
+            <a class="collapse-item" href="/room-type-chat">{{__('messages.Chat')}} {{__('messages.Room')}} {{__('messages.Type')}}</a>
+            <a class="collapse-item" href="/mssg-type-chat">{{__('messages.Chat')}} {{__('messages.Message')}} {{__('messages.Type')}}</a>
+          </div>
+        </div>
+      </li>
       @endcan
 
 

@@ -20,6 +20,16 @@ class UserController extends Controller
       $this->middleware('auth');
   }
 
+  public function users(){
+      $users=User::all();
+                       $users_array;
+                       foreach ($users as $user) {
+                         $users_array[]=array('key'=>$user->id,
+                                             'value'=>$user->name);
+                       }
+                       return $users_array;
+    }
+
   public function getAllUsers(Request $request){
     $filter=$request->searcher;
     $users=User::filterByAttribute($filter)

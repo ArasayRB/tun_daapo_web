@@ -19,6 +19,7 @@ class ChatMessage extends Model
         'room_id',
         'type_id',
         'date',
+        'read',
     ];
 
     public function types(){

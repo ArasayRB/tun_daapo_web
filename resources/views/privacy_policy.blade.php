@@ -7,3 +7,6 @@
 
 
 @endsection
+@section('scripts')
+
+@stop

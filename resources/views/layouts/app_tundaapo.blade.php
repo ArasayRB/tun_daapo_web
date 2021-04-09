@@ -198,9 +198,11 @@
     </div>
 </body>
 <!--JS-->
+@section('scripts')
 <script src="{{ asset('vendor/lightbox2-dev/js/lightbox-plus-jquery.min.js') }}"></script><!--Galeria JS-->
 <script src="{{ asset('vendor/lightbox2-dev/js/lightbox.min.js') }}"></script><!--END Galeria JS-->
-<script src="{{ asset('js/tun_daapo.js') }}"></script><!--Mirakuru JS-->
+<script src="{{ asset('js/tun_daapo.js') }}"></script><!--Tun_Daapo JS-->
+@show
 
 <script type="text/javascript">
   window.CSRF_TOKEN = '{{ csrf_token() }}';

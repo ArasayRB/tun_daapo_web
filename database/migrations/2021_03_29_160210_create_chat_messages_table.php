@@ -21,6 +21,7 @@ class CreateChatMessagesTable extends Migration
             $table->unsignedBigInteger('room_id');
             $table->unsignedBigInteger('type_id');
             $table->date('date');
+            $table->boolean('read')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('to_user_id')->references('id')->on('users')->onDelete('cascade');

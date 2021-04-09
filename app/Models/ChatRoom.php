@@ -16,6 +16,13 @@ class ChatRoom extends Model
         'type_id',
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->with('users')
+              ->where('name', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function types(){
       $this->hasOne(ChatTypeRoom::class,'id','type_id');
     }

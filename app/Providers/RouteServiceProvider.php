@@ -63,6 +63,9 @@ class RouteServiceProvider extends ServiceProvider
                   require base_path('routes/web/section_page.php');
                   require base_path('routes/web/function_included.php');
                   require base_path('routes/web/chat.php');
+                  require base_path('routes/web/chat_room.php');
+                  require base_path('routes/web/chat_room_type.php');
+                  require base_path('routes/web/chat_mssg_type.php');
                 });
         });
     }

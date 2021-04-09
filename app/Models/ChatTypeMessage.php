@@ -14,6 +14,12 @@ class ChatTypeMessage extends Model
         'name',
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('name', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function messages(){
       $this->hasMany(ChatMessage::class);
     }

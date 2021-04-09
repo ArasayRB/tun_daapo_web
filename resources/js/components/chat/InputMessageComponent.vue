@@ -9,12 +9,22 @@
 
 <script>
     export default {
-      props:['room'],
+      props:['room','user'],
       data:function(){
         return{
           message:'',
           src:'/images/img/enviar.png',
         }
+      },
+      watch:{
+        message(){
+          console.log('escrit',this.message);
+          let vm=this;
+          window.Echo.private('chat.'+this.room.id)
+                    .whisper('typing',{
+                      name:vm.message
+                    });
+        },
       },
       methods:{
         sendMessage:function(){
@@ -22,7 +32,8 @@
                   return;
                 }
                 axios.post('/chat/room/'+this.room.id+'/message',{
-                  message:this.message
+                  message:this.message,
+                  user:this.user.id
                 })
                 .then(response=>{
                   if(response.status==201){
