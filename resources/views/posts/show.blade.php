@@ -109,6 +109,11 @@
 
 
     </div>
+    <comment-post-component id_post="{{$post->id}}" user_email="{{$post->users->email}}" answer="no">
+    </comment-post-component>
+     <h3 class="text-center text-dark">{{ __('messages.Comment') }}s !</h3>
+    <all-comments-component id_post="{{$post->id}}" user_email="{{$post->users->email}}" answer="no">
+    </all-comments-component>
   </section>
 
   </div>

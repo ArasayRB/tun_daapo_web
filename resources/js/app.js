@@ -83,6 +83,9 @@ Vue.component('language-oper-form-component', require('./components/admin/config
 Vue.component('service-oper-form-component', require('./components/admin/recursos_page_web/Service/forms/ServiceFormComponent.vue').default);
 Vue.component('portfolio-oper-form-component', require('./components/admin/recursos_page_web/Portfolio/forms/PortfolioFormComponent.vue').default);
 Vue.component('paket-oper-form-component', require('./components/admin/recursos_page_web/Paket/forms/PaketFormComponent.vue').default);
+Vue.component('category-oper-form-component', require('./components/admin/posts/category/forms/CategoryFormComponent.vue').default);
+Vue.component('conf-com-oper-form-component', require('./components/admin/posts/configcomments/forms/ConfigCommentsFormComponent.vue').default);
+Vue.component('comments-oper-form-component', require('./components/admin/posts/comments/forms/CommentsFormComponent.vue').default);
 Vue.component('functions-included-oper-form-component', require('./components/admin/recursos_page_web/FunctionIncluded/forms/FunctionIncludedFormComponent.vue').default);
 Vue.component('paket-type-oper-form-component', require('./components/admin/recursos_page_web/PaketType/forms/PaketTypeFormComponent.vue').default);
 Vue.component('sectionpage-oper-form-component', require('./components/admin/recursos_page_web/SectionPage/forms/SectionPageFormComponent.vue').default);
@@ -97,6 +100,9 @@ Vue.component('index-contact-component', require('./components/admin/recursos_pa
 Vue.component('index-service-component', require('./components/admin/recursos_page_web/Service/indexServiceComponent.vue').default);
 Vue.component('index-portfolio-component', require('./components/admin/recursos_page_web/Portfolio/indexPortfolioComponent.vue').default);
 Vue.component('index-paket-component', require('./components/admin/recursos_page_web/Paket/indexPaketComponent.vue').default);
+Vue.component('index-category-component', require('./components/admin/posts/category/indexCategoryComponent.vue').default);
+Vue.component('index-conf-com-component', require('./components/admin/posts/configcomments/indexConfigCommentsComponent.vue').default);
+Vue.component('index-comments-component', require('./components/admin/posts/comments/indexCommentsComponent.vue').default);
 Vue.component('index-paket-type-component', require('./components/admin/recursos_page_web/PaketType/indexPaketTypeComponent.vue').default);
 Vue.component('index-function-included-component', require('./components/admin/recursos_page_web/FunctionIncluded/indexFunctionIncludedComponent.vue').default);
 Vue.component('index-sectionpage-component', require('./components/admin/recursos_page_web/SectionPage/indexSectionPageComponent.vue').default);
@@ -121,6 +127,7 @@ Vue.component('service-section-component', require('./components/views/service/S
 Vue.component('cont-view-share-like-component', require('./components/forms/ContViewShareLikeComponent.vue').default);
 Vue.component('newsletter-component', require('./components/forms/NewsletterComponent.vue').default);
 Vue.component('contact-us-component', require('./components/forms/ContactoComponent.vue').default);
+Vue.component('comment-post-component', require('./components/forms/CommentComponent.vue').default);
 Vue.component('post-ppal-tab-component', require('./components/admin/posts/PostPpalTabComponent.vue').default);
 Vue.component('input-searcher-component', require('./components/admin/searcher/SearcherInputComponent.vue').default);
 Vue.component('chat-room-select', require('./components/chat/ChatRoomSelectComponent.vue').default);
@@ -129,6 +136,8 @@ Vue.component('input-message-component', require('./components/chat/InputMessage
 Vue.component('message-container-component', require('./components/chat/MessageContainerComponent.vue').default);
 Vue.component('users-active-container-component', require('./components/chat/UsersActiveContainerComponent.vue').default);
 Vue.component('message-item-component', require('./components/chat/MessageItemComponent.vue').default);
+Vue.component('all-comments-component', require('./components/forms/AllCommentsComponent.vue').default);
+Vue.component('all-ans-comments-component', require('./components/forms/AllAnswersCommentsComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

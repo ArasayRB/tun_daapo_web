@@ -175,11 +175,15 @@
         <div id="collapsePost" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
-            @role('administrator,viewer-content,writer-content,publisher-content')
+            @role('administrator,viewer-content,writer-content,publisher-content,editor-content')
             <a class="collapse-item" href="/posts">{{__('messages.Posts')}}</a>
             @endrole
-            @role('administrator,viewer-content')
-            <a class="collapse-item" href="utilities-color.html">{{__('messages.Posts Category')}}</a>
+            @role('administrator,editor-content')
+            <a class="collapse-item" href="/category">{{__('messages.Posts Category')}}</a>
+            <a class="collapse-item" href="/configuration-comments">{{ __('messages.Comment') }} {{ __('messages.Configuration') }}</a>
+            @endrole
+            @role('administrator,editor-content,moderator-content')
+            <a class="collapse-item" href="/comments-post">{{ __('messages.Comment') }}s {{__('messages.Posts')}}</a>
             @endrole
           </div>
         </div>

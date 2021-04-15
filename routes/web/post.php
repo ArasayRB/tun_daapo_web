@@ -19,3 +19,13 @@ Route::get('/translated-post/{id}',[App\Http\Controllers\PostController::class, 
 Route::get('/get-translated-post-by-lang/{lang}/{id_post}/{content_type}',[App\Http\Controllers\PostController::class, 'getTranslatedPostByLang']);
 Route::post('/posts-translated-edited/{id_post}/{lang_name}',[App\Http\Controllers\PostController::class, 'updateTranslatedPostByLang']);
 Route::get('/all-posts', [App\Http\Controllers\PostController::class, 'getAllPosts']);
+Route::get('/all-categories', [App\Http\Controllers\CategoriaPostController::class, 'getAllCategories']);
+Route::resource('/category', App\Http\Controllers\CategoriaPostController::class,['except'=>['create','edit']])->middleware('role:administrator,editor-content');
+Route::get('/all-comments-config', [App\Http\Controllers\ConfigComentarioPostController::class, 'getAllCommentConfig']);
+Route::get('config-comments-list', [App\Http\Controllers\ConfigComentarioPostController::class, 'getCommentsConfig']);
+Route::resource('/configuration-comments', App\Http\Controllers\ConfigComentarioPostController::class,['except'=>['create','edit']])->middleware('role:administrator,editor-content');
+Route::get('/all-comments', [App\Http\Controllers\ComentarioPostController::class, 'getAllComments']);
+Route::get('comments-list', [App\Http\Controllers\ComentarioPostController::class, 'getComments']);
+Route::resource('/comments-post', App\Http\Controllers\ComentarioPostController::class,['except'=>['create','edit']])->middleware('role:administrator,editor-content,moderator');
+Route::post('/publicate-comment/{id}/{state}', [App\Http\Controllers\ComentarioPostController::class, 'publicateComment']);
+Route::get('posts-list', [App\Http\Controllers\ComentarioPostController::class, 'getPosts']);

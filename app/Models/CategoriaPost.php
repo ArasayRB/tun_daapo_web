@@ -13,6 +13,12 @@ class CategoriaPost extends Model
         'description',
     ];
 
+    public function scopeFilterByAttribute($query,$filter){
+      if(!empty($filter)){
+        $query->where('category_post', 'LIKE', '%'.$filter.'%');
+      }
+    }
+
     public function posts(){
       return $this->hasMany(Post::class)->withTimestamps();
     }

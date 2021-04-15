@@ -174,6 +174,7 @@ trait PostTrait {
                   if($post===null||$post===''){
                     $id_content=$this->findContentId('Post');
                   $contet_translated=$this->getTransByIndContType('slug',$id_content);
+                  if(count($contet_translated)>0){
                   foreach ($contet_translated as $cont) {
                     foreach ($cont->languages as $lang) {
                       if($lang->pivot->content_trans===$postSlug){
@@ -182,6 +183,10 @@ trait PostTrait {
                     }
                   }
               $post=$this->getPostById($id_post);
+            }
+            else{
+              abort(404);
+            }
                   }
     if($type==="real"){
 

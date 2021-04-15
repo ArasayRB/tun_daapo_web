@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ComentarioPost;
 use App\Traits\SectionPageTrait;
 use App\Traits\ServiceTrait;
 use App\Traits\PortfolioTrait;
@@ -11,6 +12,7 @@ use App\Traits\FunctionIncludedTrait;
 use App\Traits\ContentTypeTrait;
 use App\Traits\TranslateTrait;
 use App\Traits\PaketTrait;
+use App\Traits\ComentarioPostTrait;
 use App\Traits\VisitorAccessTrait;
 use App\Traits\TaggingTagTrait;
 use App\Traits\ContactTrait;
@@ -18,7 +20,7 @@ use App\Traits\LanguageTrait;
 
 class WelcomeController extends Controller
 {
-  use SectionPageTrait, VisitorAccessTrait, TaggingTagTrait, ContactTrait, FunctionIncludedTrait, ContentTypeTrait, PaketTrait, ServiceTrait, PortfolioTrait, PostTrait, TranslateTrait, LanguageTrait;
+  use SectionPageTrait,  ComentarioPostTrait, VisitorAccessTrait, TaggingTagTrait, ContactTrait, FunctionIncludedTrait, ContentTypeTrait, PaketTrait, ServiceTrait, PortfolioTrait, PostTrait, TranslateTrait, LanguageTrait;
 
   public function welcome()
   {

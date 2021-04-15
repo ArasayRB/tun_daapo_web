@@ -397,5 +397,65 @@ class PermissionTableSeeder extends Seeder
       $permission->slug='edit-translate-contact';
       $permission->description='Editar las traducciones disponibles los Contactos';
       $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Create Configuration Comment';
+      $permission->slug='create-configuration-comment';
+      $permission->description='Crear configuracion de comentarios';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Update Configuration Comment';
+      $permission->slug='update-configuration-comment';
+      $permission->description='Actualizar configuracion de comentarios';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Delete Configuration Comment';
+      $permission->slug='delete-configuration-comment';
+      $permission->description='Eliminar configuracion de comentarios';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Create Category Post';
+      $permission->slug='create-category-post';
+      $permission->description='Crear categoria de posts';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Update Category Post';
+      $permission->slug='update-category-post';
+      $permission->description='Actualizar categoria de posts';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Delete Category Post';
+      $permission->slug='delete-category-post';
+      $permission->description='Eliminar categoria de posts';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Create Comment Post';
+      $permission->slug='create-comment-post';
+      $permission->description='Crear comentarios de posts';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Update Comment Post';
+      $permission->slug='update-comment-post';
+      $permission->description='Actualizar comentarios de posts';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Delete Comment Post';
+      $permission->slug='delete-comment-post';
+      $permission->description='Eliminar comentarios de posts';
+      $permission->save();
+
+      $permission=new Permission();
+      $permission->name='Publish Comment Post';
+      $permission->slug='publish-comment-post';
+      $permission->description='Publicar comentarios de posts';
+      $permission->save();
     }
 }

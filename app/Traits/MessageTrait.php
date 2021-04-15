@@ -9,9 +9,45 @@ use Notification;
 use App\Notifications\NewsletterNotification;
 use App\Notifications\DeleteNotification;
 use App\Notifications\ContactUsNotification;
+use App\Notifications\ComentPostNotification;
 
 trait MessageTrait
 {
+
+    public function commentNotification($datos){
+
+        $email=$datos->email;
+
+                  $newsData = [
+                         'name' => Lang::get('Comment by '.$datos['name'].' ,email: '.$datos['email']),
+                         'email'=>$email,
+                         'body' => Lang::get('You sended succefully this comment post to: '),
+                         'thanks' => Lang::get('Greetings, '. config('app.name')),
+                         'newsText' => Lang::get($datos['mensage']),
+                         'newsText1' => Lang::get('Very soon you go to see it posted on our web.')
+                     ];
+
+                     Notification::route('mail', $email)
+                                   ->notify(new ComentPostNotification($newsData));
+    }
+
+    public function commentTunDaapoSend($datos, $company_email){
+      $email=$company_email;
+
+                $newsData = [
+                       'name' => Lang::get('Comment by '.$datos['name'].' ,email: '.$datos['email']),
+                       'email'=>$email,
+                       'body' => Lang::get('You are receiving a new comment email with content: '),
+                       'thanks' => Lang::get('Greetings, '. config('app.name')),
+                       'newsText' => Lang::get($datos['mensage']),
+                       'newsText1' => Lang::get('Please, review and post it as soon like is possible for you.')
+                   ];
+
+                   Notification::route('mail', $email)
+                                 ->notify(new ComentPostNotification($newsData));
+    }
+
+
     public function contactSend($datos){
       $email=$datos->email;
       $contact_id=$datos->id;
@@ -103,6 +139,6 @@ trait MessageTrait
                    Notification::route('mail', $email)
                                  ->notify(new NewsletterNotification($newsData));
 
-                   dd('Task completed!');
+
     }
 }

@@ -43,3 +43,8 @@ Route::post('/suscripcion', [App\Http\Controllers\SuscriptionController::class, 
 Route::get('/translated-language-item/{id}/{contentType}',[App\Http\Controllers\HomeController::class, 'hasTranslate']);
 Route::get('/languages-no-translated/{id_item}/{content}',[App\Http\Controllers\HomeController::class, 'getNoTransLangItem']);
 Route::get('/unsubscribe/{suscriptor}', [App\Http\Controllers\SuscriptionController::class, 'delete'])->middleware(['guest'])->name('unsubscribe');
+Route::post('/leave-comment', [App\Http\Controllers\WelcomeController::class, 'makeComment']);
+Route::get('/comments-post/{post_id}', [App\Http\Controllers\WelcomeController::class, 'getComentsByPost']);
+Route::post('/leave-comment-reply', [App\Http\Controllers\WelcomeController::class, 'replyComment']);
+Route::get('/comments-post-answare/{post_id}/{comment_id}', [App\Http\Controllers\WelcomeController::class, 'getComentsReplyByPost']);
+Route::get('/config-comments', [App\Http\Controllers\WelcomeController::class, 'getConfigComment']);

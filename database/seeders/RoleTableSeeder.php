@@ -28,6 +28,19 @@ class RoleTableSeeder extends Seeder
       $permission_content_writer[] = Permission::where('slug', 'edit-translate-post')->first();
       $permission_content_publisher=$permission_content_viewer;
       $permission_content_publisher[] = Permission::where('slug', 'publish-post')->first();
+      $permission_content_editor=$permission_content_writer;
+      $permission_content_editor[]=Permission::where('slug', 'create-category-post')->first();
+      $permission_content_editor[]=Permission::where('slug', 'update-category-post')->first();
+      $permission_content_editor[]=Permission::where('slug', 'delete-category-post')->first();
+      $permission_content_editor[]=Permission::where('slug', 'create-comment-post')->first();
+      $permission_content_editor[]=Permission::where('slug', 'update-comment-post')->first();
+      $permission_content_editor[]=Permission::where('slug', 'delete-comment-post')->first();
+      $permission_content_editor[]=Permission::where('slug', 'publish-comment-post')->first();
+      $permission_content_moderator=[];
+      $permission_content_moderator[]=Permission::where('slug', 'create-comment-post')->first();
+      $permission_content_moderator[]=Permission::where('slug', 'update-comment-post')->first();
+      $permission_content_moderator[]=Permission::where('slug', 'delete-comment-post')->first();
+      $permission_content_moderator[]=Permission::where('slug', 'publish-comment-post')->first();
       $permission_posts = Permission::where('slug', 'delete-post')->first();
       $permission_all=Permission::all();
 
@@ -71,6 +84,24 @@ class RoleTableSeeder extends Seeder
       $role->slug='publisher-content';
       $role->save();
       foreach ($permission_content_publisher as $permission) {
+        $role->permissions()->attach($permission);
+      }
+
+      $role=new Role();
+      $role->name='Moderator Content';
+      $role->description='Moderador de contenido';
+      $role->slug='moderator-content';
+      $role->save();
+      foreach ($permission_content_moderator as $permission) {
+        $role->permissions()->attach($permission);
+      }
+
+      $role=new Role();
+      $role->name='Editor Content';
+      $role->description='Editor de contenido';
+      $role->slug='editor-content';
+      $role->save();
+      foreach ($permission_content_editor as $permission) {
         $role->permissions()->attach($permission);
       }
     }

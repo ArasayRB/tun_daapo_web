@@ -26,6 +26,10 @@ class UserTableSeeder extends Seeder
                           ->where('slug', 'writer-content')->first();
       $role_publisher = Role::with('permissions')
                           ->where('slug', 'publisher-content')->first();
+      $role_moderator = Role::with('permissions')
+                          ->where('slug', 'moderator-content')->first();
+      $role_editor = Role::with('permissions')
+                          ->where('slug', 'editor-content')->first();
 
                           $user = new User();
                           $user->name = 'User';
@@ -109,6 +113,26 @@ class UserTableSeeder extends Seeder
                           $user->save();
                           $user->roles()->attach($role_viewer);
                           foreach ($role_viewer->permissions as $permission) {
+                            $user->permissions()->attach($permission);
+                          }
+
+                          $user = new User();
+                          $user->name = 'Tadeo Rivas LaFuerte';
+                          $user->email = 'tarla@example.com';
+                          $user->password = bcrypt('secret/*1234');
+                          $user->save();
+                          $user->roles()->attach($role_moderator);
+                          foreach ($role_moderator->permissions as $permission) {
+                            $user->permissions()->attach($permission);
+                          }
+
+                          $user = new User();
+                          $user->name = 'Gabriel Díaz Lopez';
+                          $user->email = 'gabriel@example.com';
+                          $user->password = bcrypt('secret/*1234');
+                          $user->save();
+                          $user->roles()->attach($role_editor);
+                          foreach ($role_editor->permissions as $permission) {
                             $user->permissions()->attach($permission);
                           }
     }
