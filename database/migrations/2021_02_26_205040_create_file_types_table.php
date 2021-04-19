@@ -16,7 +16,7 @@ class CreateFileTypesTable extends Migration
         Schema::create('file_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('ext_available');
+            $table->text('ext_available')->nullable();
             $table->timestamps();
         });
     }

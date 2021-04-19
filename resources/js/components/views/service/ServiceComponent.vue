@@ -4,7 +4,7 @@
     <div class="panel h-100 py-2">
       <div class="panel-header">
         <div class="col-xs-12">
-          <img :src="src+serviceItem.img" width="160" class="mx-auto d-block mb-4 shadow">
+          <img :src="src+serviceItem.img" width="160" class="mx-auto d-block mb-4 shadow" :alt="serviceItem.img_descript">
         </div>
       </div>
       <div class="panel-body border-left-primary">

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\FileType;
 use App\Models\Post;
+use App\Models\Service;
 
 class File extends Model
 {
@@ -25,7 +26,10 @@ class File extends Model
       return $this->belongsTo(FileType::class,'file_type')->withTimestamps();
     }
 
-  public function posts(){
+    public function posts(){
       return $this->belongsToMany(Post::class)->withTimestamps();
     }
+    public function services(){
+        return $this->belongsToMany(Service::class)->withTimestamps();
+      }
 }

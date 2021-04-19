@@ -50,7 +50,7 @@ class ServiceController extends Controller
   protected function validatorUpd(array $data)
   {
       return Validator::make($data, [
-          'title' => ['required', 'string'],
+          'name' => ['required', 'string'],
           'description' => ['required', 'string'],
       ]);
   }
@@ -85,9 +85,13 @@ class ServiceController extends Controller
         $newFileName=$this->manageImageFile(request('img'),'service');
         $service->img=$newFileName;
       }
+
+      $service->img_descript=request('img_descript');
       $service->name=request('name');
       $service->description=request('description');
-      $service->price=request('price');
+      if(request('price')!='null'){
+        $service->price=request('price');
+    }
       $service->save();
       return $service;
     }
@@ -158,9 +162,12 @@ class ServiceController extends Controller
       else{
         $this->validatorUpd($request->all())->validate();
       }
+      $service->img_descript=request('img_descript');
       $servicio->name=request('name');
       $servicio->description=request('description');
+      if(request('price')!='null'){
       $servicio->price=request('price');
+    }
       $servicio->update();
       return $servicio;
     }

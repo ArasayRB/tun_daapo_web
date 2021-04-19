@@ -36,12 +36,17 @@
                 <input type="text" name="name" v-model="service.name" class="form-control font-italic mb-2" v-if="operation==='update'">
               </div>
 
-              <div class="form-group" v-show="show_lang_div" v-if="operation==='add'">
+              <div class="form-group">
                 <label for="img">{{ $trans('messages.Image') }}</label>
                 <input type="file" name="img"  v-on:change="img" class="form-control font-italic mb-2" v-if="operation==='add'">
                 <input type="file" name="img"  v-on:change="img" class="form-control font-italic mb-2" v-if="operation==='update'">
                 <div class="row" v-if="operation==='update'">
-                  <img :src="src+sectionpage.img" :alt="sectionpage.img" width="100">
+                  <img :src="src+service.img" :alt="service.img" width="100">
+                </div>
+                <div class="form-group">
+                  <label for="img_descr">{{ $trans('messages.Description') }} {{ $trans('messages.Image') }}</label>
+                  <input type="text" name="img_descr" v-model="img_descr" class="form-control font-italic mb-2" v-if="operation==='add'">
+                  <input type="text" name="img_descr" v-model="service.img_descript" class="form-control font-italic mb-2" v-if="operation==='update'">
                 </div>
               </div>
 
@@ -154,8 +159,9 @@
           value:'',
           name:'',
           img:'',
+          img_descr:'',
           imagenSectionPage:'',
-          src:'images/lang/',
+          src:'storage/service/',
           ventanaOperService:false,
           error:'',
           token   : window.CSRF_TOKEN,
@@ -202,7 +208,7 @@
               url="/add-translate-service";
               msg_succ=this.$trans('messages.Service')+' '+this.$trans('messages.Translated Succefully');
               let mensaje=this.$trans('messages.Unidentified error');
-              if (this.name==''||this.description==''||this.lang_trans=='') {
+              if (this.name==''||this.description==''||this.lang_trans==''||this.img_descr=='') {
                 mensaje=this.$trans('messages.You cannot leave empty fields, please check');
               }
               data = new FormData();
@@ -223,6 +229,7 @@
             data = new FormData();
               data.append("img", this.imagenSectionPage);
               data.append("name", this.name);
+              data.append("img_descript", this.img_descr);
               data.append("description", this.description);
               data.append("price", this.price);
           }
@@ -259,6 +266,9 @@
                    if(wrong.hasOwnProperty('name')){
                      mensaje+='-'+wrong.name[0];
                    }
+                   if(wrong.hasOwnProperty('img_descript')){
+                     mensaje+='-'+wrong.img_descript[0];
+                   }
                    if(wrong.hasOwnProperty('description')){
                      mensaje+='-'+wrong.description[0];
                    }
@@ -277,6 +287,7 @@
             data = new FormData();
               data.append('_method', 'patch');
               data.append("img", this.imagenSectionPage);
+              data.append("img_descript", service.img_descript);
               data.append("name", service.name);
               data.append("description", service.description);
               data.append("price", service.price);
