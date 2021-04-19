@@ -254,7 +254,7 @@
                });
         },
         postsList:function(){
-          axios.get('/posts-list')
+          axios.get('/posts-list-form')
                .then(response => this.posts = response.data)
                .catch(error => this.errors.push(error));
         },

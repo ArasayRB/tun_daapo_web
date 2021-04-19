@@ -35,7 +35,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $posts=$this->existPost();
+      $posts=$this->existShowPost();
         return view('home',['posts'=>$posts]);
     }
 

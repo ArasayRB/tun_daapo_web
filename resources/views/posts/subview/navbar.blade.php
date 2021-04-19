@@ -44,7 +44,9 @@
        <li class="nav-item"><a href="/#services" class="nav-link text-light">{{__('Services')}}</a></li>
        <li class="nav-item"><a href="/#planes_precios" class="nav-link text-light">{{__('Pricing')}}</a></li>
        <li class="nav-item"><a href="/#portafolio" class="nav-link text-light">{{__('Portafolio')}}</a></li>
+       @if ( isset($posts) && $posts===true)
        <li class="nav-item"><a href="/#blog" class="nav-link text-light">{{__('Blog')}}</a></li>
+       @endif
        <li class="nav-item"><a href="/#contacto" class="nav-link text-light">{{__('Contact')}}</a></li>
        <li class="nav-item"><a href="/questions-frequently" class="nav-link text-light">{{__('messages.Frequently Questions')}}</a></li>
        <!--Comprobamos si el status esta a true y existe más de un lenguaje-->

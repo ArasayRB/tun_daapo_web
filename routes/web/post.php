@@ -28,4 +28,4 @@ Route::get('/all-comments', [App\Http\Controllers\ComentarioPostController::clas
 Route::get('comments-list', [App\Http\Controllers\ComentarioPostController::class, 'getComments']);
 Route::resource('/comments-post', App\Http\Controllers\ComentarioPostController::class,['except'=>['create','edit']])->middleware('role:administrator,editor-content,moderator');
 Route::post('/publicate-comment/{id}/{state}', [App\Http\Controllers\ComentarioPostController::class, 'publicateComment']);
-Route::get('posts-list', [App\Http\Controllers\ComentarioPostController::class, 'getPosts']);
+Route::get('/posts-list-form', [App\Http\Controllers\ComentarioPostController::class, 'getPosts']);

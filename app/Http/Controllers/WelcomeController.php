@@ -24,7 +24,7 @@ class WelcomeController extends Controller
 
   public function welcome()
   {
-    $posts=$this->existPost();
+    $posts=$this->existShowPost();
       return view('welcome_tun_daapo',['posts'=>$posts]);
   }
 

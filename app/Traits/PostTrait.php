@@ -158,6 +158,13 @@ trait PostTrait {
 
     }
 
+    public function existShowPost(){
+      $post=Post::where('publicate_state',1)
+                ->exists();
+                  return $post;
+
+    }
+
 
     public function getPostBySlug($slug){
       return Post::with('categoriaPosts')

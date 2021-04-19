@@ -114,7 +114,7 @@
               <li class="nav-item"><a href="#services" class="nav-link text-light">{{__('messages.Services')}}</a></li>
               <li class="nav-item"><a href="#planes_precios" class="nav-link text-light">{{__('messages.Pricing')}}</a></li>
               <li class="nav-item"><a href="#portafolio" class="nav-link text-light">{{__('messages.Portfolio')}}</a></li>
-              @if ( isset($posts) && $posts>0)
+              @if ( isset($posts) && $posts===true)
               <li class="nav-item"><a href="#blog" class="nav-link text-light">{{__('messages.Blog')}}</a></li>
               @endif
               <li class="nav-item"><a href="#contacto" class="nav-link text-light">{{__('messages.Contact')}}</a></li>
