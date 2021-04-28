@@ -61,6 +61,10 @@ class WelcomeController extends Controller
     return $this->show($request->ip(),$slug,'real');
   }
 
+  public function relationedPost($id){
+    return $this->relationedPostByTags($id);
+  }
+
   public function sharePostMedia(Request $request,$id,$media){
     return $this->sharePostMediaSocial($request->ip(),$id,$media,request('page'),request('neth'));
   }
