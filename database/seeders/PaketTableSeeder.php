@@ -115,6 +115,7 @@ class PaketTableSeeder extends Seeder
       $paket->functions()->attach(7);
       $paket->functions()->attach(9);
       $paket->functions()->attach(10);
+      $paket->functions()->attach(11);
       $paket->functions()->attach(3);
       $paket->functions()->attach(4);
       $paket->functions()->attach(2);
@@ -160,6 +161,7 @@ class PaketTableSeeder extends Seeder
       $paket->services()->attach(3,array('status'=>true));
       $paket->services()->attach(4,array('status'=>true));
       $paket->functions()->attach(11);
+      $paket->functions()->attach(10);
       $paket->functions()->attach(12);
       $paket->functions()->attach(13);
       $paket->functions()->attach(3);
@@ -208,6 +210,9 @@ class PaketTableSeeder extends Seeder
       $paket->services()->attach(3,array('status'=>true));
       $paket->services()->attach(4,array('status'=>true));
       $paket->functions()->attach(14);
+      $paket->functions()->attach(12);
+      $paket->functions()->attach(11);
+      $paket->functions()->attach(10);
       $paket->functions()->attach(15);
       $paket->functions()->attach(16);
       $paket->functions()->attach(18);

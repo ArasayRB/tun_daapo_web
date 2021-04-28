@@ -17,7 +17,6 @@
         }
       },
       created(){
-       this.getSection();
       },
         mounted() {
           if (this.$attrs.locale) {

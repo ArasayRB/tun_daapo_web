@@ -132,259 +132,117 @@ class SectionPageTableSeeder extends Seeder
 
       $sectiontun_daapo=new SectionPage();
       $sectiontun_daapo->title='Necesitas una Estrategia de Marketing Digital';
-      $sectiontun_daapo->description='<div class="mt-2" id="necesitas-estrategia-marketing">
-<h2 style="text-align:center"><strong>Necesitas una <span style="color:#f1c40f">Estrategia!</span></strong></h2>
+      $sectiontun_daapo->description='<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#youNeedDMS">No sabes si necesitas una estrategia que te haga crecer?</a></h6>
+<!-- Card Content - Collapse -->
 
-<p>&nbsp;</p>
-
-<table align="center" border="0" cellspacing="0" id="necesitas-plan">
-	<tbody>
-		<tr>
-			<td><img alt="analisis" class="d-block mx-auto px-2 py-2 shadow" src="images/img/pexels-timur-saglambilek-185576.jpg" style="height:150px" /></td>
-			<td><img alt="" class="d-block mx-auto px-2 py-2 shadow" id="preguntas si necesitas marqueting" src="images/img/pexels-olya-kobruseva-5428833.jpg" style="height:220px" title="Marqueting Digital" /></td>
-			<td><img alt="" class="d-block mx-auto px-2 py-2 shadow" src="images/img/pexels-photomix-company-95916.jpg" style="height:220px" title="Planeacion Marqueting" /></td>
-		</tr>
-		<tr>
-			<td style="text-align:center">
-			<p><strong>Produces algo que tiene todo para ser bueno y comercial.Excelente calidad.Muy buen precio</strong></p>
-			</td>
-			<td style="text-align:center">
-			<p><strong>Sue&ntilde;as con ser conocido, seguido y muy bien cotizado, con tener una marca establecida y bien difundida?</strong></p>
-			</td>
-			<td style="text-align:center">
-			<p><strong>No tienes presencia en ninguno de los canales digitales como redes sociales o web de presentaci&oacute;n. Tienes en algunos o en todos ellos pero no tienen el resultado que esperabas porque obtienen pocas o nulas visitas desde hace un tiempo.</strong></p>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<div class="collapse show" id="youNeedDMS">
+<div class="card-body">Haces <strong>un producto</strong> que tiene todo para ser bueno y comercial, <strong>tiene excelente calidad y un muy buen precio, a&uacute;n as&iacute; te preguntas por qu&eacute; no se vende tanto como esperabas</strong>, o peor, ni se vende! <strong>Sue&ntilde;as con ser conocido, seguido y muy bien cotizado</strong>, con <strong>tener una marca</strong> establecida y bien difundida! No tienes presencia en ninguno de los canales digitales como redes sociales o web de presentaci&oacute;n. Tienes en algunos o en todos ellos pero no tienen el resultado que esperabas porque obtienen pocas o nulas visitas desde hace un tiempo Todo esto indica que <strong>el manejo de tu presencia digital es pobre en dise&ntilde;o y /o comunicaci&oacute;n</strong>. Tu estrategia, si es que cuentas con alguna, no est&aacute; funcionando, debe ser cambiada, mejorada o en su defecto totalmente reelaborada desde una perspectiva m&aacute;s enfocada a ti. Si tu servicio, proyecto o producto no ha tenido el desarrollo u obtenido las ventas que esperabas, incluso no ves en un futuro inmediato la soluci&oacute;n que cambie esta situaci&oacute;n y no sabes qu&eacute; hacer, est&aacute;s necesitando ex&aacute;ctamente uno o varios de los servicios que Tun Daapo ofrece. Una buena estrategia de marketing har&aacute; que te conozcan y despegues como nunca antes pensaste.</div>
+</div>
 </div>
 
-<h2 style="text-align:center"><span style="color:#f1c40f">No Vendes tanto como esperas o deber&iacute;as!</span></h2>
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#whyNeedDMS">Por qu&eacute; necesitas una estrategia de Marketing y Dies&ntilde;o Digital?</a></h6>
+<!-- Card Content - Collapse -->
 
-<p style="text-align:center">Si tu servicio, proyecto o producto no ha tenido el desarrollo u obtenido las ventas que esperabas, incluso no ves en un futuro inmediato la soluci&oacute;n que cambie esta situaci&oacute;n y no sabes qu&eacute; hacer, est&aacute;s necesitando ex&aacute;ctamente uno o varios de los servicios que Tun Daapo ofrece. Una buena estrategia de marketing har&aacute; que te conozcan y despegues como nunca antes pensaste.</p>';
+<div class="collapse show" id="whyNeedDMS">
+<div class="card-body">A&uacute;n cuando se sabe que con la digitalizaci&oacute;n todos los negocios han tenido que reinventarse producto de las oportunidades infinitas que brinda el mundo tecnol&oacute;gico, muchos ya sea por incredulidad, desconocimiento o falta de recursos no poseen una presencia digital acorde al &aacute;mbito profesional en que se desarrollan. Esto hace que incluso si <strong>hace unos a&ntilde;os ten&iacute;as un buen flujo de clientes en tu negocio</strong>, si<strong> ahora eres de los que est&aacute;n sin presencia en</strong> lo que se conoce como <strong>internet</strong>, casi seguro has perdido buena parte de las ventas que antes obten&iacute;as cuando deb&iacute;a suceder todo lo contrario. Viceversa a lo que muchos entienden, <strong>una buena presencia en la red es necesaria para todos</strong>, en Cuba, como en el resto del mundo, dir&iacute;a que hasta un carretillero que vende hortalizas, frutas o lo que sea, debe contar con visibilidad en alguna plataforma digital.</div>
+</div>
+</div>
+
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#whatIsDMS">Qu&eacute; es una Estrategia de Marketing Difgital?</a></h6>
+<!-- Card Content - Collapse -->
+
+<div class="collapse show" id="whatIsDMS">
+<div class="card-body">Una estrategia de marketing es un <strong>plan adecuado y personalizado</strong> elaboradao para un ente con pautas o estrategias a desarrollar y seguir, <strong>que como objetivo final tiene alcanzar un fin</strong> que puede ser aumentar tu visibilidad, tus ventas totales o de un producto o servicio en espec&iacute;fico; promover una oferta especial en un per&iacute;odo determinado, un evento, una conferencia. O sea <strong>llegar a tu audiencia para lograr obtener de ella lo que se espera</strong>.</div>
+</div>
+</div>
+
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#examplesDMS">Necesitas ejemplos que aterricen mejor como influye una buena estrategia de Marketing en el crecimiento y visibilidad de tu negocio?</a></h6>
+<!-- Card Content - Collapse -->
+
+<div class="collapse show" id="examplesDMS">
+<div class="card-body">Sencillo y actual. <strong>En tiempos de COVID-19</strong> ha habido cierres temporales de negocios, incluso restricci&oacute;n de movimiento. Tomando como ejemplo al carretillero, crees que <strong>si &eacute;l fuera accesible v&iacute;a digital</strong>, o sea <strong>tuviera un perfil de facebook</strong> con una buena personalizaci&oacute;n de sus datos, donde aparezca a qu&eacute; se dedica y como contactarlo, <strong>&eacute;l podr&iacute;a seguir comercializando sus productos desde casa</strong>? Pues claro que s&iacute;! Necesitar&iacute;a solo llevar lo vendido hasta el domicilio del comprador sin tener uqe pregonar por horas, evitando as&iacute; el riesgo que ofrece el estar en la calle donde el producto es manipulado por personas que muchas veces ni compran lo que toman en la mano. Y mucho mejor a&uacute;n sus ventas se disparar&iacute;an respecto a otros proveedores ambulantes como &eacute;l, pues la diferencia radica en qu&eacute; tan cerca te encuentras de tu comunidad, d&iacute;gase comunidad al universo de personas que necesitan lo que ofreces y no saben qui&eacute;n lo comercializa y /o como solicitarlo sin tener que esperar por divinidad del destino que este servicio, o producto llegue hasta la puerta de su casa o negocio. Un poco m&aacute;s complicado a la hora de desarrollar su estrategia de marketing, es <strong>un productor</strong> de guayabas o mango, pensemos en frutas tropicales( Pudiera ser cualquier tipo de producto o servicio), que <strong>desea buscar nuevos mercados</strong> para su cosecha porque por ejemplo en Cuba existen muchos productores de lo mismo y el exedente de producci&oacute;n muchas veces se hecha a perder por no tener los suficientes compradores o quien lo procese con otros fines, y/o simplemente <strong>desea obtener divisas</strong> para poder comprar insumos en el exterior, ya sea por su inexistencia en el pa&iacute;s o por su insuficiente calidad para lo que se necesita. Lo ideal para este productor es lograr licitar o contratar el comercio de su mercanc&iacute;a con empresas radicadas en lugares poco tropicales, fr&iacute;os, o con demanda alta de su producci&oacute;n. Para lograrlo la v&iacute;a menos costosa, aunque no lo parezca, es una buena estrategia de marketing apoyada en t&eacute;cnicas de posicionamiento SEO, y para catapultarla totalmente, una estrategia de publicidad &ldquo;SEM o pagada&rdquo; (Que desde Cuba &eacute;sta &uacute;ltima se hace muchas veces dif&iacute;cil para no decir imposible, sin embargo con las primeras tiene un 70 % aproximadamente ganado si se desarrolla de manera eficaz y efectiva).</div>
+</div>
+</div>
+
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#designImageDMS">C&oacute;mo influye un buen dise&ntilde;o de im&aacute;gen y un texto adecuado en las estrategias de publicidad y comunicaci&oacute;n?</a></h6>
+<!-- Card Content - Collapse -->
+
+<div class="collapse show" id="designImageDMS">
+<div class="card-body"><strong>Dise&ntilde;ar, maquetar, crear y reproducir</strong> su idea haciendo uso de una imagen, logo, presentaci&oacute;n video, texto o web y basado en el <strong>dise&ntilde;o orientado hacia una interfaz de usuario con calidad (UI)</strong> y una <strong>exelente experiencia de usuario (UX)</strong> se logra desarrollar p&aacute;ginas y aplicaiones web haciendo uso de lenguajes y frameworks muy conocidos como HTML, CSS, JavaScript, PHP, Bootstrap, VueJs, Laravel; obteniendo as&iacute; un producto escalable, f&aacute;cil de actualizar, mantener y mejorar a futuro. <strong>Una llamada a la acci&oacute;n en el lugar y momento preciso</strong>, usando las palabras claves que interesan, apoy&aacute;ndose de una imagen y/o video que complemente la informaci&oacute;n que quieres que llegue al usuario har&aacute; que sea casi imposible abandonar la propuesta que les ofreces. Todo esto <strong>apoyado en la optimizaci&oacute;n SEO ayuda al desarrollo del marketing</strong>, de nada sirve una buena campa&ntilde;a SEM si al dirigir al usuario captado a donde queremos, &eacute;ste no encuentra lo que busca por mala experiencia, mal dise&ntilde;o, mal uso de palabras. Esto quiere decir que el Marketing es un entramado de dise&ntilde;o, texto y publicidad en todos los sentidos</div>
+</div>
+</div>
+
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#resourcesDMS">Crees que no tienes los recursos para darte el lujo obtener de la mano de profesioales tu propia estrategia?</a></h6>
+<!-- Card Content - Collapse -->
+
+<div class="collapse show" id="resourcesDMS">
+<div class="card-body">Crees que no posees las condiciones o recursos para solicitar nuestros servicios? Te equivocas, para Tun Daapo el marketing digital debe ser un derecho de todos, por lo que <strong>ponemos a su alcance lo mejor de las estrategias basado en su presupesto</strong>, pues como piensa hacer crecer su idea si no va de la mano con una buena difusi&oacute;n de lo que hace? Este equipo de trabajo <strong>hace escalable los servicios que oferta</strong>, solo <strong>pagar&aacute; por lo que en la realdiad actual de su negocio necesita</strong>. <strong>Una consultor&iacute;a con nosotros es totalmente gratis</strong>, solo cont&aacute;ctenos con un mensaje donde incluya en breve detalle sus preocupaciones y espectativas, agendaremos una cita y podremos vernos cara a cara v&iacute;a remota debatirlas y darle algunos consejos; y si queda convencido, entonces desarrollaremos juntos un plan que haga crecer sin fin su negocio.</div>
+</div>
+</div>';
       $sectiontun_daapo->save();
       $contentType='Section';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_description='<div class="mt-2" id="necesitas-estrategia-marketing">
-<h2 style="text-align:center"><strong>You need a <span style="color:#f1c40f">Strategy!</span></strong></h2>
+      $content_description='<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#needDMS">How i know that i need a Digital Marketing Strategy?</a></h6>
+<!-- Card Content - Collapse -->
 
-<p>&nbsp;</p>
-
-<table align="center" border="0" cellspacing="0" id="necesitas-plan">
-	<tbody>
-		<tr>
-			<td><img alt="analisis" class="d-block mx-auto px-2 py-2 shadow" src="images/img/pexels-timur-saglambilek-185576.jpg" style="height:150px" /></td>
-			<td><img alt="" class="d-block mx-auto px-2 py-2 shadow" id="preguntas si necesitas marqueting" src="images/img/pexels-olya-kobruseva-5428833.jpg" style="height:220px" title="Marqueting Digital" /></td>
-			<td><img alt="" class="d-block mx-auto px-2 py-2 shadow" src="images/img/pexels-photomix-company-95916.jpg" style="height:220px" title="Planeacion Marqueting" /></td>
-		</tr>
-		<tr>
-			<td style="text-align:center"><strong>You produce something that has everything to be good and commercial Excellent quality Very good price</strong></td>
-			<td style="text-align:center"><strong>Do you dream of being known, followed and highly valued, of having an established and well-publicized brand?</strong></td>
-			<td style="text-align:center"><strong>You do not have a presence in any of the digital channels such as social networks or presentation website. You have in some or all of them but they do not have the result you expected because they have obtained few or no visits for a while.</strong></td>
-		</tr>
-	</tbody>
-</table>
+<div class="collapse show" id="needDMS">
+<div class="card-body">You make <strong> a product </strong> that has everything to be good and commercial, <strong> has excellent quality and a very good price, yet you wonder why it doesn&#39;t sell as much as you expected </strong>, or worse , nor is it for sale! <strong> You dream of being known, followed and highly valued </strong>, with <strong> having an established and well-publicized brand </strong>! You do not have a presence in any of the digital channels such as social networks or presentation website. You have some or all of them but they do not have the result you expected because they have obtained few or no visits for a while. All this indicates that <strong> the management of your digital presence is poor in design and / or communication </strong>. Your strategy, if you have one, is not working, it must be changed, improved or, failing that, totally reworked from a perspective more focused on you. If your service, project or product has not had the development or obtained the sales that you expected, you do not even see in the immediate future the solution that will change this situation and you do not know what to do, you are needing exactly one or more of the services that Tun Daapo offers. A good marketing strategy will make you known and take off like you never thought before.</div>
+</div>
 </div>
 
-<h2 style="text-align:center"><span style="color:#f1c40f">You don&#39;t sell as much as you expect or you should!</span></h2>
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#iNeedDMS">Why i need a Digital Marketing Strategy?</a></h6>
+<!-- Card Content - Collapse -->
 
-<p style="text-align:center">If your service, project or product has not had the development or obtained the sales that you expected, you do not even see in the immediate future the solution that will change this situation and you do not know what to do, you are needing exactly one or more of the services that Tun Daapo offers. A good marketing strategy will make you known and take off like you never thought before.</p>';
+<div class="collapse show" id="iNeedDMS">
+<div class="card-body">Even though it is known that with digitization all businesses have had to reinvent themselves as a result of the infinite opportunities offered by the technological world, many, either due to disbelief, ignorance or lack of resources, do not have a digital presence according to the professional field in which they are developed. . This means that even if <strong> a few years ago you had a good flow of customers in your business </strong>, if <strong> now you are one of those who are without a presence in </strong> what is known as <strong> internet </strong>, you have almost certainly lost a good part of the sales that you previously obtained when the opposite should have happened. Vice versa to what many understand, <strong> a good presence on the web is necessary for everyone </strong>, in Cuba, as in the rest of the world, I would say that even a peddler who sells vegetables, fruits or whatever, it must have visibility on a digital platform.</div>
+</div>
+</div>
+
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#whatIsDMS">What is a Digital Marketing Strategy?</a></h6>
+<!-- Card Content - Collapse -->
+
+<div class="collapse show" id="whatIsDMS">
+<div class="card-body">A marketing strategy is a <strong> adequate and personalized plan </strong> elaborated for an entity with guidelines or strategies to develop and follow, <strong> whose final objective is to achieve an end </strong> which may be to increase your visibility, your total sales or of a specific product or service; promote a special offer in a certain period, an event, a conference. In other words, <strong> reach your audience to achieve what is expected of them </strong>.</div>
+</div>
+</div>
+
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#examplesDMS">Do you need examples of Marketing Strategy?</a></h6>
+<!-- Card Content - Collapse -->
+
+<div class="collapse show" id="examplesDMS">
+<div class="card-body">Simple and current. <strong> In times of COVID-19 </strong> there have been temporary business closures, including movement restrictions. Taking the peddler as an example, do you think that <strong> if he were accessible via digital </strong>, that is, <strong> had a Facebook profile </strong> with a good personalization of his data, where it appears what he does and how to contact him, <strong> could he continue to market his products from home </strong>? Well of course it is! He would only need to take what he sold to the buyer&#39;s home without having to preach for hours, thus avoiding the risk offered by being on the street where the product is manipulated by people who many times do not even buy what they take in hand. And even better still, his sales would skyrocket compared to other peddlers like him, because the difference lies in how close you are to your community, say community to the universe of people who need what you offer and do not know who sells it and / or How to request it without having to wait by divinity of the destination that this service, or product arrives at the door of your house or business. A little more complicated when developing your marketing strategy, is <strong> a producer </strong> of guavas or mango, let&#39;s think of tropical fruits (It could be any type of product or service), that <strong> you want to look for new markets </strong> for its harvest because, for example, in Cuba there are many producers of the same and the excess of production often goes to waste because it does not have enough buyers or who processes it for other purposes, and / or simply &lt; strong&gt; wants to obtain foreign exchange to be able to buy supplies abroad, either due to their inexistence in the country or due to their insufficient quality for what is needed. The ideal thing for this producer is to be able to tender or contract the trade of his merchandise with companies based in places that are not tropical, cold, or with high demand for their production. To achieve this the least expensive way, even if it may not seem like it, is a good marketing strategy supported by SEO positioning techniques, and to fully catapult it, an advertising strategy &quot;SEM or paid&quot; (That from Cuba the latter is often difficult not to say impossible, however with the former it has approximately 70% gained if it is developed efficiently and effectively).</div>
+</div>
+</div>
+
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#designImageDMS">A good Image and design into Publicity and Comunication Strategy?</a></h6>
+<!-- Card Content - Collapse -->
+
+<div class="collapse show" id="designImageDMS">
+<div class="card-body"><strong>Design, layout, create and reproduce </strong> your idea using an image, logo, video, text or web presentation and based on <strong> design oriented towards a quality user interface (UI) </strong> and a <strong> excellent user experience (UX) </strong> it is possible to develop web pages and applications using well-known languages ​​and frameworks such as HTML, CSS, JavaScript, PHP, Bootstrap, VueJs, Laravel; thus obtaining a scalable product, easy to update, maintain and improve in the future. <strong> A call to action in the right place and time </strong>, using the keywords that interest you, relying on an image and / or video that complements the information you want to reach the user will make it almost impossible to abandon the proposal you offer them. All this <strong> supported by SEO optimization helps the development of marketing </strong>, a good SEM campaign is useless if when directing the captured user to where we want, he does not find what he is looking for due to bad experience, bad design, misuse of words. This means that Marketing is a framework of design, text and advertising in every way.</div>
+</div>
+</div>
+
+<div class="card mb-4 shadow"><!-- Card Header - Accordion -->
+<h6><a class="d-block card-header py-3" href="#resourcesDMS">Are you think you do not have enough money to make this??</a></h6>
+<!-- Card Content - Collapse -->
+
+<div class="collapse show" id="resourcesDMS">
+<div class="card-body">Do you think you do not have the conditions or resources to request our services? You&#39;re wrong, for Tun Daapo digital marketing should be everyone&#39;s right, so <strong> we offer you the best of strategies based on your budget </strong>, because how do you plan to grow your idea if it doesn&#39;t hand in hand with a good diffusion of what it does? This work team <strong> makes the services it offers scalable </strong>, only <strong> will pay for what you need in the current reality of your business </strong>. <strong> A consultation with us is totally free </strong>, just contact us with a message where you include in brief detail your concerns and expectations, we will schedule an appointment and we can meet face to face remotely, discuss them and give you some advice; And if you are convinced, then we will develop together a plan that will grow your business without end.</div>
+</div>
+</div>';
       $content_title='Are you Need an Digital Strategy';
-      $data_trans=array(
-        ['id_content_trans'=>$sectiontun_daapo->id,
-        'content'=>$sectiontun_daapo['title'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'title',
-        'content_trans'=>$content_title],
-        ['id_content_trans'=>$sectiontun_daapo->id,
-        'content'=>$sectiontun_daapo['description'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'description',
-        'content_trans'=>$content_description]
-      );
-      $this->storeTranslate($data_trans);
-
-      $sectiontun_daapo=new SectionPage();
-      $sectiontun_daapo->title='Por Que Estrategia de Marketing Digital';
-      $sectiontun_daapo->description='<div class="row">
-<div class="col-lg-4 d-block w-30">&nbsp;</div>
-
-<div class="col-lg-4"><img alt="" class="d-block mx-auto px-2 py-2" src="images/img/pexels-photomix-company-95916.jpg" style="height:220px" />
-<h3 style="text-align:center"><strong><span style="color:#ffffff">Por Qu&eacute;?</span></strong></h3>
-</div>
-
-<p style="text-align:center"><strong>Con la digitalizaci&oacute;n todos los negocios han tenido que reinventarse , muchos ya sea por incredulidad, desconocimiento o falta de recursos no poseen una presencia digital acorde al &aacute;mbito profesional en que se desarrollan.&nbsp;<br />
-Viceversa a lo que muchos entienden, una buena presencia en la red es necesaria para todos, en Cuba, como en el resto del mundo, dir&iacute;a que hasta un carretillero que vende hortalizas, frutas o lo que sea, debe contar con visibilidad en alguna plataforma digital.</strong></p>
-</div>';
-      $sectiontun_daapo->save();
-      $contentType='Section';
-      $tipo_content=$this->findContentId($contentType);
-      $lang=$this->getLangIdByName('English');
-      $content_description='<div class="row">
-<div class="col-lg-4 d-block w-30">&nbsp;</div>
-
-<div class="col-lg-4"><img alt="" class="d-block mx-auto px-2 py-2" src="images/img/pexels-photomix-company-95916.jpg" style="height:220px" />
-<h3 style="text-align:center"><strong><span style="color:#ffffff">Why?</span></strong></h3>
-</div>
-
-<p style="text-align:center"><strong>With digitization, all businesses have had to reinvent themselves, many either due to disbelief, ignorance or lack of resources, do not have a digital presence according to the professional field in which they develop.<br />
-Vice versa to what many understand, a good presence on the web is necessary for everyone, in Cuba, as in the rest of the world, I would say that even a driver who sells vegetables, fruits or whatever, must have visibility on some platform digital.</strong></p>
-</div>';
-      $content_title='Why a Digital Marketing Strategy';
-      $data_trans=array(
-        ['id_content_trans'=>$sectiontun_daapo->id,
-        'content'=>$sectiontun_daapo['title'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'title',
-        'content_trans'=>$content_title],
-        ['id_content_trans'=>$sectiontun_daapo->id,
-        'content'=>$sectiontun_daapo['description'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'description',
-        'content_trans'=>$content_description]
-      );
-      $this->storeTranslate($data_trans);
-
-      $sectiontun_daapo=new SectionPage();
-      $sectiontun_daapo->title='Marketing Digital';
-      $sectiontun_daapo->description='<div class="pb-5" id="estrategia-marketing">
-<h2 style="text-align:center"><span style="color:#ffffff">Estrategia de</span> <span style="color:#f1c40f"><strong>Marketing Digital</strong></span></h2>
-
-<div class="mx-5 my-5 row">
-<div class="col"><img class="img-fluid mt-3" src="images/img/pexels-timur-saglambilek-185576.jpg" /></div>
-
-<div class="col">
-<p><span style="color:#f1c40f">Es un plan adecuado y personalizado elaborado para alcanzar objetivos, que deben ser medibles, basado en pautas o estrategias a desarrollar y seguir, cuyo fin puede ser variable y ambicioso como</span> <span style="color:#ffffff"><strong>aumentar tu visibilidad, tus ventas totales o de un producto o servicio en espec&iacute;fico; promover una oferta especial en un per&iacute;odo determinado, un evento, una conferencia</strong>.</span> <span style="color:#f1c40f">O sea llegar a tu audiencia para lograr obtener de ella lo que se espera.</span></p>
-</div>
-</div>
-</div>';
-      $sectiontun_daapo->save();
-      $contentType='Section';
-      $tipo_content=$this->findContentId($contentType);
-      $lang=$this->getLangIdByName('English');
-      $content_description='<div class="pb-5" id="estrategia-marketing">
-<h2 style="text-align:center"><span style="color:#f1c40f"><strong>Digital Marketing </strong></span><span style="color:#ffffff"><strong>Strategy</strong></span></h2>
-
-<div class="mx-5 my-5 row">
-<div class="col"><img class="img-fluid mt-3" src="images/img/pexels-timur-saglambilek-185576.jpg" /></div>
-
-<div class="col">
-<p><span style="color:#f1c40f">It is an adequate and personalized plan elaborated to achieve objectives, which must be measurable, based on guidelines or strategies to be developed and followed, whose purpose can be variable and ambitious&nbsp;</span><span style="color:#ffffff">such as <strong>increasing your visibility, your total sales or of a specific product or service; promote a special offer in a certain period, an event, a conference.</strong> </span><span style="color:#f1c40f">In other words, reach your audience to get what is expected from it.</span></p>
-</div>
-</div>
-</div>';
-      $content_title='Digital Marketing';
-      $data_trans=array(
-        ['id_content_trans'=>$sectiontun_daapo->id,
-        'content'=>$sectiontun_daapo['title'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'title',
-        'content_trans'=>$content_title],
-        ['id_content_trans'=>$sectiontun_daapo->id,
-        'content'=>$sectiontun_daapo['description'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'description',
-        'content_trans'=>$content_description]
-      );
-      $this->storeTranslate($data_trans);
-
-      $sectiontun_daapo=new SectionPage();
-      $sectiontun_daapo->title='Buen Diseño y Estrategia';
-      $sectiontun_daapo->description='<div class="pb-5" id="estrategia-marketing">
-<h2 style="text-align:center"><span style="color:#ffffff"><strong>Un Buen</strong></span> <strong>Dise&ntilde;o y Estrategia</strong></h2>
-
-<div class="mx-5 my-5 row">
-<div class="col"><img class="img-fluid mt-3" src="images/img/pexels-kaboompics-com-5836.jpg" /></div>
-
-<div class="col">
-<h4><span style="color:#ffffff"><strong>Una llamada a la acci&oacute;n en el lugar y momento preciso, usando las palabras claves que interesan, apoy&aacute;ndose de una imagen y/o video que complemente la informaci&oacute;n que quieres que llegue al usuario har&aacute; que sea casi imposible abandonar la propuesta que les ofreces. </strong></span></h4>
-</div>
-</div>
-</div>';
-      $sectiontun_daapo->save();
-      $contentType='Section';
-      $tipo_content=$this->findContentId($contentType);
-      $lang=$this->getLangIdByName('English');
-      $content_description='<div class="pb-5" id="estrategia-marketing">
-<h2 style="text-align:center"><span style="color:#ffffff"><strong>Un Buen&nbsp;</strong></span><strong>Design and Strategy</strong></h2>
-
-<div class="mx-5 my-5 row">
-<div class="col"><img class="img-fluid mt-3" src="images/img/pexels-kaboompics-com-5836.jpg" /></div>
-
-<div class="col">
-<h4><span style="color:#ffffff"><strong>A call to action in the right place and time, using the keywords that matter, relying on an image and / or video that complements the information you want to reach the user will make it almost impossible to abandon the proposal you offer them. </strong></span></h4>
-</div>
-</div>
-</div>';
-      $content_title='Strategy and Good Design';
-      $data_trans=array(
-        ['id_content_trans'=>$sectiontun_daapo->id,
-        'content'=>$sectiontun_daapo['title'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'title',
-        'content_trans'=>$content_title],
-        ['id_content_trans'=>$sectiontun_daapo->id,
-        'content'=>$sectiontun_daapo['description'],
-        'tipo_content'=>$tipo_content,
-        'trans_lang'=>$lang,
-        'indice_content'=>'description',
-        'content_trans'=>$content_description]
-      );
-      $this->storeTranslate($data_trans);
-
-      $sectiontun_daapo=new SectionPage();
-      $sectiontun_daapo->title='Sin Recursos';
-      $sectiontun_daapo->description='<div class="pb-5" id="estrategia-marketing">
-<h2 style="text-align:center">No tienes <span style="color:#e74c3c"><strong>Recursos?</strong></span></h2>
-
-<div class="mx-5 row">
-<div class="col"><img class="img-fluid mt-3" src="images/img/pexels-pixabay-210679.jpg" /></div>
-
-<div class="col">
-<h5 style="text-align:center">&nbsp;</h5>
-
-<h5 style="text-align:center">&nbsp;</h5>
-
-<h5 style="text-align:center"><strong><span style="color:#e74c3c">Crees que no posees las condiciones o recursos para solicitar nuestros servicios?</span></strong></h5>
-
-<h6>&nbsp;</h6>
-
-<h6 style="text-align:justify"><strong>Este equipo de trabajo hace escalable los servicios que oferta, solo pagar&aacute; por lo que en la realdiad actual de su negocio necesita. Una consultor&iacute;a con nosotros es totalmente gratis, solo cont&aacute;ctenos con un mensaje donde incluya en breve detalle sus preocupaciones y espectativas, agendaremos una cita y podremos vernos cara a cara v&iacute;a remota debatirlas y darle algunos consejos; y si queda convencido, entonces desarrollaremos juntos un plan que haga crecer sin fin su negocio.</strong></h6>
-</div>
-</div>
-</div>';
-      $sectiontun_daapo->save();
-      $contentType='Section';
-      $tipo_content=$this->findContentId($contentType);
-      $lang=$this->getLangIdByName('English');
-      $content_description='<div class="pb-5" id="estrategia-marketing">
-<h2 style="text-align:center">You have&nbsp;<span style="color:#e74c3c"><strong>No resources?</strong></span></h2>
-
-<div class="mx-5 row">
-<div class="col"><img class="img-fluid mt-3" src="images/img/pexels-pixabay-210679.jpg" /></div>
-
-<div class="col">
-<h5 style="text-align:center">&nbsp;</h5>
-
-<h5 style="text-align:center">&nbsp;</h5>
-
-<h5 style="text-align:center"><strong><span style="color:#e74c3c">Do you think you do not have the conditions or resources to request our services?</span></strong></h5>
-
-<h6>&nbsp;</h6>
-
-<h6 style="text-align:justify"><strong>This work team makes the services it offers scalable, you will only pay for what you need in the current reality of your business. A consultation with us is totally free, just contact us with a message where you include in brief detail your concerns and expectations, we will schedule an appointment and we can meet face to face remotely, discuss them and give you some advice; And if you are convinced, then we will develop together a plan that will grow your business without end.</strong></h6>
-</div>
-</div>
-</div>';
-      $content_title='No Resources';
       $data_trans=array(
         ['id_content_trans'=>$sectiontun_daapo->id,
         'content'=>$sectiontun_daapo['title'],

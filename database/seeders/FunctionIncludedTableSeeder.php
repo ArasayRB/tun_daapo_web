@@ -156,12 +156,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='5 Páginas';
+      $function_included->name='<p><span style="color:#f39c12">5 P&aacute;ginas</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='5 Pages';
+      $content_title='<p><span style="color:#f39c12">5 Pages</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -173,12 +173,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='Imágenes de stock';
+      $function_included->name='<p><span style="color:#f39c12">Im&aacute;genes de stock</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='Stock images';
+      $content_title='<p><span style="color:#f39c12">Stock images</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -190,12 +190,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='Posicionamiento en Google SEO';
+      $function_included->name='<p><span style="color:#f39c12">Posicionamiento en Google SEO</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='Positioning in Google SEO';
+      $content_title='<p><span style="color:#f39c12">Positioning in Google SEO</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -207,12 +207,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='10 Páginas';
+      $function_included->name='<p><span style="color:#f39c12">10 P&aacute;ginas</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='10 Pages';
+      $content_title='<p><span style="color:#f39c12">10 Pages</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -224,12 +224,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='2 idioma';
+      $function_included->name='<p><span style="color:#f39c12">2 idioma</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='2 Languages';
+      $content_title='<p><span style="color:#f39c12">2 Languages</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -241,12 +241,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='Chat de contacto';
+      $function_included->name='<p><span style="color:#f39c12">Chat de contacto</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='Contact chat';
+      $content_title='<p><span style="color:#f39c12">Contact chat</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -258,12 +258,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='Multidioma';
+      $function_included->name='<p><span style="color:#f39c12">Multidioma</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='Multi-language';
+      $content_title='<p><span style="color:#f39c12">Multi-language</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -275,12 +275,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='Textos de Calidad';
+      $function_included->name='<p><span style="color:#f39c12">Textos de Calidad</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='Quality Texts';
+      $content_title='<p><span style="color:#f39c12">Quality Texts</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -292,12 +292,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='Importación de tu actual web';
+      $function_included->name='<p><span style="color:#f39c12">Importaci&oacute;n de tu actual web</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='Importing your current website';
+      $content_title='<p><span style="color:#f39c12">Importing your current website</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],
@@ -309,12 +309,12 @@ class FunctionIncludedTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $function_included=new FunctionIncluded();
-      $function_included->name='Página web, Blog o Tienda Online';
+      $function_included->name='<p><span style="color:#f39c12">P&aacute;gina web, Blog o Tienda Online</span></p>';
       $function_included->save();
       $contentType='Function';
       $tipo_content=$this->findContentId($contentType);
       $lang=$this->getLangIdByName('English');
-      $content_title='Website, Blog or Digital Shopping';
+      $content_title='<p><span style="color:#f39c12">Website, Blog or Digital Shopping</span></p>';
       $data_trans=array(
         ['id_content_trans'=>$function_included->id,
         'content'=>$function_included['name'],

@@ -36,7 +36,6 @@
     @section('description')
     <meta name="description" content="{{__('messages.Proyect to programming and web development, expert in design and Marketing Digital.')}}" />
     @show
-    <meta name="generator" content="Laravel 8.0" />
     @section('keywords')
     <meta name="keywords" content="seo y marketing digital, desarrollo y programación web, web" />
     @show
@@ -74,7 +73,7 @@
             <div class="collapse navbar-collapse" id="uno">
              <ul class="navbar-nav">
                @auth
-                   <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link text-light">{{__('messages.Home')}}</a></li>
+                   <li class="nav-item"><a href="{{ route('home',app()->getLocale()) }}" class="nav-link text-light">{{__('messages.Home')}}</a></li>
 
                @endauth
                @guest
