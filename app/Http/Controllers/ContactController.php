@@ -102,7 +102,7 @@ class ContactController extends Controller
       return $contact;
     }
 
-    public function addTranslateContact(Request $request){
+    public function addTranslateContact(string $locale,Request $request){
       $data=request()->validate([
         'address'=> 'required|max:255',
         'lang'=> 'required',
@@ -146,7 +146,7 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(string $locale,Request $request, Contact $contact)
     {
       $this->validator($request->all())->validate();
       $contacto=Contact::findOrFail($contact->id);
@@ -158,7 +158,7 @@ class ContactController extends Controller
       return $contacto;
     }
 
-    public function updateTranslatedContactByLang($contact_id,$lang_name, Request $request){
+    public function updateTranslatedContactByLang(string $locale,$contact_id,$lang_name, Request $request){
       $dataPost=request()->validate([
         'address'=> 'required|max:255',
       ]);
@@ -188,7 +188,7 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contact $contact)
+    public function destroy(string $locale,Contact $contact)
     {
       $contact=Contact::findOrFail($contact->id);
         $contentType='Contact';

@@ -1,7 +1,7 @@
 @extends('layouts.app_tundaapo')
 @section('nav')
 <ul class="navbar sticky-top navbar-expand-md navbar-dark">
-  <li class="nav-item btn btn-warning float-right" type="button"><a href="/" class="text-dark">{{__('messages.Back')}}</a></li>
+  <li class="nav-item btn btn-warning float-right" type="button"><a href="{{ route('welcome',app()->getLocale()) }}" class="text-dark">{{__('messages.Back')}}</a></li>
 </ul>
 @stop
 
@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form method="POST" action="{{ route('password.email',app()->getLocale()) }}">
                         @csrf
 
                         <div class="form-group row">

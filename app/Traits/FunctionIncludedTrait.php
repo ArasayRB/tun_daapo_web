@@ -15,7 +15,7 @@ trait FunctionIncludedTrait {
       return FunctionIncluded::find($function);
     }
 
-    public function getTranslatedFunctionByLang($lang,$function_id,$content_type){
+    public function getTranslatedFunctionByLang(string $locale,$lang,$function_id,$content_type){
       $id_lang=$this->getLangIdByName($lang);
       $content_types=$this->getContentTypeByName($content_type);
       $function_translated=$this->getTranslatedTransItem($id_lang,$function_id,$content_types[0]->id);

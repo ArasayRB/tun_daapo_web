@@ -74,7 +74,7 @@ class ChatTypeMessageController extends Controller
      * @param  \App\Models\ChatTypeMessage  $chatTypeMessage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $chatTypeMessage)
+    public function update(string $locale,Request $request, int $chatTypeMessage)
     {
       $this->validator($request->all())->validate();
       $type_mssg=ChatTypeMessage::findOrFail($chatTypeMessage);
@@ -89,7 +89,7 @@ class ChatTypeMessageController extends Controller
      * @param  \App\Models\ChatTypeMessage  $chatTypeMessage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $chatTypeMessage)
+    public function destroy(string $locale,int $chatTypeMessage)
     {
       $type_mssg=ChatTypeMessage::findOrFail($chatTypeMessage);
       $type_mssg->delete();

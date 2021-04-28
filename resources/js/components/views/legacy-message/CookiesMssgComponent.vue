@@ -25,8 +25,8 @@
           email:'',
           privacy:'',
           mensage:'',
-          url:'/cookies-accepted',
-          src:'/storage/section_page/',
+          url:window.location.origin+'/cookies-accepted',
+          src:window.location.origin+'/storage/section_page/',
           section_name:this.$attrs.name_section,
           token:window.CSRF_TOKEN,
         }
@@ -34,7 +34,7 @@
       methods:{
 
         getCookieMssg:function(){
-          axios.get('/is-cookies-accepted')
+          axios.get(window.location.origin+'/is-cookies-accepted')
               .then(response =>{
                 this.sectionItem=response.data;
                 console.log('Cookie is acepted:'+this.sectionItem);

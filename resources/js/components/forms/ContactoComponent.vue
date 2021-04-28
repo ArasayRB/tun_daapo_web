@@ -56,14 +56,14 @@
       },*/
       methods:{
         tunDaapoData:function(){
-          axios.get('/tun-daapo-contact')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/tun-daapo-contact')
                .then(response =>{
                  this.tuun_daapo_data=response.data;
 
                });
         },
       contact:function(){
-        let url="/contact_us";
+        let url=window.location.origin +"/contact_us";
         let mensaje=this.$trans('messages.Unidentified error');
         if (this.email==''||this.name==''||this.message=='') {
           mensaje=this.$trans('messages.You cannot leave empty fields, please check');

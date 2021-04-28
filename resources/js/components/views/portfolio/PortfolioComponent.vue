@@ -39,14 +39,14 @@
         return{
           portfolioItem:[],
           portfolItem:[],
-          src:'/storage/portfolio/',
+          src:window.location.origin+'/storage/portfolio/',
           token:window.CSRF_TOKEN,
         }
       },
       methods:{
 
         getPortfolio:function(){
-          axios.get('/tun-daapo-portfolio')
+          axios.get(window.location.origin+'/'+this.$attrs.locale+'/tun-daapo-portfolio')
               .then(response =>{
                 this.portfolioItem=response.data;
                 if(this.portfolioItem.length===0){
@@ -62,7 +62,12 @@
        this.getPortfolio();
       },
         mounted() {
-            console.log('Component mounted.')
+          if (this.$attrs.locale) {
+               this.$lang.setLocale(this.$attrs.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

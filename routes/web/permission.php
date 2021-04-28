@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 
+Route::group(['prefix'=>'admin'],function(){
 Route::get('/permissionsList', [App\Http\Controllers\PermissionController::class, 'getPermissionList']);
 Route::resource('/permissions', App\Http\Controllers\PermissionController::class)->middleware('can:admin');
 Route::get('/all-permissions', [App\Http\Controllers\PermissionController::class, 'getAllPermissions']);
+});

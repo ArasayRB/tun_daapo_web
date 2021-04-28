@@ -39,3 +39,19 @@ Vue.directive('can', function (el, binding, vnode) {
 
 
         });
+
+
+        Vue.directive('can-role', function (el, binding, vnode) {
+          var valores=binding.value;
+          var lista=valores.split(',');
+          let roles=UserId.roles[0];
+          if(lista.indexOf(roles.slug)!==-1){
+            el.hidden=false;
+          }
+          else{
+            el.hidden=true;
+          }
+
+
+
+            });

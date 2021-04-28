@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-room-types-chats'" :emit="'roomtchats'" @cancelsearch="roomTList" @roomtchatsfilter="filtersRoomsTChat">
+      <input-searcher-component :url="'/admin/all-room-types-chats'" :locale="locale" :emit="'roomtchats'" @cancelsearch="roomTList" @roomtchatsfilter="filtersRoomsTChat">
     </input-searcher-component>
 
     </div>
@@ -141,7 +141,7 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           ventanaOperRoomTChat:false,
           token   : window.CSRF_TOKEN,
 
@@ -170,7 +170,7 @@
       this.roomtchats=filters;
     },
         roomTList:function(){
-          axios.get('/room-types-list')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/room-types-list')
                .then(response =>{
                  this.roomtchats = response.data;
                  if (response.data==''){
@@ -207,7 +207,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/room-type-chat/'+roomtchat_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/room-type-chat/'+roomtchat_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

@@ -74,7 +74,7 @@ class ChatTypeRoomController extends Controller
      * @param  \App\Models\ChatTypeRoom  $chatTypeRoom
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $chatTypeRoom)
+    public function update(string $locale,Request $request, int $chatTypeRoom)
     {
       $this->validator($request->all())->validate();
       $type_room=ChatTypeRoom::findOrFail($chatTypeRoom);
@@ -89,7 +89,7 @@ class ChatTypeRoomController extends Controller
      * @param  \App\Models\ChatTypeRoom  $chatTypeRoom
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $chatTypeRoom)
+    public function destroy(string $locale,int $chatTypeRoom)
     {
       $type_room=ChatTypeRoom::findOrFail($chatTypeRoom);
       $type_room->delete();

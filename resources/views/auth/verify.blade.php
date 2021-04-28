@@ -7,7 +7,7 @@
 @stop
 @section('nav')
 <ul class="navbar sticky-top navbar-expand-md navbar-dark">
-  <li class="nav-item btn btn-warning float-right" type="button"><a href="/" class="text-dark">{{__('messages.Back')}}</a></li>
+  <li class="nav-item btn btn-warning float-right" type="button"><a href="{{ route('welcome',app()->getLocale()) }}" class="text-dark">{{__('messages.Back')}}</a></li>
 </ul>
 @stop
 
@@ -30,7 +30,7 @@
 
                     {{ __('messages.Before proceeding, please check your email for a verification link.') }}
                     {{ __('messages.If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                    <form class="d-inline" method="POST" action="{{ route('verification.resend',app()->getLocale()) }}">
                         @csrf
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline text-dark">{{ __('messages.click here to request another') }}</button>.
                     </form>

@@ -171,7 +171,7 @@
       console.log(evt);
     },
     getLanguageList:function(){
-      axios.get('/languages-no-translated/'+this.contact.id+'/Contact')
+      axios.get(window.location.origin +'/'+this.locale+'/languages-no-translated/'+this.contact.id+'/Contact')
             .then(response=> this.languages=response.data)
             .catch(error=>this.error.push(error));
     },
@@ -182,7 +182,7 @@
           let mensaje;
           let default_lang=this.$lang.getLocale();
           if(this.show_lang_div===false){
-            url="/add-translate-contact";
+            url=window.location.origin +'/'+this.locale+"/admin/add-translate-contact";
             msg_succ=this.$trans('messages.Contact')+' '+this.$trans('messages.Translated Succefully');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.address==''||this.lang_trans=='') {
@@ -195,7 +195,7 @@
               data.append("lang", this.lang_trans);
           }
           else{
-            url="/contact";
+            url=window.location.origin +'/'+this.locale+"/admin/contact";
             msg_succ=this.$trans('messages.Contact')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.email==''||this.phone==''||this.address=='') {
@@ -260,7 +260,7 @@
                 data.append("phone", contact.phone);
                 data.append("address", contact.address);
                 data.append("map", contact.map);
-              url="/contact/"+contact.id;
+              url=window.location.origin +'/'+this.locale+"/admin/contact/"+contact.id;
               msg_edited=this.$trans('messages.Contact')+' '+this.$trans('messages.Edited');
             }
             else{
@@ -268,7 +268,7 @@
                 data.append("address", contact.address);
                 //data.append("tags", postTags);
                 //data.append("keywords", postKeys);
-              url="/contact-translated-edited/"+contact.id+"/"+this.lan_to_edit;
+              url=window.location.origin +'/'+this.locale+"/admin/contact-translated-edited/"+contact.id+"/"+this.lan_to_edit;
               msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Contact')+' '+this.$trans('messages.translation has been successfully modified');
             }
 
@@ -313,6 +313,12 @@
          this.getLanguageList();
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

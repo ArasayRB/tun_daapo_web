@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 
+Route::group(['prefix'=>'admin'],function(){
 Route::resource('/room-type-chat', App\Http\Controllers\ChatTypeRoomController::class,['except'=>['create','edit']])->middleware('role:administrator');
 Route::get('/room-types-list', [App\Http\Controllers\ChatTypeRoomController::class, 'getChatRoomTypeList']);
 Route::get('/all-room-types-chats', [App\Http\Controllers\ChatTypeRoomController::class, 'getAllRoomTypesChat']);
+});

@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-contacts'" :emit="'contacts'" @cancelsearch="contactList" @contactsfilter="filtersContacts">
+      <input-searcher-component :url="'/admin/all-contacts'" :locale="locale" :emit="'contacts'" @cancelsearch="contactList" @contactsfilter="filtersContacts">
     </input-searcher-component>
 
     </div>
@@ -166,7 +166,7 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           src:'storage/img_web/login_img/',
           src_qr:'storage/qrcodes/permissions/',
           ventanaOperContact:false,
@@ -203,7 +203,7 @@
         },
         openEditTranslated:function(contact, lang_available){
           let contact_translated_array;
-          axios.get('/get-translated-contact-by-lang/'+lang_available+'/'+contact.id+'/Contact')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/get-translated-contact-by-lang/'+lang_available+'/'+contact.id+'/Contact')
                .then(response =>{
                  contact_translated_array = response.data;
                  this.contact=contact_translated_array;
@@ -216,7 +216,7 @@
                .catch(error => this.errors.push(error));
         },
         getTranslates:function(index,contact){
-          axios.get('/translated-language-item/'+contact.id+'/Contact')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/translated-language-item/'+contact.id+'/Contact')
                .then(response =>{
                    this.lang=false;
                  if (response.data==='no-language-added'){
@@ -236,7 +236,7 @@
                .catch(error => this.errors.push(error));
         },
         contactList:function(){
-          axios.get('/contactList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/contactList')
                .then(response =>{
                  this.contacts = response.data;
                  if (response.data==''){
@@ -273,7 +273,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/contact/'+contact_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/contact/'+contact_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

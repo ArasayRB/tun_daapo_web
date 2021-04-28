@@ -121,7 +121,7 @@
           value:'',
           category_post:'',
           name_button:'',
-          src:'images/lang/',
+          src:window.location.origin +'/'+'images/lang/',
           ventanaOperCategory:false,
           error:'',
           token   : window.CSRF_TOKEN,
@@ -154,7 +154,7 @@
           let mensaje;
           let default_lang=this.$lang.getLocale();
 
-            url="/category";
+            url=window.location.origin +'/'+this.locale+"/admin/category";
             msg_succ=this.$trans('messages.Category')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.category_post==''||this.description=='') {
@@ -210,7 +210,7 @@
       	          data.append('_method', 'patch');
                   data.append("category_post", category.category_post);
                   data.append("description", category.description);
-                url="/category/"+category.id;
+                url=window.location.origin +'/'+this.locale+"/admin/category/"+category.id;
                 msg_edited=this.$trans('messages.Category')+' '+this.$trans('messages.Edited');
 
 
@@ -249,6 +249,12 @@
       created: function () {
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

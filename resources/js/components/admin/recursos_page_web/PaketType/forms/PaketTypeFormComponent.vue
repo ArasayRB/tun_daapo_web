@@ -129,7 +129,7 @@
       console.log(evt);
     },
     getLanguageList:function(){
-      axios.get('/languages-no-translated/'+this.paket_type.id+'/Paket Type')
+      axios.get(window.location.origin +'/'+this.$attrs.locale+'/languages-no-translated/'+this.paket_type.id+'/Paket Type')
             .then(response=> this.languages=response.data)
             .catch(error=>this.error.push(error));
     },
@@ -141,7 +141,7 @@
           let default_lang=this.$lang.getLocale();
 
           if(this.show_lang_div===false){
-            url="/add-translate-packet-type";
+            url=window.location.origin +'/'+this.$attrs.locale+"/admin/add-translate-packet-type";
             msg_succ=this.$trans('messages.Packet Type')+' '+this.$trans('messages.Translated Succefully');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.lang_trans=='') {
@@ -154,7 +154,7 @@
               data.append("lang", this.lang_trans);
           }
           else{
-            url="/pakettypes";
+            url=window.location.origin +'/'+this.$attrs.locale+"/admin/pakettypes";
             msg_succ=this.$trans('messages.Packet Type')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.name=='') {
@@ -207,7 +207,7 @@
             data = new FormData();
               data.append('_method', 'patch');
               data.append("name", paket_type.name);
-            url="/pakettypes/"+paket_type.id;
+            url=window.location.origin +'/'+this.$attrs.locale+"/admin/pakettypes/"+paket_type.id;
             msg_edited=this.$trans('messages.Packet Type')+' '+this.$trans('messages.Edited');
           }
           else{
@@ -215,7 +215,7 @@
               data.append("name", paket_type.name);
               //data.append("tags", postTags);
               //data.append("keywords", postKeys);
-            url="/packet-type-translated-edited/"+paket_type.id+"/"+this.lan_to_edit;
+            url=window.location.origin +'/'+this.$attrs.locale+"/admin/packet-type-translated-edited/"+paket_type.id+"/"+this.lan_to_edit;
             msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Packet Type')+' '+this.$trans('messages.translation has been successfully modified');
           }
 
@@ -252,6 +252,12 @@
          this.getLanguageList();
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

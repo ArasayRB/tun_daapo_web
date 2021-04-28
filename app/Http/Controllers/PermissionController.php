@@ -75,7 +75,7 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+    public function update(string $language,Request $request, Permission $permission)
     {
 
           $this->validator($request->all())->validate();
@@ -93,7 +93,7 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
+    public function destroy(string $language,Permission $permission)
     {
         $permiso=Permission::findOrFail($permission->id);
         $permiso->delete();

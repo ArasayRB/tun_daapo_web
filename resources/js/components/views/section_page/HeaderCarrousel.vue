@@ -1,8 +1,8 @@
 <template>
-  
-        <necesitas-plan-section-component>
+
+        <necesitas-plan-section-component :locale="locale">
         </necesitas-plan-section-component>
-      
+
 </template>
 
 <script>
@@ -10,6 +10,7 @@
       data(){
         return{
           sectionItem:[],
+          locale:this.$attrs.locale,
           src:'/storage/section_page/',
           section_name:this.$attrs.name_section,
           token:window.CSRF_TOKEN,
@@ -19,7 +20,12 @@
        this.getSection();
       },
         mounted() {
-            console.log('Component mounted.')
+          if (this.$attrs.locale) {
+               this.$lang.setLocale(this.$attrs.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

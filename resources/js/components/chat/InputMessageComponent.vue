@@ -13,7 +13,7 @@
       data:function(){
         return{
           message:'',
-          src:'/images/img/enviar.png',
+          src:window.location.origin +'/images/img/enviar.png',
         }
       },
       watch:{
@@ -31,7 +31,7 @@
                 if(this.message===''){
                   return;
                 }
-                axios.post('/chat/room/'+this.room.id+'/message',{
+                axios.post(window.location.origin +'/chat/room/'+this.room.id+'/message',{
                   message:this.message,
                   user:this.user.id
                 })

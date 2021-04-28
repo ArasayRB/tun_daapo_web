@@ -27,7 +27,7 @@
 
 <script>
     export default {
-      props:['mensageaskbudget'],
+      props:['mensageaskbudget','locale'],
       data(){
         return{
           sectionItem:[],
@@ -36,7 +36,7 @@
           email:'',
           privacy:'',
           mensage:'',
-          url:'/ask-budget',
+          url:window.location.origin+'/ask-budget',
           src:'/storage/section_page/',
           section_name:this.$attrs.name_section,
           token:window.CSRF_TOKEN,
@@ -45,7 +45,7 @@
       methods:{
 
         getSection:function(){
-          axios.get('/section_name/'+this.section_name)
+          axios.get(window.location.origin+'/'+this.locale+'/section_name/'+this.section_name)
               .then(response =>{
                 this.sectionItem=response.data;
                 if(this.sectionItem.length===0){
@@ -121,10 +121,14 @@
        this.getSection();
 
        this.privacy=true;
-       console.log('message es: '+this.mensage);
       },
         mounted() {
-            console.log('Component mounted.')
+        if (this.locale) {
+             this.$lang.setLocale(this.locale);
+             }
+        else {
+          this.$lang.setLocale('en');
+        }
         }
     }
 </script>

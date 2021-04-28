@@ -174,7 +174,7 @@
       console.log(evt);
     },
     getLanguageList:function(){
-      axios.get('/languages-no-translated/'+this.functionsincluded.id+'/Function')
+      axios.get(window.location.origin +'/'+this.locale+'/languages-no-translated/'+this.functionsincluded.id+'/Function')
             .then(response=> this.languages=response.data)
             .catch(error=>this.error.push(error));
     },
@@ -186,7 +186,7 @@
           let default_lang=this.$lang.getLocale();
 
           if(this.show_lang_div===false){
-            url="/add-translate-function";
+            url=window.location.origin +'/'+this.locale+"/admin/add-translate-function";
             msg_succ=this.$trans('messages.Function Included')+' '+this.$trans('messages.Translated Succefully');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.description==''||this.lang_trans=='') {
@@ -200,7 +200,7 @@
               data.append("description", this.description);
           }
           else{
-            url="/functions-included";
+            url=window.location.origin +'/'+this.locale+"/admin/functions-included";
             msg_succ=this.$trans('messages.Functions Included')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.name=='') {
@@ -256,7 +256,7 @@
               data.append('_method', 'patch');
               data.append("name", functionsincluded.name);
               data.append("description", functionsincluded.description);
-            url="/functions-included/"+functionsincluded.id;
+            url=window.location.origin +'/'+this.locale+"/admin/functions-included/"+functionsincluded.id;
             msg_edited=this.$trans('messages.Functions Included')+' '+this.$trans('messages.Edited');
           }
           else{
@@ -265,7 +265,7 @@
               data.append("description", functionsincluded.description);
               //data.append("tags", postTags);
               //data.append("keywords", postKeys);
-            url="/function-translated-edited/"+functionsincluded.id+"/"+this.lan_to_edit;
+            url=window.location.origin +'/'+this.locale+"/admin/function-translated-edited/"+functionsincluded.id+"/"+this.lan_to_edit;
             msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Function Included')+' '+this.$trans('messages.translation has been successfully modified');
           }
 
@@ -305,6 +305,12 @@
          this.getLanguageList();
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-languages'" :emit="'languages'" @cancelsearch="languageList" @languagesfilter="filtersLanguages">
+      <input-searcher-component :url="'/admin/all-languages'" :locale="locale" :emit="'languages'" @cancelsearch="languageList" @languagesfilter="filtersLanguages">
     </input-searcher-component>
 
     </div>
@@ -143,7 +143,7 @@
           mensage:'',
           valueImg:'',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           src:'storage/img_web/login_img/',
           src_qr:'storage/qrcodes/permissions/',
           ventanaOperLanguage:false,
@@ -179,7 +179,7 @@
           this.imagenpermission=e.target.files[0];
         },
         languageList:function(){
-          axios.get('/languagesList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/languagesList')
                .then(response =>{
                  this.languages = response.data;
                  if (response.data==''){
@@ -219,7 +219,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/languages/'+language_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/idiomas/'+language_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

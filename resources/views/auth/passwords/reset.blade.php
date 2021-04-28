@@ -1,7 +1,7 @@
 @extends('layouts.app_tundaapo')
 @section('nav')
 <ul class="navbar sticky-top navbar-expand-md navbar-dark">
-  <li class="nav-item btn btn-warning float-right" type="button"><a href="/" class="text-dark">{{__('messages.Back')}}</a></li>
+  <li class="nav-item btn btn-warning float-right" type="button"><a href="{{ route('welcoome',app()->getLocale()) }}" class="text-dark">{{__('messages.Back')}}</a></li>
 </ul>
 @stop
 
@@ -13,7 +13,7 @@
                 <div class="card-header">{{ __('messages.Reset Password') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
+                    <form method="POST" action="{{ route('password.update',app()->getLocale()) }}">
                         @csrf
 
                         <input type="hidden" name="token" value="{{ $token }}">

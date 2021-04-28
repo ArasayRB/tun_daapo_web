@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 
+Route::group(['prefix'=>'admin'],function(){
 Route::resource('/functions-included', App\Http\Controllers\FunctionIncludedController::class,['except'=>['create','edit']])->middleware('role:administrator');
 Route::get('/available-functions', [App\Http\Controllers\FunctionIncludedController::class, 'availableFunctions']);
 Route::get('/functions-included-list', [App\Http\Controllers\FunctionIncludedController::class, 'functionsIncludedList']);
@@ -15,3 +16,4 @@ Route::get('/all-functions-included', [App\Http\Controllers\FunctionIncludedCont
 Route::get('/get-translated-function-by-lang/{lang}/{id_funct}/{content_type}',[App\Http\Controllers\FunctionIncludedController::class, 'getTranslatedFunctionByLang']);
 Route::post('/add-translate-function', [App\Http\Controllers\FunctionIncludedController::class, 'addTranslateFunction']);
 Route::post('/function-translated-edited/{id_section}/{lang_name}',[App\Http\Controllers\FunctionIncludedController::class, 'updateTranslatedFunctionByLang']);
+});

@@ -57,7 +57,7 @@ class PostController extends Controller
     }
 
     public function getPostAutentUser(){
-      if(auth()->user()->roles->contains('slug','admin')||auth()->user()->roles->contains('slug','publisher-content')){
+      if(auth()->user()->roles->contains('slug','admin')||auth()->user()->roles->contains('slug','publisher-content')||auth()->user()->roles->contains('slug','editor-content')){
         $posts=Post::with('categoriaPosts')
                      ->with('keywords')
                      ->with('users')
@@ -109,11 +109,7 @@ class PostController extends Controller
                    return $posts;
     }
 
-    public function previewPost(Request $request,$slug){
-      return $this->show($request->ip(),$slug,'preview');
-    }
-
-    public function publicatePost($idPost,$state){
+    public function publicatePost($lang,$idPost,$state){
       $post=Post::find($idPost);
       $this->authorize('publicate',$post);
       $post->publicate_state=$state;
@@ -160,6 +156,11 @@ class PostController extends Controller
       }
 
         return $tags_array;
+    }
+
+
+    public function previewPost(Request $request,$slug){
+      return $this->show($request->ip(),$slug,'preview');
     }
 
     public function availableKeys()
@@ -406,7 +407,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update($lang,Request $request, Post $post)
     {
 
       /*if(Gate::denies('admin')){
@@ -537,7 +538,7 @@ class PostController extends Controller
         return $postToUpd;
     }
 
-    public function updateTranslatedPostByLang($post_id,$lang_name, Request $request){
+    public function updateTranslatedPostByLang($locale,$post_id,$lang_name, Request $request){
     $dataPost=request()->validate([
         'title'=> 'required|max:255',
         'content'=> 'required',
@@ -666,7 +667,7 @@ if(is_array($tags)){
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy(Post $post)
+    public function destroy($lang,Post $post)
     {
 
       $this->authorize('delete',$post);

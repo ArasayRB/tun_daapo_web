@@ -21,7 +21,12 @@ class LocaleLangMiddleware
        * If esta a true el valor de la variable status que tenemos en locale.php
        */
       if (config('locale.status')) {
-          if (session()->has('locale') &&
+        if(in_array($request->language, array_keys(config('locale.languages')))){
+
+          session()->put('locale', $request->language);
+          app()->setLocale($request->language);
+        }
+          else if (session()->has('locale') &&
               in_array(session()->get('locale'), array_keys(config('locale.languages')))) {
 
               /*

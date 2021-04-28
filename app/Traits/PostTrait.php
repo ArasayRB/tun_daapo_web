@@ -38,7 +38,7 @@ trait PostTrait {
       return $posts_more_read;
     }
 
-    public function getTranslatedPostByLang($lang,$post_id,$content_type){
+    public function getTranslatedPostByLang($locale,$lang,$post_id,$content_type){
       $id_lang=$this->getLangIdByName($lang);
       $content_types=$this->getContentTypeByName($content_type);
       $post_translated=$this->getTranslatedTransItem($id_lang,$post_id,$content_types[0]->id);
@@ -273,11 +273,11 @@ trait PostTrait {
         $post->keywords_lang_array=$keywords_lang_array;
         $post->keywords_post=$keywords;
 
-      return view('/posts/show',['post'=>$post]);
+      return view('posts.show',['post'=>$post]);
     }
 
 
-     return view('/posts/show',['post'=>$post,'preview'=>'vista previa']);
+     return view('posts.show',['post'=>$post,'preview'=>'vista previa']);
     }
 
     public function relationedPostByTags($id){

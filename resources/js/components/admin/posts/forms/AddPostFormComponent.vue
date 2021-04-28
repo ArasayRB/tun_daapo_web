@@ -248,7 +248,7 @@ text-field="value"
              data.append("tags", postTags);
              data.append("keywords", postKeys);
            if(this.show_lang_div===false){
-              url="/addTranslate";
+              url=window.location.origin +'/'+this.locale+"/admin/addTranslate";
               msg_succ=this.$trans('messages.Post translated successfully');
               let mensaje=this.$trans('messages.Unidentified error');
               if (this.title==''||this.checkEditSummary==''||this.checkEditContent==''||this.lang_trans=='') {
@@ -258,7 +258,7 @@ text-field="value"
                 data.append("post_id", this.post.id);
            }
            else{
-            url="/posts";
+            url=window.location.origin +'/'+this.locale+"/admin/posts";
             msg_succ=this.$trans('messages.Post created successfully');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.title==''||this.imagenPost==''||this.categoria==''||this.checkEditSummary==''||this.checkEditContent==''||this.selectedTags==''||this.keywords=='') {
@@ -323,22 +323,22 @@ text-field="value"
         },
       },
       created: function () {
-        axios.get('/languages-no-translated/'+this.post.id+'/Post')
+        axios.get(window.location.origin+'/'+this.locale+'/languages-no-translated/'+this.post.id+'/Post')
               .then(response=> this.languages=response.data)
               .catch(error=>this.error.push(error));
 
-         axios.get('/categoriesList')
+         axios.get(window.location.origin +'/'+this.locale+'/admin/categoriesList')
               .then(response => this.categories = response.data)
               .catch(error => this.errors.push(error));
 
-         axios.get('/available-tags')
+         axios.get(window.location.origin +'/'+this.locale+'/admin/available-tags')
               .then(response =>{
                 this.tags = response.data;
                 console.log(this.tags);
               })
               .catch(error => this.errors.push(error));
 
-              axios.get('/available-keys')
+              axios.get(window.location.origin +'/'+this.locale+'/admin/available-keys')
                    .then(response =>{
                      this.keywords = response.data;
                      console.log(this.keywords);
@@ -347,8 +347,8 @@ text-field="value"
          },
         mounted() {
 
-          if (this.$attrs.locale) {
-               this.$lang.setLocale(this.$attrs.locale);
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
                }
           else {
             this.$lang.setLocale('en');

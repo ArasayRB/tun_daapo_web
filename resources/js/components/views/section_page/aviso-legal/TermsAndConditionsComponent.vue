@@ -16,7 +16,7 @@
       methods:{
 
         getSection:function(){
-          axios.get('/section_name/'+this.section_name)
+          axios.get(window.location.origin+'/'+this.$attrs.locale+'/section_name/'+this.section_name)
               .then(response =>{
                 this.sectionItem=response.data;
               /*  else{
@@ -29,7 +29,12 @@
        this.getSection();
       },
         mounted() {
-            console.log('Component mounted.')
+        if (this.$attrs.locale) {
+             this.$lang.setLocale(this.$attrs.locale);
+             }
+        else {
+          this.$lang.setLocale('en');
+        }
         }
     }
 </script>

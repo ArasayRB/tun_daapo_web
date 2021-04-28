@@ -169,17 +169,6 @@ class PortfolioController extends Controller
       return $portfolio;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Portfolio  $portfolio
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Portfolio $portfolio)
-    {
-        //
-    }
-
 
     /**
      * Update the specified resource in storage.
@@ -188,7 +177,7 @@ class PortfolioController extends Controller
      * @param  \App\Models\Portfolio  $portfolio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Portfolio $portfolio)
+    public function update(string $locale,Request $request, Portfolio $portfolio)
     {
 
       $portfol=Portfolio::findOrFail($portfolio->id);
@@ -233,7 +222,7 @@ class PortfolioController extends Controller
       return $portToAdd;
     }
 
-    public function updateTranslatedPortfolioByLang($portfolio_id,$lang_name, Request $request){
+    public function updateTranslatedPortfolioByLang(string $locale,$portfolio_id,$lang_name, Request $request){
       $dataPost=request()->validate([
         'description'=> 'required',
       ]);
@@ -263,7 +252,7 @@ class PortfolioController extends Controller
      * @param  \App\Models\Portfolio  $portfolio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Portfolio $portfolio)
+    public function destroy(string $locale,Portfolio $portfolio)
     {
       $portfol=Portfolio::findOrFail($portfolio->id);
         $contentType='Portfolio';

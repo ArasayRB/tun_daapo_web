@@ -80,13 +80,13 @@
                @guest
                    @if (Route::has('login'))
                        <li class="nav-item">
-                           <a class="nav-link text-light" href="{{ route('login') }}">{{ __('messages.Login') }}</a>
+                           <a class="nav-link text-light" href="{{ route('login',app()->getLocale()) }}">{{ __('messages.Login') }}</a>
                        </li>
                    @endif
 
                    @if (Route::has('register'))
                        <li class="nav-item">
-                           <a class="nav-link text-light" href="{{ route('register') }}">{{ __('messages.Register') }}</a>
+                           <a class="nav-link text-light" href="{{ route('register',app()->getLocale()) }}">{{ __('messages.Register') }}</a>
                        </li>
                    @endif
                @else
@@ -96,19 +96,19 @@
                        </a>
 
                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                           <a class="dropdown-item" href="{{ route('logout') }}"
+                           <a class="dropdown-item" href="{{ route('logout',app()->getLocale()) }}"
                               onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                                {{ __('messages.Logout') }}
                            </a>
 
-                           <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                           <form id="logout-form" action="{{ route('logout',app()->getLocale()) }}" method="POST" class="d-none">
                                @csrf
                            </form>
                        </div>
                    </li>
 
-                     <li class="nav-item"><a href="/admin" class="nav-link text-light">{{__('messages.Dashboard')}}</a></li>
+                     <li class="nav-item"><a href="{{ route('admin',app()->getLocale()) }}" class="nav-link text-light">{{__('messages.Dashboard')}}</a></li>
                @endguest
               <li class="nav-item"><a href="#tun_daapo" class="nav-link text-light">{{__('messages.Tun Daapo')}}</a></li>
               <li class="nav-item"><a href="#services" class="nav-link text-light">{{__('messages.Services')}}</a></li>
@@ -118,17 +118,17 @@
               <li class="nav-item"><a href="#blog" class="nav-link text-light">{{__('messages.Blog')}}</a></li>
               @endif
               <li class="nav-item"><a href="#contacto" class="nav-link text-light">{{__('messages.Contact')}}</a></li>
-              <li class="nav-item"><a href="/questions-frequently" class="nav-link text-light">{{__('messages.Frequently Questions')}}</a></li>
+              <li class="nav-item"><a href="{{url(app()->getLocale().'/questions-frequently')}}" class="nav-link text-light">{{__('messages.Frequently Questions')}}</a></li>
               <!--Comprobamos si el status esta a true y existe más de un lenguaje-->
             @if (config('locale.status') && count(config('locale.languages')) > 1)
                              <li class="nav-item dropdown">
                                <a class="nav-link dropdown-toggle text-light"  id="dropdownMenuLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                                 {{__('messages.Languages')}}
+                                 <img src="{{ asset('images/lang/'.app()->getLocale().'.ico') }}"/>   {!! app()->getLocale() !!}
                                </a>
                                <div class="dropdown-menu">
                                  @foreach (array_keys(config('locale.languages')) as $lang)
                                      @if ($lang != App::getLocale())
-                                         <a class="dropdown-item" href="{!! route('language.select', $lang) !!}">
+                                         <a class="dropdown-item" href="{!! route(Route::currentRouteName(), $lang) !!}">
                                               <img src="{{ asset('images/lang/'.$lang.'.ico') }}"/>   {!! $lang !!}
                                          </a>
                                      @endif
@@ -179,15 +179,17 @@
              <div class="col-xs-12">
                <img src="{!! asset('images/img/pie_tundaapo_para_web.png') !!}" class="mx-auto d-block rounded rounded-circle bg-warning pt-2 pr-3 pb-5">
              </div>
+               @section('legacy')
              <div class="text-center">
                <img src="{!! asset('images/img/ico-facebook.png') !!}" class="mx-2 my-2 img-foot">
                <img src="{!! asset('images/img/ico-instagram.png') !!}" class="mx-2 my-2 img-foot">
                <img src="{!! asset('images/img/ico-twitter.png') !!}" class="mx-2 my-2 img-foot">
              </div>
              <div class="col">
-                 <p class="text-light text-center"><a href="/terms-conditions" class="text-light text-center">{{__('messages.Terms and Conditions')}}</a> |
-                   <a href="/privacy-policy" class="text-light text-center">{{__('messages.Privacy Policy')}}</a></p>
-                   </div>
+                 <p class="text-light text-center"><a href="{{url(app()->getLocale().'/terms-conditions')}}" class="text-light text-center">{{__('messages.Terms and Conditions')}}</a> |
+                   <a href="{{url(app()->getLocale().'/privacy-policy')}}" class="text-light text-center">{{__('messages.Privacy Policy')}}</a></p>
+              </div>
+              @show
 
         <h6 class="text-center text-light  font-weight-bold"> Tun Daapo.</h6>
         <h6 class="text-center text-light font-weight-bold pb-3">©2020 {{__('messages.All rights reserved')}}</h6>

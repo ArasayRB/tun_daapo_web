@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-comments-config'" :emit="'confcomments'" @cancelsearch="confcommentList" @confcommentsfilter="filtersConfComment">
+      <input-searcher-component :url="'/admin/all-comments-config'" :emit="'confcomments'" :locale="locale" @cancelsearch="confcommentList" @confcommentsfilter="filtersConfComment">
     </input-searcher-component>
 
     </div>
@@ -125,7 +125,7 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           src:'storage/img_web/login_img/',
           src_qr:'storage/qrcodes/permissions/',
           ventanaOperConfComment:false,
@@ -138,7 +138,7 @@
           this.confcomments=filters;
         },
         confcommentList:function(){
-          axios.get('/config-comments-list')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/config-comments-list')
                .then(response =>{
                  this.confcomments = response.data;
                  if (response.data==''){
@@ -175,7 +175,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/configuration-comments/'+confcomment_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/configuration-comments/'+confcomment_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

@@ -7,7 +7,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-Route::get('/post-preview/{id}', [App\Http\Controllers\PostController::class, 'previewPost']);
+Route::group(['prefix'=>'admin'],function(){
 Route::post('/publicate-post/{id}/{state}', [App\Http\Controllers\PostController::class, 'publicatePost']);
 Route::resource('/posts', App\Http\Controllers\PostController::class)->middleware('role:administrator,viewer-content,writer-content,publisher-content');
 Route::get('/categoriesList', [App\Http\Controllers\PostController::class, 'getCategories']);
@@ -29,3 +29,5 @@ Route::get('comments-list', [App\Http\Controllers\ComentarioPostController::clas
 Route::resource('/comments-post', App\Http\Controllers\ComentarioPostController::class,['except'=>['create','edit']])->middleware('role:administrator,editor-content,moderator');
 Route::post('/publicate-comment/{id}/{state}', [App\Http\Controllers\ComentarioPostController::class, 'publicateComment']);
 Route::get('/posts-list-form', [App\Http\Controllers\ComentarioPostController::class, 'getPosts']);
+
+});

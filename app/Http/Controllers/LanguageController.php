@@ -87,10 +87,10 @@ class LanguageController extends Controller
    * @param  \App\Models\Language  $language
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Language $language)
+  public function update(string $lang,Request $request, int $idioma)
   {
     $this->validator($request->all())->validate();
-    $language=Language::findOrFail($language->id);
+    $language=Language::findOrFail($idioma);
     $language->language=request('language');
     $language->sigla=request('sigla');
     $language->update();
@@ -103,9 +103,9 @@ class LanguageController extends Controller
    * @param  \App\Models\Language  $language
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Language $language)
+  public function destroy(string $lang,int $idioma)
   {
-    $language=Language::findOrFail($language->id);
+    $language=Language::findOrFail($idioma);
     $language->delete();
   }
 }

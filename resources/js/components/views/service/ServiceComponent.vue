@@ -28,14 +28,14 @@
         return{
           servicesItem:[],
           serviceItem:[],
-          src:'storage/service/',
+          src:window.location.origin+'/storage/service/',
           token:window.CSRF_TOKEN,
         }
       },
       methods:{
 
         getServices:function(){
-          axios.get('/services_offer')
+          axios.get(window.location.origin+'/'+this.$attrs.locale+'/services_offer')
               .then(response =>{
                 this.servicesItem=response.data;
                 if(this.servicesItem.length===0){

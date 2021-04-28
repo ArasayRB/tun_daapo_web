@@ -134,7 +134,7 @@
           let mensaje;
           let default_lang=this.$lang.getLocale();
 
-            url="/mssg-type-chat";
+            url=window.location.origin +'/'+this.locale+"/admin/mssg-type-chat";
             msg_succ=this.$trans('messages.Chat')+' '+this.$trans('messages.Type')+' '+this.$trans('messages.Message')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.name=='') {
@@ -182,7 +182,7 @@
             data = new FormData();
     	          data.append('_method', 'patch');
                 data.append("name", mssgtchat.name);
-              url="/mssg-type-chat/"+mssgtchat.id;
+              url=window.location.origin +'/'+this.locale+"/admin/mssg-type-chat/"+mssgtchat.id;
               msg_edited=this.$trans('messages.Chat')+' '+this.$trans('messages.Type')+' '+this.$trans('messages.Message')+' '+this.$trans('messages.Edited');
 
           axios.post(url,data,config)
@@ -216,6 +216,12 @@
       created: function () {
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

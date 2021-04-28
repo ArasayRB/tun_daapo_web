@@ -77,7 +77,7 @@ class CategoriaPostController extends Controller
      * @param  \App\Models\CategoriaPost  $categoriaPost
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $categoriaPost)
+    public function update(string $locale,Request $request, int $categoriaPost)
     {
       $category=CategoriaPost::findOrFail($categoriaPost);
       $category->category_post=request('category_post');
@@ -92,7 +92,7 @@ class CategoriaPostController extends Controller
      * @param  \App\Models\CategoriaPost  $categoriaPost
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $categoriaPost)
+    public function destroy(string $locale,int $categoriaPost)
     {
       $category=CategoriaPost::findOrFail($categoriaPost);
       $category->delete();

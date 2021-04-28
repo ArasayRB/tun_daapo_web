@@ -192,7 +192,7 @@
     },
 
     getLanguageList:function(){
-      axios.get('/languages-no-translated/'+this.service.id+'/Service')
+      axios.get(window.location.origin +'/'+this.locale+'/languages-no-translated/'+this.service.id+'/Service')
             .then(response=> this.languages=response.data)
             .catch(error=>this.error.push(error));
     },
@@ -205,7 +205,7 @@
 
           if(this.show_lang_div===false){
 
-              url="/add-translate-service";
+              url=window.location.origin +'/'+this.locale+"/admin/add-translate-service";
               msg_succ=this.$trans('messages.Service')+' '+this.$trans('messages.Translated Succefully');
               let mensaje=this.$trans('messages.Unidentified error');
               if (this.name==''||this.description==''||this.lang_trans==''||this.img_descr=='') {
@@ -219,7 +219,7 @@
                 data.append("description", this.description);
           }
           else{
-            url="/service";
+            url=window.location.origin +'/'+this.locale+"/admin/service";
             msg_succ=this.$trans('messages.Service')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.description=='') {
@@ -291,7 +291,7 @@
               data.append("name", service.name);
               data.append("description", service.description);
               data.append("price", service.price);
-            url="/service/"+service.id;
+            url=window.location.origin +'/'+this.locale+"/admin/service/"+service.id;
             msg_edited=this.$trans('messages.Service')+' '+this.$trans('messages.Edited');
           }
           else{
@@ -300,7 +300,7 @@
               data.append("description", service.description);
               //data.append("tags", postTags);
               //data.append("keywords", postKeys);
-            url="/service-translated-edited/"+service.id+"/"+this.lan_to_edit;
+            url=window.location.origin +'/'+this.locale+"/admin/service-translated-edited/"+service.id+"/"+this.lan_to_edit;
             msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Service')+' '+this.$trans('messages.translation has been successfully modified');
           }
 
@@ -344,6 +344,12 @@
          this.getLanguageList();
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

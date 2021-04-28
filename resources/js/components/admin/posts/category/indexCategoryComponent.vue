@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-categories'" :emit="'categorys'" @cancelsearch="categoryList" @categorysfilter="filtersCategory">
+      <input-searcher-component :url="'/admin/all-categories'" :emit="'categorys'" :locale="locale" @cancelsearch="categoryList" @categorysfilter="filtersCategory">
     </input-searcher-component>
 
     </div>
@@ -144,9 +144,9 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
-          src:'storage/img_web/login_img/',
-          src_qr:'storage/qrcodes/permissions/',
+          locale:this.$attrs.locale,
+          src:window.location.origin +'/'+'storage/img_web/login_img/',
+          src_qr:window.location.origin +'/'+'storage/qrcodes/permissions/',
           ventanaOperCategory:false,
           token   : window.CSRF_TOKEN,
 
@@ -175,7 +175,7 @@
       this.categorys=filters;
     },
         categoryList:function(){
-          axios.get('/categoriesList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/categoriesList')
                .then(response =>{
                  this.categorys = response.data;
                  if (response.data==''){
@@ -212,7 +212,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/category/'+category_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/category/'+category_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

@@ -39,13 +39,13 @@ class HomeController extends Controller
         return view('home',['posts'=>$posts]);
     }
 
-    public function hasTranslate($idItem,$name_content){
+    public function hasTranslate($lang,$idItem,$name_content){
       $content_types=$this->getContentTypeByName($name_content);
       $language_translated=$this->getItemTranslatesLanguageById($idItem,$content_types[0]->id);
       return $language_translated;
     }
 
-    public function getNoTransLangItem(int $idItem,string $content){
+    public function getNoTransLangItem(string $lang,int $idItem,string $content){
       $languages=$this->getLanguagesList();
       $newListTranslate=[];
       $tipo_content=$this->findContentId($content);

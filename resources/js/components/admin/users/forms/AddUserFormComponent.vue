@@ -157,7 +157,7 @@
     },
         createPost:function(){
 
-            let  url="/users";
+            let  url=window.location.origin +'/'+this.$attrs.locale+"/admin/users";
             let msg_succ=this.$trans('messages.User')+' '+this.$trans('messages.Created.');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.email==''||this.password==''||this.confirm_password==''||this.roll==''||this.selectedPermissions.length==0) {
@@ -228,7 +228,7 @@
       },
       watch:{
         roll(val){
-          axios.get('/available-permissions/'+val)
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/available-permissions/'+val)
                .then(response =>{
                  this.permissions = response.data
                })
@@ -237,7 +237,7 @@
         },
       },
       created: function () {
-         axios.get('/roles-list')
+         axios.get(window.location.origin +'/'+this.locale+'/admin/roles-list')
               .then(response => this.roles = response.data)
               .catch(error => this.errors.push(error));
 
@@ -246,13 +246,13 @@
 
          },
         mounted() {
-          /*
-          if (this.$attrs.locale) {
-               this.$lang.setLocale(this.$attrs.locale);
+
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
                }
           else {
             this.$lang.setLocale('en');
-          }*/
+          }
         }
     }
 </script>

@@ -5,7 +5,7 @@ use App\Models\SectionPage;
 
 trait SectionPageTrait {
 
-    public function getSectionItem(string $name){
+    public function getSectionItem(string $lang,string $name){
       $sectionItem=SectionPage::where('title',$name)
                               ->get();
       $content_type='Section';
@@ -38,7 +38,7 @@ trait SectionPageTrait {
       return SectionPage::find($section);
     }
 
-    public function getTranslatedSectionByLang($lang,$section_id,$content_type){
+    public function getTranslatedSectionByLang(string $locale,$lang,$section_id,$content_type){
       $id_lang=$this->getLangIdByName($lang);
       $content_types=$this->getContentTypeByName($content_type);
       $section_translated=$this->getTranslatedTransItem($id_lang,$section_id,$content_types[0]->id);

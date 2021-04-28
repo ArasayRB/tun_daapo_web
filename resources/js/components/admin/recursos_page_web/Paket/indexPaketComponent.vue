@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-pakets'" :emit="'pakets'" @cancelsearch="paketList" @paketsfilter="filtersPaket">
+      <input-searcher-component :url="'/admin/all-pakets'" :locale="locale" :emit="'pakets'" @cancelsearch="paketList" @paketsfilter="filtersPaket">
     </input-searcher-component>
 
     </div>
@@ -165,7 +165,7 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           src:'storage/img_web/login_img/',
           src_qr:'storage/qrcodes/permissions/',
           ventanaOperPaket:false,
@@ -201,7 +201,7 @@
         },
         openEditTranslated:function(paket, lang_available){
           let paket_translated_array;
-          axios.get('/get-translated-packet-by-lang/'+lang_available+'/'+paket.id+'/Paket')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/get-translated-packet-by-lang/'+lang_available+'/'+paket.id+'/Paket')
                .then(response =>{
                  paket_translated_array = response.data;
                  this.paket=paket_translated_array;
@@ -214,7 +214,7 @@
                .catch(error => this.errors.push(error));
         },
         getTranslates:function(index,paket){
-          axios.get('/translated-language-item/'+paket.id+'/Paket')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/translated-language-item/'+paket.id+'/Paket')
                .then(response =>{
                    this.lang=false;
                  if (response.data==='no-language-added'){
@@ -234,7 +234,7 @@
                .catch(error => this.errors.push(error));
         },
         paketList:function(){
-          axios.get('/paketList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/paketList')
                .then(response =>{
                  this.pakets = response.data;
                  if (response.data==''){
@@ -271,7 +271,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/paket/'+paket_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/paket/'+paket_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

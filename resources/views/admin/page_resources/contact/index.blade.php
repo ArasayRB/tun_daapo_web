@@ -9,7 +9,7 @@
       <!-- Page Heading -->
 
       <!-- DataTales Example -->
-      <index-contact-component locale="{{ App::getLocale() }}">
+      <index-contact-component locale="{{ App::getLocale() }}" user="{{auth()->user()->name}}">
 
       </index-contact-component>
 

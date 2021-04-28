@@ -108,7 +108,7 @@
         getMessageOfUser:function(user){
           this.active=false;
           this.userChat=user;
-          axios.get('/chat/room/'+this.currentRoom.id+'/'+user.id+'/user/message')
+          axios.get(window.location.origin +'/chat/room/'+this.currentRoom.id+'/'+user.id+'/user/message')
           .then(response=>{
             this.messages=response.data;
             this.getMessageUnread(this.userChat);
@@ -118,7 +118,7 @@
           });
         },
         getMessageUnread:function(user){
-          axios.get('/chat/room/'+this.currentRoom.id+'/'+user.id+'/unread-messages')
+          axios.get(window.location.origin +'/chat/room/'+this.currentRoom.id+'/'+user.id+'/unread-messages')
           .then(response=>{
             this.messages_unread=response.data.mssg;
             this.usersUnread=response.data.user_unread;
@@ -161,7 +161,7 @@
           this.active=false;
         },
         getRooms:function(){
-          axios.get('/chat/rooms')
+          axios.get(window.location.origin +'/chat/rooms')
                .then(response=>{
                  this.chatRooms=response.data;
                  this.setRoom(response.data[0]);

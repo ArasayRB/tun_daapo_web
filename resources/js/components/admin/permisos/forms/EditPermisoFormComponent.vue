@@ -121,7 +121,7 @@
     	          data.append('_method', 'patch');
                 data.append("name", permission.name);
                 data.append("description", permission.description);
-              url="/permissions/"+permission.id;
+              url=window.location.origin +'/'+this.locale+"/admin/permissions/"+permission.id;
               msg_edited=this.$trans('messages.Permission')+' '+this.$trans('messages.Edited');
 
           axios.post(url,data,config)
@@ -161,8 +161,8 @@
 
          },
         mounted() {
-          if (this.$attrs.locale) {
-               this.$lang.setLocale(this.$attrs.locale);
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
                }
           else {
             this.$lang.setLocale('en');

@@ -117,35 +117,13 @@ class UserController extends Controller
      }
 
      /**
-      * Display the specified resource.
-      *
-      * @param  \App\Models\User  $user
-      * @return \Illuminate\Http\Response
-      */
-     public function show(User $user)
-     {
-         //
-     }
-
-     /**
-      * Show the form for editing the specified resource.
-      *
-      * @param  \App\Models\User  $user
-      * @return \Illuminate\Http\Response
-      */
-     public function edit(User $user)
-     {
-         //
-     }
-
-     /**
       * Update the specified resource in storage.
       *
       * @param  \Illuminate\Http\Request  $request
       * @param  \App\Models\User  $user
       * @return \Illuminate\Http\Response
       */
-     public function update(Request $request, User $user)
+     public function update(string $language,Request $request, User $user)
      {
        $dataPost=request()->validate([
          'name'=> 'required|max:255',
@@ -188,7 +166,7 @@ class UserController extends Controller
       * @param  \App\Models\User  $user
       * @return \Illuminate\Http\Response
       */
-     public function destroy(User $user)
+     public function destroy(string $language,User $user)
      {
          $user=User::findOrFail($user->id);
          $user->roles()->detach();

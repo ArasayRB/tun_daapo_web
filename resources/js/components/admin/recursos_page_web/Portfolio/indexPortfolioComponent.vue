@@ -17,7 +17,7 @@ Portfolio<template>
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-portfolios'" :emit="'portfolios'" @cancelsearch="portfolioList" @portfoliosfilter="filtersPortfolios">
+      <input-searcher-component :url="'/admin/all-portfolios'" :locale="locale" :emit="'portfolios'" @cancelsearch="portfolioList" @portfoliosfilter="filtersPortfolios">
     </input-searcher-component>
 
     </div>
@@ -168,8 +168,8 @@ Portfolio<template>
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
-          src:'storage/portfolio/',
+          locale:this.$attrs.locale,
+          src:window.location.origin+'/storage/portfolio/',
           ventanaOperPortfolio:false,
           token   : window.CSRF_TOKEN,
 
@@ -199,7 +199,7 @@ Portfolio<template>
     },
     openEditTranslated:function(portfolio, lang_available){
       let portfolio_translated_array;
-      axios.get('/get-translated-portfolio-by-lang/'+lang_available+'/'+portfolio.id+'/Portfolio')
+      axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/get-translated-portfolio-by-lang/'+lang_available+'/'+portfolio.id+'/Portfolio')
            .then(response =>{
              portfolio_translated_array = response.data;
              this.portfolio=portfolio_translated_array;
@@ -212,7 +212,7 @@ Portfolio<template>
            .catch(error => this.errors.push(error));
     },
     getTranslates:function(index,portfolio){
-      axios.get('/translated-language-item/'+portfolio.id+'/Portfolio')
+      axios.get(window.location.origin +'/'+this.$attrs.locale+'/translated-language-item/'+portfolio.id+'/Portfolio')
            .then(response =>{
                this.lang=false;
              if (response.data==='no-language-added'){
@@ -232,7 +232,7 @@ Portfolio<template>
            .catch(error => this.errors.push(error));
     },
         portfolioList:function(){
-          axios.get('/portfolioList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/portfolioList')
                .then(response =>{
                  this.portfolios = response.data;
                  if (response.data==''){
@@ -269,7 +269,7 @@ Portfolio<template>
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/portfolio/'+portfolio_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/portfolio/'+portfolio_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),
@@ -308,6 +308,8 @@ Portfolio<template>
           this.ventanaOperPortfolio = true;
         },
         openEditPortfolio:function(index,portfolio){
+          this.show_lang_div=false;
+          this.lan_to_edit='none';
           this.operation='update';
         this.portfolio=portfolio;
           this.ventanaOperPortfolio=true;
