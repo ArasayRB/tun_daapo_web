@@ -256,24 +256,24 @@
       console.log(evt);
     },
     getLanguageList:function(){
-      axios.get('/languages-no-translated/'+this.paket.id+'/Paket')
+      axios.get(window.location.origin +'/'+this.locale+'/languages-no-translated/'+this.paket.id+'/Paket')
             .then(response=> this.languages=response.data)
             .catch(error=>this.error.push(error));
     },
     packetType:function(){
-      axios.get('/packet-type-list')
+      axios.get(window.location.origin +'/'+this.locale+'/admin/packet-type-list')
            .then(response => this.packets = response.data)
            .catch(error => this.errors.push(error));
     },
     availabelServices:function(){
-      axios.get('/available-services')
+      axios.get(window.location.origin +'/'+this.locale+'/admin/available-services')
            .then(response =>{
              this.services = response.data;
            })
            .catch(error => this.errors.push(error));
     },
     availabelFunctions:function(){
-      axios.get('/available-functions')
+      axios.get(window.location.origin +'/'+this.locale+'/admin/available-functions')
            .then(response =>{
              this.functions = response.data;
            })
@@ -286,7 +286,7 @@
           let mensaje;
           let default_lang=this.$lang.getLocale();
           if(this.show_lang_div===false){
-            url="/add-translate-packet";
+            url=window.location.origin +'/'+this.locale+"/admin/add-translate-packet";
             msg_succ=this.$trans('messages.Packet')+' '+this.$trans('messages.Translated Succefully');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.name_button==''||this.description==''||this.lang_trans=='') {
@@ -301,7 +301,7 @@
                 data.append("name_button", this.name_button);
           }
           else{
-            url="/paket";
+            url=window.location.origin +'/'+this.locale+"/admin/paket";
             msg_succ=this.$trans('messages.Packet')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.name_button==''||this.description==''||this.price==''||this.selectedServs.length===0||this.type_paket=='') {
@@ -426,7 +426,7 @@
                   data.append("service_id", portKey);
                   data.append("type_id",this.type_paket);
                   data.append("functions_included",functKey);
-                url="/paket/"+paket.id;
+                url=window.location.origin +'/'+this.locale+"/admin/paket/"+paket.id;
                 msg_edited=this.$trans('messages.Packet')+' '+this.$trans('messages.Edited');
           }
           else{
@@ -436,7 +436,7 @@
               data.append("description", paket.description);
               //data.append("tags", postTags);
               //data.append("keywords", postKeys);
-            url="/packet-translated-edited/"+paket.id+"/"+this.lan_to_edit;
+            url=window.location.origin +'/'+this.locale+"/admin/packet-translated-edited/"+paket.id+"/"+this.lan_to_edit;
             msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Packet')+' '+this.$trans('messages.translation has been successfully modified');
           }
 
@@ -507,6 +507,12 @@
         }
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

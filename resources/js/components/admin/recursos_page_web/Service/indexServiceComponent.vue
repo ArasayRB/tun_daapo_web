@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-services'" :emit="'services'" @cancelsearch="serviceList" @servicesfilter="filtersServices">
+      <input-searcher-component :url="'/admin/all-services'" :locale="locale" :emit="'services'" @cancelsearch="serviceList" @servicesfilter="filtersServices">
     </input-searcher-component>
 
     </div>
@@ -162,7 +162,7 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           src:'storage/img_web/login_img/',
           src_qr:'storage/qrcodes/permissions/',
           ventanaOperService:false,
@@ -198,7 +198,7 @@
         },
         openEditTranslated:function(service, lang_available){
           let service_translated_array;
-          axios.get('/get-translated-service-by-lang/'+lang_available+'/'+service.id+'/Service')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/get-translated-service-by-lang/'+lang_available+'/'+service.id+'/Service')
                .then(response =>{
                  service_translated_array = response.data;
                  this.service=service_translated_array;
@@ -211,7 +211,7 @@
                .catch(error => this.errors.push(error));
         },
         getTranslates:function(index,service){
-          axios.get('/translated-language-item/'+service.id+'/Service')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/translated-language-item/'+service.id+'/Service')
                .then(response =>{
                    this.lang=false;
                  if (response.data==='no-language-added'){
@@ -231,7 +231,7 @@
                .catch(error => this.errors.push(error));
         },
         serviceList:function(){
-          axios.get('/serviceList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/serviceList')
                .then(response =>{
                  this.services = response.data;
                  if (response.data==''){
@@ -268,7 +268,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/service/'+service_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/service/'+service_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

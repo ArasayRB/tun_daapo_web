@@ -181,7 +181,7 @@
       this.imagenSectionPage=e.target.files[0];
     },
     getLanguageList:function(){
-      axios.get('/languages-no-translated/'+this.sectionpage.id+'/Section')
+      axios.get(window.location.origin +'/'+this.locale+'/languages-no-translated/'+this.sectionpage.id+'/Section')
             .then(response=> this.languages=response.data)
             .catch(error=>this.error.push(error));
     },
@@ -193,7 +193,7 @@
           let default_lang=this.$lang.getLocale();
 
           if(this.show_lang_div===false){
-            url="/add-translate-section";
+            url=window.location.origin +'/'+this.locale+"/admin/add-translate-section";
             msg_succ=this.$trans('messages.Section Page')+' '+this.$trans('messages.Translated Succefully');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.title==''||this.description==''||this.lang_trans=='') {
@@ -207,7 +207,7 @@
               data.append("description", this.description);
           }
           else{
-            url="/sectionpage";
+            url=window.location.origin +'/'+this.locale+"/admin/sectionpage";
             msg_succ=this.$trans('messages.Section Page')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.img==''||this.title==''||this.description=='') {
@@ -272,7 +272,7 @@
                 data.append("img", this.imagenSectionPage);
                 data.append("title", sectionpage.title);
                 data.append("description", sectionpage.description);
-              url="/sectionpage/"+sectionpage.id;
+              url=window.location.origin +'/'+this.locale+"/admin/sectionpage/"+sectionpage.id;
               msg_edited=this.$trans('messages.Section Page')+' '+this.$trans('messages.Edited');
             }
             else{
@@ -281,7 +281,7 @@
                 data.append("description", sectionpage.description);
                 //data.append("tags", postTags);
                 //data.append("keywords", postKeys);
-              url="/section-translated-edited/"+sectionpage.id+"/"+this.lan_to_edit;
+              url=window.location.origin +'/'+this.locale+"/admin/section-translated-edited/"+sectionpage.id+"/"+this.lan_to_edit;
               msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Section Page')+' '+this.$trans('messages.translation has been successfully modified');
             }
           axios.post(url,data,config)
@@ -322,6 +322,12 @@
         this.getLanguageList();
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

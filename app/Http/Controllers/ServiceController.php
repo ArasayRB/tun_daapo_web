@@ -96,7 +96,7 @@ class ServiceController extends Controller
       return $service;
     }
 
-    public function addTranslateService(Request $request){
+    public function addTranslateService(string $locale,Request $request){
       $data=request()->validate([
         'name'=> 'required|max:255',
         'lang'=> 'required',
@@ -146,7 +146,7 @@ class ServiceController extends Controller
      * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service)
+    public function update(string $locale,Request $request, Service $service)
     {
       $servicio=Service::findOrFail($service->id);
       $newFileName;
@@ -172,7 +172,7 @@ class ServiceController extends Controller
       return $servicio;
     }
 
-    public function updateTranslatedServByLang($service_id,$lang_name, Request $request){
+    public function updateTranslatedServByLang(string $locale,$service_id,$lang_name, Request $request){
       $dataPost=request()->validate([
         'name'=> 'required|max:255',
         'description'=> 'required',
@@ -209,7 +209,7 @@ class ServiceController extends Controller
      * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function destroy(string $locale,Service $service)
     {
       $servicio=Service::findOrFail($service->id);
         $contentType='Service';

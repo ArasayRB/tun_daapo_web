@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-section-pages'" :emit="'sectionspages'" @cancelsearch="sectionpageList" @sectionspagesfilter="filtersSectionPage">
+      <input-searcher-component :url="'/admin/all-section-pages'" :locale="locale" :emit="'sectionspages'" @cancelsearch="sectionpageList" @sectionspagesfilter="filtersSectionPage">
     </input-searcher-component>
 
     </div>
@@ -163,8 +163,8 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
-          src:'storage/section_page/',
+          locale:this.$attrs.locale,
+          src:window.location.origin+'/storage/section_page/',
           src_qr:'storage/qrcodes/permissions/',
           ventanaOperSectionPage:false,
           ventanaEditPermiso:false,
@@ -200,7 +200,7 @@
         },
         openEditTranslated:function(sectionpage, lang_available){
           let section_translated_array;
-          axios.get('/get-translated-section-by-lang/'+lang_available+'/'+sectionpage.id+'/Section')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/get-translated-section-by-lang/'+lang_available+'/'+sectionpage.id+'/Section')
                .then(response =>{
                  section_translated_array = response.data;
                  this.sectionpage=section_translated_array;
@@ -213,7 +213,7 @@
                .catch(error => this.errors.push(error));
         },
         getTranslates:function(index,sectionpage){
-          axios.get('/translated-language-item/'+sectionpage.id+'/Section')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/translated-language-item/'+sectionpage.id+'/Section')
                .then(response =>{
                    this.lang=false;
                  if (response.data==='no-language-added'){
@@ -233,7 +233,7 @@
                .catch(error => this.errors.push(error));
         },
         sectionpageList:function(){
-          axios.get('/sectionpageList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/sectionpageList')
                .then(response =>{
                  this.sectionpages = response.data;
                  if (response.data==''){
@@ -270,7 +270,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/sectionpage/'+sectionpage_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/sectionpage/'+sectionpage_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

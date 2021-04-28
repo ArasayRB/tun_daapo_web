@@ -138,6 +138,7 @@ Vue.component('users-active-container-component', require('./components/chat/Use
 Vue.component('message-item-component', require('./components/chat/MessageItemComponent.vue').default);
 Vue.component('all-comments-component', require('./components/forms/AllCommentsComponent.vue').default);
 Vue.component('all-ans-comments-component', require('./components/forms/AllAnswersCommentsComponent.vue').default);
+Vue.component('dashboard-menu-component', require('./components/admin/layout/menu/MenuComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -158,6 +159,9 @@ const app = new Vue({
     methods:{
       resetEmailModal:function(){
         this.ventanaResetEmail=true;
+      },
+      showRoute:function(address){
+          window.location.href =window.location.origin +address;
       },
     },
     created(){

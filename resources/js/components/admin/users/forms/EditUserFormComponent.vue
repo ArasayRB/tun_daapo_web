@@ -161,7 +161,7 @@
                 data.append("password_confirm", user.password_confirm);
                 data.append("role", this.roll);
                 data.append("permissions", permissions_array);
-              url="/users/"+user.id;
+              url=window.location.origin +'/'+this.locale+"/admin/users/"+user.id;
               msg_edited=this.$trans('messages.User')+' '+this.$trans('messages.Edited');
 
           axios.post(url,data,config)
@@ -196,7 +196,7 @@
                });
         },
         getPermissionsByRole:function(role){
-          axios.get('/available-permissions/'+role)
+          axios.get(window.location.origin +'/'+this.locale+'/admin/available-permissions/'+role)
                .then(response =>{
                  this.permissions = response.data;
 
@@ -225,15 +225,15 @@
         },
       },
       created: function () {
-        axios.get('/roles-list')
+        axios.get(window.location.origin +'/'+this.locale+'/admin/roles-list')
              .then(response => this.roles = response.data)
              .catch(error => this.errors.push(error));
          },
         mounted() {
           this.roll=this.user.roles[0].id;
 
-          if (this.$attrs.locale) {
-               this.$lang.setLocale(this.$attrs.locale);
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
                }
           else {
             this.$lang.setLocale('en');

@@ -35,7 +35,7 @@
       },
       methods:{
       suscribe:function(){
-        let url="/suscripcion";
+        let url=window.location.origin +"/suscripcion";
         let mensaje=this.$trans('messages.Unidentified error');
         if (this.email==''||this.name=='') {
           mensaje=this.$trans('messages.You cannot leave empty fields, please check');

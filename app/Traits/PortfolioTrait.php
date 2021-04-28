@@ -42,7 +42,7 @@ return $portfolios_array_lang;
       return $portfolios;
     }
 
-    public function getTranslatedPortfolioByLang($lang,$portfolio_id,$content_type){
+    public function getTranslatedPortfolioByLang(string $locale,$lang,$portfolio_id,$content_type){
       $id_lang=$this->getLangIdByName($lang);
       $content_types=$this->getContentTypeByName($content_type);
       $portfolio_translated=$this->getTranslatedTransItem($id_lang,$portfolio_id,$content_types[0]->id);

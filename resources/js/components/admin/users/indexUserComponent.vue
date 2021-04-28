@@ -20,7 +20,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-users'" :emit="'users'" @cancelsearch="userList" @usersfilter="filtersUsers">
+      <input-searcher-component :url="'/admin/all-users'" :locale="locale" :emit="'users'" @cancelsearch="userList" @usersfilter="filtersUsers">
     </input-searcher-component>
 
     </div>
@@ -172,12 +172,12 @@
           mensage:'',
           lang:true,
           lan_to_edit:'none',
-          locale:'',
+          locale:this.$attrs.locale,
           user:this.$attrs.user,
           user_id:this.$attrs.user_id,
           imagenuser:'',
-          src:'storage/img_web/login_img/',
-          src_qr:'storage/qrcodes/users/',
+          src:window.location.origin +'/'+'storage/img_web/login_img/',
+          src_qr:window.location.origin +'/'+'storage/qrcodes/users/',
           ventanaCreatUser:false,
           ventanaEditUser:false,
           token   : window.CSRF_TOKEN,
@@ -208,7 +208,7 @@
     },
 
         userList:function(){
-          axios.get('/usersList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/usersList')
                .then(response =>{
                  this.users = response.data;
                  if (response.data==''){
@@ -242,7 +242,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/users/'+user_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/users/'+user_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

@@ -14,7 +14,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-comments'" :emit="'comments'" @cancelsearch="commentList" @commentsfilter="filtersComment">
+      <input-searcher-component :url="'/admin/all-comments'" :emit="'comments'" :locale="locale" @cancelsearch="commentList" @commentsfilter="filtersComment">
     </input-searcher-component>
 
     </div>
@@ -140,9 +140,9 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
-          src:'storage/img_web/login_img/',
-          src_qr:'storage/qrcodes/permissions/',
+          locale:this.$attrs.locale,
+          src:window.location.origin +'/'+'storage/img_web/login_img/',
+          src_qr:window.location.origin +'/'+'storage/qrcodes/permissions/',
           ventanaOperComment:false,
           token   : window.CSRF_TOKEN,
 
@@ -184,7 +184,7 @@
                 cancelButtonText: this.$trans('messages.Cancel'),
               }).then(select=>{
                 if (select){
-                  let  url='/publicate-comment/'+comment.id+'/'+state_act;
+                  let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/publicate-comment/'+comment.id+'/'+state_act;
 
                   axios.post(url)
                        .then(response=>{
@@ -227,7 +227,7 @@
 
         },
         commentList:function(){
-          axios.get('/comments-list')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/comments-list')
                .then(response =>{
                  this.comments = response.data;
                  if (response.data==''){
@@ -237,7 +237,7 @@
                .catch(error => this.errors.push(error));
         },
         tunDaapoData:function(){
-          axios.get('/tun-daapo-contact')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/tun-daapo-contact')
                .then(response =>{
                  this.tuun_daapo_data=response.data;
 
@@ -278,7 +278,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/comments-post/'+comment_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/comments-post/'+comment_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

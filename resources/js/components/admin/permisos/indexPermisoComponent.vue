@@ -20,7 +20,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-permissions'" :emit="'permissions'" @cancelsearch="permissionList" @permissionsfilter="filtersPermissions">
+      <input-searcher-component :url="'/admin/all-permissions'" :locale="locale" :emit="'permissions'" @cancelsearch="permissionList" @permissionsfilter="filtersPermissions">
     </input-searcher-component>
 
     </div>
@@ -148,7 +148,7 @@
           mensage:'',
           valueImg:'',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           src:'storage/img_web/login_img/',
           src_qr:'storage/qrcodes/permissions/',
           ventanaCreatPermiso:false,
@@ -184,7 +184,7 @@
           this.imagenpermission=e.target.files[0];
         },
         permissionList:function(){
-          axios.get('/permissionsList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/permissionsList')
                .then(response =>{
                  this.permissions = response.data;
                  if (response.data==''){
@@ -217,7 +217,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/permissions/'+permission_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/permissions/'+permission_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

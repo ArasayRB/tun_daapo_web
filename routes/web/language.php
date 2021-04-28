@@ -19,6 +19,8 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::resource('/languages', App\Http\Controllers\LanguageController::class,['except'=>['create','edit']]);
+Route::group(['prefix'=>'admin'],function(){
+Route::resource('/idiomas', App\Http\Controllers\LanguageController::class,['except'=>['create','edit']]);
 Route::get('/languagesList',[App\Http\Controllers\LanguageController::class, 'getLanguagesList']);
 Route::get('/all-languages', [App\Http\Controllers\LanguageController::class, 'getAllLanguages']);
+});

@@ -128,7 +128,7 @@
     },
         createLanguage:function(){
 
-            let  url="/languages";
+            let  url=window.location.origin +'/'+this.locale+"/admin/idiomas";
             let msg_succ=this.$trans('messages.Languages')+' '+this.$trans('messages.Created.');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.lang==''||this.sigla=='') {
@@ -184,7 +184,7 @@
     	          data.append('_method', 'patch');
                 data.append("language", language.language);
                 data.append("sigla", language.sigla);
-              url="/languages/"+language.id;
+              url=window.location.origin +'/'+this.locale+"/admin/idiomas/"+language.id;
               msg_edited=this.$trans('messages.Languages')+' '+this.$trans('messages.Edited');
 
           axios.post(url,data,config)
@@ -222,6 +222,12 @@
 
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

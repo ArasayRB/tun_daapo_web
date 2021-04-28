@@ -18,7 +18,7 @@ foreach ($pakets as $packet) {
   $content_func='Function';
 for($i=0;$i<count($paket_lang->functions);$i++) {
   $paket_lang->functions[$i]=$this->getTranslatedFunctIncludedBySigLang(app()->getLocale(),$paket_lang->functions[$i]->id,$content_func);
-  
+
 }
 $packets_array_lang[]=$paket_lang;
 }
@@ -76,7 +76,7 @@ return $packets_array_lang;
     return $pakets;
   }
 
-  public function getTranslatedPackByLang($lang,$packet_id,$content_type){
+  public function getTranslatedPackByLang(string $locale,$lang,$packet_id,$content_type){
     $id_lang=$this->getLangIdByName($lang);
     $content_types=$this->getContentTypeByName($content_type);
     $packet_translated=$this->getTranslatedTransItem($id_lang,$packet_id,$content_types[0]->id);

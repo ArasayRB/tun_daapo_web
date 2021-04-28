@@ -37,187 +37,8 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-        <div class="sidebar-brand-icon">
-          <img src="{!! asset('/images/img/tunDaapo32x32.ico') !!}" alt="">
-        </div>
-        <div class="sidebar-brand-text mx-3">{{__('messages.Admin Tun Daapo')}} </div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>{{__('messages.Administration Bar')}}</span></a>
-      </li>
-  @can ('admin')
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        {{__('messages.Interface')}}
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>{{__('messages.Manage User')}}</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
-            <a class="collapse-item" href="/users">{{__('messages.Users')}}</a>
-
-              <a class="collapse-item" href="/roles">{{__('messages.Role')}}</a>
-
-            <a class="collapse-item" href="/permissions">{{__('messages.Permissions')}}</a>
-          </div>
-        </div>
-      </li>
-
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        {{__('messages.Web Page Resources')}}
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseResource" aria-expanded="true" aria-controls="collapseResource">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>{{__('messages.Resources')}}</span>
-        </a>
-        <div id="collapseResource" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
-            <a class="collapse-item" href="/contact">{{__('messages.Contact')}}</a>
-
-              <a class="collapse-item" href="/service">{{__('messages.Sercvice')}}</a>
-
-            <a class="collapse-item" href="/portfolio">{{__('messages.Portfolio')}}</a>
-
-          <a class="collapse-item" href="/functions-included">{{__('messages.Functions Included')}}</a>
-
-          <a class="collapse-item" href="/pakettypes">{{__('messages.Packet Type')}}</a>
-
-        <a class="collapse-item" href="/paket">{{__('messages.Packet')}}</a>
-
-        <a class="collapse-item" href="/sectionpage">{{__('messages.Section Page')}}</a>
-          </div>
-        </div>
-      </li>
-
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        {{__('messages.Web Page Resources')}}
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConfiguration" aria-expanded="true" aria-controls="collapseConfiguration">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>{{__('messages.Configuration')}}</span>
-        </a>
-        <div id="collapseConfiguration" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
-            <a class="collapse-item" href="/languages">{{__('messages.Language')}}</a>
-          </div>
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseChat" aria-expanded="true" aria-controls="collapseChat">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>{{__('messages.Chat')}}</span>
-        </a>
-        <div id="collapseChat" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
-            <a class="collapse-item" href="/room-chat">{{__('messages.Chat')}} {{__('messages.Room')}}</a>
-            <a class="collapse-item" href="/room-type-chat">{{__('messages.Chat')}} {{__('messages.Room')}} {{__('messages.Type')}}</a>
-            <a class="collapse-item" href="/mssg-type-chat">{{__('messages.Chat')}} {{__('messages.Message')}} {{__('messages.Type')}}</a>
-          </div>
-        </div>
-      </li>
-      @endcan
-
-
-
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        {{__('messages.Addons')}}
-      </div>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePost" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-clipboard-list"></i>
-          <span>{{__('messages.Posts')}}</span>
-        </a>
-        <div id="collapsePost" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('messages.Tabs')}}:</h6>
-            @role('administrator,viewer-content,writer-content,publisher-content,editor-content')
-            <a class="collapse-item" href="/posts">{{__('messages.Posts')}}</a>
-            @endrole
-            @role('administrator,editor-content')
-            <a class="collapse-item" href="/category">{{__('messages.Posts Category')}}</a>
-            <a class="collapse-item" href="/configuration-comments">{{ __('messages.Comment') }} {{ __('messages.Configuration') }}</a>
-            @endrole
-            @role('administrator,editor-content,moderator-content')
-            <a class="collapse-item" href="/comments-post">{{ __('messages.Comment') }}s {{__('messages.Posts')}}</a>
-            @endrole
-          </div>
-        </div>
-      </li>
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          @auth
-            <img class="img-profile rounded-circle" src="{{ asset('storage/img_web/login_img/'.Auth::user()->imagen_url) }}">
-          @endauth
-          <span>{{__('messages.User')}}</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">{{__('messages.Utilities User')}}:</h6>
-            <a class="collapse-item" href="/user-perfil" ><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>{{__('messages.Profile')}}</a>
-            <a class="collapse-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                          document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>{{__('messages.Logout')}}</a>
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                              @csrf
-                          </form>
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
-
-    </ul>
+    <dashboard-menu-component locale="{{ App::getLocale() }}">
+    </dashboard-menu-component>
     <!-- End of Sidebar -->
 
 
@@ -244,7 +65,7 @@
                 @if (config('locale.status') && count(config('locale.languages')) > 1)
                                  <li class="nav-item dropdown">
                                    <a class="nav-link dropdown-toggle text-active"  id="dropdownMenuLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                                     {{__('messages.Languages')}}
+                                     <img src="{{ asset('images/lang/'.app()->getLocale().'.ico') }}"/>   {!! app()->getLocale() !!}
                                    </a>
                                    <div class="dropdown-menu">
                                      @foreach (array_keys(config('locale.languages')) as $lang)
@@ -398,12 +219,12 @@
                     {{__('messages.Profile')}}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    <a class="dropdown-item" href="{{ route('logout',app()->getLocale()) }}" onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
                       <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                       {{__('messages.Logout')}}
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    <form id="logout-form" action="{{ route('logout',app()->getLocale()) }}" method="POST" class="d-none">
                         @csrf
                     </form>
                   </div>
@@ -481,9 +302,11 @@
                 @auth
                    window.Permissions = {!! json_encode(Auth::user()->checkPermission(), true) !!};
                    window.UserId = {!! json_encode(Auth::user(), true) !!};
+                   window.Admin = {!! json_encode(Auth::user()->hasRole('Administrator'), true) !!};
                 @else
                    window.Permissions = [];
                    window.UserId =[];
+                   window.Admin =false;
                 @endauth
               </script>
 

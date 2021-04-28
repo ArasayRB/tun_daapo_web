@@ -157,24 +157,13 @@ class PaketController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Paket  $paket
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Paket $paket)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Paket  $paket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Paket $paket)
+    public function update(string $locale,Request $request, Paket $paket)
     {
       $this->validator($request->all())->validate();
       $pakets=Paket::findOrFail($paket->id);
@@ -231,7 +220,7 @@ class PaketController extends Controller
       return $paketToAdd;
     }
 
-    public function updateTranslatedPacketByLang($packet_id,$lang_name, Request $request){
+    public function updateTranslatedPacketByLang(string $locale,$packet_id,$lang_name, Request $request){
       $dataPost=request()->validate([
         'name'=> 'required|max:255',
         'name_button'=> 'required',
@@ -275,7 +264,7 @@ class PaketController extends Controller
      * @param  \App\Models\Paket  $paket
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Paket $paket)
+    public function destroy(string $locale,Paket $paket)
     {
       $pakete=Paket::findOrFail($paket->id);
         $contentType='Paket';

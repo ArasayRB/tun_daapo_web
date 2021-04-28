@@ -124,7 +124,7 @@
     },
         createPermiso:function(){
 
-            let  url="/permissions";
+            let  url=window.location.origin +'/'+this.locale+"/admin/permissions";
             let msg_succ=this.$trans('messages.Permission')+' '+this.$trans('messages.Created.');
             let mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.description=='') {
@@ -177,6 +177,12 @@
 
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

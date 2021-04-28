@@ -54,7 +54,7 @@ use ContentTypeTrait, TranslateTrait, LanguageTrait;
     return PaketType::find($packet);
   }
 
-  public function getTranslatedPacketTypeByLang($lang,$packet_id,$content_type){
+  public function getTranslatedPacketTypeByLang(string $locale,$lang,$packet_id,$content_type){
     $id_lang=$this->getLangIdByName($lang);
     $content_types=$this->getContentTypeByName($content_type);
     $packet_translated=$this->getTranslatedTransItem($id_lang,$packet_id,$content_types[0]->id);
@@ -112,17 +112,6 @@ use ContentTypeTrait, TranslateTrait, LanguageTrait;
       return $paket_type;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\PaketType  $paketType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PaketType $paketType)
-    {
-        //
-    }
-
 
     /**
      * Update the specified resource in storage.
@@ -131,7 +120,7 @@ use ContentTypeTrait, TranslateTrait, LanguageTrait;
      * @param  \App\Models\PaketType  $paketType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $paketType)
+    public function update(string $locale,Request $request, int $paketType)
     {
       $this->validator($request->all())->validate();
       $paket_types=PaketType::findOrFail($paketType);
@@ -140,7 +129,7 @@ use ContentTypeTrait, TranslateTrait, LanguageTrait;
       return $paket_types;
     }
 
-    public function updateTranslatedPacketTypeByLang($paket_type_id,$lang_name, Request $request){
+    public function updateTranslatedPacketTypeByLang(string $locale,$paket_type_id,$lang_name, Request $request){
       $dataPost=request()->validate([
         'name'=> 'required|max:255',
       ]);
@@ -170,7 +159,7 @@ use ContentTypeTrait, TranslateTrait, LanguageTrait;
      * @param  \App\Models\PaketType  $paketType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $paketType)
+    public function destroy(string $locale,int $paketType)
     {
       $paket_type=PaketType::findOrFail($paketType);
         $contentType='Paket Type';

@@ -7,4 +7,4 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index']);
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');

@@ -75,7 +75,7 @@
           lang_trans:'',
           value:'',
           max_nivel:'',
-          src:'images/lang/',
+          src:window.location.origin +'/'+'images/lang/',
           ventanaOperConfigComment:false,
           error:'',
           token   : window.CSRF_TOKEN,
@@ -90,7 +90,7 @@
           let mensaje;
           let default_lang=this.$lang.getLocale();
 
-            url="/configuration-comments";
+            url=window.location.origin +'/'+this.locale+"/admin/configuration-comments";
             msg_succ=this.$trans('messages.Comment')+' '+this.$trans('messages.Configuration')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.max_nivel==''||this.max_answers=='') {
@@ -146,7 +146,7 @@
       	          data.append('_method', 'patch');
                   data.append("max_nivel", confcomment.max_nivel);
                   data.append("max_answers", confcomment.max_answers);
-                url="/configuration-comments/"+confcomment.id;
+                url=window.location.origin +'/'+this.locale+"/admin/configuration-comments/"+confcomment.id;
                 msg_edited=this.$trans('messages.Comment')+' '+this.$trans('messages.Configuration')+' '+this.$trans('messages.Edited');
 
 
@@ -185,6 +185,12 @@
       created: function () {
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

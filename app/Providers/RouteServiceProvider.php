@@ -43,30 +43,36 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(function(){
-                  require base_path('routes/web/auth.php');
-                  require base_path('routes/web/common.php');
-                  require base_path('routes/web/admin.php');
-                  require base_path('routes/web/user.php');
-                  require base_path('routes/web/role.php');
-                  require base_path('routes/web/permission.php');
-                  require base_path('routes/web/language.php');
-                  require base_path('routes/web/post.php');
-                  require base_path('routes/web/contact.php');
-                  require base_path('routes/web/contact_us.php');
-                  require base_path('routes/web/service.php');
-                  require base_path('routes/web/portfolio.php');
-                  require base_path('routes/web/paket.php');
-                  require base_path('routes/web/paket_type.php');
-                  require base_path('routes/web/section_page.php');
-                  require base_path('routes/web/function_included.php');
-                  require base_path('routes/web/chat.php');
-                  require base_path('routes/web/chat_room.php');
-                  require base_path('routes/web/chat_room_type.php');
-                  require base_path('routes/web/chat_mssg_type.php');
-                });
+                Route::middleware('web')
+                    ->namespace($this->namespace)
+                    ->group(function(){
+                      require base_path('routes/web/common.php');
+                      require base_path('routes/web/chat.php');
+                      require base_path('routes/web/contact_us.php');
+                    });
+                Route::prefix('{language}')
+                    ->middleware('web')
+                    ->namespace($this->namespace)
+                    ->group(function(){
+                      require base_path('routes/web/common_lang.php');
+                      require base_path('routes/web/admin.php');
+                      require base_path('routes/web/auth.php');
+                      require base_path('routes/web/chat_room.php');
+                      require base_path('routes/web/chat_room_type.php');
+                      require base_path('routes/web/chat_mssg_type.php');
+                        require base_path('routes/web/post.php');
+                        require base_path('routes/web/user.php');
+                        require base_path('routes/web/role.php');
+                        require base_path('routes/web/permission.php');
+                        require base_path('routes/web/language.php');
+                        require base_path('routes/web/contact.php');
+                        require base_path('routes/web/service.php');
+                        require base_path('routes/web/portfolio.php');
+                        require base_path('routes/web/paket.php');
+                        require base_path('routes/web/paket_type.php');
+                        require base_path('routes/web/section_page.php');
+                        require base_path('routes/web/function_included.php');
+                    });
         });
     }
 

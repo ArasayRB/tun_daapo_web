@@ -13,7 +13,7 @@
       <button type="button" @click="ask(planItem.name)" :class="index==0?btn_bg='btn btn-lg btn-block btn-light btn-outline-primary contrata':planItem.name==='Premium'?btn_bt='btn btn-lg btn-warning btn-block contrata':'btn btn-lg btn-block contrata btn-primary'" class="btn btn-lg btn-block btn-primary contrata">{{planItem.name_button}}</button>
     </div>
   </div>
-  <ask-budget-section-component name_section="Pida su Presupuesto" @resetaskbudgetmssg="resetmssgBudget" :mensageaskbudget="mensageAskBudget">
+  <ask-budget-section-component :locale="locale" name_section="Pida su Presupuesto" @resetaskbudgetmssg="resetmssgBudget" :mensageaskbudget="mensageAskBudget">
   </ask-budget-section-component>
   </div>
 </template>
@@ -24,6 +24,7 @@
         return{
           plansItem:[],
           planItem:[],
+          locale:this.$attrs.locale,
           mensageAskBudget:'',
           token:window.CSRF_TOKEN,
         }
@@ -38,7 +39,7 @@
         },
 
         getPlans:function(){
-          axios.get('/paketList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/paketList')
               .then(response =>{
                 this.plansItem=response.data;
                 if(this.plansItem.length===0){

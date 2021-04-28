@@ -20,7 +20,7 @@ class RoleController extends Controller
              'name' => 'required', 'max:255',
              'description' => 'required',
          ]);
-     }  public function permissionsOfRole($role){
+     }  public function permissionsOfRole(string $language,int $role){
          $permissions=Role::with('permissions')
                           ->find($role);
                           $permissions_array;
@@ -108,7 +108,7 @@ class RoleController extends Controller
           * @param  \App\Models\Role  $role
           * @return \Illuminate\Http\Response
           */
-         public function update(Request $request, Role $role)
+         public function update(string $language,Request $request, Role $role)
          {
            $dataRole=request()->validate([
            'name'=> 'required|max:255',
@@ -145,7 +145,7 @@ class RoleController extends Controller
           * @param  \App\Models\Role  $role
           * @return \Illuminate\Http\Response
           */
-         public function destroy(Role $role)
+         public function destroy(string $language,Role $role)
          {
            $role=Role::findOrFail($role->id);
            $role->permissions()->detach();

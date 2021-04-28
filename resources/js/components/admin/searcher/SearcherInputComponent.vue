@@ -22,7 +22,7 @@
 </template>
 <script>
 export default {
-  props:['url','emit'],
+  props:['url','emit','locale'],
   data(){
     return {
       lists:[],
@@ -53,7 +53,7 @@ export default {
       this.show=false;
     },
     getLists:function(){
-      axios.get(this.url,{
+      axios.get(window.location.origin +'/'+this.locale+this.url,{
         params:{
           searcher:this.searcher,
         }

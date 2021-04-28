@@ -10,13 +10,13 @@
         @guest
             @if (Route::has('login'))
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    <a class="nav-link text-light" href="{{ route('login',app()->getLocale()) }}">{{ __('Login') }}</a>
                 </li>
             @endif
 
             @if (Route::has('register'))
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    <a class="nav-link text-light" href="{{ route('register',app()->getLocale()) }}">{{ __('Register') }}</a>
                 </li>
             @endif
         @else
@@ -26,50 +26,34 @@
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('logout') }}"
+                    <a class="dropdown-item" href="{{ route('logout',app()->getLocale()) }}"
                        onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
                     </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    <form id="logout-form" action="{{ route('logout',app()->getLocale()) }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </div>
             </li>
 
-              <li class="nav-item"><a href="/admin" class="nav-link text-light">{{__('Dashboard')}}</a></li>
+              <li class="nav-item"><a href="{{url(app()->getLocale().'/admin')}}" class="nav-link text-light">{{__('Dashboard')}}</a></li>
         @endguest
-       <li class="nav-item"><a href="/#tun_daapo" class="nav-link text-light">{{__('Tun Daapo')}}</a></li>
-       <li class="nav-item"><a href="/#services" class="nav-link text-light">{{__('Services')}}</a></li>
-       <li class="nav-item"><a href="/#planes_precios" class="nav-link text-light">{{__('Pricing')}}</a></li>
-       <li class="nav-item"><a href="/#portafolio" class="nav-link text-light">{{__('Portafolio')}}</a></li>
+       <li class="nav-item"><a href="{{url(app()->getLocale().'/#tun_daapo')}}" class="nav-link text-light">{{__('Tun Daapo')}}</a></li>
+       <li class="nav-item"><a href="{{url(app()->getLocale().'/#services')}}" class="nav-link text-light">{{__('Services')}}</a></li>
+       <li class="nav-item"><a href="{{url(app()->getLocale().'/#planes_precios')}}" class="nav-link text-light">{{__('Pricing')}}</a></li>
+       <li class="nav-item"><a href="{{url(app()->getLocale().'/#portafolio')}}" class="nav-link text-light">{{__('Portafolio')}}</a></li>
        @if ( isset($posts) && $posts===true)
-       <li class="nav-item"><a href="/#blog" class="nav-link text-light">{{__('Blog')}}</a></li>
+       <li class="nav-item"><a href="{{url(app()->getLocale().'/#blog')}}" class="nav-link text-light">{{__('Blog')}}</a></li>
        @endif
-       <li class="nav-item"><a href="/#contacto" class="nav-link text-light">{{__('Contact')}}</a></li>
-       <li class="nav-item"><a href="/questions-frequently" class="nav-link text-light">{{__('messages.Frequently Questions')}}</a></li>
-       <!--Comprobamos si el status esta a true y existe más de un lenguaje-->
-     @if (config('locale.status') && count(config('locale.languages')) > 1)
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-light"  id="dropdownMenuLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                          {{__('Languages')}}
-                        </a>
-                        <div class="dropdown-menu">
-                          @foreach (array_keys(config('locale.languages')) as $lang)
-                              @if ($lang != App::getLocale())
-                                  <a class="dropdown-item" href="{!! route('language.select', $lang) !!}">
-                                       <img src="{{ asset('images/lang/'.$lang.'.ico') }}"/>   {!! $lang !!}
-                                  </a>
-                              @endif
-                          @endforeach
-                        </div>
-                      </li>
-               @endif
-       <li class="nav-item btn btn-warning float-right" type="button"><a href="#pedir-presupuesto" class="text-dark">{{__('Pedir Presupuesto')}}</a></li>
+       <li class="nav-item"><a href="{{url(app()->getLocale().'/#contacto')}}" class="nav-link text-light">{{__('Contact')}}</a></li>
+       <li class="nav-item"><a href="{{url(app()->getLocale().'/questions-frequently')}}" class="nav-link text-light">{{__('messages.Frequently Questions')}}</a></li>
+
+       <li class="nav-item btn btn-warning float-right" type="button"><a href="{{url(app()->getLocale().'/#pedir-presupuesto')}}" class="text-dark">{{__('messages.Ask for budget')}}</a></li>
       </ul>
 @else
-  <ul class="navbar-nav">
+  <ul class="navbar-nav" disabled>
     @auth
         <li class="nav-item"><a href="#" class="nav-link text-light">{{__('Home')}}</a></li>
 
@@ -110,24 +94,8 @@
    <li class="nav-item"><a href="#" class="nav-link text-light">{{__('Blog')}}</a></li>
    <li class="nav-item"><a href="#" class="nav-link text-light">{{__('Contact')}}</a></li>
    <li class="nav-item"><a href="#" class="nav-link text-light">{{__('messages.Frequently Questions')}}</a></li>
-   <!--Comprobamos si el status esta a true y existe más de un lenguaje-->
- @if (config('locale.status') && count(config('locale.languages')) > 1)
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light"  id="dropdownMenuLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                      {{__('Languages')}}
-                    </a>
-                    <div class="dropdown-menu">
-                      @foreach (array_keys(config('locale.languages')) as $lang)
-                          @if ($lang != App::getLocale())
-                              <a class="dropdown-item" href="{!! route('language.select', $lang) !!}">
-                                   <img src="{{ asset('images/lang/'.$lang.'.ico') }}"/>   {!! $lang !!}
-                              </a>
-                          @endif
-                      @endforeach
-                    </div>
-                  </li>
-           @endif
-   <li class="nav-item btn btn-warning float-right" type="button"><a href="#" class="text-dark">{{__('Pedir Presupuesto')}}</a></li>
+
+   <li class="nav-item btn btn-warning float-right" type="button"><a href="#" class="text-dark">{{__('messages.Ask for budget')}}</a></li>
   </ul>
 @endif
 </nav>

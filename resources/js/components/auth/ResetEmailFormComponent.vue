@@ -67,7 +67,7 @@
       methods:{
 
         resetPassword: function(){
-          let url=this.urlResetEmail;
+          let url=window.location.origin+this.urlResetEmail;
           let mensaje='Unidentified error';
           if (this.email=='') {
             mensaje='You cannot leave empty fields, please check';

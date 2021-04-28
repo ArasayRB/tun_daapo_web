@@ -161,14 +161,14 @@
       console.log(evt);
     },
     getRoomTypes:function(){
-      axios.get('/room-types-list')
+      axios.get(window.location.origin +'/'+this.locale+'/admin/room-types-list')
            .then(response =>{
               this.types = response.data;
             })
            .catch(error => this.errors.push(error));
     },
     getUsers:function(){
-      axios.get('/available-users')
+      axios.get(window.location.origin +'/'+this.locale+'/admin/available-users')
            .then(response =>{
               this.users = response.data;
               if(this.operation==='update'){
@@ -194,7 +194,7 @@
           let mensaje;
           let default_lang=this.$lang.getLocale();
 
-            url="/room-chat";
+            url=window.location.origin +'/'+this.locale+"/admin/room-chat";
             msg_succ=this.$trans('messages.Chat')+' '+this.$trans('messages.Room')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.name==''||this.type==''||this.selectedUsers.length==0) {
@@ -255,7 +255,7 @@
                 data.append("name", roomchat.name);
                 data.append("type_id", this.type);
                 data.append("users", users_array);
-              url="/room-chat/"+roomchat.id;
+              url=window.location.origin +'/'+this.locale+"/admin/room-chat/"+roomchat.id;
               msg_edited=this.$trans('messages.Chat')+' '+this.$trans('messages.Room')+' '+this.$trans('messages.Edited');
 
           axios.post(url,data,config)
@@ -295,6 +295,12 @@
         this.getRoomTypes();
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

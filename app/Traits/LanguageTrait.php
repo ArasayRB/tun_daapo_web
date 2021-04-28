@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use Illuminate\Support\Facades\Route;
 use App\Models\Language;
 
 trait LanguageTrait {
@@ -21,6 +22,7 @@ trait LanguageTrait {
     {
         // Almacenar el lenguaje en la session
         session()->put('locale', $language);
+        //route(Route::currentRouteName(), $language);
         return redirect()->back();
     }
 

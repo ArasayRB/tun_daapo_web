@@ -161,7 +161,7 @@ placeholder="Add a keyword"
           language:'',
           lang_trans:'',
           value:'',
-          src:'storage/img_web/posts_img/',
+          src:window.location.origin +'/'+'storage/img_web/posts_img/',
           imagenPost:'',
           categoria:'',
           ventanaEditPost:false,
@@ -233,7 +233,7 @@ placeholder="Add a keyword"
                 data.append("img_url", this.imagenPost);
                 data.append("category_id", this.categoria);
 
-              url="/posts/"+post.id;
+              url=window.location.origin +'/'+this.locale+"/admin/posts/"+post.id;
               post.img_url=this.imagenPost;
               msg_edited=this.$trans('messages.The post has been successfully modified');
             }
@@ -241,7 +241,7 @@ placeholder="Add a keyword"
             else{
                 //data.append("tags", postTags);
                 //data.append("keywords", postKeys);
-              url="/posts-translated-edited/"+post.id+"/"+this.lan_to_edit;
+              url=window.location.origin +'/'+this.locale+"/admin/posts-translated-edited/"+post.id+"/"+this.lan_to_edit;
               msg_edited=this.$trans('messages.The post translation has been successfully modified');
             }
           axios.post(url,data,config)
@@ -315,25 +315,25 @@ placeholder="Add a keyword"
                                       'value':this.post.keywords_post[i].name});
           }
         }
-        axios.get('/languagesList')
+        axios.get(window.location.origin+'/'+this.locale+'/languagesList')
               .then(response=> this.languages=response.data)
               .catch(error=>this.error.push(error));
 
         this.categoria=this.post.category_id;
-         axios.get('/categoriesList')
+         axios.get(window.location.origin +'/'+this.locale+'/admin/categoriesList')
               .then(response =>{
                  this.categories = response.data;
                })
               .catch(error => this.errors.push(error));
 
-         axios.get('/available-tags')
+         axios.get(window.location.origin +'/'+this.locale+'/admin/available-tags')
               .then(response =>{
                 this.tags = response.data;
                 console.log(this.tags);
               })
               .catch(error => this.errors.push(error));
 
-              axios.get('/available-keys')
+              axios.get(window.location.origin +'/'+this.locale+'/admin/available-keys')
                    .then(response =>{
                      this.keywords = response.data;
                      console.log(this.keywords);
@@ -341,8 +341,8 @@ placeholder="Add a keyword"
                    .catch(error => this.errors.push(error));
          },
         mounted() {
-          if (this.$attrs.locale) {
-               this.$lang.setLocale(this.$attrs.locale);
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
                }
           else {
             this.$lang.setLocale('en');

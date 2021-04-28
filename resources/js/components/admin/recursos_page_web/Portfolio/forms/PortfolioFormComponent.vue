@@ -209,12 +209,12 @@
       this.imagenPortfolio=e.target.files[0];
     },
     getLanguageList:function(){
-      axios.get('/languages-no-translated/'+this.portfolio.id+'/Portfolio')
+      axios.get(window.location.origin +'/'+this.locale+'/languages-no-translated/'+this.portfolio.id+'/Portfolio')
             .then(response=> this.languages=response.data)
             .catch(error=>this.error.push(error));
     },
     availabelServices:function(){
-      axios.get('/available-services')
+      axios.get(window.location.origin +'/'+this.locale+'/admin/available-services')
            .then(response =>{
              this.services = response.data;
            })
@@ -228,7 +228,7 @@
           let default_lang=this.$lang.getLocale();
 
           if(this.show_lang_div===false){
-            url="/add-translate-portfolio";
+            url=window.location.origin +'/'+this.locale+"/admin/add-translate-portfolio";
             msg_succ=this.$trans('messages.Portfolio')+' '+this.$trans('messages.Translated Succefully');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.description==''||this.lang_trans=='') {
@@ -241,7 +241,7 @@
               data.append("lang", this.lang_trans);
           }
           else{
-            url="/portfolio";
+            url=window.location.origin +'/'+this.locale+"/admin/portfolio";
             msg_succ=this.$trans('messages.Portfolio')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.img==''||this.empresa_solicitante==''||this.project_name==''||this.selectedServs.length===0) {
@@ -334,7 +334,7 @@
                   data.append("project_name", portfolio.project_name);
                   data.append("description", portfolio.description);
                   data.append("service_id", portKey);
-                url="/portfolio/"+portfolio.id;
+                url=window.location.origin +'/'+this.locale+"/admin/portfolio/"+portfolio.id;
                 msg_edited=this.$trans('messages.Portfolio')+' '+this.$trans('messages.Edited');
           }
           else{
@@ -342,7 +342,7 @@
               data.append("description", portfolio.description);
               //data.append("tags", postTags);
               //data.append("keywords", postKeys);
-            url="/portfolio-translated-edited/"+portfolio.id+"/"+this.lan_to_edit;
+            url=window.location.origin +'/'+this.locale+"/admin/portfolio-translated-edited/"+portfolio.id+"/"+this.lan_to_edit;
             msg_edited=this.$trans('messages.The')+' '+this.$trans('messages.Portfolio')+' '+this.$trans('messages.translation has been successfully modified');
           }
 
@@ -396,6 +396,12 @@
          }
          },
         mounted() {
+          if (this.locale) {
+               this.$lang.setLocale(this.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

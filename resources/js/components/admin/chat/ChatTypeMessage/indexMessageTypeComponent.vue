@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-mssg-types-chats'" :emit="'mssgtchats'" @cancelsearch="mssgTList" @mssgtchatsfilter="filtersMssgTChat">
+      <input-searcher-component :url="'/admin/all-mssg-types-chats'" :locale="locale" :emit="'mssgtchats'" @cancelsearch="mssgTList" @mssgtchatsfilter="filtersMssgTChat">
     </input-searcher-component>
 
     </div>
@@ -141,7 +141,7 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           ventanaOperMssgTChat:false,
           token   : window.CSRF_TOKEN,
 
@@ -170,7 +170,7 @@
       this.mssgtchats=filters;
     },
         mssgTList:function(){
-          axios.get('/mssg-types-list')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/mssg-types-list')
                .then(response =>{
                  this.mssgtchats = response.data;
                  if (response.data==''){
@@ -207,7 +207,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/mssg-type-chat/'+mssgtchat_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/mssg-type-chat/'+mssgtchat_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

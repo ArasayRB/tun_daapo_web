@@ -95,7 +95,7 @@ class ChatRoomController extends Controller
      * @param  \App\Models\ChatRoom  $chatRoom
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $chatRoom)
+    public function update(string $locale,Request $request, $chatRoom)
     {
       $this->validator($request->all())->validate();
       $users=explode(',',request('users'));
@@ -119,7 +119,7 @@ class ChatRoomController extends Controller
      * @param  \App\Models\ChatRoom  $chatRoom
      * @return \Illuminate\Http\Response
      */
-    public function destroy($chatRoom)
+    public function destroy(string $locale,$chatRoom)
     {
       $chat_room=ChatRoom::findOrFail($chatRoom);
       $chat_room->users()->detach();

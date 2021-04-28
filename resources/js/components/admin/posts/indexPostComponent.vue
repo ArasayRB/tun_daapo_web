@@ -20,7 +20,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-posts'" :emit="'posts'" @cancelsearch="getListPosts" @postsfilter="filtersPosts">
+      <input-searcher-component :url="'/admin/all-posts'" :emit="'posts'" :locale="locale" @cancelsearch="getListPosts" @postsfilter="filtersPosts">
     </input-searcher-component>
 
     </div>
@@ -83,7 +83,7 @@
                         <a href="#" @click="openAddTranslate(index,post)" :id="'translate-post-'+post.id" v-can-user="'translate-post'" hidden><i class="fas fa-language" title="Add Language/Añadir Lenguage"></i></a>
                         <a href="#" @click="openEditPost(index,post)" :id="'update-post-'+post.id" v-can="'update-post,'+post.users.name"><i class="fa fa-edit" title="Edit/Editar"></i></a>
                         <a href="#" @click="deletePost(index,post.id,post.title)" :id="'delete-post-'+post.id" v-can-user="'delete-post'" hidden><i class="fa fa-trash-alt" title="Delete/Eliminar"></i></a>
-                        <a :href="hreff+post.slug" :id="'preview-'+post.id" v-can-user="'pre-view-post'" hidden><i title="Preview/Vista previa" class="fa fa-eye"></i></a>
+                        <a @click="showPreview(post.slug)" :id="'preview-'+post.id" v-can-user="'pre-view-post'" hidden><i title="Preview/Vista previa" class="fa fa-eye"></i></a>
                         <a id="publicado" :id="'publish-post-'+post.id" v-can-user="'publish-post'" hidden>
                           <i :id="'publish-'+index" @click="publishIt(index,post)" v-if="post.show==false" title="Publish it/Publicar" class="fa fa-toggle-off"></i>
                           <i :id="'unpublish-'+index"  @click="publishIt(index,post)" v-else title="Publish it/Publicar" class="fa fa-toggle-on text-primary"></i>
@@ -192,12 +192,12 @@
           translated_languages:[],
           lang_available:'',
           lan_to_edit:'none',
-          locale:'',
+          locale:this.$attrs.locale,
           user:this.$attrs.user,
           userPermissions:[],
           imagenPost:'',
-          src:'storage/img_web/posts_img/',
-          src_qr:'storage/qrcodes/posts/',
+          src:window.location.origin +'/'+'storage/img_web/posts_img/',
+          src_qr:window.location.origin +'/'+'storage/qrcodes/posts/',
           categoria:'',
           categories:'',
           categori:'',
@@ -235,8 +235,11 @@
 
           this.imagenPost=e.target.files[0];
         },
+          showPreview:function(slug){
+            window.location.href =this.hreff+slug;
+          },
         getListPosts:function(){
-          axios.get('/postsTable')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/postsTable')
                .then(response =>{
                  this.posts = response.data;
                 /* for(var i=0; i<this.posts.length;i++){
@@ -294,8 +297,7 @@
                 cancelButtonText: this.$trans('messages.Cancel'),
               }).then(select=>{
                 if (select){
-                  let  url='/publicate-post/'+post.id+'/'+state_act;
-
+                  let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/publicate-post/'+post.id+'/'+state_act;
                   axios.post(url)
                        .then(response=>{
                          let publicated_post=response.data;
@@ -364,7 +366,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/posts/'+post_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/posts/'+post_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),
@@ -421,7 +423,7 @@
           this.ventanaCreatPost = true;
         },
         getTranslates:function(index,post){
-          axios.get('/translated-language-item/'+post.id+'/Post')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/translated-language-item/'+post.id+'/Post')
                .then(response =>{
                    this.lang=false;
                  if (response.data==='no-language-added'){
@@ -448,7 +450,7 @@
         },
         openEditTranslated:function(post, lang_available){
           let post_translated_array;
-          axios.get('/get-translated-post-by-lang/'+lang_available+'/'+post.id+'/Post')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/get-translated-post-by-lang/'+lang_available+'/'+post.id+'/Post')
                .then(response =>{
                  post_translated_array = response.data;
                  this.post=post_translated_array;
@@ -465,7 +467,7 @@
         this.userPermissions=Permissions;
         $('#publicado').add('<p>Hola</p>');
         this.getListPosts();
-         axios.get('/categoriesList')
+         axios.get(this.$attrs.locale+'/admin/categoriesList')
                .then(response =>{
                  this.categories = response.data;
                })

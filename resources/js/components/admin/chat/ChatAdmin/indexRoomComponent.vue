@@ -17,7 +17,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-room-chats'" :emit="'roomchats'" @cancelsearch="roomList" @roomchatsfilter="filtersRoomsChat">
+      <input-searcher-component :url="'/admin/all-room-chats'" :locale="locale" :emit="'roomchats'" @cancelsearch="roomList" @roomchatsfilter="filtersRoomsChat">
     </input-searcher-component>
 
     </div>
@@ -144,7 +144,7 @@
           show_lang_div:false,
           lan_to_edit:'none',
           lang:true,
-          locale:'',
+          locale:this.$attrs.locale,
           ventanaOperRoomChat:false,
           token   : window.CSRF_TOKEN,
 
@@ -173,7 +173,7 @@
       this.roomchats=filters;
     },
         roomList:function(){
-          axios.get('/room-chat-list')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/room-chat-list')
                .then(response =>{
                  this.roomchats = response.data;
                  if (response.data==''){
@@ -210,7 +210,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/room-chat/'+roomchat_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/room-chat/'+roomchat_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

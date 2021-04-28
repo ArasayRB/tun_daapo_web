@@ -20,7 +20,7 @@ class SectionPageController extends Controller
       $this->middleware('auth');
   }
 
-  public function updateTranslatedSectionByLang($section_id,$lang_name, Request $request){
+  public function updateTranslatedSectionByLang(string $locale,$section_id,$lang_name, Request $request){
     $dataPost=request()->validate([
       'title'=> 'required|max:255',
       'description'=> 'required',
@@ -174,17 +174,6 @@ class SectionPageController extends Controller
       $this->storeTranslate($data_trans);
       return $section;
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SectionPage  $sectionPage
-     * @return \Illuminate\Http\Response
-     */
-    public function show(SectionPage $sectionPage)
-    {
-        //
-    }
     /**
      * Update the specified resource in storage.
      *
@@ -192,7 +181,7 @@ class SectionPageController extends Controller
      * @param  \App\Models\SectionPage  $sectionPage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $sectionPage)
+    public function update(string $locale,Request $request,  $sectionPage)
     {
 
       $section_page=SectionPage::findOrFail($sectionPage);
@@ -221,7 +210,7 @@ class SectionPageController extends Controller
      * @param  \App\Models\SectionPage  $sectionPage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $sectionPage)
+    public function destroy(string $locale,int $sectionPage)
     {  $section_page=SectionPage::findOrFail($sectionPage);
       $contentType='Section';
       $tipo_content=$this->findContentId($contentType);

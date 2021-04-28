@@ -129,24 +129,13 @@ class FunctionIncludedController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\FunctionIncluded  $functionIncluded
-     * @return \Illuminate\Http\Response
-     */
-    public function show(FunctionIncluded $functionIncluded)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\FunctionIncluded  $functionIncluded
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $functionIncluded)
+    public function update(string $locale,Request $request, int $functionIncluded)
     {
       $this->validator($request->all())->validate();
       $functions_included=FunctionIncluded::findOrFail($functionIncluded);
@@ -156,7 +145,7 @@ class FunctionIncludedController extends Controller
       return $functions_included;
     }
 
-    public function updateTranslatedFunctionByLang($function_id,$lang_name, Request $request){
+    public function updateTranslatedFunctionByLang(string $locale,$function_id,$lang_name, Request $request){
       $dataPost=request()->validate([
         'name'=> 'required|max:255',
       ]);
@@ -204,7 +193,7 @@ class FunctionIncludedController extends Controller
      * @param  \App\Models\FunctionIncluded  $functionIncluded
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $functionIncluded)
+    public function destroy(string $locale,int $functionIncluded)
     {
       $function_included=FunctionIncluded::findOrFail($functionIncluded);
         $contentType='Function';

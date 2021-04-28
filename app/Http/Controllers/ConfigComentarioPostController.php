@@ -87,7 +87,7 @@ class ConfigComentarioPostController extends Controller
      * @param  \App\Models\ConfigComentarioPost  $configComentarioPost
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $configComentarioPost)
+    public function update(string $locale,Request $request, int $configComentarioPost)
     {
       $conf_comment=ConfigComentarioPost::findOrFail($configComentarioPost);
       $conf_comment->max_nivel=request('max_nivel');
@@ -102,7 +102,7 @@ class ConfigComentarioPostController extends Controller
      * @param  \App\Models\ConfigComentarioPost  $configComentarioPost
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $configComentarioPost)
+    public function destroy(string $locale,int $configComentarioPost)
     {
       $conf=ConfigComentarioPost::findOrFail($configComentarioPost);
       $conf->delete();

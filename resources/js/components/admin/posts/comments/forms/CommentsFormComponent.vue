@@ -150,7 +150,7 @@
           let mensaje;
           let default_lang=this.$lang.getLocale();
 
-            url="/comments-post";
+            url=window.location.origin +'/'+this.$attrs.locale+"/admin/comments-post";
             msg_succ=this.$trans('messages.Comment')+' '+this.$trans('messages.Created.');
             mensaje=this.$trans('messages.Unidentified error');
             if (this.comment_writer==''||this.pos=='') {
@@ -212,7 +212,7 @@
                   data.append("email", comment.email);
                   data.append("message", comment.comment);
                   data.append("post_id", this.pos);
-                url="/comments-post/"+comment.id;
+                url=window.location.origin +'/'+this.$attrs.locale+"/admin/comments-post/"+comment.id;
                 msg_edited=this.$trans('messages.Comment')+' '+this.$trans('messages.Edited');
 
 
@@ -254,7 +254,7 @@
                });
         },
         postsList:function(){
-          axios.get('/posts-list-form')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/posts-list-form')
                .then(response => this.posts = response.data)
                .catch(error => this.errors.push(error));
         },

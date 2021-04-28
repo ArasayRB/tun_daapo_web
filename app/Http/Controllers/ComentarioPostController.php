@@ -73,7 +73,7 @@ class ComentarioPostController extends Controller
     return $comments;
   }
 
-  public function publicateComment(int $idComment,$state){
+  public function publicateComment(string $language,int $idComment,$state){
     $comment=ComentarioPost::find($idComment);
     $comment->publish=$state;
     $comment->update();
@@ -117,7 +117,7 @@ class ComentarioPostController extends Controller
      * @param  \App\Models\ComentarioPost  $comentarioPost
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $comentarioPost)
+    public function update(string $locale,Request $request, int $comentarioPost)
     {
         $comment=ComentarioPost::findOrFail($comentarioPost);
         $comment->comment=request('message');
@@ -131,7 +131,7 @@ class ComentarioPostController extends Controller
      * @param  \App\Models\ComentarioPost  $comentarioPost
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $comentarioPost)
+    public function destroy(string $locale,int $comentarioPost)
     {
         $comment=ComentarioPost::findOrFail($comentarioPost);
         if($comment->answer_to!=null){

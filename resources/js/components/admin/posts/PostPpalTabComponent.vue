@@ -40,7 +40,7 @@
             <h3 class="mb-0">{{pot.title}}</h3>
             <div class="mb-1 text-muted">{{pot.created_at}}</div>
             <p class="card-text mb-auto">{{pot.summary}}</p>
-            <a :href="hreff+pot.id" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
+            <a :href="hreff+pot.slug" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
 
            </div>
 
@@ -59,7 +59,7 @@
             <h3 class="mb-0">{{pot_lat.title}}</h3>
             <div class="mb-1 text-muted">{{pot_lat.created_at}}</div>
             <p class="card-text mb-auto">{{pot_lat.summary}}</p>
-            <a :href="hreff+pot_lat.slug" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
+            <a  :href="hreff+pot_lat.slug" class="stretched-link">{{ $trans('messages.Continue reading') }}</a>
 
            </div>
 
@@ -137,14 +137,19 @@
           posts_last:[],
           posts_all:[],
           paginate:['posts_all'],
-          hreff:'/post-list/',
-          src:'storage/img_web/posts_img/',
+          hreff:'/blog/',
+          src:window.location.origin+'/storage/img_web/posts_img/',
           token   : window.CSRF_TOKEN,
 
         }
       },
+      methods:{
+        show:function(slug){
+          window.location.href =window.location.origin+this.hreff+slug;
+        },
+      },
       created: function () {
-         axios.get('/posts-list')
+         axios.get(window.location.origin+'/'+this.$attrs.locale+'/posts-list')
               .then(response =>{
                 this.posts_liked = response.data.posts_more_liked;
                 this.posts_read = response.data.posts_more_read;
@@ -156,7 +161,13 @@
               });
          },
         mounted() {
-
+          console.log(this.$attrs.locale);
+          if (this.$attrs.locale) {
+               this.$lang.setLocale(this.$attrs.locale);
+               }
+          else {
+            this.$lang.setLocale('en');
+          }
         }
     }
 </script>

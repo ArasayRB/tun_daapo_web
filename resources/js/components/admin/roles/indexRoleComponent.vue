@@ -20,7 +20,7 @@
       <div class="row input-group">
       <h6 class="m-0 font-weight-bold text-primary col">{{ $trans('messages.List') }}</h6>
       <!-- Topbar Search -->
-      <input-searcher-component :url="'/all-roles'" :emit="'roles'" @cancelsearch="roleList" @rolesfilter="filtersRoles">
+      <input-searcher-component :url="'/admin/all-roles'" :locale="locale" :emit="'roles'" @cancelsearch="roleList" @rolesfilter="filtersRoles">
     </input-searcher-component>
 
     </div>
@@ -155,7 +155,7 @@
           translated_languages:[],
           lang_available:'',
           lan_to_edit:'none',
-          locale:'',
+          locale:this.$attrs.locale,
           imagenrole:'',
           src:'storage/img_web/login_img/',
           src_qr:'storage/qrcodes/roles/',
@@ -195,7 +195,7 @@
           this.imagenrole=e.target.files[0];
         },
         roleList:function(){
-          axios.get('/rolesList')
+          axios.get(window.location.origin +'/'+this.$attrs.locale+'/admin/rolesList')
                .then(response =>{
                  this.roles = response.data;
                  if (response.data==''){
@@ -228,7 +228,7 @@
                   cancelButtonText: this.$trans('messages.Cancel'),
                 }).then(select=>{
                   if (select){
-                    let  url='/roles/'+role_id;
+                    let  url=window.location.origin +'/'+this.$attrs.locale+'/admin/roles/'+role_id;
                     axios.delete(url)
                          .then(response=>{
                            swal({title:this.$trans('messages.Correct data'),

@@ -34,13 +34,13 @@
 @section('red_chat')
   <div class="row float-right">
   <div class="col-lg-12">
-    <container-component v-if="ventanaChat" @close="ventanaChat = false">
+    <container-component v-if="ventanaChat" @close="ventanaChat = false" locale="{{ App::getLocale() }}">
     </container-component>
   </div>
   <div class="container">
     <input type="checkbox" id="btn-mas" class="d-none">
     <div class="redes-chat">
-      <cont-view-share-like-component v-if="ventanaChat==false" model="post" url_post="{{url('/welcome/'.$post->id)}}" id_post="{{$post->id}}" title="{{$post->title}}" cant_read="{{$post->cant_access_read}}" cant_shares="{{$post->cant_shares}}" cant_likes="{{$post->cant_likes}}">
+      <cont-view-share-like-component v-if="ventanaChat==false" locale="{{ App::getLocale() }}" model="post" url_post="{{url('/welcome/'.$post->id)}}" id_post="{{$post->id}}" title="{{$post->title}}" cant_read="{{$post->cant_access_read}}" cant_shares="{{$post->cant_shares}}" cant_likes="{{$post->cant_likes}}">
       </cont-view-share-like-component>
       @auth ()
         <a href="#" v-if="ventanaChat==false" @click="ventanaChat = true" class=" d-block text-decoration-none bg-fuccia text-white text-center"><img src="{!! asset('images/img/comentario01.jpg') !!}" alt="" id="btn-chat" height="50px" class="img-rounded rounded rounded-circle" title="Chat with Us"></a>
@@ -64,7 +64,7 @@
                   {{ __('You are in Preview Post, the navbar no function, this is only for check how look before publish it') }}
               </div>
 
-          <a type="button" href="/posts" class="btn btn-primary">{{ __('messages.Back') }} {{ __('messages.Dashboard') }}</a>
+          <a type="button" href="{{url(app()->getLocale().'/admin/posts')}}" class="btn btn-primary">{{ __('messages.Back') }} {{ __('messages.Dashboard') }}</a>
         </ul>
       </div>
 @endif
@@ -109,11 +109,13 @@
 
 
     </div>
-    <comment-post-component id_post="{{$post->id}}" user_email="{{$post->users->email}}" answer="no">
+    @if (!isset($preview))
+    <comment-post-component id_post="{{$post->id}}" user_email="{{$post->users->email}}" answer="no" locale="{{ App::getLocale() }}">
     </comment-post-component>
      <h3 class="text-center text-dark">{{ __('messages.Comment') }}s !</h3>
-    <all-comments-component id_post="{{$post->id}}" user_email="{{$post->users->email}}" answer="no">
+    <all-comments-component id_post="{{$post->id}}" user_email="{{$post->users->email}}" answer="no" locale="{{ App::getLocale() }}">
     </all-comments-component>
+   @endif
   </section>
 
   </div>
