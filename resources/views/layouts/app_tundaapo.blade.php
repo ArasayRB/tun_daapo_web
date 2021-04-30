@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 @section('head')
 <head>
-  <link  rel="icon"   href="{!! asset('images/img/tunDaapo32x32.ico') !!}" type="image/ico" />
+  <link  rel="icon"   href="{!! asset('images/img/favicon/Icon_TunDaapoBlack.ico') !!}" type="image/ico" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <!-- CSRF Token -->
@@ -180,9 +180,11 @@
              </div>
                @section('legacy')
              <div class="text-center">
-               <img src="{!! asset('images/img/ico-facebook.png') !!}" class="mx-2 my-2 img-foot">
-               <img src="{!! asset('images/img/ico-instagram.png') !!}" class="mx-2 my-2 img-foot">
-               <img src="{!! asset('images/img/ico-twitter.png') !!}" class="mx-2 my-2 img-foot">
+               <a href="https://www.facebook.com/Tun-Daapo"><img src="{!! asset('images/img/ico-facebook.png') !!}" class="mx-2 my-2 img-foot"></a>
+               <a href="https://www.instagram.com/tundaapo/"><img src="{!! asset('images/img/ico-instagram.png') !!}" class="mx-2 my-2 img-foot"></a>
+               <a href="https://www.twitter.com/TDaapo/"><img src="{!! asset('images/img/ico-twitter.png') !!}" class="mx-2 my-2 img-foot"></a>
+               <a href="https://www.ivoox.com/tundaapo"><img src="{!! asset('images/img/ico-ivoox.png') !!}" class="mx-2 my-2 img-foot"></a>
+               <a href="https://www.pinterest.com/tundaapo"><img src="{!! asset('images/img/ico-pinterest.png') !!}" class="mx-2 my-2 img-foot"></a>
              </div>
              <div class="col">
                  <p class="text-light text-center"><a href="{{url(app()->getLocale().'/terms-conditions')}}" class="text-light text-center">{{__('messages.Terms and Conditions')}}</a> |

@@ -101,7 +101,7 @@ class ServiceTableSeeder extends Seeder
       $this->storeTranslate($data_trans);
 
       $service=new Service();
-      $service->img='Analitics.png';
+      $service->img='TunDaapoMockUp_Phone_Tablet_Pc.png';
       $service->img_descript='web design';
       $service->name='Diseño Web';
       $service->description='<p>Creaci&oacute;n de webs responsivas con dise&ntilde;os atractivos y personalizados para su negocio virtual (Corporativo, Tienda, Blog); as&iacute; como de banners, botones, men&uacute;s, todos adaptados a su imagen.</p>';

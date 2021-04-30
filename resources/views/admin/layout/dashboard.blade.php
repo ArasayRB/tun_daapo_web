@@ -2,7 +2,7 @@
 <html lang="en">
 @section('head')
   <head>
-    <link  rel="icon"   href="{!! asset('images/img/tunDaapo32x32.ico') !!}" type="image/ico" />
+    <link  rel="icon"   href="{!! asset('images/img/favicon/Icon_TunDaapoBlack.ico') !!}" type="image/ico" />
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

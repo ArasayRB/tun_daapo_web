@@ -178,7 +178,7 @@ return{
   user_loginn:[],
   is_adminitrator:false,
   src:'/storage/img_web/login_img/',
-  src_ico:'/images/img/tunDaapo32x32.ico',
+  src_ico:'/images/img/favicon/Icon_TunDaapoBlack.png',
   token   : window.CSRF_TOKEN,
 }
 },
