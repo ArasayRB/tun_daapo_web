@@ -7,56 +7,38 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About Tun Daapo
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Basado en el framework Laravel, esta aplicación es un CMS que permite a los usuarios acceder a los servicios que pfrese la página, contactar con el grupo vía email o por chat dentro del propio sistema habilitado, así como leer artículos escritos por el equipo.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+                      *************************************************************
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Based on Laravel framwrok, this application is a CMS provides to user access to services page, contact with the group by mail or chat inside systen, and read articles writed by the team.
 
-## Learning Laravel
+## Modo de uso / Use Mode
+Debes tener previamente instaladao composer, npm, git
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Clonar proyecto / Clone project
+Clona el proyecto desde esta dirección a la carpeta de proyectos LAMPP o al htdocs de Xampp si fuera el caso. Luego posiciónate en la carpeta del proyecto desde la terminal y ejecuta '$composer install', luego '$npm install', esto instalará las dependencias del proyecto.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+                      *************************************************************
 
-## Laravel Sponsors
+Clone this project since this address to Lampp projects folder or Xampp htdocs. Then open terminal and go to your project folder and execute '$composer install', next step '$npm install', this going to install all project dependencies.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Configra archivo env / Configurate env file
+En la carpeta principal crea un archivo *.env*, copia y pega lo que hay *.env.example*, cambia las credenciales. Luego ejecuta 'php artisan key:generate' para generar una nueva llave para la aplicación la cual pondrás en el archivo .env en APP_KEY='app_key_generated'
 
-### Premium Partners
+                      *************************************************************
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+In principal folder create an file *.env*, copy and paste data ubicate in *.env.example*, change credentials. Then, for a new application key, execute 'php artisan key:generate', this key generated you going to put on .env file in APP_KEY='app_key_generated'.
 
-## Contributing
+### Esquema de Base de datos /Data Base Schema
+Inicia el servidor php de tu preferencia y crea una base de datos que será donde se alojarán los datos del proyectco. Luego ese nombre ponlo en las configuraciones de .env DB_DATABASE=batabase_name.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ejecuta 'php artisan migrate:install' para que se ejecuten las migraciones en la base de datos, luego 'php artisan db:seed' para que se llene la base de datos con ejemplos de prueba y que usted pueda ver como funciona la aplicación. Para ver usuarios creados por defecto vaya hasta /database/seeders/UserTableSeeder, puede usar cualquiera de las credenciales allí escritas para acceder al sistema. Listo, podrá ver en funcionamiento el proyecto.
 
-## Code of Conduct
+                      *************************************************************
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Init your prefer php server, create a database for save project data. Then put that data base name on .env configurations where say DB_DATABASE=database_name.
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Execute 'php artisan migrate:install' for data base migrations, then 'php artisan db:seed' for cover data base with examples data test, that way you can see how function the app. You can see defaults users created on /database/seeders/UserTableSeeder, you can use any credentials there to access to the system. Well, you can watch how project function.
